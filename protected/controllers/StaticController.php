@@ -6,16 +6,15 @@ class StaticController extends Controller
 
 	public function actionView()
 	{
+		$path = '';
 		if (isset($_GET['path']))
 		{
 			$path = $_GET['path'];
 		}
-		else
+		if ($path === '')
 		{
 			$path = 'index';
 		}
-		$path = trim($path, '/');
-		$view = strtr($path, '/', '.');
-		$this->render($view);
+		$this->render($path);
 	}
 }
