@@ -15,6 +15,14 @@ class StaticController extends Controller
 		{
 			$path = 'index';
 		}
-		$this->render($path);
+		try
+		{
+			$this->render($path);
+		}
+		catch (CException $e)
+		{
+			Yii::log("Unable to find page /$path", 'error', 'application.controllers.StaticController');
+			throw new CHttpException(404, $e->getMessage());
+		}
 	}
 }
