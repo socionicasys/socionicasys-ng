@@ -1,3 +1,4 @@
+.settings
 www/assets
 protected/data/*.db
 protected/runtime
