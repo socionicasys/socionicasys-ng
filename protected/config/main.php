@@ -18,6 +18,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'ext.yiidebugtb.*',
 	),
 
 	// application components
@@ -63,12 +64,11 @@ return array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning, info, debug',
 				),
-				// uncomment the following to show log messages on web pages
-				/*
 				array(
-					'class'=>'CWebLogRoute',
+					'class' => 'XWebDebugRouter',
+					'config' => 'alignLeft, opaque, runInDebug, fixedPos, collapsed, yamlStyle',
+					'levels' => 'error, warning, trace, profile, info',
 				),
-				*/
 			),
 		),
 		'menuManager' => array(
