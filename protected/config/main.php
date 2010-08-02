@@ -71,6 +71,10 @@ return array(
 				*/
 			),
 		),
+		'menuManager' => array(
+			'class' => 'MenuManager',
+			'pageTree' => 'pageTree',
+		)
 	),
 
 	// application-level parameters that can be accessed
