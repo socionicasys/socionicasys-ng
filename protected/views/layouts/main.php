@@ -26,22 +26,32 @@
 	</div><!-- header -->
 
 	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
-			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
-				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
-			),
+		<?php $this->widget('zii.widgets.CMenu', array(
+			'items' => $this->majorMenu,
+			'activateItems' => false,
 		)); ?>
 	</div><!-- mainmenu -->
-
+	
 	<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 		'links'=>$this->breadcrumbs,
 	)); ?><!-- breadcrumbs -->
 
-	<?php echo $content; ?>
+	<div class="container">
+		<div class="span-19">
+			<div id="content">
+				<?php echo $content; ?>
+			</div><!-- content -->
+		</div>
+		<div class="span-5 last">
+			<div id="sidebar">
+			<?php
+				$this->widget('zii.widgets.CMenu', array(
+					'items' => $this->minorMenu,
+				));
+			?>
+			</div><!-- sidebar -->
+		</div>
+	</div>
 
 	<div id="footer">
 		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
