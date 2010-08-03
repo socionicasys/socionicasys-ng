@@ -34,6 +34,8 @@ return array(
 			'showScriptName' => false,
 			'useStrictParsing' => true,
 			'rules'=>array(
+				// Перенаправление старых адресов
+				'modules.php' => array('legacyRedirect/nuke'),
 				// Все адреса, не обработанные выше, отображаются с помощью контроллера StaticController
 				'<path:.*>' => array('static/view', 'keepSlashes' => true),
 				// Заглавная страница отображается статично
