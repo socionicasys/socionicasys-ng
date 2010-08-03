@@ -116,14 +116,7 @@ class MenuManager extends CApplicationComponent
 		
 		$this->_majorMenu = $majorMenu;
 		$this->_minorMenu = $minorMenu;
-		if ($requestUrl === Yii::app()->homeUrl)
-		{
-			$this->_breadcrumbs = null;
-		}
-		else
-		{
-			$this->_breadcrumbs = $breadcrumbs;
-		}
+		$this->_breadcrumbs = $breadcrumbs;
 	}
 	
 	/**
@@ -134,9 +127,18 @@ class MenuManager extends CApplicationComponent
 	 */
 	protected function scanSubmenu($menu, $requestUrl)
 	{
-		if (isset($menu['url']) && CHtml::normalizeUrl($menu['url']) === $requestUrl)
+		$menuUrl = CHtml::normalizeUrl($menu['url']);
+		$isHomeUrl = ($menuUrl === Yii::app()->getHomeUrl());
+		if (isset($menu['url']) && $menuUrl === $requestUrl)
 		{
-			return array($menu['label']);
+			if ($isHomeUrl)
+			{
+				return array();
+			}
+			else
+			{
+				return array($menu['label']);
+			}
 		}
 		else if (!isset($menu['items']))
 		{
@@ -148,8 +150,15 @@ class MenuManager extends CApplicationComponent
 			$breadcrumbs = $this->scanSubmenu($item, $requestUrl);
 			if ($breadcrumbs !== null)
 			{
-				$current_element = array($menu['label'] => $menu['url']);
-				return array_merge($current_element, $breadcrumbs);
+				if ($isHomeUrl)
+				{
+					return $breadcrumbs;
+				}
+				else
+				{
+					$currentElement = array($menu['label'] => $menu['url']);
+					return array_merge($currentElement, $breadcrumbs);
+				}
 			}
 		}
 		
