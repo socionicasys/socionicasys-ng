@@ -114,9 +114,16 @@ class MenuManager extends CApplicationComponent
 			$majorMenu[] = $majorItem;
 		}
 		
-		$this->_majorMenu = array('items' => $majorMenu);
-		$this->_minorMenu = array('items' => $minorMenu);
-		$this->_breadcrumbs = $breadcrumbs;
+		$this->_majorMenu = $majorMenu;
+		$this->_minorMenu = $minorMenu;
+		if ($requestUrl === Yii::app()->homeUrl)
+		{
+			$this->_breadcrumbs = null;
+		}
+		else
+		{
+			$this->_breadcrumbs = $breadcrumbs;
+		}
 	}
 	
 	/**
