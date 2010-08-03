@@ -32,37 +32,28 @@ class LegacyRedirectController extends Controller
 		if ($params['name'] === 'InfoPages')
 		{
 			// Раздел «Теория» старого сайта
+			$infoPages = array(
+				'' => array(
+					'' => array('static/view', 'path' => 'teorija'),
+				),
+				'1' => array(
+					''   => array('static/view', 'path' => 'teorija/sistemnyj-podhod'),
+					'23' => array('static/view', 'path' => 'teorija/sistemnyj-podhod/sistema'),
+					'26' => array('static/view', 'path' => 'teorija/sistemnyj-podhod/sistemnye-principy'),
+				),
+				'9' => array(
+					'' => array('static/view', 'path' => 'teorija/aspekty'),
+				),
+				'10' => array(
+					'' => array('static/view', 'path' => 'teorija/model-tima'),
+				),
+			);
+
 			$group = $params['group'];
 			$page = $params['page'];
-			if ($group === '')
+			if (isset($infoPages[$group]) && isset($infoPages[$group][$page]))
 			{
-				$url = array('static/view', 'path' => 'teorija');
-			}
-			else if ($group === '1')
-			{
-				if ($page === '')
-				{
-					$url = array('static/view', 'path' => 'teorija/sistemnyj-podhod');
-				}
-				else if ($page === '23')
-				{
-					$url = array('static/view', 'path' => 'teorija/sistemnyj-podhod/sistema');
-				}
-				else if ($page === '26')
-				{
-					$url = array('static/view', 'path' => 'teorija/sistemnyj-podhod/sistemnye-principy');
-				}
-			}
-			else if ($group === '9')
-			{
-				$url = array('static/view', 'path' => 'teorija/aspekty');
-			}
-			else if ($group === '10')
-			{
-				if ($page === '')
-				{
-					$url = array('static/view', 'path' => 'teorija/model-tima');
-				}
+				$url = $infoPages[$group][$page];
 			}
 		}
 		
