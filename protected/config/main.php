@@ -100,7 +100,7 @@ return array(
 						),
 						array(
 							'label' => 'Контакты',
-							'url' => array('static/view', 'path' => 'kontaky'),
+							'url' => array('static/view', 'path' => 'kontakty'),
 						),
 					),
 				),
