@@ -15,7 +15,7 @@ class LegacyRedirectController extends Controller
 		Yii::log('Redirecting from ' .  Yii::app()->request->url, 'info');
 		
 		$params = array();
-		$paramNames = array('name', 'file', 'f', 't', 'p', 'master', 'page');
+		$paramNames = array('name', 'file', 'f', 't', 'p', 'start', 'master', 'page');
 		foreach ($paramNames as $paramName)
 		{
 			if (isset($_GET[$paramName]))
@@ -139,6 +139,33 @@ class LegacyRedirectController extends Controller
 			if (isset($infoPages[$group]) && isset($infoPages[$group][$page]))
 			{
 				$url = $infoPages[$group][$page];
+			}
+		}
+		else if ($params['name'] === 'Forums')
+		{
+			$possibleFiles = array('index', 'viewforum', 'viewtopic');
+			$file = $params['file'];
+			if (in_array($file, $possibleFiles))
+			{
+				foreach ($paramNames as $paramName)
+				{
+					if ($params[$paramName] === '')
+					{
+						unset($params[$paramName]);
+					}
+				}
+				unset($params['file']);
+				unset($params['name']);
+				$query = Yii::app()->getUrlManager()->createPathInfo($params, '=', '&');
+				if ($query !== '')
+				{
+					$query = '?' . $query;
+				}  
+				$url = "/forum/$file.php$query"; 
+			}
+			else
+			{
+				$url = '/forum';
 			}
 		}
 		
