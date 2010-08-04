@@ -37,12 +37,12 @@
 	)); ?><!-- breadcrumbs -->
 
 	<div class="container">
-		<div class="span-19">
+		<div class="span-15">
 			<div id="content">
 				<?php echo $content; ?>
 			</div><!-- content -->
 		</div>
-		<div class="span-5 last">
+		<div class="span-9 last">
 			<div id="sidebar">
 			<?php
 				$this->widget('zii.widgets.CMenu', array(
