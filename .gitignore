@@ -1,4 +1,5 @@
 .settings
 www/assets
+protected/config/local.php
 protected/data/*.db
 protected/runtime
