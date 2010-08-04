@@ -156,12 +156,20 @@ class LegacyRedirectController extends Controller
 				}
 				unset($params['file']);
 				unset($params['name']);
-				$query = Yii::app()->getUrlManager()->createPathInfo($params, '=', '&');
-				if ($query !== '')
+				
+				$query = Yii::app()->urlManager->createPathInfo($params, '=', '&');
+				if ($query !== null && $query !== '')
 				{
 					$query = '?' . $query;
-				}  
-				$url = "/forum/$file.php$query"; 
+				}
+				
+				$hash = parse_url(Yii::app()->request->url, PHP_URL_FRAGMENT);
+				if ($hash !== null && $hash !== '')
+				{
+					$hash = '#' . $hash;
+				}
+				
+				$url = "/forum/$file.php$query$hash"; 
 			}
 			else
 			{
