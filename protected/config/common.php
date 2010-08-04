@@ -133,6 +133,134 @@ return array(
 						array(
 							'label' => 'Модель ТИМa',
 							'url' => array('static/view', 'path' => 'teorija/model-tima'),
+							'items' => array(
+								array(
+									'label' => 'Функции',
+									'url' => array('static/view', 'path' => 'teorija/model-tima/funkcii'),
+									'items' => array(
+										array(
+											'label' => 'Размерность функций',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/funkcii/razmernosti'),
+										),
+										array(
+											'label' => 'Знаки функций',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/funkcii/znaki'),
+										),
+									),
+								),
+								array(
+									'label' => '16 моделей ТИМа психики',
+									'url' => array('static/view', 'path' => 'teorija/model-tima/16-modelej'),
+								),
+								array(
+									'label' => 'Описание моделей ТИМа',
+									'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej'),
+									'items' => array(
+										array(
+											'label' => 'ИЛЭ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ile'),
+										),
+										array(
+											'label' => 'СЭИ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sei'),
+										),
+										array(
+											'label' => 'ЭСЭ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ese'),
+										),
+										array(
+											'label' => 'ЛИИ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lii'),
+										),
+										array(
+											'label' => 'ЭИЭ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eie'),
+										),
+										array(
+											'label' => 'ЛСИ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lsi'),
+										),
+										array(
+											'label' => 'СЛЭ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sle'),
+										),
+										array(
+											'label' => 'ИЭИ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iei'),
+										),
+										array(
+											'label' => 'СЭЭ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/see'),
+										),
+										array(
+											'label' => 'ИЛИ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ili'),
+										),
+										array(
+											'label' => 'ЛИЭ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lie'),
+										),
+										array(
+											'label' => 'ЭСИ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/esi'),
+										),
+										array(
+											'label' => 'ЛСЭ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lse'),
+										),
+										array(
+											'label' => 'ЭИИ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eii'),
+										),
+										array(
+											'label' => 'ИЭЭ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iee'),
+										),
+										array(
+											'label' => 'СЛИ',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sli'),
+										),
+									),
+								),
+								array(
+									'label' => 'Коммуникативные модели',
+									'url' => array('static/view', 'path' => 'teorija/model-tima/kommunikativnye-modeli'),
+								),
+								array(
+									'label' => 'Суперблоки Витал и Ментал',
+									'url' => array('static/view', 'path' => 'teorija/model-tima/vital-mental'),
+								),
+								array(
+									'label' => 'Экстраверсия / интроверсия',
+									'url' => array('static/view', 'path' => 'teorija/model-tima/extra-intro'),
+								),
+								array(
+									'label' => 'Рациональность / иррациональность',
+									'url' => array('static/view', 'path' => 'teorija/model-tima/rac-irrac'),
+								),
+							),
+						),
+						array(
+							'label' => 'Межтипные отношения',
+							'url' => array('static/view', 'path' => 'teorija/otnoshenija'),
+							'items' => array(
+								array(
+									'label' => 'Диады',
+									'url' => array('static/view', 'path' => 'teorija/otnoshenija/diady'),
+								),
+								array(
+									'label' => 'Квадры',
+									'url' => array('static/view', 'path' => 'teorija/otnoshenija/kvadry'),
+								),
+								array(
+									'label' => 'Кольца',
+									'url' => array('static/view', 'path' => 'teorija/otnoshenija/kolca'),
+								),
+							),
+						),
+						array(
+							'label' => 'Интегральные ТИМы',
+							'url' => array('static/view', 'path' => 'teorija/i-timy'),
 						),
 					),
 				),
@@ -140,6 +268,10 @@ return array(
 					'label' => 'Практика определения ТИМа',
 					'url' => array('static/view', 'path' => 'praktika'),
 					'items' => array(
+						array(
+							'label' => 'Методика типирования',
+							'url' => array('static/view', 'path' => 'praktika/metodika'),
+						),
 					),
 				),
 				array(
