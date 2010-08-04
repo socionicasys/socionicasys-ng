@@ -15,7 +15,7 @@ class LegacyRedirectController extends Controller
 		Yii::log('Redirecting from ' .  Yii::app()->request->url, 'info');
 		
 		$params = array();
-		$paramNames = array('name', 'file', 'f', 't', 'p', 'group', 'page');
+		$paramNames = array('name', 'file', 'f', 't', 'p', 'master', 'page');
 		foreach ($paramNames as $paramName)
 		{
 			if (isset($_GET[$paramName]))
@@ -49,7 +49,7 @@ class LegacyRedirectController extends Controller
 				),
 			);
 
-			$group = $params['group'];
+			$group = $params['master'];
 			$page = $params['page'];
 			if (isset($infoPages[$group]) && isset($infoPages[$group][$page]))
 			{
