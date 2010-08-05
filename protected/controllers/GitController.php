@@ -31,6 +31,7 @@ class GitController extends Controller
 	 */
 	public function actionPull()
 	{
+		Yii::log('git pull request came from ' . Yii::app()->request->userHostAddress, 'info');
 		if (!isset($_GET['id']) || !isset(Yii::app()->params['git']))
 		{
 			throw new CHttpException(404);
@@ -45,6 +46,7 @@ class GitController extends Controller
 		
 		$gitPath = $gitParams['path'];
 		$repositoryPath = $gitParams['repositories'][$id];
+		Yii::log("performing git pull in repository $repositoryPath (key $id)", 'info');
 		chdir($repositoryPath);
 		exec($gitPath . 'git pull');
 	}
