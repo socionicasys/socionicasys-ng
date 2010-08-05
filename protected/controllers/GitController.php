@@ -46,6 +46,6 @@ class GitController extends Controller
 		$gitPath = $gitParams['path'];
 		$repositoryPath = $gitParams['repositories'][$id];
 		chdir($repositoryPath);
-		exec($gitParams . 'git pull');
+		exec($gitPath . 'git pull');
 	}
 }
