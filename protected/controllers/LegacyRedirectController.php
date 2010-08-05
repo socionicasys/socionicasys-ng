@@ -173,7 +173,7 @@ class LegacyRedirectController extends Controller
 			}
 			else
 			{
-				$url = '/forum';
+				$url = '/forum/';
 			}
 		}
 		

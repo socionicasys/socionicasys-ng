@@ -282,7 +282,7 @@ return array(
 				),
 				array(
 					'label' => 'Форум',
-					'url' => '/forum',
+					'url' => '/forum/',
 				),
 			),
 		),
