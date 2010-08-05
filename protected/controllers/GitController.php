@@ -18,8 +18,15 @@
  */
 class GitController extends Controller
 {
+	public function filters()
+	{
+		return array(
+			'postOnly',
+		);
+	}
+	
 	/**
-	 * При обращении к этому действию происходит синхронизация репозитория,
+	 * При обращении (POST) к этому действию происходит синхронизация репозитория,
 	 * с ключом, заданным параметром 'id'.
 	 */
 	public function actionPull()
