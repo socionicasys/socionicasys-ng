@@ -35,6 +35,9 @@ return array(
 			'rules'=>array(
 				// Перенаправление старых адресов
 				'modules.php' => array('legacyRedirect/nuke'),
+				// Новости
+				'novosti' => 'news/list',
+				'novosti/<page:\d+>' => 'news/list',
 				// Обработка pull-запросов с GitHub
 				'git/pull/<id:\w+>' => 'git/pull',
 				// Все адреса, не обработанные выше, отображаются с помощью контроллера StaticController
@@ -94,7 +97,7 @@ return array(
 						),
 						array(
 							'label' => 'Новости',
-							'url' => array('static/view', 'path' => 'novosti'),
+							'url' => array('news/list'),
 						),
 						array(
 							'label' => 'Контакты',
