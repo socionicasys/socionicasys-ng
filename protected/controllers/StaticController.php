@@ -2,6 +2,7 @@
 
 class StaticController extends Controller
 {
+	public $layout = '//layouts/article';
 	public $defaultAction = 'view';
 
 	public function actionView()

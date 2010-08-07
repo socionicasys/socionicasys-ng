@@ -2,6 +2,8 @@
 
 class SiteController extends Controller
 {
+	public $layout = '//layouts/section';
+	
 	/**
 	 * This is the action to handle external exceptions.
 	 */

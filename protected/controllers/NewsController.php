@@ -2,6 +2,8 @@
 
 class NewsController extends Controller
 {
+	public $layout = '//layouts/section';
+	
 	public function actionList()
 	{
 		$dataProvider = new CActiveDataProvider('News', array(
