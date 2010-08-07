@@ -1,65 +1,50 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
-
-	<!-- blueprint CSS framework -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
-	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
-	<![endif]-->
-
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
-
+	<meta charset="UTF-8" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<?php
+		$cs = Yii::app()->clientScript;
+		$base = Yii::app()->request->baseUrl;
+		$cs->registerCssFile("$base/style/html5resel.css");
+		$cs->registerCssFile("$base/style/main.css");
+	?>
+	<!--[if lt IE 9]>
+	<script src="<?php echo $base; ?>/script/html5shiv.js" type="text/javascript"></script>
+	<script src="<?php echo $base; ?>/script/ie9.js" type="text/javascript"></script>
+	<![endif]-->
 </head>
-
 <body>
-
-<div class="container" id="page">
-
-	<div id="header">
-		<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-	</div><!-- header -->
-
-	<div id="mainmenu">
+	<header id="main-header">
+		<hgroup>
+			<h1>Школа системной соционики</h1>
+			<h2>Практика — критерий истины</h2>
+		</hgroup>
+	</header>
+	<nav id="major-navigation">
 		<?php $this->widget('zii.widgets.CMenu', array(
 			'items' => $this->majorMenu,
 			'activateItems' => false,
 		)); ?>
-	</div><!-- mainmenu -->
-	
-	<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-		'links'=>$this->breadcrumbs,
-	)); ?><!-- breadcrumbs -->
-
-	<div class="container">
-		<div class="span-15">
-			<div id="content">
-				<?php echo $content; ?>
-			</div><!-- content -->
-		</div>
-		<div class="span-9 last">
-			<div id="sidebar">
+	</nav>
+	<nav id="breadcrumbs">
+		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+			'links'=>$this->breadcrumbs,
+		)); ?>
+	</nav>
+	<div id="content-area">
+		<?php echo $content; ?>
+		<nav id="secondary-navigation">
 			<?php
 				$this->widget('zii.widgets.CMenu', array(
 					'items' => $this->minorMenu,
 				));
 			?>
-			</div><!-- sidebar -->
-		</div>
+		</nav>
 	</div>
-
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
+	<footer id="main-footer">
 		<?php echo Yii::powered(); ?>
-	</div><!-- footer -->
-
-</div><!-- page -->
-
+	</footer>
 </body>
 </html>
