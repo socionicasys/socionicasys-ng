@@ -18,7 +18,7 @@
 <body>
 	<header id="main-header">
 		<hgroup>
-			<h1>Школа системной соционики</h1>
+			<h1><a href="<?php echo "$base/";?>">Школа системной соционики</a></h1>
 			<h2>Практика — критерий истины</h2>
 		</hgroup>
 	</header>
