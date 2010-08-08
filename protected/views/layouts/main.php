@@ -7,7 +7,7 @@
 	<?php
 		$cs = Yii::app()->clientScript;
 		$base = Yii::app()->request->baseUrl;
-		$cs->registerCssFile("$base/style/html5resel.css");
+		$cs->registerCssFile("$base/style/html5reset.css");
 		$cs->registerCssFile("$base/style/main.css");
 	?>
 	<!--[if lt IE 9]>
