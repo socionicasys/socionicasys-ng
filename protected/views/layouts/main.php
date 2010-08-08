@@ -7,12 +7,13 @@
 	<?php
 		$cs = Yii::app()->clientScript;
 		$base = Yii::app()->request->baseUrl;
-		$cs->registerCssFile("$base/style/html5reset.css");
-		$cs->registerCssFile("$base/style/main.css");
+		$cs->registerCssFile("$base/styles/html5reset.css");
+		$cs->registerCssFile("$base/styles/font-face.css");
+		$cs->registerCssFile("$base/styles/main.css");
 	?>
 	<!--[if lt IE 9]>
-	<script src="<?php echo $base; ?>/script/html5shiv.js" type="text/javascript"></script>
-	<script src="<?php echo $base; ?>/script/ie9.js" type="text/javascript"></script>
+	<script src="<?php echo $base; ?>/scripts/html5shiv.js" type="text/javascript"></script>
+	<script src="<?php echo $base; ?>/scripts/ie9.js" type="text/javascript"></script>
 	<![endif]-->
 </head>
 <body>
