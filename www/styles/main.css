@@ -1,5 +1,5 @@
 body {
-	color: #000305;
+	color: #313131;
 	font-size: 100%;
 	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 	line-height: 1.5;
@@ -34,7 +34,69 @@ body {
 	font-weight: normal;
 }
 
+/* Главное меню */
+#major-navigation {
+	padding: 0.5em 1.2em;
+	margin: 0.5em 0;
+	border-bottom: 3px solid #afca2f;
+}
+
+#major-navigation li {
+	display: inline;
+	padding: 0.5em 1em;
+}
+
+#major-navigation li.active {
+	font-weight: bold;
+	background-color: #f6f6f6;
+	border-top: 3px solid #afca2f;
+	border-bottom: 4px solid #f6f6f6;
+}
+
+#major-navigation a {
+	text-decoration: none;
+	color: inherit;
+}
+
+#major-navigation a:hover {
+	color: #cc3333;
+}
+
+/* «Хлебные крошки» */
+#breadcrumbs {
+	font-size: 0.875em;
+}
+
+#breadcrumbs a {
+	text-decoration: none;
+	color: #7c900a;
+}
+
+/* Основной раздел */
+#content-area {
+	position: relative;
+}
+
+/* Боковое меню */
+#secondary-navigation {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 15em;
+}
+
+/* Содержимое */
 #content {
 	font: 1.125em/1.5 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
 	word-spacing: 0.1em;
+	margin-left: 16em;
+}
+
+/* «Подвал» */
+#main-footer {
+	margin-top: 3em;
+	padding-top: 1em;
+	border-top: 1px dashed #afca2f;
+	text-align: center;
+	font-size: 0.875em;
 }
