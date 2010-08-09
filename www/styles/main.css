@@ -65,6 +65,7 @@ body {
 /* «Хлебные крошки» */
 #breadcrumbs {
 	font-size: 0.875em;
+	margin-bottom: 1em;
 }
 
 #breadcrumbs a {
@@ -83,6 +84,19 @@ body {
 #secondary-navigation {
 	float: left;
 	width: 15em;
+}
+
+#secondary-navigation ul ul {
+	padding-left: 2.5em;
+}
+
+#secondary-navigation a {
+	text-decoration: none;
+	color: #7c900a;
+}
+
+#secondary-navigation li.active>a {
+	color: inherit;
 }
 
 /* Содержимое */
