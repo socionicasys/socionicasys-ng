@@ -84,10 +84,12 @@ body {
 #secondary-navigation {
 	float: left;
 	width: 15em;
+	padding-bottom: 1em;
+	font-size: 0.875em;
 }
 
-#secondary-navigation ul ul {
-	padding-left: 2.5em;
+#secondary-navigation ul ul ul {
+	padding-left: 2em;
 }
 
 #secondary-navigation a {
