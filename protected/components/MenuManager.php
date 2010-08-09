@@ -105,8 +105,7 @@ class MenuManager extends CApplicationComponent
 				$breadcrumbs = $this->scanSubmenu($menu, $requestUrl);
 				if ($breadcrumbs !== null)
 				{
-					//$minorMenu = array_merge(array($majorItem), $menu['items']);
-					$minorMenu = $menu['items'];
+					$minorMenu = array($menu);
 					$majorItem['active'] = true;
 					$activeFound = true;
 				}
@@ -121,47 +120,71 @@ class MenuManager extends CApplicationComponent
 	
 	/**
 	 * Рекурсивно сканирует данное меню, если находит в нем ссылку на заданный
-	 * адрес, возвращает «хлебные крошки» для него, 
+	 * адрес, возвращает «хлебные крошки» для него, и выделяет в меню только
+	 * активную ветвь.
 	 * @param array $menu
 	 * @param string $requestUrl
 	 */
-	protected function scanSubmenu($menu, $requestUrl)
+	protected function scanSubmenu(&$menu, $requestUrl)
 	{
-		$menuUrl = CHtml::normalizeUrl($menu['url']);
-		$isHomeUrl = ($menuUrl === Yii::app()->getHomeUrl());
-		if (isset($menu['url']) && $menuUrl === $requestUrl)
-		{
-			if ($isHomeUrl)
-			{
-				return array();
-			}
-			else
-			{
-				return array($menu['label']);
-			}
-		}
-		else if (!isset($menu['items']))
+		if (!isset($menu['url']) || !isset($menu['label']))
 		{
 			return null;
 		}
 		
-		foreach ($menu['items'] as $item)
+		$menuUrl = CHtml::normalizeUrl($menu['url']);
+		$isHomeUrl = ($menuUrl === Yii::app()->getHomeUrl());
+		$breadcrumbsLeaf = null;
+		if ($menuUrl === $requestUrl)
 		{
-			$breadcrumbs = $this->scanSubmenu($item, $requestUrl);
-			if ($breadcrumbs !== null)
+			if ($isHomeUrl)
+			{
+				$breadcrumbsLeaf = array();
+			}
+			else
+			{
+				$breadcrumbsLeaf = array($menu['label']);
+			}
+			unset($menu['url']);
+		}
+		if (!isset($menu['items']))
+		{
+			return $breadcrumbsLeaf;
+		}
+		
+		// Сканируем подменю данного меню. Если среди них надется то, которое
+		// содержит ссылку на $requestUrl, то оставляем $menu как есть, иначе
+		// прячем все подменю этого меню.
+		$breadcrumbs = null;
+		foreach ($menu['items'] as &$item)
+		{
+			$breadcrumbsSubmenu = $this->scanSubmenu($item, $requestUrl);
+			if ($breadcrumbsSubmenu !== null)
 			{
 				if ($isHomeUrl)
 				{
-					return $breadcrumbs;
+					$breadcrumbs = $breadcrumbsSubmenu;
 				}
 				else
 				{
 					$currentElement = array($menu['label'] => $menu['url']);
-					return array_merge($currentElement, $breadcrumbs);
+					$breadcrumbs = array_merge($currentElement, $breadcrumbsSubmenu);
 				}
 			}
 		}
 		
-		return null;
+		if ($breadcrumbs !== null)
+		{
+			return $breadcrumbs;
+		}
+		else if ($breadcrumbsLeaf !== null)
+		{
+			return $breadcrumbsLeaf;
+		}
+		else
+		{
+			unset($menu['items']);
+			return null;
+		}
 	}
 }
