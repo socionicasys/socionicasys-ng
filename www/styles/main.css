@@ -106,14 +106,14 @@ body {
 	font: 1.125em/1.5 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
 	word-spacing: 0.1em;
 	margin-left: 16em;
+	padding-bottom: 1em;
 }
 
 /* «Подвал» */
 #main-footer {
 	clear: both;
-	margin-top: 3em;
 	padding-top: 1em;
-	border-top: 1px dashed #afca2f;
+	border-top: 1px solid #afca2f;
 	text-align: center;
 	font-size: 0.875em;
 }
