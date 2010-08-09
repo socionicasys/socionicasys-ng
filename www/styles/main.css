@@ -74,6 +74,10 @@ body {
 }
 
 /* Основной раздел */
+#content-area {
+	margin: 0 1em;
+}
+
 #content-wrap {
 	width: 100%;
 	float: right;
