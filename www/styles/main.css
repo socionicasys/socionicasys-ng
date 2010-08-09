@@ -73,15 +73,15 @@ body {
 }
 
 /* Основной раздел */
-#content-area {
-	position: relative;
+#content-wrap {
+	width: 100%;
+	float: right;
+	margin-left: -16em;
 }
 
 /* Боковое меню */
 #secondary-navigation {
-	position: absolute;
-	top: 0;
-	left: 0;
+	float: left;
 	width: 15em;
 }
 
@@ -94,6 +94,7 @@ body {
 
 /* «Подвал» */
 #main-footer {
+	clear: both;
 	margin-top: 3em;
 	padding-top: 1em;
 	border-top: 1px dashed #afca2f;

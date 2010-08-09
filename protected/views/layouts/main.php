@@ -35,7 +35,9 @@
 		)); ?>
 	</nav>
 	<div id="content-area">
-		<?php echo $content; ?>
+		<div id="content-wrap">
+			<?php echo $content; ?>
+		</div>
 		<nav id="secondary-navigation">
 			<?php
 				$this->widget('zii.widgets.CMenu', array(
