@@ -6,7 +6,7 @@
 	$cs->registerCssFile("$base/styles/main.css");
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 	<meta charset="UTF-8" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -38,13 +38,15 @@
 		<div id="content-wrap">
 			<?php echo $content; ?>
 		</div>
-		<nav id="secondary-navigation">
-			<?php
-				$this->widget('zii.widgets.CMenu', array(
-					'items' => $this->minorMenu,
-				));
-			?>
-		</nav>
+		<aside id="secondary-navigation">
+			<nav>
+				<?php
+					$this->widget('zii.widgets.CMenu', array(
+						'items' => $this->minorMenu,
+					));
+				?>
+			</nav>
+		</aside>
 	</div>
 	<footer id="main-footer">
 		<?php echo Yii::powered(); ?>
