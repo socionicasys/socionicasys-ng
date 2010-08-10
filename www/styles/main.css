@@ -74,8 +74,11 @@ body {
 
 /* «Хлебные крошки» */
 #breadcrumbs {
-	font-size: 0.875em;
 	margin-bottom: 1em;
+}
+
+#breadcrumbs>* {
+	font-size: 0.875em;
 }
 
 #breadcrumbs a {
@@ -94,11 +97,18 @@ body {
 	margin-left: -16em;
 }
 
+#content-wrap>* {
+	margin-left: 16em;
+}
+
 /* Боковое меню */
 #secondary-navigation {
 	float: left;
 	width: 15em;
 	padding-bottom: 1em;
+}
+
+#secondary-navigation nav {
 	font-size: 0.875em;
 }
 
@@ -116,10 +126,9 @@ body {
 }
 
 /* Содержимое */
-#content {
+#content>* {
 	font: 1.125em/1.5 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
 	word-spacing: 0.1em;
-	margin-left: 16em;
 	padding-bottom: 1em;
 }
 
