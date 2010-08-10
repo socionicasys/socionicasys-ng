@@ -29,13 +29,13 @@
 			'activateItems' => false,
 		)); ?>
 	</nav>
-	<nav id="breadcrumbs">
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-		)); ?>
-	</nav>
 	<div id="content-area">
 		<div id="content-wrap">
+			<nav id="breadcrumbs">
+				<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+					'links'=>$this->breadcrumbs,
+				)); ?>
+			</nav>
 			<?php echo $content; ?>
 		</div>
 		<aside id="secondary-navigation">
@@ -48,8 +48,5 @@
 			</nav>
 		</aside>
 	</div>
-	<footer id="main-footer">
-		<?php echo Yii::powered(); ?>
-	</footer>
 </body>
 </html>
