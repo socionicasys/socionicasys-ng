@@ -126,11 +126,22 @@ body {
 /* Содержимое */
 #content {
 	padding-bottom: 1em;
-}
-
-#content>* {
 	font-size: 1.125em;
 	font-family: 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
+}
+
+#content p {
+	margin: 0.5em 0;
+}
+
+#content h1 {
+	font-size: 1.3em;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+}
+
+#content > *:first-child {
+	margin-top: 0;
 }
 
 /* «Подвал» */

@@ -38,7 +38,9 @@
 					)); ?>
 				</nav>
 			<?php endif; ?>
-			<?php echo $content; ?>
+			<div>
+				<?php echo $content; ?>
+			</div>
 		</div>
 		<aside id="secondary-navigation">
 			<nav>
