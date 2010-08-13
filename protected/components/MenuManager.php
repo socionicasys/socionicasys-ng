@@ -135,20 +135,31 @@ class MenuManager extends CApplicationComponent
 		$menuUrl = CHtml::normalizeUrl($menu['url']);
 		$isHomeUrl = ($menuUrl === Yii::app()->getHomeUrl());
 		$breadcrumbsLeaf = null;
-		if ($menuUrl === $requestUrl)
+		
+		// Проверяем, совпадает ли адрес текущего меню с запрошенным (или
+		// его началом). В случае, если запрошенный адрес начинается с адреса
+		// текущего меню, и лучших совпадений в подменю не найдено, будем
+		// использовать этот пункт для «хлебных крошек» и текущего пункта меню. 
+		if (strpos($requestUrl, $menuUrl) === 0)
 		{
 			if ($isHomeUrl)
 			{
-				$breadcrumbsLeaf = array();
+				if ($menuUrl === $requestUrl)
+				{
+					$breadcrumbsLeaf = array();
+				}
 			}
 			else
 			{
 				$breadcrumbsLeaf = array($menu['label']);
 			}
-			unset($menu['url']);
 		}
 		if (!isset($menu['items']))
 		{
+			if ($breadcrumbsLeaf !== null)
+			{
+				unset($menu['url']);
+			}
 			return $breadcrumbsLeaf;
 		}
 		
@@ -179,6 +190,7 @@ class MenuManager extends CApplicationComponent
 		}
 		else if ($breadcrumbsLeaf !== null)
 		{
+			unset($menu['url']);
 			return $breadcrumbsLeaf;
 		}
 		else
