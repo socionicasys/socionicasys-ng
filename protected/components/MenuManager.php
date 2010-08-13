@@ -142,9 +142,10 @@ class MenuManager extends CApplicationComponent
 		// использовать этот пункт для «хлебных крошек» и текущего пункта меню. 
 		if (strpos($requestUrl, $menuUrl) === 0)
 		{
+			$exactMatch = $menuUrl === $requestUrl;
 			if ($isHomeUrl)
 			{
-				if ($menuUrl === $requestUrl)
+				if ($exactMatch)
 				{
 					$breadcrumbsLeaf = array();
 				}
@@ -156,7 +157,7 @@ class MenuManager extends CApplicationComponent
 		}
 		if (!isset($menu['items']))
 		{
-			if ($breadcrumbsLeaf !== null)
+			if ($breadcrumbsLeaf !== null && $exactMatch)
 			{
 				unset($menu['url']);
 			}
@@ -190,7 +191,10 @@ class MenuManager extends CApplicationComponent
 		}
 		else if ($breadcrumbsLeaf !== null)
 		{
-			unset($menu['url']);
+			if ($exactMatch)
+			{
+				unset($menu['url']);
+			}
 			return $breadcrumbsLeaf;
 		}
 		else
