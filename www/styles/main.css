@@ -140,6 +140,11 @@ body {
 	margin-bottom: 0.5em;
 }
 
+#content ol,
+#content ul {
+	padding-left: 2.5em;
+}
+
 #content > *:first-child {
 	margin-top: 0;
 }
