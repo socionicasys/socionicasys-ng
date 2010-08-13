@@ -19,7 +19,7 @@
 <body>
 	<header id="main-header">
 		<hgroup>
-			<h1><a href="<?php echo "$base/";?>">Школа системной соционики</a></h1>
+			<h1><a href="<?php echo Yii::app()->homeUrl; ?>">Школа системной соционики</a></h1>
 			<h2>Практика — критерий истины</h2>
 		</hgroup>
 	</header>
@@ -45,6 +45,7 @@
 				<?php
 					$this->widget('zii.widgets.CMenu', array(
 						'items' => $this->minorMenu,
+						'activateItems' => false,
 					));
 				?>
 			</nav>

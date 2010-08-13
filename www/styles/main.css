@@ -123,10 +123,6 @@ body {
 	color: #7c900a;
 }
 
-#secondary-navigation li.active>a {
-	color: inherit;
-}
-
 /* Содержимое */
 #content {
 	padding-bottom: 1em;
