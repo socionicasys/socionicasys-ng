@@ -101,10 +101,6 @@ return array(
 							'url' => array('static/view', 'path' => 'teorija/socionika-dlja-nachinajushhih'),
 						),
 						array(
-							'label' => 'Вступление к системной соционике',
-							'url' => array('static/view', 'path' => 'teorija/vstuplenije'),
-						),
-						array(
 							'label' => 'Системный подход',
 							'url' => array('static/view', 'path' => 'teorija/sistemnyj-podhod'),
 							'items' => array(
