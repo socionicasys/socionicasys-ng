@@ -37,7 +37,7 @@ return array(
 				'modules.php' => array('legacyRedirect/nuke'),
 				// Новости
 				'novosti' => 'news/list',
-				'novosti/<page:\d+>' => 'news/list',
+				'novosti/<News_page:\d+>' => 'news/list',
 				// Обработка pull-запросов с GitHub
 				'git/pull/<id:\w+>' => 'git/pull',
 				// Все адреса, не обработанные выше, отображаются с помощью контроллера StaticController
