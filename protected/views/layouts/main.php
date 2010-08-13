@@ -31,11 +31,13 @@
 	</nav>
 	<div id="content-area">
 		<div id="content-wrap">
-			<nav id="breadcrumbs">
-				<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-					'links'=>$this->breadcrumbs,
-				)); ?>
-			</nav>
+			<?php if (!empty($this->breadcrumbs)): ?>
+				<nav id="breadcrumbs">
+					<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+						'links'=>$this->breadcrumbs,
+					)); ?>
+				</nav>
+			<?php endif; ?>
 			<?php echo $content; ?>
 		</div>
 		<aside id="secondary-navigation">
