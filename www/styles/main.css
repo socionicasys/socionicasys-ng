@@ -128,10 +128,13 @@ body {
 }
 
 /* Содержимое */
-#content>* {
-	font: 1.125em/1.5 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
-	word-spacing: 0.1em;
+#content {
 	padding-bottom: 1em;
+}
+
+#content>* {
+	font-size: 1.125em;
+	font-family: 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
 }
 
 /* «Подвал» */
