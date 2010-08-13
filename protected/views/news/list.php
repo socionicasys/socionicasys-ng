@@ -4,5 +4,5 @@ $this->widget('zii.widgets.CListView', array(
 	'dataProvider' => $dataProvider,
 	'itemView' => 'view',
 	'emptyText' => 'Новостей нет.',
-	'template' => '{items}\n{pager}',
+	'template' => "{items}\n{pager}",
 ));
