@@ -4,6 +4,11 @@
 	$cs->registerCssFile("$base/styles/html5reset.css");
 	$cs->registerCssFile("$base/styles/font-face.css");
 	$cs->registerCssFile("$base/styles/main.css");
+	$cs->registerLinkTag(
+		'alternate',
+		'application/atom+xml',
+		$this->createUrl('news/feed')
+	);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
