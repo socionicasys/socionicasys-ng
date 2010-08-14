@@ -44,7 +44,7 @@ body {
 #major-navigation ul {
 	float: left;
 	width: 100%;
-	padding: 0.5em 0.75em;
+	padding: 0.5em 0;
 	border-bottom: 3px solid #afca2f;
 }
 
