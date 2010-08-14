@@ -58,7 +58,6 @@ class NewsController extends Controller
 			'link' => CHtml::encode($this->createAbsoluteUrl('')),
 			'charset' => 'UTF-8',
 			'lastUpdate' => $lastUpdateTime,
-			'published' => $lastUpdateTime,
 			'entries' => $feedEntries,
 		), 'atom');
 		$feed->send();
