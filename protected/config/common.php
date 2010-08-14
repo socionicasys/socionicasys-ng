@@ -34,13 +34,15 @@ return array(
 			'useStrictParsing' => true,
 			'rules'=>array(
 				// Перенаправление старых адресов
-				'modules.php' => array('legacyRedirect/nuke'),
+				'modules.php' => 'legacyRedirect/nuke',
 				// Новости
 				'novosti' => 'news/list',
 				'novosti/<News_page:\d+>' => 'news/list',
+				'atom.xml' => 'news/feed',
 				// Обработка pull-запросов с GitHub
 				'git/pull/<id:\w+>' => 'git/pull',
-				// Все адреса, не обработанные выше, отображаются с помощью контроллера StaticController
+				// Все адреса, не обработанные выше, отображаются с помощью
+				// контроллера StaticController
 				'<path:.*>' => array('static/view', 'keepSlashes' => true),
 				// Заглавная страница отображается статично
 				'/' => 'static/view',

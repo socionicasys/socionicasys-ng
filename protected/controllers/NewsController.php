@@ -19,4 +19,48 @@ class NewsController extends Controller
 			'dataProvider' => $dataProvider,
 		));
 	}
+	
+	public function actionFeed()
+	{
+		Yii::import('application.vendors.*');
+		require_once('Zend/Loader/Autoloader.php');
+		Yii::registerAutoloader(array('Zend_Loader_Autoloader', 'autoload'));
+		
+		$latestNews = News::model()->findAll(array(
+			'order' => 'post_time DESC',
+			'limit' => 10,
+		));
+		
+		$feedEntries = array();
+		$lastUpdateTime = null; 
+		foreach ($latestNews as $newsItem)
+		{
+			$entryUrl = CHtml::encode($this->createAbsoluteUrl('news/list', array(
+				'#' => 'item-' . strval($newsItem->id), 
+			)));
+			if ($lastUpdateTime === null)
+			{
+				$lastUpdateTime = $newsItem->post_time;
+			}
+			$feedEntries[] = array(
+				'title' => $newsItem->title,
+				'link' => $entryUrl,
+				'guid' => $entryUrl,
+				'description' => $newsItem->title,
+				'content' => $newsItem->text,
+				'lastUpdate' => $newsItem->post_time,
+			);
+		}
+		
+		$feed = Zend_Feed::importArray(array(
+			'title' => 'Новости сайта Школы системной соционики',
+			'author' => 'Школа системной соционики',
+			'link' => CHtml::encode($this->createAbsoluteUrl('')),
+			'charset' => 'UTF-8',
+			'lastUpdate' => $lastUpdateTime,
+			'published' => $lastUpdateTime,
+			'entries' => $feedEntries,
+		), 'atom');
+		$feed->send();
+	}
 }
