@@ -15,9 +15,18 @@ class NewsController extends Controller
 			),
 		));
 		
-		$this->render('list', array(
-			'dataProvider' => $dataProvider,
-		));
+		if (Yii::app()->request->isAjaxRequest)
+		{
+			$this->renderPartial('list', array(
+				'dataProvider' => $dataProvider,
+			));
+		}
+		else
+		{
+			$this->render('list', array(
+				'dataProvider' => $dataProvider,
+			));
+		}
 	}
 	
 	public function actionFeed()
@@ -42,11 +51,14 @@ class NewsController extends Controller
 			{
 				$lastUpdateTime = $newsItem->post_time;
 			}
+			// Поле 'description' не может содержать HTML-код. Преобразуем
+			// HTML-описание в текст с помощью strip_tags().
+			$description = strip_tags($newsItem->text);
 			$feedEntries[] = array(
 				'title' => $newsItem->title,
 				'link' => $entryUrl,
 				'guid' => $entryUrl,
-				'description' => $newsItem->title,
+				'description' => $description,
 				'content' => $newsItem->text,
 				'lastUpdate' => $newsItem->post_time,
 			);
