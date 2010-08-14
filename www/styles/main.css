@@ -38,16 +38,18 @@ body {
 
 /* Главное меню */
 #major-navigation {
-	margin-bottom: 1em;
+	margin-bottom: 4em;
 }
 
 #major-navigation ul {
+	float: left;
+	width: 100%;
 	padding: 0.5em 0.75em;
 	border-bottom: 3px solid #afca2f;
 }
 
 #major-navigation li {
-	display: inline;
+	float: left;
 }
 
 #major-navigation a {
@@ -90,6 +92,7 @@ body {
 
 /* Основной раздел */
 #content-area {
+	clear: both;
 	margin: 0 1em;
 }
 
