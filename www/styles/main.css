@@ -143,13 +143,29 @@ body {
 	margin-bottom: 0.5em;
 }
 
+#content h2 {
+	font-size: 1.1em;
+	margin-top: 0.5em;
+	margin-bottom: 0.3em;
+}
+
 #content ol,
 #content ul {
 	padding-left: 2.5em;
 }
 
+#content blockquote {
+	border-left: 1px solid #ccc;
+	padding: 0 2em;
+}
+
 #content > *:first-child {
 	margin-top: 0;
+}
+
+#content .phone,
+#content .name {
+	white-space: nowrap;
 }
 
 /* Новости */
@@ -172,10 +188,6 @@ body {
 #content .news-item header p,
 #content .news-item header h1 {
 	margin: 0;
-}
-
-#content .phone {
-	white-space: nowrap;
 }
 
 /* «Подвал» */
