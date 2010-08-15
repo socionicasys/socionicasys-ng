@@ -154,9 +154,29 @@ body {
 	padding-left: 2.5em;
 }
 
+#content dt {
+	font-weight: bold;
+}
+
+#content dd {
+	margin-left: 3em;
+}
+
+#content dd p:first-child {
+	margin-top: 0;
+}
+
 #content blockquote {
 	border-left: 1px solid #ccc;
 	padding: 0 2em;
+}
+
+#content small {
+	font-size: 0.875em;
+}
+
+#content .copyright {
+	text-align: right;
 }
 
 #content > *:first-child {
