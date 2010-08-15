@@ -33,7 +33,7 @@ INSERT INTO tbl_news (title, text, post_time) VALUES
 INSERT INTO tbl_news (title, text, post_time) VALUES
 ('Статья Эглит И.М., Пятницкий В.В.', '<p>В раздел «Статьи, доклады» добавлена новая статья <b>Эглит И.М., Пятницкий В.В. «Исследование страхов в одномерных функциях»</b>. (<a href="http://www.socionicasys.ru/userimages/theory/Eglit_Piatnitski_Strahi.zip">Скачать статью</a>)</p>', 1238400738);
 INSERT INTO tbl_news (title, text, post_time) VALUES
-('Статья Кельганкина С.А.', 'В раздел «Статьи, доклады» добавлена новая статья <b>Кельганкин С.А. «Применимость операций над множествами в задачах классификации»</b>. (<a href="http://www.socionicasys.ru/userimages/theory/Kelgankin_Primenimost.zip">Скачать статью</a>)</p>', 1238401073);
+('Статья Кельганкина С.А.', '<p>В раздел «Статьи, доклады» добавлена новая статья <b>Кельганкин С.А. «Применимость операций над множествами в задачах классификации»</b>. (<a href="http://www.socionicasys.ru/userimages/theory/Kelgankin_Primenimost.zip">Скачать статью</a>)</p>', 1238401073);
 INSERT INTO tbl_news (title, text, post_time) VALUES
 ('Новая книга Ермака В.Д.', '<p>В издательстве «Черная белка» вышла новая книга: <b>Ермак В.Д. Классическая соционика. Системная концепция теории информационного метаболизма психики.</b></p><p>Книга будет в продаже на XXV Международной конференции по соционике в Киеве с 19.09.2009 г.</p>', 1252669060);
 INSERT INTO tbl_news (title, text, post_time) VALUES
