@@ -19,6 +19,7 @@ body {
 
 #main-header hgroup {
 	margin-left: 7em;
+	color: #7c900a;
 }
 
 #main-header h1 {
@@ -135,6 +136,11 @@ body {
 
 #content p {
 	margin: 0.7em 0;
+}
+
+#content h1,
+#content h2 {
+	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 }
 
 #content h1 {
