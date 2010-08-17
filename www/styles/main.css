@@ -11,7 +11,7 @@ body {
 /* Шапка */
 #main-header {
 	padding: 0.5em;
-	background-image: url(../images/Logo.png);
+	background-image: url(../images/Logo.png?1);
 	background-repeat: no-repeat;
 	background-position: 0.5em 0.5em;
 	height: 5em;

@@ -1,9 +1,9 @@
 <?php
 	$cs = Yii::app()->clientScript;
 	$base = Yii::app()->request->baseUrl;
-	$cs->registerCssFile("$base/styles/html5reset.css");
-	$cs->registerCssFile("$base/styles/font-face.css");
-	$cs->registerCssFile("$base/styles/main.css");
+	$cs->registerCssFile("$base/styles/html5reset.css?201003011726");
+	$cs->registerCssFile("$base/styles/font-face.css?201008081309");
+	$cs->registerCssFile("$base/styles/main.css?201008170953");
 	$cs->registerLinkTag(
 		'alternate',
 		'application/atom+xml',
@@ -17,8 +17,8 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	<link rel="shortcut icon" href="<?php echo $base; ?>/favicon.ico" type="image/x-icon" />
 	<!--[if lt IE 9]>
-	<script src="<?php echo $base; ?>/scripts/html5shiv.js" type="text/javascript"></script>
-	<script src="<?php echo $base; ?>/scripts/ie9.js" type="text/javascript"></script>
+	<script src="<?php echo $base; ?>/scripts/html5shiv.js?201006131732" type="text/javascript"></script>
+	<script src="<?php echo $base; ?>/scripts/ie9.js?201004302159" type="text/javascript"></script>
 	<![endif]-->
 </head>
 <body>
