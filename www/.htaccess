@@ -54,7 +54,9 @@ AddType text/cache-manifest manifest
 # "access plus 1 week" or so
 
 <IfModule mod_expires.c>
-  Header set cache-control: public
+  <IfModule mod_headers.c>
+    Header set cache-control: public
+  </IfModule>
   ExpiresActive on
 
 # Perhaps better to whitelist expires rules? Perhaps.
