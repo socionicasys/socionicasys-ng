@@ -233,6 +233,30 @@ body {
 	background-color: #eee;
 }
 
+.model-diagram {
+	margin: 0 auto;
+}
+
+.model-diagram td,
+.model-diagram th {
+}
+
+.model-diagram td {
+	border: 1px solid #313131;
+	padding: 0.5em 2em;
+	font-weight: bold;
+}
+
+.model-diagram th {
+	padding: 0.5em 1em;
+	font-weight: normal;
+	vertical-align: middle;
+}
+
+.model-diagram .separator {
+	border-top: 2px solid #313131;
+}
+
 /* «Подвал» */
 #main-footer {
 	clear: both;
