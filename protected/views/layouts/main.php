@@ -58,5 +58,6 @@
 			</nav>
 		</aside>
 	</div>
+<?php $this->widget('GoogleAnalytics'); ?>
 </body>
 </html>
