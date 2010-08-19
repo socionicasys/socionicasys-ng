@@ -35,6 +35,9 @@ return array(
 			'rules'=>array(
 				// Перенаправление старых адресов
 				'modules.php' => 'legacyRedirect/nuke',
+				// Вход-выход с сайта
+				'login' => 'site/login',
+				'logout' => 'site/logout',
 				// Новости
 				'novosti' => 'news/list',
 				'novosti/<News_page:\d+>' => 'news/list',
