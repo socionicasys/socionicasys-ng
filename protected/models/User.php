@@ -33,14 +33,11 @@ class User extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-			array('username, password, salt', 'required'),
-			array('username, password, salt', 'length', 'max'=>128),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, username, password, salt', 'safe', 'on'=>'search'),
+			array('username, password', 'required'),
+			array('username, password', 'length', 'max'=>128),
+
+			array('id, username, password', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,9 +71,6 @@ class User extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -85,20 +79,58 @@ class User extends CActiveRecord
 
 		$criteria->compare('password',$this->password,true);
 
-		$criteria->compare('salt',$this->salt,true);
-
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));
 	}
 	
+	// При сохранении новой записи сгенерировать новую
+	// «соль», хешировать пароль и сохранить в БД хешированный вариат.
+	protected function beforeSave()
+	{
+		if (parent::beforeSave())
+		{
+			// Если запись новая или пароль был изменен
+			if ($this->isNewRecord)
+			{
+				$this->salt = $this->generateSalt();
+				$this->password = $this->hashPassword($this->password, $this->salt);
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Проверяет, соответствует ли заданный пароль хешу из БД.
+	 * @param string $password пароль, который нужно проверить
+	 * @return boolean правилен ли пароль
+	 */
 	public function validatePassword($password)
 	{
 		return $this->hashPassword($password, $this->salt) === $this->password;
 	}
 	
+	/**
+	 * Хеширует пароль. 
+	 * @param string $password пароль в открытом виде
+	 * @param string $salt «соль»
+	 * @return string хеш пароля
+	 */
 	public function hashPassword($password, $salt)
 	{
 		return md5($salt . $password);
+	}
+	
+	/**
+	 * Генерирует случайную «соль» для использования в алгоритме хеширования.
+	 * @return string сгенерированная «соль»
+	 */
+	protected function generateSalt()
+	{
+		return uniqid('', true);
 	}
 }
