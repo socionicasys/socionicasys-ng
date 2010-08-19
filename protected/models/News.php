@@ -63,9 +63,9 @@ class News extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'text' => 'Text',
-			'post_time' => 'Post Time',
+			'title' => 'Заголовок новости',
+			'text' => 'Текст новости',
+			'post_time' => 'Дата публикации',
 		);
 	}
 
@@ -75,9 +75,6 @@ class News extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
@@ -91,5 +88,18 @@ class News extends CActiveRecord
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Возвращает список критериев, применяющихся по-умолчанию к SELECT-запросам.
+	 * Список новостей по умолчанию сортируется в обратном хронологическом
+	 * порядке.
+	 * @see db/ar/CActiveRecord::defaultScope()
+	 */
+	public function defaultScope()
+	{
+		return array(
+			'order' => 'post_time DESC',
+		);
 	}
 }

@@ -7,9 +7,6 @@ class NewsController extends Controller
 	public function actionList()
 	{
 		$dataProvider = new CActiveDataProvider('News', array(
-			'criteria' => array(
-				'order' => 'post_time DESC',
-			),
 			'pagination' => array(
 				'pageSize' => 10,
 			),
@@ -36,7 +33,6 @@ class NewsController extends Controller
 		Yii::registerAutoloader(array('Zend_Loader_Autoloader', 'autoload'));
 		
 		$latestNews = News::model()->findAll(array(
-			'order' => 'post_time DESC',
 			'limit' => 10,
 		));
 		
