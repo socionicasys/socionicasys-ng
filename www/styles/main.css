@@ -257,6 +257,87 @@ body {
 	border-top: 2px solid #313131;
 }
 
+/* Форма логина */
+form input,
+form textarea,
+form select {
+	margin: 0.2em 0 0.5em 0;
+}
+
+form fieldset {
+	border: 1px solid #ddd;
+	padding: 1em;
+	margin: 0 0 10px 0;
+}
+
+form label {
+	font-weight: bold;
+	font-size: 0.9em;
+	display: block;
+}
+
+form .row {
+	margin: 0.3em 0;
+	clear: left;
+}
+
+form span.required {
+	color: #f00;
+}
+
+form div.error label,
+form label.error,
+form span.error {
+	color: #c00;
+}
+
+form div.error input,
+form div.error textarea,
+form div.error select,
+form input.error,
+form textarea.error,
+form select.error {
+	background: #fee;
+	border-color: #c00;
+}
+
+form .errorSummary {
+	border: 2px solid #c00;
+	padding: 0.5em 0.5em 1em 0.5em;
+	margin: 0 0 1.5em 0;
+	background: #fee;
+	font-size: 0.9em;
+}
+
+form .errorMessage {
+	color: #f00;
+	font-size: 0.9em;
+}
+
+form .errorSummary p {
+	margin: 0;
+	padding: 0.3em;
+}
+
+form .errorSummary ul {
+	margin: 0;
+	padding: 0 0 0 1.5em;
+}
+
+form label {
+	float: left;
+	margin-right: 1em;
+	position: relative;
+	text-align: right;
+	width: 10em;
+}
+
+form .buttons,
+form .errorMessage {
+	clear: left;
+	padding-left: 10em;
+}
+
 /* «Подвал» */
 #main-footer {
 	clear: both;

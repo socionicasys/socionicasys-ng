@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
 		<?php echo $form->error($model, 'rememberMe'); ?>
 	</div>
 
-	<div class="row">
+	<div class="row buttons">
 		<?php echo CHtml::submitButton('Вход'); ?>
 	</div>
 <?php $this->endWidget(); ?>
