@@ -8,7 +8,7 @@ body {
 	margin: 0 auto;
 }
 
-/* Шапка */
+/*** Шапка ***/
 #main-header {
 	padding: 0.5em;
 	background-image: url(../images/Logo.png?1);
@@ -37,7 +37,7 @@ body {
 	font-weight: normal;
 }
 
-/* Главное меню */
+/*** Главное меню ***/
 #major-navigation {
 	font-size: 0.875em;
 	margin-bottom: 4em;
@@ -78,7 +78,7 @@ body {
 	border-bottom: 6px solid #fff;
 }
 
-/* «Хлебные крошки» */
+/*** «Хлебные крошки» ***/
 #breadcrumbs {
 	margin-bottom: 1em;
 }
@@ -92,7 +92,7 @@ body {
 	color: #7c900a;
 }
 
-/* Основной раздел */
+/*** Основной раздел ***/
 #content-area {
 	clear: both;
 	margin: 0 1em;
@@ -108,7 +108,7 @@ body {
 	margin-left: 17em;
 }
 
-/* Боковое меню */
+/*** Боковое меню ***/
 #secondary-navigation {
 	float: left;
 	width: 16.5em;
@@ -137,7 +137,7 @@ body {
 	color: #7c900a;
 }
 
-/* Содержимое */
+/*** Содержимое ***/
 #content {
 	padding-bottom: 1em;
 	font-size: 1em;
@@ -206,7 +206,31 @@ body {
 	white-space: nowrap;
 }
 
-/* Новости */
+/** Сылки в подзаголовках и оглавление **/
+a.headerlink {
+	color: #c60f0f;
+	margin-left: 0.2em;
+	padding: 0 0.5em;
+	text-decoration: none;
+	visibility: hidden;
+}
+
+h1:hover a.headerlink,
+h2:hover a.headerlink {
+	visibility: visible;
+}
+
+h1 a.headerlink:hover,
+h2 a.headerlink:hover {
+	color: #fff;
+	background-color: #ccc;
+}
+
+.toc a {
+	color: #7C900A;
+}
+
+/** Новости **/
 #content .news-item {
 	border-top: 1px solid #ccc;
 	padding-top: 1em;
@@ -228,7 +252,7 @@ body {
 	margin: 0;
 }
 
-/* Соционика для начинающих */
+/** Соционика для начинающих **/
 #aspects {
 	margin: 0 auto;
 }
@@ -269,7 +293,7 @@ body {
 	border-top: 2px solid #313131;
 }
 
-/* Форма логина */
+/** Форма логина **/
 form input,
 form textarea,
 form select {
@@ -350,7 +374,7 @@ form .errorMessage {
 	padding-left: 10em;
 }
 
-/* «Подвал» */
+/*** «Подвал» ***/
 #main-footer {
 	clear: both;
 	padding-top: 1em;
