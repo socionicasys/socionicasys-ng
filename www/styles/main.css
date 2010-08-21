@@ -2,7 +2,7 @@ body {
 	color: #313131;
 	background: #ffffff;
 	font-size: 100%;
-	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
+	font-family: 'Verdana', 'Arial', sans-serif;
 	line-height: 1.5;
 	max-width: 55em;
 	margin: 0 auto;
@@ -56,7 +56,7 @@ body {
 
 #major-navigation a {
 	padding: 0.4em 2em 0.5em;
-	margin-left: 1.5em;
+	margin-left: 0.5em;
 	color: inherit;
 	text-decoration: none;
 }
@@ -116,7 +116,7 @@ body {
 }
 
 #secondary-navigation nav {
-	font-size: 0.875em;
+	font-size: 0.75em;
 	line-height: 1;
 }
 
@@ -140,8 +140,8 @@ body {
 /* Содержимое */
 #content {
 	padding-bottom: 1em;
-	font-size: 1em;
-	font-family: 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
+	font-size: 0.875em;
+	font-family: 'Verdana', 'Arial', sans-serif;
 	line-height: 1.4;
 }
 
@@ -152,7 +152,6 @@ body {
 
 #content h1,
 #content h2 {
-	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 }
 
 #content h1 {
