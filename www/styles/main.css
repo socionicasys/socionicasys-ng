@@ -4,7 +4,7 @@ body {
 	font-size: 100%;
 	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 	line-height: 1.5;
-	max-width: 70em;
+	max-width: 55em;
 	margin: 0 auto;
 }
 
@@ -39,6 +39,7 @@ body {
 
 /* Главное меню */
 #major-navigation {
+	font-size: 0.875em;
 	margin-bottom: 4em;
 }
 
@@ -54,8 +55,8 @@ body {
 }
 
 #major-navigation a {
-	padding: 0.4em 0.6em 0.5em;
-	margin-left: 0.5em;
+	padding: 0.4em 2em 0.5em;
+	margin-left: 1.5em;
 	color: inherit;
 	text-decoration: none;
 }
@@ -83,7 +84,7 @@ body {
 }
 
 #breadcrumbs>* {
-	font-size: 0.875em;
+	font-size: 0.75em;
 }
 
 #breadcrumbs a {
@@ -100,26 +101,35 @@ body {
 #content-wrap {
 	width: 100%;
 	float: right;
-	margin-left: -16em;
+	margin-left: -17em;
 }
 
 #content-wrap>* {
-	margin-left: 16em;
+	margin-left: 17em;
 }
 
 /* Боковое меню */
 #secondary-navigation {
 	float: left;
-	width: 15em;
+	width: 16.5em;
 	padding-bottom: 1em;
 }
 
 #secondary-navigation nav {
 	font-size: 0.875em;
+	line-height: 1;
 }
 
 #secondary-navigation ul ul ul {
 	padding-left: 2em;
+}
+
+#secondary-navigation li {
+	margin-bottom: 0.8em;
+}
+
+#secondary-navigation li ul {
+	margin-top: 0.8em;
 }
 
 #secondary-navigation a {
@@ -130,12 +140,14 @@ body {
 /* Содержимое */
 #content {
 	padding-bottom: 1em;
-	font-size: 1.125em;
+	font-size: 1em;
 	font-family: 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
+	line-height: 1.4;
 }
 
 #content p {
 	margin: 0.7em 0;
+	text-align: justify;
 }
 
 #content h1,
@@ -144,13 +156,13 @@ body {
 }
 
 #content h1 {
-	font-size: 1.3em;
+	font-size: 1.125em;
 	margin-top: 1em;
 	margin-bottom: 0.5em;
 }
 
 #content h2 {
-	font-size: 1.1em;
+	font-size: 1em;
 	margin-top: 0.5em;
 	margin-bottom: 0.3em;
 }
