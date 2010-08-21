@@ -224,11 +224,11 @@ return array(
 									'url' => array('static/view', 'path' => 'teorija/model-tima/vital-mental'),
 								),
 								array(
-									'label' => 'Экстраверсия / интроверсия',
+									'label' => 'Экстраверсия/интроверсия',
 									'url' => array('static/view', 'path' => 'teorija/model-tima/extra-intro'),
 								),
 								array(
-									'label' => 'Рациональность / иррациональность',
+									'label' => 'Рациональность/иррациональность',
 									'url' => array('static/view', 'path' => 'teorija/model-tima/rac-irrac'),
 								),
 							),
