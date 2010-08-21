@@ -202,8 +202,14 @@ body {
 }
 
 #content .phone,
-#content .name {
+#content .name,
+#content .nowrap {
 	white-space: nowrap;
+}
+
+#content p .inline-icon {
+	position: relative;
+	top: 2px;
 }
 
 /** Сылки в подзаголовках и оглавление **/
