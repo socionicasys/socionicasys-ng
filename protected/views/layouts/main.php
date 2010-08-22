@@ -43,7 +43,7 @@
 					)); ?>
 				</nav>
 			<?php endif; ?>
-			<div>
+			<div class="hyphenate">
 				<?php echo $content; ?>
 			</div>
 		</div>
