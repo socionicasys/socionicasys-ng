@@ -21,12 +21,6 @@
 		<?php echo $form->error($model,'text'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'post_time'); ?>
-		<?php echo $form->textField($model,'post_time'); ?>
-		<?php echo $form->error($model,'post_time'); ?>
-	</div>
-
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

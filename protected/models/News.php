@@ -36,12 +36,11 @@ class News extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, text, post_time', 'required'),
-			array('post_time', 'numerical', 'integerOnly'=>true),
+			array('title, text', 'required'),
 			array('title', 'length', 'max'=>256),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, title, text, post_time', 'safe', 'on'=>'search'),
+			array('id, title, text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,8 +82,6 @@ class News extends CActiveRecord
 
 		$criteria->compare('text',$this->text,true);
 
-		$criteria->compare('post_time',$this->post_time);
-
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));
@@ -101,5 +98,25 @@ class News extends CActiveRecord
 		return array(
 			'order' => 'post_time DESC',
 		);
+	}
+	
+	/**
+	 * Перед сохранением новой записи автоматически добавляет к ней дату
+	 * создания.
+	 */
+	protected function beforeSave()
+	{
+		if (parent::beforeSave())
+		{
+			if ($this->isNewRecord)
+			{
+				$this->post_time = time();
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
