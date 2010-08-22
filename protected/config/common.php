@@ -153,7 +153,7 @@ return array(
 									'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej'),
 									'items' => array(
 										array(
-											'label' => 'Первая квадра («Альфа»)',
+											'label' => 'Первая квадра',
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-1'),
 											'items' => array(
 												array(
@@ -175,7 +175,7 @@ return array(
 											),
 										),
 										array(
-											'label' => 'Вторая квадра («Бета»)',
+											'label' => 'Вторая квадра',
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-2'),
 											'items' => array(
 												array(
@@ -197,7 +197,7 @@ return array(
 											),
 										),
 										array(
-											'label' => 'Третья квадра («Гамма»)',
+											'label' => 'Третья квадра',
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-3'),
 											'items' => array(
 												array(
@@ -219,7 +219,7 @@ return array(
 											),
 										),
 										array(
-											'label' => 'Четвертая квадра («Дельта»)',
+											'label' => 'Четвертая квадра',
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-4'),
 											'items' => array(
 												array(
