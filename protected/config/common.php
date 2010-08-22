@@ -41,6 +41,7 @@ return array(
 				// Новости
 				'novosti' => 'news/list',
 				'novosti/<News_page:\d+>' => 'news/list',
+				'novosti/statja/<id:\d+>' => 'news/item',
 				'atom.xml' => 'news/feed',
 				// Обработка pull-запросов с GitHub
 				'git/pull/<id:\w+>' => 'git/pull',

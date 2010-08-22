@@ -4,6 +4,28 @@ class NewsController extends Controller
 {
 	public $layout = '//layouts/section';
 	
+	public function actionItem()
+	{
+		if (!isset($_GET['id']))
+		{
+			Yii::log('News item id not set', 'error',
+				'application.controllers.NewsController');
+			throw new CHttpException(404, 'Новость не найдена.');
+		}
+		
+		$newsArticleId = intval($_GET['id']);
+		$newsArticle = News::model()->findByPk($newsArticleId);
+		if ($newsArticle === null)
+		{
+			Yii::log("News item with id=$newsArticleId is not found", 'error',
+				'application.controllers.NewsController');
+			throw new CHttpException(404, 'Новость не найдена.');
+		}
+		
+		$this->layout = '//layouts/article';
+		$this->render('item', array('data' => $newsArticle));
+	}
+	
 	public function actionList()
 	{
 		$dataProvider = new CActiveDataProvider('News', array(
