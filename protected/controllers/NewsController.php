@@ -62,9 +62,9 @@ class NewsController extends Controller
 		$lastUpdateTime = null; 
 		foreach ($latestNews as $newsItem)
 		{
-			$entryUrl = CHtml::encode($this->createAbsoluteUrl('news/list', array(
-				'#' => 'item-' . strval($newsItem->id), 
-			)));
+			$entryUrl = $this->createAbsoluteUrl('item', array(
+				'id' => $newsItem->id
+			)); 
 			if ($lastUpdateTime === null)
 			{
 				$lastUpdateTime = $newsItem->post_time;
