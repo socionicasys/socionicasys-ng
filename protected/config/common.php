@@ -153,68 +153,92 @@ return array(
 									'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej'),
 									'items' => array(
 										array(
-											'label' => 'ИЛЭ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ile'),
+											'label' => 'Первая квадра («Альфа»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-1'),
+											'items' => array(
+												array(
+													'label' => 'ИЛЭ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ile'),
+												),
+												array(
+													'label' => 'СЭИ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sei'),
+												),
+												array(
+													'label' => 'ЭСЭ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ese'),
+												),
+												array(
+													'label' => 'ЛИИ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lii'),
+												),
+											),
 										),
 										array(
-											'label' => 'СЭИ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sei'),
+											'label' => 'Вторая квадра («Бета»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-2'),
+											'items' => array(
+												array(
+													'label' => 'ЭИЭ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eie'),
+												),
+												array(
+													'label' => 'ЛСИ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lsi'),
+												),
+												array(
+													'label' => 'СЛЭ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sle'),
+												),
+												array(
+													'label' => 'ИЭИ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iei'),
+												),
+											),
 										),
 										array(
-											'label' => 'ЭСЭ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ese'),
+											'label' => 'Третья квадра («Гамма»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-3'),
+											'items' => array(
+												array(
+													'label' => 'СЭЭ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/see'),
+												),
+												array(
+													'label' => 'ИЛИ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ili'),
+												),
+												array(
+													'label' => 'ЛИЭ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lie'),
+												),
+												array(
+													'label' => 'ЭСИ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/esi'),
+												),
+											),
 										),
 										array(
-											'label' => 'ЛИИ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lii'),
-										),
-										array(
-											'label' => 'ЭИЭ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eie'),
-										),
-										array(
-											'label' => 'ЛСИ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lsi'),
-										),
-										array(
-											'label' => 'СЛЭ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sle'),
-										),
-										array(
-											'label' => 'ИЭИ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iei'),
-										),
-										array(
-											'label' => 'СЭЭ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/see'),
-										),
-										array(
-											'label' => 'ИЛИ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ili'),
-										),
-										array(
-											'label' => 'ЛИЭ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lie'),
-										),
-										array(
-											'label' => 'ЭСИ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/esi'),
-										),
-										array(
-											'label' => 'ЛСЭ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lse'),
-										),
-										array(
-											'label' => 'ЭИИ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eii'),
-										),
-										array(
-											'label' => 'ИЭЭ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iee'),
-										),
-										array(
-											'label' => 'СЛИ',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sli'),
+											'label' => 'Четвертая квадра («Дельта»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-4'),
+											'items' => array(
+												array(
+													'label' => 'ЛСЭ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lse'),
+												),
+												array(
+													'label' => 'ЭИИ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eii'),
+												),
+												array(
+													'label' => 'ИЭЭ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iee'),
+												),
+												array(
+													'label' => 'СЛИ',
+													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sli'),
+												),
+											),
 										),
 									),
 								),
