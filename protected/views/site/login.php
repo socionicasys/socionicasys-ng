@@ -10,6 +10,9 @@ $this->breadcrumbs = array(
 $form = $this->beginWidget('CActiveForm', array(
 	'id' => 'login-form',
 	'enableAjaxValidation' => true,
+	'htmlOptions' => array(
+		'class' => 'wide',
+	),
 ));
 ?>
 	<div class="row">

@@ -4,6 +4,46 @@ class NewsController extends Controller
 {
 	public $layout = '//layouts/section';
 	
+	public function filters()
+	{
+		return array(
+			'accessControl + create',
+		);
+	}
+	
+	public function accessRules()
+	{
+		return array(
+			array('allow',
+				'actions' => array('create'),
+				'users' => array('@'),
+			),
+			array('deny'),
+		);
+	}
+	
+	public function actionItem()
+	{
+		if (!isset($_GET['id']))
+		{
+			Yii::log('News item id not set', 'error',
+				'application.controllers.NewsController');
+			throw new CHttpException(404, 'Новость не найдена.');
+		}
+		
+		$newsArticleId = intval($_GET['id']);
+		$newsArticle = News::model()->findByPk($newsArticleId);
+		if ($newsArticle === null)
+		{
+			Yii::log("News item with id=$newsArticleId is not found", 'error',
+				'application.controllers.NewsController');
+			throw new CHttpException(404, 'Новость не найдена.');
+		}
+		
+		$this->layout = '//layouts/article';
+		$this->render('item', array('data' => $newsArticle));
+	}
+	
 	public function actionList()
 	{
 		$dataProvider = new CActiveDataProvider('News', array(
@@ -26,6 +66,24 @@ class NewsController extends Controller
 		}
 	}
 	
+	public function actionCreate()
+	{
+		$model = new News;
+		
+		if (isset($_POST['News']))
+		{
+			$model->attributes = $_POST['News'];
+			if ($model->save())
+			{
+				$this->redirect(array('item', 'id' => $model->id));
+			}
+		}
+		
+		$this->render('create', array(
+			'model' => $model,
+		));
+	}
+	
 	public function actionFeed()
 	{
 		Yii::import('application.vendors.*');
@@ -40,9 +98,9 @@ class NewsController extends Controller
 		$lastUpdateTime = null; 
 		foreach ($latestNews as $newsItem)
 		{
-			$entryUrl = CHtml::encode($this->createAbsoluteUrl('news/list', array(
-				'#' => 'item-' . strval($newsItem->id), 
-			)));
+			$entryUrl = $this->createAbsoluteUrl('item', array(
+				'id' => $newsItem->id
+			)); 
 			if ($lastUpdateTime === null)
 			{
 				$lastUpdateTime = $newsItem->post_time;

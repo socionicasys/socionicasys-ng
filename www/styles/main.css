@@ -298,7 +298,7 @@ h2 a.headerlink:hover {
 	border-top: 2px solid #313131;
 }
 
-/** Форма логина **/
+/** Формы **/
 form input,
 form textarea,
 form select {
@@ -308,18 +308,16 @@ form select {
 form fieldset {
 	border: 1px solid #ddd;
 	padding: 1em;
-	margin: 0 0 10px 0;
+	margin: 0 0 1em 0;
 }
 
 form label {
 	font-weight: bold;
-	font-size: 0.9em;
 	display: block;
 }
 
 form .row {
 	margin: 0.3em 0;
-	clear: left;
 }
 
 form span.required {
@@ -347,12 +345,10 @@ form .errorSummary {
 	padding: 0.5em 0.5em 1em 0.5em;
 	margin: 0 0 1.5em 0;
 	background: #fee;
-	font-size: 0.9em;
 }
 
 form .errorMessage {
 	color: #f00;
-	font-size: 0.9em;
 }
 
 form .errorSummary p {
@@ -365,7 +361,7 @@ form .errorSummary ul {
 	padding: 0 0 0 1.5em;
 }
 
-form label {
+form.wide label {
 	float: left;
 	margin-right: 1em;
 	position: relative;
@@ -373,10 +369,17 @@ form label {
 	width: 10em;
 }
 
-form .buttons,
-form .errorMessage {
+form.wide .row {
+	clear: left;
+}
+
+form.wide .buttons {
 	clear: left;
 	padding-left: 10em;
+}
+
+form.wide .errorMessage {
+	margin: 0 0 0 10em;
 }
 
 /*** «Подвал» ***/

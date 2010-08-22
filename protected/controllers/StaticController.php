@@ -18,6 +18,9 @@ class StaticController extends Controller
 		}
 		try
 		{
+			Yii::app()->clientScript->registerScriptFile(
+				Yii::app()->baseUrl . '/scripts/hyphenate.js'
+			);
 			$this->render($path);
 		}
 		catch (CException $e)
