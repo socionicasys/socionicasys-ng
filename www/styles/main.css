@@ -309,12 +309,11 @@ form select {
 form fieldset {
 	border: 1px solid #ddd;
 	padding: 1em;
-	margin: 0 0 10px 0;
+	margin: 0 0 1em 0;
 }
 
 form label {
 	font-weight: bold;
-	font-size: 0.9em;
 	display: block;
 }
 
@@ -347,12 +346,10 @@ form .errorSummary {
 	padding: 0.5em 0.5em 1em 0.5em;
 	margin: 0 0 1.5em 0;
 	background: #fee;
-	font-size: 0.9em;
 }
 
 form .errorMessage {
 	color: #f00;
-	font-size: 0.9em;
 }
 
 form .errorSummary p {
