@@ -25,6 +25,7 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+			'loginUrl' => array('site/login'),
 		),
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
@@ -42,6 +43,7 @@ return array(
 				'novosti' => 'news/list',
 				'novosti/<News_page:\d+>' => 'news/list',
 				'novosti/statja/<id:\d+>' => 'news/item',
+				'novosti/create' => 'news/create',
 				'atom.xml' => 'news/feed',
 				// Обработка pull-запросов с GitHub
 				'git/pull/<id:\w+>' => 'git/pull',

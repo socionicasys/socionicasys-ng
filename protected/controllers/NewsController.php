@@ -4,6 +4,24 @@ class NewsController extends Controller
 {
 	public $layout = '//layouts/section';
 	
+	public function filters()
+	{
+		return array(
+			'accessControl + create',
+		);
+	}
+	
+	public function accessRules()
+	{
+		return array(
+			array('allow',
+				'actions' => array('create'),
+				'users' => array('@'),
+			),
+			array('deny'),
+		);
+	}
+	
 	public function actionItem()
 	{
 		if (!isset($_GET['id']))
@@ -46,6 +64,24 @@ class NewsController extends Controller
 				'dataProvider' => $dataProvider,
 			));
 		}
+	}
+	
+	public function actionCreate()
+	{
+		$model = new News;
+		
+		if (isset($_POST['News']))
+		{
+			$model->attributes = $_POST['News'];
+			if ($model->save())
+			{
+				$this->redirect(array('item', 'id' => $model->id));
+			}
+		}
+		
+		$this->render('create', array(
+			'model' => $model,
+		));
 	}
 	
 	public function actionFeed()
