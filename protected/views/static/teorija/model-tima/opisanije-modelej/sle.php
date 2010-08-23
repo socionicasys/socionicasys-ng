@@ -2,6 +2,30 @@
 $this->pageTitle='СЛЭ | ' . Yii::app()->name;
 ?>
 <h1>СЛЭ (Сенсорно-логический экстраверт, «Жуков»)</h1>
+<figure class="diagram">
+	<table class="model-diagram compact">
+		<tbody>
+			<tr>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_F.gif?1" class="inline-icon" alt="ЧС" title="ЧС" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_L.gif?1" class="inline-icon" alt="БЛ" title="БЛ" /></td>
+			</tr>
+			<tr>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_R.gif?1" class="inline-icon" alt="БЭ" title="БЭ" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_I.gif?1" class="inline-icon" alt="ЧИ" title="ЧИ" /></td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr class="separator">
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_E.gif?1" class="inline-icon"  alt="ЧЭ" title="ЧЭ" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_T.gif?1" class="inline-icon" alt="БИ" title="БИ" /></td>
+			</tr>
+			<tr>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_S.gif?1" class="inline-icon" alt="БС" title="БС" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_P.gif?1" class="inline-icon" alt="ЧЛ" title="ЧЛ" /></td>
+			</tr>
+		</tbody>
+	</table>
+</figure>
 <h2>Эго</h2>
 <p>Восприятие мира с точки зрения волевых, силовых качеств, борьбы интересов и способов влияния. Хорошо видит силу и волевую мощь различных объектов, людей, общественных структур. В любой ситуации знает, как подчинить, подавить, преодолеть, добиться своего. Строит конкретные логические схемы достижения своих целей. Создает правила и порядок, позволяющий добиться максимального влияния.</p>
 <h2>Супер-Эго</h2>

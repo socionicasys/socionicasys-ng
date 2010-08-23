@@ -2,6 +2,30 @@
 $this->pageTitle='ЛСЭ | ' . Yii::app()->name;
 ?>
 <h1>ЛСЭ (Логико-сенсорный экстраверт, «Штирлиц»)</h1>
+<figure class="diagram">
+	<table class="model-diagram compact">
+		<tbody>
+			<tr>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_P.gif?1" class="inline-icon" alt="ЧЛ" title="ЧЛ" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_S.gif?1" class="inline-icon" alt="БС" title="БС" /></td>
+			</tr>
+			<tr>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_T.gif?1" class="inline-icon" alt="БИ" title="БИ" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_E.gif?1" class="inline-icon"  alt="ЧЭ" title="ЧЭ" /></td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr class="separator">
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_I.gif?1" class="inline-icon" alt="ЧИ" title="ЧИ" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_R.gif?1" class="inline-icon" alt="БЭ" title="БЭ" /></td>
+			</tr>
+			<tr>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_L.gif?1" class="inline-icon" alt="БЛ" title="БЛ" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_F.gif?1" class="inline-icon" alt="ЧС" title="ЧС" /></td>
+			</tr>
+		</tbody>
+	</table>
+</figure>
 <h2>Эго</h2>
 <p>В окружающих его объектах, событиях, явлениях видит прежде всего практическую сторону. Воспринимает все с точки зрения применения в деятельности, свойств и качеств, могущих пригодиться для интересующей его работы. Работу, деятельность видит как развернутый процесс — полный набор действий с начала до конца (концом является конкретный, завершенный результат). Способен учесть нюансы каждого этапа работы, скорректировать действия согласно текущей ситуации, среди отработанных методов или подходов выбрать оптимальный. Постоянно совершенствуется в своей профессиональной области, шлифует свое мастерство.</p>
 <p>Хорошо владеет ощущением удобства, комфорта и дискомфорта. Его видение эстетики и красоты охватывает любые объекты, может изменяться с учетом ситуации. Стремится создавать комфортные условия, устранять дискомфорт с целью создания необходимых условий для работы. Применяет понимание красоты для улучшения свойств конкретных объектов.</p>

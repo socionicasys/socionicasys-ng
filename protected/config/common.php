@@ -145,10 +145,6 @@ return array(
 									),
 								),
 								array(
-									'label' => '16 моделей ТИМа психики',
-									'url' => array('static/view', 'path' => 'teorija/model-tima/16-modelej'),
-								),
-								array(
 									'label' => 'Описание моделей ТИМа',
 									'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej'),
 									'items' => array(
