@@ -2,6 +2,30 @@
 $this->pageTitle='ЛИИ | ' . Yii::app()->name;
 ?>
 <h1>ЛИИ (Логико-интуитивный интроверт, «Робеспьер»)</h1>
+<figure class="diagram">
+	<table class="model-diagram compact">
+		<tbody>
+			<tr>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_L.gif?1" class="inline-icon" alt="БЛ" title="БЛ" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_I.gif?1" class="inline-icon" alt="ЧИ" title="ЧИ" /></td>
+			</tr>
+			<tr>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_F.gif?1" class="inline-icon" alt="ЧС" title="ЧС" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_R.gif?1" class="inline-icon" alt="БЭ" title="БЭ" /></td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr class="separator">
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_S.gif?1" class="inline-icon" alt="БС" title="БС" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_E.gif?1" class="inline-icon"  alt="ЧЭ" title="ЧЭ" /></td>
+			</tr>
+			<tr>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_P.gif?1" class="inline-icon" alt="ЧЛ" title="ЧЛ" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_T.gif?1" class="inline-icon" alt="БИ" title="БИ" /></td>
+			</tr>
+		</tbody>
+	</table>
+</figure>
 <h2>Эго</h2>
 <p>Мышление аналитического характера. Хорошо понимает, в каких взаимосвязях находятся одни предметы или явления с другими, какие законы при этом действуют или не действуют.</p>
 <p>На основе всестороннего анализа выдвигает конкретные догадки о позитивной сути конкретных предметов и явлений, их конкретных позитивных возможностях, высказывает конструктивные идеи.</p>

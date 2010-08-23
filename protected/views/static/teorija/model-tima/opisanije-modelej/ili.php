@@ -2,6 +2,30 @@
 $this->pageTitle='ИЛИ | ' . Yii::app()->name;
 ?>
 <h1>ИЛИ (Интуитивно-логический интроверт, «Бальзак»)</h1>
+<figure class="diagram">
+	<table class="model-diagram compact">
+		<tbody>
+			<tr>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_T.gif?1" class="inline-icon" alt="БИ" title="БИ" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_P.gif?1" class="inline-icon" alt="ЧЛ" title="ЧЛ" /></td>
+			</tr>
+			<tr>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_E.gif?1" class="inline-icon"  alt="ЧЭ" title="ЧЭ" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_S.gif?1" class="inline-icon" alt="БС" title="БС" /></td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr class="separator">
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_R.gif?1" class="inline-icon" alt="БЭ" title="БЭ" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_F.gif?1" class="inline-icon" alt="ЧС" title="ЧС" /></td>
+			</tr>
+			<tr>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_I.gif?1" class="inline-icon" alt="ЧИ" title="ЧИ" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_L.gif?1" class="inline-icon" alt="БЛ" title="БЛ" /></td>
+			</tr>
+		</tbody>
+	</table>
+</figure>
 <h2>Эго</h2>
 <p>Хорошо видит и понимает течение событий. Умеет предсказать результаты деятельности, ход развития ситуации. Строит прогнозы, которые часто сбываются.</p>
 <p>Изучает свойства объектов с точки зрения практического применения. Умеет создавать новый способ работы и инструмент. Добивается оптимальной технологии, позволяющей прежде всего сэкономить время.</p>

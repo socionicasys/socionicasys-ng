@@ -2,6 +2,30 @@
 $this->pageTitle='СЭИ | ' . Yii::app()->name;
 ?>
 <h1>СЭИ (Сенсорно-этический интроверт, «Дюма»)</h1>
+<figure class="diagram">
+	<table class="model-diagram compact">
+		<tbody>
+			<tr>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_S.gif?1" class="inline-icon" alt="БС" title="БС" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_E.gif?1" class="inline-icon"  alt="ЧЭ" title="ЧЭ" /></td>
+			</tr>
+			<tr>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_P.gif?1" class="inline-icon" alt="ЧЛ" title="ЧЛ" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_T.gif?1" class="inline-icon" alt="БИ" title="БИ" /></td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr class="separator">
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_L.gif?1" class="inline-icon" alt="БЛ" title="БЛ" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_I.gif?1" class="inline-icon" alt="ЧИ" title="ЧИ" /></td>
+			</tr>
+			<tr>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_F.gif?1" class="inline-icon" alt="ЧС" title="ЧС" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_R.gif?1" class="inline-icon" alt="БЭ" title="БЭ" /></td>
+			</tr>
+		</tbody>
+	</table>
+</figure>
 <h2>Эго</h2>
 <p>Восприятие мира с точки зрения комфорта и удобства, особенно эмоционального уюта. Хорошо понимает и оценивает комфорт в зависимости от места, времени и ситуации.</p>
 <p>Стремится снизить негативный накал в общей эмоциональной атмосфере, поднять другим настроение, сознательно меняет состояние другого человека, его эмоции, создавая тем самым конкретную комфортную обстановку вокруг себя.</p>

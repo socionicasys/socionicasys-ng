@@ -206,7 +206,7 @@ body {
 	white-space: nowrap;
 }
 
-#content p .inline-icon {
+#content .inline-icon {
 	position: relative;
 	top: 2px;
 }
@@ -257,7 +257,7 @@ h2 a.headerlink:hover {
 	margin: 0;
 }
 
-/** Соционика для начинающих **/
+/** Таблицы и диаграммы **/
 #aspects {
 	margin: 0 auto;
 }
@@ -296,6 +296,22 @@ h2 a.headerlink:hover {
 
 .model-diagram .separator {
 	border-top: 2px solid #313131;
+}
+
+.model-diagram.compact td {
+	border: none;
+	padding: 0.5em;
+	text-align: right;
+}
+
+#content .model-diagram.compact .inline-icon {
+	position: relative;
+	top: 1px;
+}
+
+.diagram {
+	float: left;
+	margin-right: 1em;
 }
 
 /** Формы **/

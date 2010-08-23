@@ -2,6 +2,30 @@
 $this->pageTitle='СЛИ | ' . Yii::app()->name;
 ?>
 <h1>СЛИ (Сенсорно-логический интроверт, «Габен»)</h1>
+<figure class="diagram">
+	<table class="model-diagram compact">
+		<tbody>
+			<tr>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_S.gif?1" class="inline-icon" alt="БС" title="БС" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_P.gif?1" class="inline-icon" alt="ЧЛ" title="ЧЛ" /></td>
+			</tr>
+			<tr>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_E.gif?1" class="inline-icon"  alt="ЧЭ" title="ЧЭ" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_T.gif?1" class="inline-icon" alt="БИ" title="БИ" /></td>
+			</tr>
+		</tbody>
+		<tbody>
+			<tr class="separator">
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_R.gif?1" class="inline-icon" alt="БЭ" title="БЭ" /></td>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_I.gif?1" class="inline-icon" alt="ЧИ" title="ЧИ" /></td>
+			</tr>
+			<tr>
+				<td>+&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_F.gif?1" class="inline-icon" alt="ЧС" title="ЧС" /></td>
+				<td>&minus;&thinsp;<img src="<?php echo Yii::app()->baseUrl; ?>/images/symbols/aspect_L.gif?1" class="inline-icon" alt="БЛ" title="БЛ" /></td>
+			</tr>
+		</tbody>
+	</table>
+</figure>
 <h2>Эго</h2>
 <p>Обладает гибким видением пространственных соотношений и пропорций. Воспринимает мир как гармонию линий в пространстве, гармонию физических ощущений, которая есть равновесие между простотой и изяществом форм. Видит богатство форм, их абсолютную и относительную ценность, включая как красивое так и безобразное. Способен приспосабливаться к дискомфорту, устранять неудобство с учетом принятых норм эстетики, текущей ситуации и возможного развития ситуации в будущем. Трезво оценивает и применяет технические средства и материалы для достижения требуемого результата, учитывая конкретные возможности материала и инструмента для заданной цели.</p>
 <h2>Супер-Эго</h2>
