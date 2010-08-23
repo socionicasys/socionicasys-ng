@@ -311,8 +311,8 @@ h2 a.headerlink:hover {
 }
 
 .diagram {
-	float: left;
-	margin-right: 1em;
+	float: right;
+	margin-left: 1em;
 }
 
 /** Формы **/
