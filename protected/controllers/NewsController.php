@@ -13,6 +13,7 @@ class NewsController extends Controller
 	
 	public function accessRules()
 	{
+		// TODO: заменить на полноценную проверку прав.
 		return array(
 			array('allow',
 				'actions' => array('create'),
@@ -52,17 +53,51 @@ class NewsController extends Controller
 			),
 		));
 		
-		if (Yii::app()->request->isAjaxRequest)
+		// TODO: заменить на полноценную проверку прав.
+		$userAuthenicated = !Yii::app()->user->isGuest;
+		
+		if ($userAuthenicated)
 		{
-			$this->renderPartial('list', array(
-				'dataProvider' => $dataProvider,
-			));
+			$createUrlRoute = 'create';
+			$createUrlParams = array();
 		}
 		else
 		{
-			$this->render('list', array(
-				'dataProvider' => $dataProvider,
-			));
+			$createUrlRoute = null;
+			$createUrlParams = null;
+		}
+		
+		$data = $dataProvider->getData();
+		$articleLinks = array();
+		foreach ($data as $item)
+		{
+			$itemLinks = array();
+			if ($userAuthenicated)
+			{
+				$itemLinks['edit'] = array();
+				$itemLinks['edit']['route'] = 'edit';
+				$itemLinks['edit']['params'] = array('id' => $item->id);
+				$itemLinks['delete'] = array();
+				$itemLinks['delete']['route'] = 'delete';
+				$itemLinks['delete']['params'] = array('id' => $item->id);
+			}
+			$articleLinks[] = $itemLinks;
+		}
+		
+		$viewParameters = array(
+			'dataProvider' => $dataProvider,
+			'createUrlRoute' => $createUrlRoute,
+			'createUrlParams' => $createUrlParams,
+			'articleLinks' => $articleLinks,
+		);
+		
+		if (Yii::app()->request->isAjaxRequest)
+		{
+			$this->renderPartial('list', $viewParameters);
+		}
+		else
+		{
+			$this->render('list', $viewParameters);
 		}
 	}
 	

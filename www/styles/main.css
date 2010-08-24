@@ -258,6 +258,39 @@ h2 a.headerlink:hover {
 	margin: 0;
 }
 
+#content .news-operations {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 1em;
+	margin: 1em 0;
+}
+
+#content .news-operations ul {
+	padding: 0;
+}
+
+#content .news-operations li {
+	list-style: none;
+	float: left;
+	padding-left: 1em;
+	margin-left: 1em;
+	border-left: 1px solid #ccc;
+}
+
+#content .news-operations li:first-child {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+#content .news-operations a {
+	text-decoration: none;
+	color: #7C900A
+}
+
+#content .news-item .news-operations {
+	border: none;
+}
+
 /** Таблицы и диаграммы **/
 #aspects {
 	margin: 0 auto;
