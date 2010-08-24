@@ -9,7 +9,7 @@ class NewsController extends Controller
 	public function filters()
 	{
 		return array(
-			'accessControl + create',
+			'accessControl + create, edit',
 		);
 	}
 	
@@ -18,7 +18,7 @@ class NewsController extends Controller
 		// TODO: заменить на полноценную проверку прав.
 		return array(
 			array('allow',
-				'actions' => array('create'),
+				'actions' => array('create', 'edit'),
 				'users' => array('@'),
 			),
 			array('deny'),
