@@ -1,6 +1,6 @@
 <article class="news-item" id="item-<?php echo CHtml::encode($data->id); ?>">
 <?php
-$this->renderPartial('item', array(
+$this->renderPartial('_item', array(
 	'data' => $data,
 	'articleLinks' => $articleLinks[$index],
 ));

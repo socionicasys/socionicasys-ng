@@ -43,7 +43,7 @@ class NewsController extends Controller
 		
 		$this->layout = '//layouts/article';
 		$this->render('item', array(
-			'data' => $model,
+			'model' => $model,
 			'articleLinks' => $articleLinks,
 		));
 	}
