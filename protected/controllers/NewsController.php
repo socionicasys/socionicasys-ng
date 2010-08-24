@@ -122,6 +122,24 @@ class NewsController extends Controller
 		));
 	}
 	
+	public function actionEdit()
+	{
+		$model = $this->loadModel();
+		
+		if (isset($_POST['News']))
+		{
+			$model->attributes = $_POST['News'];
+			if ($model->save())
+			{
+				$this->redirect(array('item', 'id' => $model->id));
+			}
+		}
+		
+		$this->render('edit', array(
+			'model' => $model,
+		));
+	}
+	
 	public function loadModel()
 	{
 		if (!isset($_GET['id']))
