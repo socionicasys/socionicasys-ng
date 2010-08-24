@@ -3,7 +3,7 @@
 	$base = Yii::app()->request->baseUrl;
 	$cs->registerCssFile("$base/styles/html5reset.css?201003011726");
 	$cs->registerCssFile("$base/styles/font-face.css?201008221636");
-	$cs->registerCssFile("$base/styles/main.css?201008221250");
+	$cs->registerCssFile("$base/styles/main.css?201008241115");
 	$cs->registerLinkTag(
 		'alternate',
 		'application/atom+xml',
