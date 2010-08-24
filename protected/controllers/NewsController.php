@@ -4,6 +4,8 @@ class NewsController extends Controller
 {
 	public $layout = '//layouts/section';
 	
+	private $_newsArticle;
+	
 	public function filters()
 	{
 		return array(
@@ -25,24 +27,25 @@ class NewsController extends Controller
 	
 	public function actionItem()
 	{
-		if (!isset($_GET['id']))
-		{
-			Yii::log('News item id not set', 'error',
-				'application.controllers.NewsController');
-			throw new CHttpException(404, 'Новость не найдена.');
-		}
+		$model = $this->loadModel();
 		
-		$newsArticleId = intval($_GET['id']);
-		$newsArticle = News::model()->findByPk($newsArticleId);
-		if ($newsArticle === null)
+		$articleLinks = array();
+		// TODO: заменить на полноценную проверку прав.
+		if (!Yii::app()->user->isGuest)
 		{
-			Yii::log("News item with id=$newsArticleId is not found", 'error',
-				'application.controllers.NewsController');
-			throw new CHttpException(404, 'Новость не найдена.');
+			$articleLinks['edit'] = array();
+			$articleLinks['edit']['route'] = 'edit';
+			$articleLinks['edit']['params'] = array('id' => $model->id);
+			$articleLinks['delete'] = array();
+			$articleLinks['delete']['route'] = 'delete';
+			$articleLinks['delete']['params'] = array('id' => $model->id);
 		}
 		
 		$this->layout = '//layouts/article';
-		$this->render('item', array('data' => $newsArticle));
+		$this->render('item', array(
+			'data' => $model,
+			'articleLinks' => $articleLinks,
+		));
 	}
 	
 	public function actionList()
@@ -117,6 +120,26 @@ class NewsController extends Controller
 		$this->render('create', array(
 			'model' => $model,
 		));
+	}
+	
+	public function loadModel()
+	{
+		if (!isset($_GET['id']))
+		{
+			Yii::log('News item id not set', 'error',
+				'application.controllers.NewsController');
+			throw new CHttpException(404, 'Новость не найдена.');
+		}
+		
+		$newsArticleId = intval($_GET['id']);
+		$this->_newsArticle = News::model()->findByPk($newsArticleId);
+		if ($this->_newsArticle === null)
+		{
+			Yii::log("News item with id=$newsArticleId is not found", 'error',
+				'application.controllers.NewsController');
+			throw new CHttpException(404, 'Новость не найдена.');
+		}
+		return $this->_newsArticle;
 	}
 	
 	public function actionFeed()

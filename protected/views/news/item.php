@@ -4,7 +4,7 @@
 </header> 
 <?php echo $data->text; ?>
 <?php if ($articleLinks !== null && !empty($articleLinks)): ?>
-<div class="news-operations">
+<div class="news-operations child">
 	<ul>
 		<?php if ($articleLinks['edit'] !== null): ?>
 		<li>
