@@ -49,7 +49,7 @@ class LegacyRedirectController extends Controller
 					'32' => array('static/view', 'path' => 'teorija/model-tima/vital-mental'),
 					'33' => array('static/view', 'path' => 'teorija/model-tima/rac-irrac'),
 					'38' => array('static/view', 'path' => 'teorija/model-tima/extra-intro'),
-					'41' => array('static/view', 'path' => 'teorija/model-tima/16-modelej'),
+					'41' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej'),
 				),
 				'12' => array(
 					''   => array('static/view', 'path' => 'teorija/model-tima/funkcii'),
