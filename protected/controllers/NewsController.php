@@ -9,7 +9,7 @@ class NewsController extends Controller
 	public function filters()
 	{
 		return array(
-			'accessControl + create, edit',
+			'accessControl + create, edit, delete',
 		);
 	}
 	
@@ -18,7 +18,7 @@ class NewsController extends Controller
 		// TODO: заменить на полноценную проверку прав.
 		return array(
 			array('allow',
-				'actions' => array('create', 'edit'),
+				'actions' => array('create', 'edit', 'delete'),
 				'users' => array('@'),
 			),
 			array('deny'),
@@ -136,6 +136,28 @@ class NewsController extends Controller
 		}
 		
 		$this->render('edit', array(
+			'model' => $model,
+		));
+	}
+	
+	public function actionDelete()
+	{
+		$model = $this->loadModel();
+		
+		if (Yii::app()->request->isPostRequest)
+		{
+			if (isset($_POST['delete']))
+			{
+				$model->delete();
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('list'));
+			}
+			else
+			{
+				$this->redirect(array('item', 'id' => $model->id));
+			}
+		}
+		
+		$this->render('delete', array(
 			'model' => $model,
 		));
 	}
