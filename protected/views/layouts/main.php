@@ -1,14 +1,14 @@
 <?php
-	$cs = Yii::app()->clientScript;
-	$base = Yii::app()->request->baseUrl;
-	$cs->registerCssFile("$base/styles/html5reset.css?201003011726");
-	$cs->registerCssFile("$base/styles/font-face.css?201008221636");
-	$cs->registerCssFile("$base/styles/main.css?201008241115");
-	$cs->registerLinkTag(
-		'alternate',
-		'application/atom+xml',
-		$this->createUrl('news/feed')
-	);
+$cs = Yii::app()->clientScript;
+$base = Yii::app()->request->baseUrl;
+$cs->registerCssFile("$base/styles/html5reset.css");
+$cs->registerCssFile("$base/styles/font-face.css");
+$cs->registerCssFile("$base/styles/main.css");
+$cs->registerLinkTag(
+	'alternate',
+	'application/atom+xml',
+	$this->createUrl('news/feed')
+);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -17,8 +17,8 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	<link rel="shortcut icon" href="<?php echo $base; ?>/favicon.ico" type="image/x-icon" />
 	<!--[if lt IE 9]>
-	<script src="<?php echo $base; ?>/scripts/html5shiv.js?201006131732" type="text/javascript"></script>
-	<script src="<?php echo $base; ?>/scripts/ie9.js?201004302159" type="text/javascript"></script>
+	<script src="<?php echo $cs->appendTimestamp($base . '/scripts/html5shiv.js'); ?>"></script>
+	<script src="<?php echo $cs->appendTimestamp($base . '/scripts/ie9.js'); ?>"></script>
 	<![endif]-->
 </head>
 <body>

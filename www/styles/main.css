@@ -286,7 +286,7 @@ h2 a.headerlink:hover {
 	color: #7C900A
 }
 
-#content .news-item .news-operations {
+#content .news-operations.child {
 	border: none;
 }
 
@@ -295,12 +295,16 @@ h2 a.headerlink:hover {
 	margin: 0 auto;
 }
 
+#aspects caption {
+	font-weight: bold;
+}
+
 #aspects tbody td:first-child {
 	text-align: right;
 }
 
 #aspects tbody td {
-	padding: 0 0.25em;
+	padding: 0 0.75em;
 }
 
 #aspects tbody tr:hover {

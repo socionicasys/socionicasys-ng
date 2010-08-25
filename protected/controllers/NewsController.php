@@ -4,10 +4,12 @@ class NewsController extends Controller
 {
 	public $layout = '//layouts/section';
 	
+	private $_newsArticle;
+	
 	public function filters()
 	{
 		return array(
-			'accessControl + create',
+			'accessControl + create, edit, delete',
 		);
 	}
 	
@@ -16,7 +18,7 @@ class NewsController extends Controller
 		// TODO: заменить на полноценную проверку прав.
 		return array(
 			array('allow',
-				'actions' => array('create'),
+				'actions' => array('create', 'edit', 'delete'),
 				'users' => array('@'),
 			),
 			array('deny'),
@@ -25,24 +27,25 @@ class NewsController extends Controller
 	
 	public function actionItem()
 	{
-		if (!isset($_GET['id']))
-		{
-			Yii::log('News item id not set', 'error',
-				'application.controllers.NewsController');
-			throw new CHttpException(404, 'Новость не найдена.');
-		}
+		$model = $this->loadModel();
 		
-		$newsArticleId = intval($_GET['id']);
-		$newsArticle = News::model()->findByPk($newsArticleId);
-		if ($newsArticle === null)
+		$articleLinks = array();
+		// TODO: заменить на полноценную проверку прав.
+		if (!Yii::app()->user->isGuest)
 		{
-			Yii::log("News item with id=$newsArticleId is not found", 'error',
-				'application.controllers.NewsController');
-			throw new CHttpException(404, 'Новость не найдена.');
+			$articleLinks['edit'] = array();
+			$articleLinks['edit']['route'] = 'edit';
+			$articleLinks['edit']['params'] = array('id' => $model->id);
+			$articleLinks['delete'] = array();
+			$articleLinks['delete']['route'] = 'delete';
+			$articleLinks['delete']['params'] = array('id' => $model->id);
 		}
 		
 		$this->layout = '//layouts/article';
-		$this->render('item', array('data' => $newsArticle));
+		$this->render('item', array(
+			'model' => $model,
+			'articleLinks' => $articleLinks,
+		));
 	}
 	
 	public function actionList()
@@ -117,6 +120,66 @@ class NewsController extends Controller
 		$this->render('create', array(
 			'model' => $model,
 		));
+	}
+	
+	public function actionEdit()
+	{
+		$model = $this->loadModel();
+		
+		if (isset($_POST['News']))
+		{
+			$model->attributes = $_POST['News'];
+			if ($model->save())
+			{
+				$this->redirect(array('item', 'id' => $model->id));
+			}
+		}
+		
+		$this->render('edit', array(
+			'model' => $model,
+		));
+	}
+	
+	public function actionDelete()
+	{
+		$model = $this->loadModel();
+		
+		if (Yii::app()->request->isPostRequest)
+		{
+			if (isset($_POST['delete']))
+			{
+				$model->delete();
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('list'));
+			}
+			else
+			{
+				$this->redirect(array('item', 'id' => $model->id));
+			}
+		}
+		
+		$this->render('delete', array(
+			'model' => $model,
+		));
+	}
+	
+	public function loadModel()
+	{
+		if (!isset($_GET['id']))
+		{
+			Yii::log('News item id not set', 'error',
+				'application.controllers.NewsController');
+			throw new CHttpException(404, 'Новость не найдена.');
+		}
+		
+		$newsArticleId = intval($_GET['id']);
+		$this->_newsArticle = News::model()->findByPk($newsArticleId);
+		if ($this->_newsArticle === null)
+		{
+			Yii::log("News item with id=$newsArticleId is not found", 'error',
+				'application.controllers.NewsController');
+			throw new CHttpException(404, 'Новость не найдена.');
+		}
+		return $this->_newsArticle;
 	}
 	
 	public function actionFeed()

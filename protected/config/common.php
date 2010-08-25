@@ -69,6 +69,9 @@ return array(
 				),
 			),
 		),
+		'clientScript' => array(
+			'class' => 'TimestampClientScript',
+		),
 		'menuManager' => array(
 			'class' => 'MenuManager',
 			'pageTree' => 'pageTree',
