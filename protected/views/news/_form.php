@@ -13,7 +13,16 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'text'); ?>
-		<?php echo $form->textArea($model,'text',array('rows'=>6, 'cols'=>50)); ?>
+		<?php
+		$this->widget('ext.imperavi.redactor', array(
+			'model' => $model,
+			'attribute' => 'text',
+			'htmlOptions' => array(
+				'rows' => 10,
+				'cols' => 60,
+			),
+		));
+		?>
 		<?php echo $form->error($model,'text'); ?>
 	</div>
 
