@@ -131,6 +131,6 @@ class User extends CActiveRecord
 	 */
 	protected function generateSalt()
 	{
-		return uniqid('', true);
+		return md5(uniqid('', true));
 	}
 }
