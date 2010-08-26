@@ -1,3 +1,8 @@
 [submodule "protected/extensions/yiidebugtb"]
 	path = protected/extensions/yiidebugtb
 	url = git://github.com/cr0t/yiidebugtb.git
+	update = merge
+[submodule "protected/extensions/imperavi"]
+	path = protected/extensions/imperavi
+	url = git://github.com/GreyTeardrop/YiiRedactor.git
+	update = merge
