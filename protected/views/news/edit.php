@@ -6,8 +6,6 @@ $this->breadcrumbs = array(
 );
 ?>
 
-<h1>Редактировать новость №<?php echo $model->id; ?></h1>
-
 <?php
 $this->renderPartial('_form', array(
 	'model' => $model

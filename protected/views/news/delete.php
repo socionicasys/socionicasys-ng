@@ -6,7 +6,6 @@ $this->breadcrumbs = array(
 );
 ?>
 
-<h1>Удалить новость №<?php echo $model->id; ?></h1>
 <form method="post">
 	<p>Вы действительно желаете удалить новостную статью?</p>
 	<div class="row buttons">
