@@ -77,6 +77,10 @@ return array(
 			'pageTree' => 'pageTree',
 		)
 	),
+	
+	'controllerMap' => array(
+		'redactor' => 'ext.imperavi.RedactorController',
+	),
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']

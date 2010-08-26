@@ -435,6 +435,19 @@ form.wide .errorMessage {
 	margin: 0 0 0 10em;
 }
 
+#news-form input,
+#news-form textarea {
+	width: 100%;
+}
+
+#news-form .buttons input {
+	width: auto;
+}
+
+#news-form textarea {
+	height: 18em;
+}
+
 /*** «Подвал» ***/
 #main-footer {
 	clear: both;
