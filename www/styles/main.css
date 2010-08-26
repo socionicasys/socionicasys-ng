@@ -40,7 +40,8 @@ body {
 /*** Главное меню ***/
 #major-navigation {
 	font-size: 0.875em;
-	margin-bottom: 4em;
+	margin-bottom: 1.5em;
+	overflow: hidden;
 }
 
 #major-navigation ul {
@@ -94,7 +95,6 @@ body {
 
 /*** Основной раздел ***/
 #content-area {
-	clear: both;
 	margin: 0 1em;
 }
 
