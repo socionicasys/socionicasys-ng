@@ -162,7 +162,8 @@ body {
 
 #content ol,
 #content ul {
-	padding-left: 2.5em;
+	margin: 1.3125em 0;
+	padding-left: 1.5em;
 }
 
 #content dt {
@@ -190,7 +191,7 @@ body {
 	text-align: right;
 }
 
-#content > *:first-child {
+#content .major-title {
 	margin-top: 0;
 }
 
@@ -232,33 +233,34 @@ h2 a.headerlink:hover {
 /** Новости **/
 #content .news-item {
 	border-top: 1px solid #ccc;
-	padding-top: 1em;
-	margin-top: 1.5em;
+	margin-top: 1.25em;
 }
 
 #content .news-item:first-child {
-	border: 0;
+	border: none;
 	padding: 0;
 	margin: 0;
 }
 
-#content .news-item header {
-	margin-bottom: 1em;
+#content header {
+	margin: 1.3125em 0;
 }
 
-#content .news-item header p,
-#content .news-item header h1 {
+#content header p,
+#content header h1,
+#content header h2 {
 	margin: 0;
 }
 
 #content .news-operations {
 	border-bottom: 1px solid #ccc;
-	padding-bottom: 1em;
-	margin: 1em 0;
+	padding-bottom: 1.25em;
+	margin: 1.3125em 0;
 }
 
 #content .news-operations ul {
 	padding: 0;
+	margin: 0;
 }
 
 #content .news-operations li {
