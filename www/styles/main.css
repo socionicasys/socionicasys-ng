@@ -118,7 +118,7 @@ body {
 
 #secondary-navigation nav {
 	font-size: 0.75em;
-	line-height: 1.5;
+	line-height: 1.75;
 }
 
 #secondary-navigation ul ul ul {
@@ -134,11 +134,11 @@ body {
 #content {
 	font-size: 0.875em;
 	font-family: 'Verdana', 'Arial', sans-serif;
-	line-height: 1.3125;
+	line-height: 1.5;
 }
 
 #content p {
-	margin: 1.3125em 0;
+	margin: 1.5em 0;
 	text-align: justify;
 }
 
@@ -147,21 +147,21 @@ body {
 }
 
 #content h1 {
-	font-size: 1.125em;
-	line-height: 1.166666667;
-	margin-top: 1.166666667em;
-	margin-bottom: 1.166666667em;
+	font-size: 1.142857143em;
+	line-height: 1.3125;
+	margin-top: 1.3125em;
+	margin-bottom: 1.3125em;
 }
 
 #content h2 {
 	font-size: 1em;
-	margin-top: 1.3125em;
-	margin-bottom: -1.3125em;
+	margin-top: 1.5em;
+	margin-bottom: -1.5em;
 }
 
 #content ol,
 #content ul {
-	margin: 1.3125em 0;
+	margin: 1.5em 0;
 	padding-left: 1.5em;
 }
 
@@ -183,7 +183,7 @@ body {
 }
 
 #content small {
-	font-size: 0.875em;
+	font-size: 0.857142857em;
 }
 
 #content .copyright {
@@ -242,7 +242,7 @@ h2 a.headerlink:hover {
 }
 
 #content header {
-	margin: 1.3125em 0;
+	margin: 1.5em 0;
 }
 
 #content header p,
@@ -253,8 +253,8 @@ h2 a.headerlink:hover {
 
 #content .news-operations {
 	border-bottom: 1px solid #ccc;
-	padding-bottom: 1.25em;
-	margin: 1.3125em 0;
+	padding-bottom: 1.428571428em;
+	margin: 1.5em 0;
 }
 
 #content .news-operations ul {
