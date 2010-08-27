@@ -1,13 +1,5 @@
 @font-face {
 	font-family: 'Linux Libertine';
-	src: url('../fonts/LinLibertine_Re-4.7.5-webfont.eot');
-	src: local('☺'), url('../fonts/LinLibertine_Re-4.7.5-webfont.woff') format('woff'), url('../fonts/LinLibertine_Re-4.7.5-webfont.ttf') format('truetype'), url('../fonts/LinLibertine_Re-4.7.5-webfont.svg#webfont5bjZ8xEY') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'Linux Libertine';
 	src: url('../fonts/LinLibertine_It-4.2.6-webfont.eot');
 	src: local('☺'), url('../fonts/LinLibertine_It-4.2.6-webfont.woff') format('woff'), url('../fonts/LinLibertine_It-4.2.6-webfont.ttf') format('truetype'), url('../fonts/LinLibertine_It-4.2.6-webfont.svg#webfontFBLhWQQz') format('svg');
 	font-weight: normal;
@@ -28,4 +20,12 @@
 	src: local('☺'), url('../fonts/LinLibertine_BI-4.1.0-webfont.woff') format('woff'), url('../fonts/LinLibertine_BI-4.1.0-webfont.ttf') format('truetype'), url('../fonts/LinLibertine_BI-4.1.0-webfont.svg#webfontdLqb7gUt') format('svg');
 	font-weight: bold;
 	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Linux Libertine';
+	src: url('../fonts/LinLibertine_Re-4.7.5-webfont.eot');
+	src: local('☺'), url('../fonts/LinLibertine_Re-4.7.5-webfont.woff') format('woff'), url('../fonts/LinLibertine_Re-4.7.5-webfont.ttf') format('truetype'), url('../fonts/LinLibertine_Re-4.7.5-webfont.svg#webfont5bjZ8xEY') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }

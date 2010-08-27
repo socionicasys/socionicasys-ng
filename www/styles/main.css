@@ -3,7 +3,7 @@ body {
 	background: #ffffff;
 	font-size: 100%;
 	font-family: 'Verdana', 'Arial', sans-serif;
-	line-height: 1.5;
+	line-height: 1.3125;
 	max-width: 55em;
 	margin: 0 auto;
 }
@@ -40,7 +40,8 @@ body {
 /*** Главное меню ***/
 #major-navigation {
 	font-size: 0.875em;
-	margin-bottom: 4em;
+	margin-bottom: 1.5em;
+	overflow: hidden;
 }
 
 #major-navigation ul {
@@ -80,11 +81,13 @@ body {
 
 /*** «Хлебные крошки» ***/
 #breadcrumbs {
-	margin-bottom: 1em;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: -1px;
 }
 
 #breadcrumbs>* {
 	font-size: 0.75em;
+	line-height: 1.75;
 }
 
 #breadcrumbs a {
@@ -94,7 +97,6 @@ body {
 
 /*** Основной раздел ***/
 #content-area {
-	clear: both;
 	margin: 0 1em;
 }
 
@@ -112,24 +114,15 @@ body {
 #secondary-navigation {
 	float: left;
 	width: 16.5em;
-	padding-bottom: 1em;
 }
 
 #secondary-navigation nav {
 	font-size: 0.75em;
-	line-height: 1;
+	line-height: 1.5;
 }
 
 #secondary-navigation ul ul ul {
 	padding-left: 2em;
-}
-
-#secondary-navigation li {
-	margin-bottom: 0.8em;
-}
-
-#secondary-navigation li ul {
-	margin-top: 0.8em;
 }
 
 #secondary-navigation a {
@@ -139,14 +132,13 @@ body {
 
 /*** Содержимое ***/
 #content {
-	padding-bottom: 1em;
 	font-size: 0.875em;
 	font-family: 'Verdana', 'Arial', sans-serif;
-	line-height: 1.4;
+	line-height: 1.3125;
 }
 
 #content p {
-	margin: 0.7em 0;
+	margin: 1.3125em 0;
 	text-align: justify;
 }
 
@@ -156,19 +148,21 @@ body {
 
 #content h1 {
 	font-size: 1.125em;
-	margin-top: 1em;
-	margin-bottom: 0.5em;
+	line-height: 1.166666667;
+	margin-top: 1.166666667em;
+	margin-bottom: 1.166666667em;
 }
 
 #content h2 {
 	font-size: 1em;
-	margin-top: 0.5em;
-	margin-bottom: 0.3em;
+	margin-top: 1.3125em;
+	margin-bottom: -1.3125em;
 }
 
 #content ol,
 #content ul {
-	padding-left: 2.5em;
+	margin: 1.3125em 0;
+	padding-left: 1.5em;
 }
 
 #content dt {
@@ -196,7 +190,7 @@ body {
 	text-align: right;
 }
 
-#content > *:first-child {
+#content .major-title {
 	margin-top: 0;
 }
 
@@ -238,33 +232,34 @@ h2 a.headerlink:hover {
 /** Новости **/
 #content .news-item {
 	border-top: 1px solid #ccc;
-	padding-top: 1em;
-	margin-top: 1.5em;
+	margin-top: 1.25em;
 }
 
 #content .news-item:first-child {
-	border: 0;
+	border: none;
 	padding: 0;
 	margin: 0;
 }
 
-#content .news-item header {
-	margin-bottom: 1em;
+#content header {
+	margin: 1.3125em 0;
 }
 
-#content .news-item header p,
-#content .news-item header h1 {
+#content header p,
+#content header h1,
+#content header h2 {
 	margin: 0;
 }
 
 #content .news-operations {
 	border-bottom: 1px solid #ccc;
-	padding-bottom: 1em;
-	margin: 1em 0;
+	padding-bottom: 1.25em;
+	margin: 1.3125em 0;
 }
 
 #content .news-operations ul {
 	padding: 0;
+	margin: 0;
 }
 
 #content .news-operations li {
