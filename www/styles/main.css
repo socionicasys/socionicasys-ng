@@ -419,7 +419,7 @@ form.wide label {
 	margin-right: 1em;
 	position: relative;
 	text-align: right;
-	width: 10em;
+	width: 12em;
 }
 
 form.wide .row {
@@ -428,7 +428,7 @@ form.wide .row {
 
 form.wide .buttons {
 	clear: left;
-	padding-left: 10em;
+	padding-left: 13em;
 }
 
 form.wide .errorMessage {
