@@ -3,7 +3,7 @@ body {
 	background: #ffffff;
 	font-size: 100%;
 	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
-	line-height: 1.5;
+	line-height: 1.3125;
 	max-width: 55em;
 	margin: 0 auto;
 }
@@ -81,11 +81,13 @@ body {
 
 /*** «Хлебные крошки» ***/
 #breadcrumbs {
-	margin-bottom: 1em;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: -1px;
 }
 
 #breadcrumbs>* {
 	font-size: 0.75em;
+	line-height: 1.75;
 }
 
 #breadcrumbs a {
@@ -112,24 +114,15 @@ body {
 #secondary-navigation {
 	float: left;
 	width: 16.5em;
-	padding-bottom: 1em;
 }
 
 #secondary-navigation nav {
 	font-size: 0.875em;
-	line-height: 1;
+	line-height: 1.5;
 }
 
 #secondary-navigation ul ul ul {
 	padding-left: 2em;
-}
-
-#secondary-navigation li {
-	margin-bottom: 0.8em;
-}
-
-#secondary-navigation li ul {
-	margin-top: 0.8em;
 }
 
 #secondary-navigation a {
@@ -139,14 +132,13 @@ body {
 
 /*** Содержимое ***/
 #content {
-	padding-bottom: 1em;
 	font-size: 1em;
 	font-family: 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
-	line-height: 1.4;
+	line-height: 1.3125;
 }
 
 #content p {
-	margin: 0.7em 0;
+	margin: 1.3125em 0;
 	text-align: justify;
 }
 
@@ -157,14 +149,15 @@ body {
 
 #content h1 {
 	font-size: 1.125em;
-	margin-top: 1em;
-	margin-bottom: 0.5em;
+	line-height: 1.166666667;
+	margin-top: 1.166666667em;
+	margin-bottom: 1.166666667em;
 }
 
 #content h2 {
 	font-size: 1em;
-	margin-top: 0.5em;
-	margin-bottom: 0.3em;
+	margin-top: 1.3125em;
+	margin-bottom: -1.3125em;
 }
 
 #content ol,
