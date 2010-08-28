@@ -58,15 +58,14 @@ body {
 #major-navigation a {
 	padding: 0.4em 2em 0.5em;
 	margin-left: 1.5em;
-	color: inherit;
+	color: #313131;
 	text-decoration: none;
+	position: relative;
 }
 
-#major-navigation a:hover {
-	color: #cc3333;
-}
-
+#major-navigation a:hover,
 #major-navigation a:focus {
+	color: #cc3333;
 	outline: 0;
 }
 
