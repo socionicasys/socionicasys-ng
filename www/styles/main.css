@@ -1,6 +1,6 @@
 body {
 	color: #313131;
-	background: #ffffff;
+	background-color: #fff;
 	font-size: 100%;
 	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 	line-height: 1.3125;
@@ -20,6 +20,7 @@ body {
 #main-header hgroup {
 	margin-left: 7em;
 	color: #7c900a;
+	background-color: #fff;
 }
 
 #main-header h1 {
@@ -28,7 +29,7 @@ body {
 }
 
 #main-header h1 a {
-	color: inherit;
+	color: #313131;
 	text-decoration: none;
 }
 
