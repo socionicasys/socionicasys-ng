@@ -27,6 +27,9 @@
 					'NumberedList', 'BulletedList', 'Blockquote',
 					'-',
 					'JustifyLeft', 'JustifyCenter', 'JustifyRight',
+				),
+				array(
+					'Link', 'Unlink', 'Image',
 					'-',
 					'Maximize',
 					'-',
