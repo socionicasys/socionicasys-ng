@@ -66,7 +66,7 @@ class ECKEditor extends CInputWidget {
 
     private $toolbar=array();
     
-    private $skin='kama';
+    private $editorSkin='kama';
     private $theme='default';
 
 
@@ -198,16 +198,16 @@ class ECKEditor extends CInputWidget {
         return $this->toolbar;
     }
 
-    public function setSkin($value)
+    public function setEditorSkin($value)
     {
         if (!is_string($value))
-            throw new CException(Yii::t(__CLASS__, 'Skin must be a string'));
-        $this->skin = $value;
+            throw new CException(Yii::t(__CLASS__, 'Editor skin must be a string'));
+        $this->editorSkin = $value;
     }
 
-    public function getSkin()
+    public function getEditorSkin()
     {
-        return $this->skin;
+        return $this->editorSkin;
     }
 
     public function setTheme($value)
@@ -258,7 +258,7 @@ class ECKEditor extends CInputWidget {
         
         $options['extraPlugins'] = implode(',', $this->plugins);
 
-        $options['skin']=$this->skin;
+        $options['skin']=$this->editorSkin;
         $options['theme']=$this->theme;
       // here any option is overriden by user's options
         if (is_array($this->options)) {
