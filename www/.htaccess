@@ -14,12 +14,12 @@
     BrowserMatch MSIE ie
     Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
   </IfModule>
-</IfModule>
 
-# Because X-UA-Compatible isn't sent to non-IE (to save header bytes),
-#   We need to inform proxies that content changes based on UA
-<IfModule mod_headers.c>
-  Header append Vary User-Agent
+  # Because X-UA-Compatible isn't sent to non-IE (to save header bytes),
+  #   We need to inform proxies that content changes based on UA
+  <IfModule mod_headers.c>
+    Header append Vary User-Agent
+  </IfModule>
 </IfModule>
 
 # video
