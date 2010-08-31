@@ -60,6 +60,10 @@ body {
 	padding: 0.4em 2em 0.5em;
 	margin-left: 0.5em;
 	color: #313131;
+	border-top: 1px solid #afca2f;
+	border-left: 1px solid #afca2f;
+	border-right: 1px solid #afca2f;
+	background-color: #f8f8f8;
 	text-decoration: none;
 	position: relative;
 }
@@ -71,12 +75,10 @@ body {
 }
 
 #major-navigation li.active a {
-	background: white;
-	font-weight: bold;
+	background-color: #fff;
 	border-top: 3px solid #afca2f;
-	border-left: 1px solid #afca2f;
-	border-right: 1px solid #afca2f;
 	border-bottom: 6px solid #fff;
+	font-weight: bold;
 }
 
 /*** «Хлебные крошки» ***/
@@ -344,9 +346,23 @@ h2 a.headerlink:hover {
 	top: 1px;
 }
 
-.diagram {
+figure.standalone {
+	text-align: center;
+	margin: 1.3125em 0;
+}
+
+figure.standalone>img {
+	padding: 0.59375em;
+	border: 1px solid #ccc;
+}
+
+figure.floating {
 	float: right;
 	margin-left: 1em;
+}
+
+figcaption {
+	font-weight: bold;
 }
 
 /** Формы **/
@@ -387,7 +403,7 @@ form div.error select,
 form input.error,
 form textarea.error,
 form select.error {
-	background: #fee;
+	background-color: #fee;
 	border-color: #c00;
 }
 
@@ -395,7 +411,7 @@ form .errorSummary {
 	border: 2px solid #c00;
 	padding: 0.5em 0.5em 1em 0.5em;
 	margin: 0 0 1.5em 0;
-	background: #fee;
+	background-color: #fee;
 }
 
 form .errorMessage {

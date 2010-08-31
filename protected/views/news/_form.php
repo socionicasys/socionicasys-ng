@@ -14,9 +14,31 @@
 	<div class="row">
 		<?php echo $form->label($model,'text'); ?>
 		<?php
-		$this->widget('ext.imperavi.redactor', array(
+		$this->widget('ext.yiiext.widgets.ckeditor.ECKEditor', array(
 			'model' => $model,
 			'attribute' => 'text',
+			'editorTemplate' => 'advanced',
+			'toolbar' => array(
+				array(
+					'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'Format',
+					'-',
+					'TextColor', 'BGColor',
+					'-',
+					'NumberedList', 'BulletedList', 'Blockquote',
+					'-',
+					'JustifyLeft', 'JustifyCenter', 'JustifyRight',
+				),
+				array(
+					'Link', 'Unlink', 'Image',
+					'-',
+					'Maximize',
+					'-',
+					'Source',
+				),
+			),
+			'options' => array(
+				'toolbarCanCollapse' => false,
+			),
 			'htmlOptions' => array(
 				'rows' => 10,
 				'cols' => 60,
