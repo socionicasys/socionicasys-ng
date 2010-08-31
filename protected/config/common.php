@@ -248,10 +248,6 @@ return array(
 									),
 								),
 								array(
-									'label' => 'Коммуникативные модели',
-									'url' => array('static/view', 'path' => 'teorija/model-tima/kommunikativnye-modeli'),
-								),
-								array(
 									'label' => 'Суперблоки Витал и Ментал',
 									'url' => array('static/view', 'path' => 'teorija/model-tima/vital-mental'),
 								),
