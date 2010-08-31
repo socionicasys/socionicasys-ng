@@ -162,19 +162,19 @@ return array(
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-1'),
 											'items' => array(
 												array(
-													'label' => 'ИЛЭ',
+													'label' => 'ИЛЭ («Дон Кихот»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ile'),
 												),
 												array(
-													'label' => 'СЭИ',
+													'label' => 'СЭИ («Дюма»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sei'),
 												),
 												array(
-													'label' => 'ЭСЭ',
+													'label' => 'ЭСЭ («Гюго»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ese'),
 												),
 												array(
-													'label' => 'ЛИИ',
+													'label' => 'ЛИИ («Робеспьер»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lii'),
 												),
 											),
@@ -184,19 +184,19 @@ return array(
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-2'),
 											'items' => array(
 												array(
-													'label' => 'ЭИЭ',
+													'label' => 'ЭИЭ («Гамлет»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eie'),
 												),
 												array(
-													'label' => 'ЛСИ',
+													'label' => 'ЛСИ («Максим Горький»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lsi'),
 												),
 												array(
-													'label' => 'СЛЭ',
+													'label' => 'СЛЭ («Жуков»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sle'),
 												),
 												array(
-													'label' => 'ИЭИ',
+													'label' => 'ИЭИ («Есенин»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iei'),
 												),
 											),
@@ -206,19 +206,19 @@ return array(
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-3'),
 											'items' => array(
 												array(
-													'label' => 'СЭЭ',
+													'label' => 'СЭЭ («Наполеон»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/see'),
 												),
 												array(
-													'label' => 'ИЛИ',
+													'label' => 'ИЛИ («Бальзак»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ili'),
 												),
 												array(
-													'label' => 'ЛИЭ',
+													'label' => 'ЛИЭ («Джек Лондон»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lie'),
 												),
 												array(
-													'label' => 'ЭСИ',
+													'label' => 'ЭСИ («Драйзер»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/esi'),
 												),
 											),
@@ -228,19 +228,19 @@ return array(
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-4'),
 											'items' => array(
 												array(
-													'label' => 'ЛСЭ',
+													'label' => 'ЛСЭ («Штирлиц»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lse'),
 												),
 												array(
-													'label' => 'ЭИИ',
+													'label' => 'ЭИИ («Достоевский»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eii'),
 												),
 												array(
-													'label' => 'ИЭЭ',
+													'label' => 'ИЭЭ («Гексли»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iee'),
 												),
 												array(
-													'label' => 'СЛИ',
+													'label' => 'СЛИ («Габен»)',
 													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sli'),
 												),
 											),
