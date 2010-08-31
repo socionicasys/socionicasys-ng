@@ -404,7 +404,7 @@ form div.error select,
 form input.error,
 form textarea.error,
 form select.error {
-	background: #fee;
+	background-color: #fee;
 	border-color: #c00;
 }
 
@@ -412,7 +412,7 @@ form .errorSummary {
 	border: 2px solid #c00;
 	padding: 0.5em 0.5em 1em 0.5em;
 	margin: 0 0 1.5em 0;
-	background: #fee;
+	background-color: #fee;
 }
 
 form .errorMessage {
