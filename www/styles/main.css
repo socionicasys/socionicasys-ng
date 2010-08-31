@@ -345,9 +345,23 @@ h2 a.headerlink:hover {
 	top: 1px;
 }
 
-.diagram {
+figure.standalone {
+	text-align: center;
+	margin: 1.3125em 0;
+}
+
+figure.standalone>img {
+	padding: 0.59375em;
+	border: 1px solid #ccc;
+}
+
+figure.floating {
 	float: right;
 	margin-left: 1em;
+}
+
+figcaption {
+	font-weight: bold;
 }
 
 /** Формы **/

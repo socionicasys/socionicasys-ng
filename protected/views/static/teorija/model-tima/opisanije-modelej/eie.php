@@ -4,7 +4,7 @@ $this->pageTitle='ЭИЭ | ' . Yii::app()->name;
 <h1>ЭИЭ (Этико-интуитивный экстраверт, «Гамлет»)</h1>
 <section>
 <h2>Эго</h2>
-<figure class="diagram">
+<figure class="floating">
 	<table class="model-diagram compact">
 		<tbody>
 			<tr>

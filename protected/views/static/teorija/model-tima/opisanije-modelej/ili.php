@@ -4,7 +4,7 @@ $this->pageTitle='ИЛИ | ' . Yii::app()->name;
 <h1>ИЛИ (Интуитивно-логический интроверт, «Бальзак»)</h1>
 <section>
 <h2>Эго</h2>
-<figure class="diagram">
+<figure class="floating">
 	<table class="model-diagram compact">
 		<tbody>
 			<tr>
