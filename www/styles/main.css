@@ -112,10 +112,19 @@ body {
 	margin-left: 17em;
 }
 
+#content-wrap>div {
+	margin-top: 1.3125em;
+}
+
+#content-wrap #breadcrumbs + div {
+	margin-top: 0;
+}
+
 /*** Боковое меню ***/
 #secondary-navigation {
 	float: left;
 	width: 16.5em;
+	margin-top: 1.3125em;
 }
 
 #secondary-navigation nav {
