@@ -228,7 +228,7 @@ return array(
 									'url' => array('static/view', 'path' => 'teorija/model-tima/extra-intro'),
 								),
 								array(
-									'label' => 'Рациональность/иррациональность',
+									'label' => '(Ир-)рациональность',
 									'url' => array('static/view', 'path' => 'teorija/model-tima/rac-irrac'),
 								),
 							),
