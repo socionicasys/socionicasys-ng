@@ -173,6 +173,12 @@ body {
 
 #content h2 {
 	font-size: 1em;
+	margin-top: 1.3125em;
+}
+
+#content h3 {
+	font-size: 1em;
+	float: left;
 }
 
 #content h2 + p,
@@ -236,12 +242,14 @@ a.headerlink {
 }
 
 h1:hover a.headerlink,
-h2:hover a.headerlink {
+h2:hover a.headerlink,
+h3:hover a.headerlink {
 	visibility: visible;
 }
 
 h1 a.headerlink:hover,
-h2 a.headerlink:hover {
+h2 a.headerlink:hover,
+h3 a.headerlink:hover {
 	color: #fff;
 	background-color: #ccc;
 }
