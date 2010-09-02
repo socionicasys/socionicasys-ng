@@ -66,6 +66,12 @@ body {
 	background-color: #f8f8f8;
 	text-decoration: none;
 	position: relative;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
 #major-navigation a:hover,
