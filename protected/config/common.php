@@ -158,98 +158,66 @@ return array(
 									'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej'),
 									'items' => array(
 										array(
-											'label' => 'Первая квадра',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-1'),
-											'items' => array(
-												array(
-													'label' => 'ИЛЭ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ile'),
-												),
-												array(
-													'label' => 'СЭИ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sei'),
-												),
-												array(
-													'label' => 'ЭСЭ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ese'),
-												),
-												array(
-													'label' => 'ЛИИ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lii'),
-												),
-											),
+											'label' => 'ИЛЭ («Дон Кихот»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ile'),
 										),
 										array(
-											'label' => 'Вторая квадра',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-2'),
-											'items' => array(
-												array(
-													'label' => 'ЭИЭ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eie'),
-												),
-												array(
-													'label' => 'ЛСИ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lsi'),
-												),
-												array(
-													'label' => 'СЛЭ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sle'),
-												),
-												array(
-													'label' => 'ИЭИ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iei'),
-												),
-											),
+											'label' => 'СЭИ («Дюма»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sei'),
 										),
 										array(
-											'label' => 'Третья квадра',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-3'),
-											'items' => array(
-												array(
-													'label' => 'СЭЭ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/see'),
-												),
-												array(
-													'label' => 'ИЛИ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ili'),
-												),
-												array(
-													'label' => 'ЛИЭ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lie'),
-												),
-												array(
-													'label' => 'ЭСИ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/esi'),
-												),
-											),
+											'label' => 'ЭСЭ («Гюго»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ese'),
 										),
 										array(
-											'label' => 'Четвертая квадра',
-											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/kvadra-4'),
-											'items' => array(
-												array(
-													'label' => 'ЛСЭ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lse'),
-												),
-												array(
-													'label' => 'ЭИИ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eii'),
-												),
-												array(
-													'label' => 'ИЭЭ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iee'),
-												),
-												array(
-													'label' => 'СЛИ',
-													'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sli'),
-												),
-											),
+											'label' => 'ЛИИ («Робеспьер»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lii'),
+										),
+										array(
+											'label' => 'ЭИЭ («Гамлет»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eie'),
+										),
+										array(
+											'label' => 'ЛСИ («Максим Горький»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lsi'),
+										),
+										array(
+											'label' => 'СЛЭ («Жуков»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sle'),
+										),
+										array(
+											'label' => 'ИЭИ («Есенин»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iei'),
+										),
+										array(
+											'label' => 'ИЛИ («Бальзак»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ili'),
+										),
+										array(
+											'label' => 'ЛИЭ («Джек Лондон»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lie'),
+										),
+										array(
+											'label' => 'ЭСИ («Драйзер»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/esi'),
+										),
+										array(
+											'label' => 'ЛСЭ («Штирлиц»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lse'),
+										),
+										array(
+											'label' => 'ЭИИ («Достоевский»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eii'),
+										),
+										array(
+											'label' => 'ИЭЭ («Гексли»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iee'),
+										),
+										array(
+											'label' => 'СЛИ («Габен»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sli'),
 										),
 									),
-								),
-								array(
-									'label' => 'Коммуникативные модели',
-									'url' => array('static/view', 'path' => 'teorija/model-tima/kommunikativnye-modeli'),
 								),
 								array(
 									'label' => 'Суперблоки Витал и Ментал',
@@ -260,7 +228,7 @@ return array(
 									'url' => array('static/view', 'path' => 'teorija/model-tima/extra-intro'),
 								),
 								array(
-									'label' => 'Рациональность/иррациональность',
+									'label' => '(Ир-)рациональность',
 									'url' => array('static/view', 'path' => 'teorija/model-tima/rac-irrac'),
 								),
 							),

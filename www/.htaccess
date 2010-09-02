@@ -1,8 +1,9 @@
 # Apache configuration file
 # httpd.apache.org/docs/2.2/mod/quickreference.html
 
-# Techniques in here adapted from all over,
-# including Kroc Camen: camendesign.com/.htaccess
+# Techniques in here adapted from all over, including:
+#   Kroc Camen: camendesign.com/.htaccess
+#   perishablepress.com/press/2006/01/10/stupid-htaccess-tricks/
 
 
 # Force the latest IE version, in various cases when it may fall back to IE7 mode
@@ -13,6 +14,12 @@
     BrowserMatch MSIE ie
     Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
   </IfModule>
+
+  # Because X-UA-Compatible isn't sent to non-IE (to save header bytes),
+  #   We need to inform proxies that content changes based on UA
+  <IfModule mod_headers.c>
+    Header append Vary User-Agent
+  </IfModule>
 </IfModule>
 
 # video
@@ -21,22 +28,24 @@ AddType video/mp4 mp4
 AddType video/webm webm
 
 # Proper svg serving. Required for svg webfonts on iPad
-# twitter.com/FontSquirrel/status/14855840545
-AddType image/svg+xml svg svgz
+#   twitter.com/FontSquirrel/status/14855840545
+AddType     image/svg+xml             svg svgz 
+AddEncoding gzip                      svgz
 
 # webfonts
 AddType application/vnd.ms-fontobject eot
-AddType font/ttf ttf
-AddType font/otf otf
-AddType font/x-woff woff
+AddType font/truetype                 ttf
+AddType font/opentype                 otf
+AddType font/woff                     woff
 
-AddType text/cache-manifest manifest
+AddType text/cache-manifest           manifest
+AddType text/x-component              htc
 
 # gzip compression.
 <IfModule mod_deflate.c>
 
-# html, xml, css, and js:
-  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript text/javascript application/javascript application/json
+# html, txt, css, js, json, xml, htc:
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/x-javascript text/javascript application/javascript application/json text/xml application/xml text/x-component
 
 # webfonts and svg:
   <FilesMatch "\.(ttf|otf|eot|svg)$" >
@@ -65,8 +74,13 @@ AddType text/cache-manifest manifest
 # cache.manifest needs re-reqeusts in FF 3.6 (thx Remy ~Introducing HTML5)
   ExpiresByType text/cache-manifest "access plus 0 seconds"
 
-# your document html
-  ExpiresByType text/html "access"
+# your document html 
+  ExpiresByType text/html "access plus 0 seconds"
+
+# data
+  ExpiresByType text/xml "access plus 0 seconds"
+  ExpiresByType application/xml "access plus 0 seconds"
+  ExpiresByType application/json "access plus 0 seconds"
 
 # rss feed
   ExpiresByType application/rss+xml "access plus 1 hour"
@@ -75,17 +89,21 @@ AddType text/cache-manifest manifest
   ExpiresByType image/vnd.microsoft.icon "access plus 1 week"
 
 # media: images, video, audio
+  ExpiresByType image/gif "access plus 1 month"
   ExpiresByType image/png "access plus 1 month"
   ExpiresByType image/jpg "access plus 1 month"
   ExpiresByType image/jpeg "access plus 1 month"
   ExpiresByType video/ogg "access plus 1 month"
   ExpiresByType audio/ogg "access plus 1 month"
   ExpiresByType video/mp4 "access plus 1 month"
+  ExpiresByType video/webm "access plus 1 month"
   
 # webfonts
-  ExpiresByType font/ttf "access plus 1 month"
+  ExpiresByType font/truetype "access plus 1 month"
+  ExpiresByType font/opentype "access plus 1 month"
   ExpiresByType font/woff "access plus 1 month"
   ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
   
 # css and javascript
   ExpiresByType text/css "access plus 1 month"
@@ -97,6 +115,9 @@ AddType text/cache-manifest manifest
 # developer.yahoo.com/performance/rules.html#etags
   FileETag None
 </IfModule>
+
+# We don't need to tell everyone we're apache.
+ServerSignature Off
 
 # use utf-8 encoding for anything served text/plain or text/html
 AddDefaultCharset utf-8

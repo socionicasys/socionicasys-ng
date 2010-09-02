@@ -76,7 +76,7 @@ class LegacyRedirectController extends Controller
 					'19' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sli'),
 				),
 				'13' => array(
-					'' => array('static/view', 'path' => 'teorija/model-tima/kommunikativnye-modeli'),
+					'' => array('static/view', 'path' => 'teorija/model-tima'),
 				),
 				'11' => array(
 					'' => array('static/view', 'path' => 'teorija/otnoshenija'),

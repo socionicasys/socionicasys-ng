@@ -66,6 +66,12 @@ body {
 	background-color: #f8f8f8;
 	text-decoration: none;
 	position: relative;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
 #major-navigation a:hover,
@@ -112,10 +118,19 @@ body {
 	margin-left: 17em;
 }
 
+#content-wrap>div {
+	margin-top: 1.3125em;
+}
+
+#content-wrap #breadcrumbs + div {
+	margin-top: 0;
+}
+
 /*** Боковое меню ***/
 #secondary-navigation {
 	float: left;
 	width: 16.5em;
+	margin-top: 1.3125em;
 }
 
 #secondary-navigation nav {
@@ -157,6 +172,12 @@ body {
 
 #content h2 {
 	font-size: 1em;
+	margin-top: 1.3125em;
+}
+
+#content h3 {
+	font-size: 1em;
+	float: left;
 }
 
 #content h2 + p,
@@ -220,12 +241,14 @@ a.headerlink {
 }
 
 h1:hover a.headerlink,
-h2:hover a.headerlink {
+h2:hover a.headerlink,
+h3:hover a.headerlink {
 	visibility: visible;
 }
 
 h1 a.headerlink:hover,
-h2 a.headerlink:hover {
+h2 a.headerlink:hover,
+h3 a.headerlink:hover {
 	color: #fff;
 	background-color: #ccc;
 }
