@@ -5,13 +5,8 @@ class StaticController extends Controller
 	public $layout = '//layouts/article';
 	public $defaultAction = 'view';
 
-	public function actionView()
+	public function actionView($path = 'index')
 	{
-		$path = '';
-		if (isset($_GET['path']))
-		{
-			$path = $_GET['path'];
-		}
 		if ($path === '')
 		{
 			$path = 'index';
