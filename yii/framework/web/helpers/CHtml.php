@@ -13,7 +13,7 @@
  * CHtml is a static class that provides a collection of helper methods for creating HTML views.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHtml.php 2210 2010-06-17 19:47:26Z qiang.xue $
+ * @version $Id: CHtml.php 2351 2010-08-28 20:17:27Z qiang.xue $
  * @package system.web.helpers
  * @since 1.0
  */
@@ -606,12 +606,12 @@ class CHtml
 	/**
 	 * Generates a radio button.
 	 * @param string the input name
-	 * @param boolean whether the check box is checked
+	 * @param boolean whether the radio button is checked
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the radiobutton is not checked. When set, a hidden field is rendered so that
-	 * when the radiobutton is not checked, we can still obtain the posted uncheck value.
+	 * the value returned when the radio button is not checked. When set, a hidden field is rendered so that
+	 * when the radio button is not checked, we can still obtain the posted uncheck value.
 	 * If 'uncheckValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated radio button
 	 * @see clientChange
@@ -634,14 +634,17 @@ class CHtml
 		else
 			$uncheck=null;
 
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-
-		$uncheckOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
-
-		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$uncheckOptions) : '';
+		if($uncheck!==null)
+		{
+			// add a hidden field so that if the radio button is not selected, it still submits a value
+			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+			else
+				$uncheckOptions=array();
+			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
+		}
+		else
+			$hidden='';
 
 		// add a hidden field so that if the radio button is not selected, it still submits a value
 		return $hidden . self::inputField('radio',$name,$value,$htmlOptions);
@@ -678,14 +681,17 @@ class CHtml
 		else
 			$uncheck=null;
 
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-
-		$uncheckOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
-
-		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$uncheckOptions) : '';
+		if($uncheck!==null)
+		{
+			// add a hidden field so that if the radio button is not selected, it still submits a value
+			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+			else
+				$uncheckOptions=array();
+			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
+		}
+		else
+			$hidden='';
 
 		// add a hidden field so that if the checkbox  is not selected, it still submits a value
 		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
@@ -892,7 +898,7 @@ EOD;
 	 * <ul>
 	 * <li>template: string, specifies how each radio button is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
+	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list. This option has been available since version 1.0.10.</li>
@@ -972,6 +978,7 @@ EOD;
 	public static function ajaxSubmitButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
 	{
 		$ajaxOptions['type']='POST';
+		$htmlOptions['type']='submit';
 		return self::ajaxButton($label,$url,$ajaxOptions,$htmlOptions);
 	}
 
@@ -1258,8 +1265,8 @@ EOD;
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * Since version 1.0.9, a special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the radiobutton is not checked. By default, this value is '0'.
-	 * Internally, a hidden field is rendered so that when the radiobutton is not checked,
+	 * the value returned when the radio button is not checked. By default, this value is '0'.
+	 * Internally, a hidden field is rendered so that when the radio button is not checked,
 	 * we can still obtain the posted uncheck value.
 	 * If 'uncheckValue' is set as NULL, the hidden field will not be rendered.
 	 * @return string the generated radio button
@@ -1442,7 +1449,7 @@ EOD;
 	 * <ul>
 	 * <li>template: string, specifies how each checkbox is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * check box input tag while "{label}" be replaced by the corresponding check box label.</li>
+	 * check box input tag while "{label}" will be replaced by the corresponding check box label.</li>
 	 * <li>separator: string, specifies the string that separates the generated check boxes.</li>
 	 * <li>checkAll: string, specifies the label for the "check all" checkbox.
 	 * If this option is specified, a 'check all' checkbox will be displayed. Clicking on
@@ -1484,9 +1491,9 @@ EOD;
 	 * @param array addtional HTML options. The options will be applied to
 	 * each radio button input. The following special options are recognized:
 	 * <ul>
-	 * <li>template: string, specifies how each checkbox is rendered. Defaults
+	 * <li>template: string, specifies how each radio button is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
+	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
 	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.
 	 * This option has been available since version 1.0.5.</li>
@@ -1914,7 +1921,7 @@ EOD;
 		}
 
 		if($live)
-			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').live('$event',function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('body').delegate('#$id','$event',function(){{$handler}});");
 		else
 			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);

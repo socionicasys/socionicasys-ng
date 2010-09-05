@@ -178,6 +178,13 @@ body {
 #content h3 {
 	font-size: 1em;
 	float: left;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	margin-right: 1.75em;
+	padding-bottom: 0.5em;
+	-webkit-border-bottom-right-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	border-bottom-right-radius: 10px;
 }
 
 #content h2 + p,

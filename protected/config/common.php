@@ -114,8 +114,26 @@ return array(
 					'url' => array('static/view', 'path' => 'teorija'),
 					'items' => array(
 						array(
-							'label' => 'Соционика для начинающих',
-							'url' => array('static/view', 'path' => 'teorija/socionika-dlja-nachinajushhih'),
+							'label' => 'Соционика для новичков',
+							'url' => array('static/view', 'path' => 'teorija/socionika-dlja-novichkov'),
+							'items' => array(
+								array(
+									'label' => 'Что такое соционика?',
+									'url' => array('static/view', 'path' => 'teorija/socionika-dlja-novichkov/chto-takoe-socionica'),
+								),
+								array(
+									'label' => 'Системный подход',
+									'url' => array('static/view', 'path' => 'teorija/socionika-dlja-novichkov/sistemy'),
+								),
+								array(
+									'label' => 'Информационные аспекты',
+									'url' => array('static/view', 'path' => 'teorija/socionika-dlja-novichkov/aspekty'),
+								),
+								array(
+									'label' => 'Модель ТИМа',
+									'url' => array('static/view', 'path' => 'teorija/socionika-dlja-novichkov/model'),
+								),
+							),
 						),
 						array(
 							'label' => 'Системный подход',
