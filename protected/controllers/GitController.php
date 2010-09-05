@@ -29,15 +29,14 @@ class GitController extends Controller
 	 * При обращении (POST) к этому действию происходит синхронизация репозитория,
 	 * с ключом, заданным параметром 'id'.
 	 */
-	public function actionPull()
+	public function actionPull($id)
 	{
 		Yii::log('git pull request came from ' . Yii::app()->request->userHostAddress, 'info');
-		if (!isset($_GET['id']) || !isset(Yii::app()->params['git']))
+		if (!isset(Yii::app()->params['git']))
 		{
 			throw new CHttpException(404);
 		}
 		
-		$id = $_GET['id'];
 		$gitParams = Yii::app()->params['git'];
 		if (!isset($gitParams['repositories'][$id]))
 		{

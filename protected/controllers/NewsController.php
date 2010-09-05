@@ -25,9 +25,9 @@ class NewsController extends Controller
 		);
 	}
 	
-	public function actionItem()
+	public function actionItem($id)
 	{
-		$model = $this->loadModel();
+		$model = $this->loadModel($id);
 		
 		$articleLinks = array();
 		// TODO: заменить на полноценную проверку прав.
@@ -122,9 +122,9 @@ class NewsController extends Controller
 		));
 	}
 	
-	public function actionEdit()
+	public function actionEdit($id)
 	{
-		$model = $this->loadModel();
+		$model = $this->loadModel($id);
 		
 		if (isset($_POST['News']))
 		{
@@ -140,9 +140,9 @@ class NewsController extends Controller
 		));
 	}
 	
-	public function actionDelete()
+	public function actionDelete($id)
 	{
-		$model = $this->loadModel();
+		$model = $this->loadModel($id);
 		
 		if (Yii::app()->request->isPostRequest)
 		{
@@ -162,16 +162,9 @@ class NewsController extends Controller
 		));
 	}
 	
-	public function loadModel()
+	public function loadModel($id)
 	{
-		if (!isset($_GET['id']))
-		{
-			Yii::log('News item id not set', 'error',
-				'application.controllers.NewsController');
-			throw new CHttpException(404, 'Новость не найдена.');
-		}
-		
-		$newsArticleId = intval($_GET['id']);
+		$newsArticleId = (int)$id;
 		$this->_newsArticle = News::model()->findByPk($newsArticleId);
 		if ($this->_newsArticle === null)
 		{
