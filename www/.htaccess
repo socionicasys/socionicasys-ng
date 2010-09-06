@@ -76,6 +76,7 @@ AddType text/x-component              htc
 
 # your document html 
   ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/x-httpd-php "access plus 0 seconds"
 
 # data
   ExpiresByType text/xml "access plus 0 seconds"
