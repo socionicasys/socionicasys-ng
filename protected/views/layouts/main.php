@@ -2,7 +2,6 @@
 $cs = Yii::app()->clientScript;
 $base = Yii::app()->request->baseUrl;
 $cs->registerCssFile("$base/styles/html5reset.css");
-$cs->registerCssFile("$base/styles/font-face.css");
 $cs->registerCssFile("$base/styles/main.css");
 $cs->registerLinkTag(
 	'alternate',
