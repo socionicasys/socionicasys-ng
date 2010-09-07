@@ -18,12 +18,14 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.modules.rights.components.*',
 	),
 
 	// application components
 	'components'=>array(
 		'user'=>array(
 			// enable cookie-based authentication
+			'class' => 'RightsWebUser',
 			'allowAutoLogin'=>true,
 			'loginUrl' => array('site/login'),
 		),
@@ -49,6 +51,11 @@ return array(
 				'atom.xml' => 'news/feed',
 				// Обработка pull-запросов с GitHub
 				'git/pull/<id:\w+>' => 'git/pull',
+				// Модуль Rights
+				'rights' => 'rights',
+				'rights/<controller:\w+>/<id:\d+>' => 'rights/<controller>/view',
+				'rights/<controller:\w+>/<action:\w+>/<id:\d+>' => 'rights/<controller>/<action>',
+				'rights/<controller:\w+>/<action:\w+>' => 'rights/<controller>/<action>',
 				// Все адреса, не обработанные выше, отображаются с помощью
 				// контроллера StaticController
 				'<path:.*>' => array('static/view', 'keepSlashes' => true),
@@ -75,11 +82,25 @@ return array(
 		'menuManager' => array(
 			'class' => 'MenuManager',
 			'pageTree' => 'pageTree',
-		)
+		),
+		'authManager' => array(
+			'class'           => 'RightsAuthManager',
+			'connectionID'    => 'db',
+			'assignmentTable' => '{{auth_assignment}}',
+			'itemTable'       => '{{auth_item}}',
+			'itemChildTable'  => '{{auth_item_child}}',
+			'itemWeightTable' => '{{auth_item_weight}}',
+		),
 	),
 	
 	'controllerMap' => array(
 		'redactor' => 'ext.imperavi.RedactorController',
+	),
+	
+	'modules' => array(
+		'rights' => array(
+			'install' => false,
+		),
 	),
 
 	// application-level parameters that can be accessed
