@@ -31,10 +31,14 @@ class LoginForm extends CFormModel
 	
 	public function authenticate($attribute = null, $params = null)
 	{
-		$this->_identity = new UserIdentity($this->username, $this->password);
+		$this->_identity = new PhpbbUserIdentity($this->username, $this->password);
+		if (isset(Yii::app()->params['phpbb.root']))
+		{
+			$this->_identity->phpbbRoot = Yii::app()->params['phpbb.root'];
+		}
 		if (!$this->_identity->authenticate())
 		{
-			if ($this->_identity->errorCode == UserIdentity::ERROR_USERNAME_INVALID)
+			if ($this->_identity->errorCode === UserIdentity::ERROR_USERNAME_INVALID)
 			{
 				$this->addError('username', 'Неверное имя пользователя');
 			}
