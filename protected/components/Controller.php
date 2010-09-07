@@ -5,13 +5,13 @@
  * $breadcrumbs, которые при необходимости может изменить контроллер-наследник
  * или предсталение
  */
-class Controller extends CController
+class Controller extends RightsBaseController
 {
 	/**
 	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
 	 * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
 	 */
-	public $layout='//layouts/main';
+	public $layout='//layouts/full';
 	/**
 	 * @var array элементы главного меню. Это свойство будет использовано в
 	 * {@link CMenu::items}.
