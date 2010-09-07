@@ -20,15 +20,17 @@ class PhpbbUserIdentity extends CUserIdentity
 	
 	protected function getPhpbbPath()
 	{
-		if (strpos($this->phpbbRoot, DIRECTORY_SEPARATOR) === false)
+		$path = $this->phpbbRoot;
+		if (strpos($path, DIRECTORY_SEPARATOR) === false)
 		{
 			// Если в пути не найдены разделители, интерпретируем его как псевдоним
-			return Yii::getPathOfAlias($this->phpbbRoot);
+			$path = Yii::getPathOfAlias($path);
 		}
-		else
+		if ($path[strlen($path) - 1] !== DIRECTORY_SEPARATOR)
 		{
-			return $this->phpbbRoot;
+			$path .= DIRECTORY_SEPARATOR;
 		}
+		return $path;
 	}
 
 	public function authenticate()
