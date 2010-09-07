@@ -64,7 +64,7 @@ class RightsInstaller extends CApplicationComponent
 					bizrule text,
 					data text,
 					primary key (name)
-					) type=InnoDB";
+					)";
 				$command = $this->db->createCommand($sql);
 				$command->execute();
 
@@ -75,7 +75,7 @@ class RightsInstaller extends CApplicationComponent
 					primary key (parent, child),
 					foreign key (parent) references {$itemTable} (name) on delete cascade on update cascade,
 					foreign key (child) references {$itemTable} (name) on delete cascade on update cascade
-					) type=InnoDB";
+					)";
 				$command = $this->db->createCommand($sql);
 				$command->execute();
 
@@ -86,7 +86,7 @@ class RightsInstaller extends CApplicationComponent
 					weight integer,
 					primary key (itemname),
 					foreign key (itemname) references {$itemTable} (name) on delete cascade on update cascade
-					) type=InnoDB";
+					)";
 				$command = $this->db->createCommand($sql);
 				$command->execute();
 
@@ -98,7 +98,7 @@ class RightsInstaller extends CApplicationComponent
 					data text,
 					primary key (itemname, userid),
 					foreign key (itemname) references {$itemTable} (name) on delete cascade on update cascade
-					) type=InnoDB";
+					)";
 				$command = $this->db->createCommand($sql);
 				$command->execute();
 
