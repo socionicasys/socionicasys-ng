@@ -59,7 +59,23 @@ class PhpbbUserIdentity extends CUserIdentity
 			break;
 		case LOGIN_SUCCESS:
 			$this->errorCode = self::ERROR_NONE;
-			$this->_id = $auth_result['user_row']['user_id'];
+			$phpbb_user_id = $auth_result['user_row']['user_id'];
+			$phpbb_username = $auth_result['user_row']['username'];
+			
+			// Ищем в своей таблице БД соответствующего пользователя.
+			// Если нет — создаем.
+			$localUser = PhpbbUser::model()->findByAttributes(array(
+				'phpbb_id' => $phpbb_user_id,
+			));
+			if ($localUser === null)
+			{
+				$localUser = new PhpbbUser();
+				$localUser->username = $phpbb_username;
+				$localUser->phpbb_id = $phpbb_user_id;
+				$localUser->save();
+			}
+			$this->_id = $localUser->id;
+			
 			break;
 		default:
 			$this->errorCode = self::ERROR_UNKNOWN_IDENTITY;
