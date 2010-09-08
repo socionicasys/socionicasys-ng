@@ -9,19 +9,7 @@ class NewsController extends Controller
 	public function filters()
 	{
 		return array(
-			'accessControl + create, edit, delete',
-		);
-	}
-	
-	public function accessRules()
-	{
-		// TODO: заменить на полноценную проверку прав.
-		return array(
-			array('allow',
-				'actions' => array('create', 'edit', 'delete'),
-				'users' => array('@'),
-			),
-			array('deny'),
+			'rights + create, edit, delete',
 		);
 	}
 	
@@ -30,12 +18,15 @@ class NewsController extends Controller
 		$model = $this->loadModel($id);
 		
 		$articleLinks = array();
-		// TODO: заменить на полноценную проверку прав.
-		if (!Yii::app()->user->isGuest)
+		$webUser = Yii::app()->user;
+		if ($webUser->checkAccess('News.Edit'))
 		{
 			$articleLinks['edit'] = array();
 			$articleLinks['edit']['route'] = 'edit';
 			$articleLinks['edit']['params'] = array('id' => $model->id);
+		}
+		if ($webUser->checkAccess('News.Delete'))
+		{
 			$articleLinks['delete'] = array();
 			$articleLinks['delete']['route'] = 'delete';
 			$articleLinks['delete']['params'] = array('id' => $model->id);
@@ -55,11 +46,9 @@ class NewsController extends Controller
 				'pageSize' => 10,
 			),
 		));
-		
-		// TODO: заменить на полноценную проверку прав.
-		$userAuthenicated = !Yii::app()->user->isGuest;
-		
-		if ($userAuthenicated)
+
+		$webUser = Yii::app()->user;
+		if ($webUser->checkAccess('News.Create'))
 		{
 			$createUrlRoute = 'create';
 			$createUrlParams = array();
@@ -75,11 +64,14 @@ class NewsController extends Controller
 		foreach ($data as $item)
 		{
 			$itemLinks = array();
-			if ($userAuthenicated)
+			if ($webUser->checkAccess('News.Edit'))
 			{
 				$itemLinks['edit'] = array();
 				$itemLinks['edit']['route'] = 'edit';
 				$itemLinks['edit']['params'] = array('id' => $item->id);
+			}
+			if ($webUser->checkAccess('News.Delete'))
+			{
 				$itemLinks['delete'] = array();
 				$itemLinks['delete']['route'] = 'delete';
 				$itemLinks['delete']['params'] = array('id' => $item->id);
