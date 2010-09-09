@@ -15,9 +15,9 @@
     Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
   </IfModule>
 
+  <IfModule mod_headers.c>
   # Because X-UA-Compatible isn't sent to non-IE (to save header bytes),
   #   We need to inform proxies that content changes based on UA
-  <IfModule mod_headers.c>
     Header append Vary User-Agent
   </IfModule>
 </IfModule>
@@ -45,12 +45,19 @@ AddType text/x-component              htc
 <IfModule mod_deflate.c>
 
 # html, txt, css, js, json, xml, htc:
-  AddOutputFilterByType DEFLATE text/html text/plain text/css application/x-javascript text/javascript application/javascript application/json text/xml application/xml text/x-component
+  AddOutputFilter DEFLATE text/html text/plain text/css text/javascript application/javascript application/json
+  AddOutputFilter DEFLATE text/xml application/xml text/x-component
 
 # webfonts and svg:
   <FilesMatch "\.(ttf|otf|eot|svg)$" >
     SetOutputFilter DEFLATE
   </FilesMatch>
+
+  <IfModule mod_headers.c>
+  # Ensure proxy caching, since gzip is accept-encoding dependent.
+    Header append Vary Accept-Encoding
+  # Cache control is set only if mod_headers is enabled, so that's unncessary to declare
+  </IfModule>
 </IfModule>
 
 # these are pretty far-future expires headers
@@ -64,7 +71,7 @@ AddType text/x-component              htc
 
 <IfModule mod_expires.c>
   <IfModule mod_headers.c>
-    Header set cache-control: public
+    Header set Cache-Control "public"
   </IfModule>
   ExpiresActive on
 
@@ -128,19 +135,21 @@ AddCharset utf-8 .html .css .js .xml .json .rss
 Options +FollowSymLinks
 IndexIgnore */*
 
+<IfModule mod_rewrite.c>
 # you probably want www.example.com to forward to example.com -- shorter URLs are sexier.
 # no-www.org/faq.php?q=class_b
-RewriteEngine On
-RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
 
-RewriteCond %{THE_REQUEST} "^GET /index.php .*$"
-RewriteRule ^index.php$ / [R=301,L]
+  RewriteCond %{THE_REQUEST} "^GET /index.php .*$"
+  RewriteRule ^index.php$ / [R=301,L]
 
 # if a directory or a file exists, use it directly
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/forum.*
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/forum.*
 
 # otherwise forward it to index.php
-RewriteRule . index.php [L]
+  RewriteRule . index.php [L]
+</IfModule>
