@@ -93,10 +93,6 @@ return array(
 		),
 	),
 	
-	'controllerMap' => array(
-		'redactor' => 'ext.imperavi.RedactorController',
-	),
-	
 	'modules' => array(
 		'rights' => array(
 			'install' => false,
