@@ -1,3 +1,6 @@
 [submodule "protected/extensions/yiidebugtb"]
 	path = protected/extensions/yiidebugtb
 	url = git://github.com/cr0t/yiidebugtb.git
+[submodule "protected/extensions/yii-dbmigrations"]
+	path = protected/extensions/yii-dbmigrations
+	url = git://github.com/pieterclaerhout/yii-dbmigrations.git
