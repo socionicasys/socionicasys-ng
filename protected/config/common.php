@@ -225,6 +225,10 @@ return array(
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iei'),
 										),
 										array(
+											'label' => 'СЭЭ («Наполеон»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/see'),
+										),
+										array(
 											'label' => 'ИЛИ («Бальзак»)',
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ili'),
 										),
