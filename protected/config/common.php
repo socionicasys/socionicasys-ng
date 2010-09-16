@@ -42,8 +42,8 @@ return array(
 				'login' => 'site/login',
 				'logout' => 'site/logout',
 				// Новости
-				'novosti' => 'news/list',
 				'novosti/<News_page:\d+>' => 'news/list',
+				'novosti' => 'news/list',
 				'novosti/statja/<id:\d+>' => 'news/item',
 				'novosti/statja/<id:\d+>/edit' => 'news/edit',
 				'novosti/statja/<id:\d+>/delete' => 'news/delete',
