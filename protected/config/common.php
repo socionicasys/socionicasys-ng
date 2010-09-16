@@ -65,8 +65,8 @@ return array(
 		),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-            'errorAction'=>'site/error',
-        ),
+			'errorAction'=>'site/error',
+		),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
@@ -91,10 +91,6 @@ return array(
 			'itemChildTable'  => '{{auth_item_child}}',
 			'itemWeightTable' => '{{auth_item_weight}}',
 		),
-	),
-	
-	'controllerMap' => array(
-		'redactor' => 'ext.imperavi.RedactorController',
 	),
 	
 	'modules' => array(
@@ -227,6 +223,10 @@ return array(
 										array(
 											'label' => 'ИЭИ («Есенин»)',
 											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iei'),
+										),
+										array(
+											'label' => 'СЭЭ («Наполеон»)',
+											'url' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/see'),
 										),
 										array(
 											'label' => 'ИЛИ («Бальзак»)',
