@@ -4,3 +4,6 @@
 [submodule "protected/extensions/yii-dbmigrations"]
 	path = protected/extensions/yii-dbmigrations
 	url = git://github.com/pieterclaerhout/yii-dbmigrations.git
+[submodule "protected/extensions/EJNestedTreeActions"]
+	path = protected/extensions/EJNestedTreeActions
+	url = git://github.com/samdark/EJNestedTreeActions.git
