@@ -35,6 +35,20 @@ class Nav extends CActiveRecord
 	{
 		return '{{nav}}';
 	}
+	
+	public function behaviors()
+	{
+		return array(
+			'tree' => array(
+				'class' => 'ext.yiiext.behaviors.model.trees.ENestedSetBehavior',
+				'hasManyRoots' => false,
+				'root' => 'root',
+				'left' => 'lft',
+				'right' => 'rgt',
+				'level' => 'level',
+			),		
+		);
+	}
 
 	/**
 	 * @return array validation rules for model attributes.
