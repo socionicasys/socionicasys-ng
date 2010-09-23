@@ -56,6 +56,10 @@ return array(
 				'rights/<controller:\w+>/<id:\d+>' => 'rights/<controller>/view',
 				'rights/<controller:\w+>/<action:\w+>/<id:\d+>' => 'rights/<controller>/<action>',
 				'rights/<controller:\w+>/<action:\w+>' => 'rights/<controller>/<action>',
+				// Управление страницами
+				'page/<action:(manage|render|createnode|renamenode|deletenode|movenode|copynode|createroot)>' => 'page/<action>',
+				'page/<path:.*>' => array('page/view', 'keepSlashes' => true),
+				'page' => 'page/view',
 				// Все адреса, не обработанные выше, отображаются с помощью
 				// контроллера StaticController
 				'<path:.*>' => array('static/view', 'keepSlashes' => true),
