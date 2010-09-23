@@ -30,6 +30,13 @@ class PageController extends Controller
 		);
 	}
 	
+	public function filters()
+	{
+		return array(
+			'rights - view',
+		);
+	}
+
 	public function actionManage()
 	{
 		$this->render('manage');
