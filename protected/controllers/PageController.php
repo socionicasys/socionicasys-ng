@@ -12,7 +12,7 @@ class PageController extends Controller
 				'class' => 'ext.EJNestedTreeActions.EBehavior',
 				'classname' => 'Nav',
 				'identity' => 'id',
-				'text' => 'title',
+				'text' => 'menu_title',
 				'defaultNodeName' => 'Новая страница',
 			),
 		);
