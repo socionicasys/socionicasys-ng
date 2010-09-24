@@ -36,12 +36,16 @@ $cs->registerLinkTag(
 	</nav>
 	<div id="content-area">
 		<div id="content-wrap">
-			<?php if (!empty($this->breadcrumbs)): ?>
-				<nav id="breadcrumbs">
-					<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-						'links'=>$this->breadcrumbs,
-					)); ?>
-				</nav>
+			<?php
+			$breadcrumbs = $this->getBreadcrumbs();
+			if (!empty($breadcrumbs)):
+			?>
+			<nav id="breadcrumbs">
+				<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+					'links' => $breadcrumbs,
+					'homeLink' => false,
+				)); ?>
+			</nav>
 			<?php endif; ?>
 			<div class="hyphenate">
 				<?php echo $content; ?>
