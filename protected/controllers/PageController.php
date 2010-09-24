@@ -2,7 +2,7 @@
 
 class PageController extends Controller
 {
-	public $layout = '//layouts/article';
+	public $layout = '//layouts/section';
 	public $defaultAction = 'view';
 	
 	public function behaviors()
@@ -67,6 +67,7 @@ class PageController extends Controller
 			$this->pageTitle = Yii::app()->name;
 		}
 		
+		$this->layout = '//layouts/article';
 		$this->renderText($page->text);
 	}
 }
