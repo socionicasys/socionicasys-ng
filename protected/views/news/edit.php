@@ -8,7 +8,7 @@ $breadcrumbs = array_merge($breadcrumbs, array(
 	'Редактировать',
 ));
 $this->setBreadcrumbs($breadcrumbs);
-$this->pageTitle = 'Удалить новость | ' . Yii::app()->name;
+$this->pageTitle = 'Редактировать новость | ' . Yii::app()->name;
 ?>
 
 <?php
