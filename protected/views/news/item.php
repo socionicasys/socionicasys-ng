@@ -1,8 +1,13 @@
 <?php
-$this->breadcrumbs = array(
-	'Новости' => array('list'),
+$breadcrumbs = $this->getBreadcrumbs();
+$lastCrumb = $breadcrumbs[0];
+unset($breadcrumbs[0]);
+$breadcrumbs = array_merge($breadcrumbs, array(
+	$lastCrumb => array('list'),
 	$model->title,
-);
+));
+$this->setBreadcrumbs($breadcrumbs);
+$this->pageTitle = 'Новости | ' . Yii::app()->name;
 
 $this->renderPartial('_item', array(
 	'data' => $model,

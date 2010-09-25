@@ -1,9 +1,14 @@
 <?php
-$this->breadcrumbs = array(
-	'Новости' => array('list'),
+$breadcrumbs = $this->getBreadcrumbs();
+$lastCrumb = $breadcrumbs[0];
+unset($breadcrumbs[0]);
+$breadcrumbs = array_merge($breadcrumbs, array(
+	$lastCrumb => array('list'),
 	$model->title => array('item', 'id' => $model->id),
 	'Удалить',
-);
+));
+$this->setBreadcrumbs($breadcrumbs);
+$this->pageTitle = 'Удалить новость | ' . Yii::app()->name;
 ?>
 
 <form method="post">

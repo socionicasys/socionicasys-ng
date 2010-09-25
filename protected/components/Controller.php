@@ -18,6 +18,10 @@ class Controller extends RightsBaseController
 	 */ 
 	protected $_menuManager;
 	
+	protected $_majorMenu;
+	protected $_minorMenu;
+	protected $_breadcrumbs;
+	
 	/**
 	 * Элементы главного меню. Это свойство будет использовано в
 	 * {@link CMenu::items}.
@@ -25,18 +29,31 @@ class Controller extends RightsBaseController
 	 */
 	public function getMajorMenu()
 	{
+		if ($this->_majorMenu !== null)
+		{
+			return $this->_majorMenu;
+		}
+		
 		if ($this->_menuManager === null)
 		{
 			$this->_menuManager = Yii::app()->getComponent('menuManager');
 		}
+		
 		if ($this->_menuManager === null)
 		{
-			return array();
+			$this->_majorMenu = array();
 		}
 		else
 		{
-			return $this->_menuManager->getMajorMenu();
+			$this->_majorMenu = $this->_menuManager->getMajorMenu();
 		}
+		
+		return $this->_majorMenu;
+	}
+	
+	public function setMajorMenu($majorMenu)
+	{
+		$this->_majorMenu = $majorMenu;
 	}
 
 	/**
@@ -46,20 +63,33 @@ class Controller extends RightsBaseController
 	 */
 	public function getMinorMenu()
 	{
+		if ($this->_minorMenu !== null)
+		{
+			return $this->_minorMenu;
+		}
+		
 		if ($this->_menuManager === null)
 		{
 			$this->_menuManager = Yii::app()->getComponent('menuManager');
 		}
+		
 		if ($this->_menuManager === null)
 		{
-			return array();
+			$this->_minorMenu = array();
 		}
 		else
 		{
-			return $this->_menuManager->getMinorMenu();
+			$this->_minorMenu = $this->_menuManager->getMinorMenu();
 		}
+		
+		return $this->_minorMenu;
 	}
-
+	
+	public function setMinorMenu($minorMenu)
+	{
+		$this->_minorMenu = $minorMenu;
+	}
+	
 	/**
 	 * «Хлебные крошки» текущей страницы. Данное свойство используется в качестве
 	 * значения для {@link CBreadcrumbs::links}.
@@ -67,17 +97,30 @@ class Controller extends RightsBaseController
 	 */
 	public function getBreadcrumbs()
 	{
+		if ($this->_breadcrumbs !== null)
+		{
+			return $this->_breadcrumbs;
+		}
+		
 		if ($this->_menuManager === null)
 		{
 			$this->_menuManager = Yii::app()->getComponent('menuManager');
 		}
+		
 		if ($this->_menuManager === null)
 		{
-			return array();
+			$this->_breadcrumbs = array();
 		}
 		else
 		{
-			return $this->_menuManager->getBreadcrumbs();
+			$this->_breadcrumbs = $this->_menuManager->getBreadcrumbs();
 		}
+		
+		return $this->_breadcrumbs;
+	}
+	
+	public function setBreadcrumbs($breadcrumbs)
+	{
+		$this->_breadcrumbs = $breadcrumbs;
 	}
 }

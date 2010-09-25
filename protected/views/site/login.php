@@ -1,8 +1,14 @@
 <?php
-$this->pageTitle = 'Вход | ' . Yii::app()->name;
-$this->breadcrumbs = array(
+$this->pageTitle=Yii::app()->name;
+$breadcrumbs = $this->getBreadcrumbs();
+$lastCrumb = $breadcrumbs[0];
+unset($breadcrumbs[0]);
+$breadcrumbs = array_merge($breadcrumbs, array(
+	$lastCrumb => Yii::app()->homeUrl,
 	'Вход',
-);
+));
+$this->setBreadcrumbs($breadcrumbs);
+$this->pageTitle = 'Вход | ' . Yii::app()->name;
 ?>
 <h1>Вход</h1>
 <p>Введите Ваше имя пользователя и пароль для входа на сайт:</p>
