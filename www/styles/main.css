@@ -332,9 +332,9 @@ h3 a.headerlink:hover {
 
 /** Ссылки управления страницей **/
 #page-controls {
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 1.875em;
-	margin: 0.6875em 0;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 1.25em;
+	margin-bottom: 1.325em;
 }
 
 #page-controls ul {
@@ -346,9 +346,8 @@ h3 a.headerlink:hover {
 	list-style: none;
 	float: left;
 	padding-left: 1em;
-	padding-bottom: 0.625em;
 	margin-left: 1em;
-	border-left: 1px solid #ccc;
+	border-left: 1px solid #ddd;
 }
 
 #page-controls li:first-child {
