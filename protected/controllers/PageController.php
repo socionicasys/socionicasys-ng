@@ -58,6 +58,35 @@ class PageController extends Controller
 			throw new CHttpException(404, 'Страница не найдена');
 		}
 		
+		$webUser = Yii::app()->user;
+		$links = array();
+		$pageControls = false;
+		if ($webUser->checkAccess('Page.Manage'))
+		{
+			$links['manage'] = $this->createUrl('manage');
+		}
+		if ($webUser->checkAccess('Page.Create'))
+		{
+			$links['create'] = $this->createUrl('create', array(
+				'path' => $path,
+			));
+			$pageControls = true;
+		}
+		if ($webUser->checkAccess('Page.Edit'))
+		{
+			$links['edit'] = $this->createUrl('edit', array(
+				'path' => $path,
+			));
+			$pageControls = true;
+		}
+		if ($webUser->checkAccess('Page.Delete'))
+		{
+			$links['delete'] = $this->createUrl('delete', array(
+				'path' => $path,
+			));
+			$pageControls = true;
+		}
+		
 		if ($page->title !== null)
 		{
 			$this->pageTitle = $page->title . ' | ' . Yii::app()->name;
@@ -68,6 +97,25 @@ class PageController extends Controller
 		}
 		
 		$this->layout = '//layouts/article';
-		$this->renderText($page->text);
+		$this->render('view', array(
+			'text' => $page->text,
+			'links' => $links,
+			'pageControls' => $pageControls,
+		));
+	}
+	
+	public function actionCreate($path = '/')
+	{
+		
+	}
+
+	public function actionEdit($path = '/')
+	{
+		
+	}
+
+	public function actionDelete($path = '/')
+	{
+		
 	}
 }

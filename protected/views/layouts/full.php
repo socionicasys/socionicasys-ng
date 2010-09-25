@@ -60,6 +60,7 @@ $cs->registerLinkTag(
 					));
 				?>
 			</nav>
+			<?php echo $this->clips['sidebar']; ?>
 		</aside>
 	</div>
 <?php $this->widget('GoogleAnalytics'); ?>
