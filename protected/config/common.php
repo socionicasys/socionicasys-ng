@@ -56,15 +56,18 @@ return array(
 				'rights/<controller:\w+>/<id:\d+>' => 'rights/<controller>/view',
 				'rights/<controller:\w+>/<action:\w+>/<id:\d+>' => 'rights/<controller>/<action>',
 				'rights/<controller:\w+>/<action:\w+>' => 'rights/<controller>/<action>',
+				// StaticController
+				'static/<path:.*>' => array('static/view', 'keepSlashes' => true),
+				'static/' => 'static/view',
 				// Управление страницами
-				'page/<action:(manage|render|createnode|renamenode|deletenode|movenode|copynode|createroot)>' => 'page/<action>',
-				'page/<path:.*>' => array('page/view', 'keepSlashes' => true),
-				'page' => 'page/view',
-				// Все адреса, не обработанные выше, отображаются с помощью
-				// контроллера StaticController
-				'<path:.*>' => array('static/view', 'keepSlashes' => true),
-				// Заглавная страница отображается статично
-				'/' => 'static/view',
+				'page/create/<id:\d+>' => 'page/create',
+				'page/<action:(manage|create|render|createnode|renamenode|deletenode|movenode|copynode|createroot)>' => 'page/<action>',
+				'edit' => array('page/edit', 'defaultParams' => array('path' => '')),
+				'delete' => array('page/delete', 'defaultParams' => array('path' => '')),
+				'<path:.+>/edit' => array('page/edit', 'keepSlashes' => true),
+				'<path:.+>/delete' => array('page/delete', 'keepSlashes' => true),
+				'<path:.*>' => array('page/view', 'keepSlashes' => true),
+				'/' => 'page/view',
 			),
 		),
 		'errorHandler'=>array(

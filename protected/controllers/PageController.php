@@ -61,6 +61,7 @@ class PageController extends Controller
 		$webUser = Yii::app()->user;
 		$links = array();
 		$pageControls = false;
+		$path = trim($path, '/');
 		if ($webUser->checkAccess('Page.Manage'))
 		{
 			$links['manage'] = $this->createUrl('manage');
@@ -68,7 +69,7 @@ class PageController extends Controller
 		if ($webUser->checkAccess('Page.Create'))
 		{
 			$links['create'] = $this->createUrl('create', array(
-				'path' => $path,
+				'id' => $page->id,
 			));
 			$pageControls = true;
 		}
