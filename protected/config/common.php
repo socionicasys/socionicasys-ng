@@ -85,7 +85,6 @@ return array(
 		),
 		'menuManager' => array(
 			'class' => 'MenuManager',
-			'pageTree' => 'pageTree',
 		),
 		'authManager' => array(
 			'class'           => 'RightsAuthManager',
