@@ -119,7 +119,7 @@ body {
 }
 
 #content-wrap>div {
-	margin-top: 1.5em;
+	margin-top: 1.3125em;
 }
 
 #content-wrap #breadcrumbs + div {
@@ -148,11 +148,11 @@ body {
 }
 
 #manage-pages {
-	font-size: 0.875em;
-	line-height: 1.5;
-	width: 12em;
-	margin-top: 0.714em;
-	padding-top: 0.714em;
+	font-size: 0.75em;
+	line-height: 1.75;
+	width: 14em;
+	margin-top: 0.833em;
+	padding-top: 0.833em;
 	border-top: 1px solid #ddd;
 }
 
@@ -332,8 +332,8 @@ h3 a.headerlink:hover {
 /** Ссылки управления страницей **/
 #page-controls {
 	border-bottom: 1px solid #ddd;
-	padding-bottom: 1.25em;
-	margin-bottom: 1.325em;
+	padding-bottom: 1.428571428em;
+	margin-bottom: 1.5em;
 }
 
 #page-controls ul {
