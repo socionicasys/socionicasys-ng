@@ -44,24 +44,12 @@ class PageController extends Controller
 
 	public function actionView($path = '/')
 	{
-		if (strpos($path, '/') !== 0)
-		{
-			$path = '/' . $path;
-		}
-		
-		$page = Nav::model()->findByAttributes(array(
-			'url' => $path
-		));
-		if ($page === null)
-		{
-			Yii::log("Unable to find page $path", 'error', 'application.controllers.PageController');
-			throw new CHttpException(404, 'Страница не найдена');
-		}
+		$page = $this->loadModel($path);
+		$path = trim($path, '/');
 		
 		$webUser = Yii::app()->user;
 		$links = array();
 		$pageControls = false;
-		$path = trim($path, '/');
 		if ($webUser->checkAccess('Page.Manage'))
 		{
 			$links['manage'] = $this->createUrl('manage');
@@ -108,18 +96,77 @@ class PageController extends Controller
 		));
 	}
 	
-	public function actionCreate($path = '/')
+	public function actionCreate($id = null)
 	{
+		$model = new Nav;
+		if ($id === null)
+		{
+			// Если корень не указан, делаем страницу страницей первого уровня
+			$id = 1;
+		}
 		
+		if (isset($_POST['Nav']))
+		{
+			$model->attributes = $_POST['Nav'];
+			// TODO: автоматическое заполнение url
+			$parent = Nav::model()->findByPk($id);
+			$model->appendTo($parent);
+			if ($model->saveNode())
+			{
+				$this->redirect(array('view', 'path' => trim($model->url, '/')));
+			}
+		}
+		
+		$this->render('create', array(
+			'model' => $model,
+		));
 	}
 
 	public function actionEdit($path = '/')
 	{
+		$model = $this->loadModel($path);
+		$path = trim($path, '/');
+
+		if (isset($_POST['Nav']))
+		{
+			$model->attributes = $_POST['Nav'];
+			if ($model->saveNode())
+			{
+				$this->redirect(array('view', 'path' => $path));
+			}
+		}
 		
+		$this->render('edit', array(
+			'model' => $model,
+		));
 	}
 
 	public function actionDelete($path = '/')
 	{
+		$page = $this->loadModel($path);
+	}
+	
+	/**
+	 * Загружает модель страницы по ее адресу
+	 * @param $path string адрес страницы
+	 * @return Nav модель страницы
+	 */
+	protected function loadModel($path = '/')
+	{
+		if (strpos($path, '/') !== 0)
+		{
+			$path = '/' . $path;
+		}
 		
+		$model = Nav::model()->findByAttributes(array(
+			'url' => $path
+		));
+		if ($model === null)
+		{
+			Yii::log("Unable to find page $path", 'error', 'application.controllers.PageController');
+			throw new CHttpException(404, 'Страница не найдена');
+		}
+
+		return $model;
 	}
 }

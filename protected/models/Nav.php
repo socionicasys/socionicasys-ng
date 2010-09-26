@@ -55,12 +55,13 @@ class Nav extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-			array('lft, rgt, level', 'required'),
-			array('root, lft, rgt, level, type', 'numerical', 'integerOnly'=>true),
 			array('url, title, menu_title', 'length', 'max'=>255),
+			array('title', 'required'),
+			array('url', 'match',
+				'pattern' => '/^(\/[-a-z0-9_%+.]+)*\/?$/',
+				'message' => 'Адрес может содержать только символы a-z, 0-9, -, _, %, +, .',
+			),
 			array('text', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -85,16 +86,10 @@ class Nav extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'root' => 'Root',
-			'lft' => 'Lft',
-			'rgt' => 'Rgt',
-			'level' => 'Level',
-			'type' => 'Type',
-			'url' => 'Url',
-			'title' => 'Title',
-			'menu_title' => 'Menu Title',
-			'text' => 'Text',
+			'url' => 'Адрес страницы',
+			'title' => 'Заголовок в браузере',
+			'menu_title' => 'Заголовок в меню',
+			'text' => 'Текст',
 		);
 	}
 
