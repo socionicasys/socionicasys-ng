@@ -108,8 +108,12 @@ class PageController extends Controller
 		if (isset($_POST['Nav']))
 		{
 			$model->attributes = $_POST['Nav'];
-			// TODO: автоматическое заполнение url
 			$parent = Nav::model()->findByPk($id);
+			if (empty($model->url))
+			{
+				$model->url = '/' . trim($parent->url, '/') . '/' .
+					$this->rus2translit($model->menu_title);
+			}
 			$model->appendTo($parent);
 			if ($model->saveNode())
 			{
