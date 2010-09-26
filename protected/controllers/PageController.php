@@ -147,7 +147,24 @@ class PageController extends Controller
 
 	public function actionDelete($path = '/')
 	{
-		$page = $this->loadModel($path);
+		$model = $this->loadModel($path);
+		
+		if (Yii::app()->request->isPostRequest)
+		{
+			if (isset($_POST['delete']))
+			{
+				$model->deleteNode();
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : Yii::app()->homeUrl);
+			}
+			else
+			{
+				$this->redirect(array('view', 'path' => $model->url));
+			}
+		}
+		
+		$this->render('delete', array(
+			'model' => $model,
+		));
 	}
 	
 	/**
