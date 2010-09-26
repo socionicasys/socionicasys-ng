@@ -13,3 +13,21 @@ CREATE TABLE IF NOT EXISTS tbl_user
 	password VARCHAR(128) NULL,
 	salt VARCHAR(128) NULL
 );
+CREATE TABLE tbl_nav
+(
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	root INTEGER DEFAULT NULL,
+	lft INTEGER NOT NULL,
+	rgt INTEGER NOT NULL,
+	level INTEGER NOT NULL,
+	type INTEGER,
+	url VARCHAR(255),
+	title VARCHAR(255),
+	menu_title VARCHAR(255),
+	text TEXT
+);
+CREATE INDEX level ON tbl_nav (level);
+CREATE INDEX lft ON tbl_nav (lft);
+CREATE INDEX rgt ON tbl_nav (rgt);
+CREATE INDEX root ON tbl_nav (root);
+CREATE UNIQUE INDEX url ON tbl_nav (url);

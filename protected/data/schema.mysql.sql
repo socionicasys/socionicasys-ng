@@ -16,3 +16,22 @@ CREATE TABLE IF NOT EXISTS tbl_user
 	PRIMARY KEY (id),
 	UNIQUE KEY (phpbb_id)
 );
+CREATE TABLE IF NOT EXISTS tbl_nav
+(
+	id INT(10) NOT NULL AUTO_INCREMENT,
+	root INT(10) DEFAULT NULL,
+	lft INT(10) NOT NULL,
+	rgt INT(10) NOT NULL,
+	level SMALLINT(5) NOT NULL,
+	type INTEGER DEFAULT NULL,
+	url VARCHAR(255) DEFAULT NULL,
+	title VARCHAR(255) DEFAULT NULL,
+	menu_title VARCHAR(255) DEFAULT NULL,
+	text TEXT,
+	PRIMARY KEY (id),
+	UNIQUE KEY url (url),
+	KEY root (root),
+	KEY level (level),
+	KEY lft (lft),
+	KEY rgt (rgt)
+);
