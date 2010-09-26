@@ -1,5 +1,5 @@
 <?php
-$this->widget('ext.EJNestedTreeActions.EJsTreeEx', array(
+$this->widget('JsTreeEx', array(
 	'buttons' => array(
 		'create' => array(
 			'label' => 'Создать страницу',
@@ -21,26 +21,6 @@ $this->widget('ext.EJNestedTreeActions.EJsTreeEx', array(
 				'class' => 'btn delete',
 				'onclick' => '$.tree.focused().remove();',
 			),
-		),
-		'create_root' => array(
-			'type' => 'ajax',
-			'label' => 'Create root',
-			'ajaxurl' => '',
-			'ajaxoptions' => array(
-				'global'=>false,
-				'type' => "POST",
-				'async'=> false,
-				'success'=>'js:function(bool) {
-					if (bool) {
-						$.tree.focused().refresh();
-					} else {
-						alert("You can not create root");
-					}
-				}'
-			),		
-			'options' => array(
-				'class' => 'btn add',				
-			),			
 		),
 	),
 ));

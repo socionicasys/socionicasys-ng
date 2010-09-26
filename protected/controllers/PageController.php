@@ -18,7 +18,8 @@ class PageController extends Controller
 		);
 	}
 	
-	public function actions() {
+	public function actions()
+	{
 		return array (
 			'render' => 'ext.EJNestedTreeActions.actions.Render',
 			'createnode' => 'ext.EJNestedTreeActions.actions.Createnode',
