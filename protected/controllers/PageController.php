@@ -97,6 +97,9 @@ class PageController extends Controller
 			$this->pageTitle = Yii::app()->name;
 		}
 		
+		Yii::app()->clientScript->registerScriptFile(
+			Yii::app()->baseUrl . '/scripts/hyphenate.js'
+		);
 		$this->layout = '//layouts/article';
 		$this->render('view', array(
 			'text' => $page->text,
