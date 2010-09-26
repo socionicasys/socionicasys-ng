@@ -147,6 +147,15 @@ body {
 	color: #7c900a;
 }
 
+#manage-pages {
+	font-size: 0.875em;
+	line-height: 1.5;
+	width: 12em;
+	margin-top: 0.714em;
+	padding-top: 0.714em;
+	border-top: 1px solid #ddd;
+}
+
 /*** Содержимое ***/
 #content {
 	font-size: 0.875em;
@@ -320,6 +329,38 @@ h3 a.headerlink:hover {
 	border: none;
 }
 
+/** Ссылки управления страницей **/
+#page-controls {
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 1.25em;
+	margin-bottom: 1.325em;
+}
+
+#page-controls ul {
+	padding: 0;
+	margin: 0;
+}
+
+#page-controls li {
+	list-style: none;
+	float: left;
+	padding-left: 1em;
+	margin-left: 1em;
+	border-left: 1px solid #ddd;
+}
+
+#page-controls li:first-child {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+#page-controls a {
+	text-decoration: none;
+	color: #7C900A
+}
+
+
 /** Таблицы и диаграммы **/
 #aspects {
 	margin: 0 auto;
@@ -393,6 +434,13 @@ figure.floating {
 
 figcaption {
 	font-weight: bold;
+}
+
+/** Дерево страниц **/
+#content .tree ol,
+#content .tree ul {
+	margin: inherit;
+	padding-left: inherit;
 }
 
 /** Формы **/

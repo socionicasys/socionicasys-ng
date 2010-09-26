@@ -42,8 +42,8 @@ return array(
 				'login' => 'site/login',
 				'logout' => 'site/logout',
 				// Новости
-				'novosti' => 'news/list',
 				'novosti/<News_page:\d+>' => 'news/list',
+				'novosti' => 'news/list',
 				'novosti/statja/<id:\d+>' => 'news/item',
 				'novosti/statja/<id:\d+>/edit' => 'news/edit',
 				'novosti/statja/<id:\d+>/delete' => 'news/delete',
@@ -56,11 +56,18 @@ return array(
 				'rights/<controller:\w+>/<id:\d+>' => 'rights/<controller>/view',
 				'rights/<controller:\w+>/<action:\w+>/<id:\d+>' => 'rights/<controller>/<action>',
 				'rights/<controller:\w+>/<action:\w+>' => 'rights/<controller>/<action>',
-				// Все адреса, не обработанные выше, отображаются с помощью
-				// контроллера StaticController
-				'<path:.*>' => array('static/view', 'keepSlashes' => true),
-				// Заглавная страница отображается статично
-				'/' => 'static/view',
+				// StaticController
+				'static/<path:.*>' => array('static/view', 'keepSlashes' => true),
+				'static/' => 'static/view',
+				// Управление страницами
+				'page/create/<id:\d+>' => 'page/create',
+				'page/<action:(manage|create|render|createnode|renamenode|deletenode|movenode|copynode|createroot)>' => 'page/<action>',
+				'edit' => array('page/edit', 'defaultParams' => array('path' => '')),
+				'delete' => array('page/delete', 'defaultParams' => array('path' => '')),
+				'<path:.+>/edit' => array('page/edit', 'keepSlashes' => true),
+				'<path:.+>/delete' => array('page/delete', 'keepSlashes' => true),
+				'<path:.*>' => array('page/view', 'keepSlashes' => true),
+				'/' => 'page/view',
 			),
 		),
 		'errorHandler'=>array(
@@ -81,7 +88,6 @@ return array(
 		),
 		'menuManager' => array(
 			'class' => 'MenuManager',
-			'pageTree' => 'pageTree',
 		),
 		'authManager' => array(
 			'class'           => 'RightsAuthManager',

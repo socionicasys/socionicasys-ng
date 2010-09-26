@@ -36,6 +36,9 @@ class LegacyRedirectController extends Controller
 				'' => array(
 					'' => array('static/view', 'path' => 'teorija'),
 				),
+				'0' => array(
+					'' => array('static/view', 'path' => 'teorija'),
+				),
 				'1' => array(
 					''   => array('static/view', 'path' => 'teorija/sistemnyj-podhod'),
 					'23' => array('static/view', 'path' => 'teorija/sistemnyj-podhod/sistema'),

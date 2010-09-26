@@ -3,16 +3,15 @@ $breadcrumbs = $this->getBreadcrumbs();
 $lastCrumb = $breadcrumbs[0];
 unset($breadcrumbs[0]);
 $breadcrumbs = array_merge($breadcrumbs, array(
-	$lastCrumb => array('list'),
-	$model->title => array('item', 'id' => $model->id),
+	$lastCrumb => $model->url,
 	'Удалить',
 ));
 $this->setBreadcrumbs($breadcrumbs);
-$this->pageTitle = 'Удалить новость | ' . Yii::app()->name;
+$this->pageTitle = 'Удалить страницу | ' . Yii::app()->name;
 ?>
 
 <form method="post">
-	<p>Вы действительно желаете удалить новостную статью?</p>
+	<p>Вы действительно желаете удалить страницу?</p>
 	<div class="row buttons">
 		<input type="submit" name="cancel" value="Отменить" />
 		<input type="submit" name="delete" value="Удалить" />

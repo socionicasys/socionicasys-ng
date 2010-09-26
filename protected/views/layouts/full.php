@@ -36,12 +36,16 @@ $cs->registerLinkTag(
 	</nav>
 	<div id="content-area">
 		<div id="content-wrap">
-			<?php if (!empty($this->breadcrumbs)): ?>
-				<nav id="breadcrumbs">
-					<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-						'links'=>$this->breadcrumbs,
-					)); ?>
-				</nav>
+			<?php
+			$breadcrumbs = $this->getBreadcrumbs();
+			if (count($breadcrumbs) > 1):
+			?>
+			<nav id="breadcrumbs">
+				<?php $this->widget('zii.widgets.CBreadcrumbs', array(
+					'links' => $breadcrumbs,
+					'homeLink' => false,
+				)); ?>
+			</nav>
 			<?php endif; ?>
 			<div class="hyphenate">
 				<?php echo $content; ?>
@@ -56,6 +60,7 @@ $cs->registerLinkTag(
 					));
 				?>
 			</nav>
+			<?php echo $this->clips['sidebar']; ?>
 		</aside>
 	</div>
 <?php $this->widget('GoogleAnalytics'); ?>
