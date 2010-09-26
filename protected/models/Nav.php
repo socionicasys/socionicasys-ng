@@ -57,7 +57,7 @@ class Nav extends CActiveRecord
 	{
 		return array(
 			array('url, title, menu_title', 'length', 'max'=>255),
-			array('title', 'required'),
+			array('menu_title', 'required'),
 			array('url', 'match',
 				'pattern' => '/^(\/[-a-z0-9_%+.]+)*\/?$/',
 				'message' => 'Адрес может содержать только символы a-z, 0-9, -, _, %, +, .',
