@@ -76,7 +76,7 @@ class PageController extends Controller
 			$pageControls = true;
 		}
 		
-		if ($page->title !== null)
+		if (!empty($page->title))
 		{
 			$this->pageTitle = $page->title . ' | ' . Yii::app()->name;
 		}
