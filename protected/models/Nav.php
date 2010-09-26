@@ -19,6 +19,8 @@
  */
 class Nav extends CActiveRecord
 {
+	protected $_htmlPurifier;
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Nav the static model class
@@ -118,5 +120,30 @@ class Nav extends CActiveRecord
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	protected function beforeSave()
+	{
+		if (parent::beforeSave())
+		{
+			$this->text = $this->getHtmlPurifier()->purify($this->text);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * @return CHtmlPurifier
+	 */
+	public function getHtmlPurifier()
+	{
+		if ($this->_htmlPurifier === null)
+		{
+			$this->_htmlPurifier = new CHtmlPurifier();
+		}
+		return $this->_htmlPurifier;
 	}
 }
