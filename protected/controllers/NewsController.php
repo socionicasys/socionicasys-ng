@@ -157,12 +157,17 @@ class NewsController extends Controller
 	public function loadModel($id)
 	{
 		$newsArticleId = (int)$id;
-		$this->_newsArticle = News::model()->findByPk($newsArticleId);
-		if ($this->_newsArticle === null)
+		$cacheId = "model-news-$newsArticleId";
+		if (($this->_newsArticle = Yii::app()->cache->get($cacheId)) === false)
 		{
-			Yii::log("News item with id=$newsArticleId is not found", 'error',
-				'application.controllers.NewsController');
-			throw new CHttpException(404, 'Новость не найдена.');
+			$this->_newsArticle = News::model()->findByPk($newsArticleId);
+			if ($this->_newsArticle === null)
+			{
+				Yii::log("News item with id=$newsArticleId is not found", 'error',
+					'application.controllers.NewsController');
+				throw new CHttpException(404, 'Новость не найдена.');
+			}
+			Yii::app()->cache->set($cacheId, $this->_newsArticle, 3600);
 		}
 		return $this->_newsArticle;
 	}
@@ -173,9 +178,13 @@ class NewsController extends Controller
 		require_once('Zend/Loader/Autoloader.php');
 		Yii::registerAutoloader(array('Zend_Loader_Autoloader', 'autoload'));
 		
-		$latestNews = News::model()->findAll(array(
-			'limit' => 10,
-		));
+		if (($latestNews = Yii::app()->cache->get('model-news-latest-10')) === false)
+		{
+			$latestNews = News::model()->findAll(array(
+				'limit' => 10,
+			));
+			Yii::app()->cache->set('model-news-latest-10', $latestNews, 3600);
+		}
 		
 		$feedEntries = array();
 		$lastUpdateTime = null; 
