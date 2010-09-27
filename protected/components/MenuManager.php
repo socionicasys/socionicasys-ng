@@ -86,9 +86,13 @@ class MenuManager extends CApplicationComponent
 		
 		// Главное меню
 		$majorMenu = array();
-		$toplevelNodes = Nav::model()->findAllByAttributes(array(
-			'level' => 2,
-		));
+		if (($toplevelNodes = Yii::app()->cache->get('model-nav-menu-toplevel')) === false)
+		{
+			$toplevelNodes = Nav::model()->findAllByAttributes(array(
+				'level' => 2,
+			));
+			Yii::app()->cache->set('model-nav-menu-toplevel', $toplevelNodes, 600);
+		}
 		$currentToplevelNode = null;
 		foreach ($toplevelNodes as $node)
 		{
