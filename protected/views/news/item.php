@@ -11,5 +11,5 @@ $this->pageTitle = 'Новости | ' . Yii::app()->name;
 
 $this->renderPartial('_item', array(
 	'data' => $model,
-	'articleLinks' => $articleLinks,
+	'links' => $links,
 )); ?>

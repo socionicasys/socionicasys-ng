@@ -17,25 +17,25 @@ class NewsController extends Controller
 	{
 		$model = $this->loadModel($id);
 		
-		$articleLinks = array();
+		$links = array();
 		$webUser = Yii::app()->user;
 		if (!$webUser->isGuest && $webUser->checkAccess('News.Edit'))
 		{
-			$articleLinks['edit'] = array();
-			$articleLinks['edit']['route'] = 'edit';
-			$articleLinks['edit']['params'] = array('id' => $model->id);
+			$links['edit'] = $this->createUrl('edit', array(
+				'id' => $model->id,
+			));
 		}
 		if (!$webUser->isGuest && $webUser->checkAccess('News.Delete'))
 		{
-			$articleLinks['delete'] = array();
-			$articleLinks['delete']['route'] = 'delete';
-			$articleLinks['delete']['params'] = array('id' => $model->id);
+			$links['delete'] = $this->createUrl('delete', array(
+				'id' => $model->id,
+			));
 		}
 		
 		$this->layout = '//layouts/article';
 		$this->render('item', array(
 			'model' => $model,
-			'articleLinks' => $articleLinks,
+			'links' => $links,
 		));
 	}
 	
@@ -48,42 +48,35 @@ class NewsController extends Controller
 		));
 
 		$webUser = Yii::app()->user;
+		$links = array();
 		if (!$webUser->isGuest && $webUser->checkAccess('News.Create'))
 		{
-			$createUrlRoute = 'create';
-			$createUrlParams = array();
-		}
-		else
-		{
-			$createUrlRoute = null;
-			$createUrlParams = null;
+			$links['create'] = $this->createUrl('create');
 		}
 		
 		$data = $dataProvider->getData();
-		$articleLinks = array();
+		$links['article'] = array();
 		foreach ($data as $item)
 		{
 			$itemLinks = array();
 			if (!$webUser->isGuest && $webUser->checkAccess('News.Edit'))
 			{
-				$itemLinks['edit'] = array();
-				$itemLinks['edit']['route'] = 'edit';
-				$itemLinks['edit']['params'] = array('id' => $item->id);
+				$itemLinks['edit'] = $this->createUrl('edit', array(
+					'id' => $item->id,
+				));
 			}
 			if (!$webUser->isGuest && $webUser->checkAccess('News.Delete'))
 			{
-				$itemLinks['delete'] = array();
-				$itemLinks['delete']['route'] = 'delete';
-				$itemLinks['delete']['params'] = array('id' => $item->id);
+				$itemLinks['delete'] = $this->createUrl('delete', array(
+					'id' => $item->id,
+				));
 			}
-			$articleLinks[] = $itemLinks;
+			$links['article'][] = $itemLinks;
 		}
 		
 		$viewParameters = array(
 			'dataProvider' => $dataProvider,
-			'createUrlRoute' => $createUrlRoute,
-			'createUrlParams' => $createUrlParams,
-			'articleLinks' => $articleLinks,
+			'links' => $links,
 		);
 		
 		if (Yii::app()->request->isAjaxRequest)
