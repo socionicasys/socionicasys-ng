@@ -19,13 +19,13 @@ class NewsController extends Controller
 		
 		$articleLinks = array();
 		$webUser = Yii::app()->user;
-		if ($webUser->checkAccess('News.Edit'))
+		if (!$webUser->isGuest && $webUser->checkAccess('News.Edit'))
 		{
 			$articleLinks['edit'] = array();
 			$articleLinks['edit']['route'] = 'edit';
 			$articleLinks['edit']['params'] = array('id' => $model->id);
 		}
-		if ($webUser->checkAccess('News.Delete'))
+		if (!$webUser->isGuest && $webUser->checkAccess('News.Delete'))
 		{
 			$articleLinks['delete'] = array();
 			$articleLinks['delete']['route'] = 'delete';
@@ -48,7 +48,7 @@ class NewsController extends Controller
 		));
 
 		$webUser = Yii::app()->user;
-		if ($webUser->checkAccess('News.Create'))
+		if (!$webUser->isGuest && $webUser->checkAccess('News.Create'))
 		{
 			$createUrlRoute = 'create';
 			$createUrlParams = array();
@@ -64,13 +64,13 @@ class NewsController extends Controller
 		foreach ($data as $item)
 		{
 			$itemLinks = array();
-			if ($webUser->checkAccess('News.Edit'))
+			if (!$webUser->isGuest && $webUser->checkAccess('News.Edit'))
 			{
 				$itemLinks['edit'] = array();
 				$itemLinks['edit']['route'] = 'edit';
 				$itemLinks['edit']['params'] = array('id' => $item->id);
 			}
-			if ($webUser->checkAccess('News.Delete'))
+			if (!$webUser->isGuest && $webUser->checkAccess('News.Delete'))
 			{
 				$itemLinks['delete'] = array();
 				$itemLinks['delete']['route'] = 'delete';

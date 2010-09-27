@@ -51,25 +51,25 @@ class PageController extends Controller
 		$webUser = Yii::app()->user;
 		$links = array();
 		$pageControls = false;
-		if ($webUser->checkAccess('Page.Manage'))
+		if (!$webUser->isGuest && $webUser->checkAccess('Page.Manage'))
 		{
 			$links['manage'] = $this->createUrl('manage');
 		}
-		if ($webUser->checkAccess('Page.Create'))
+		if (!$webUser->isGuest && $webUser->checkAccess('Page.Create'))
 		{
 			$links['create'] = $this->createUrl('create', array(
 				'id' => $page->id,
 			));
 			$pageControls = true;
 		}
-		if ($webUser->checkAccess('Page.Edit'))
+		if (!$webUser->isGuest && $webUser->checkAccess('Page.Edit'))
 		{
 			$links['edit'] = $this->createUrl('edit', array(
 				'path' => $path,
 			));
 			$pageControls = true;
 		}
-		if ($webUser->checkAccess('Page.Delete'))
+		if (!$webUser->isGuest && $webUser->checkAccess('Page.Delete'))
 		{
 			$links['delete'] = $this->createUrl('delete', array(
 				'path' => $path,
