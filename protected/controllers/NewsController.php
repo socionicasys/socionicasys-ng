@@ -17,25 +17,25 @@ class NewsController extends Controller
 	{
 		$model = $this->loadModel($id);
 		
-		$articleLinks = array();
+		$links = array();
 		$webUser = Yii::app()->user;
-		if ($webUser->checkAccess('News.Edit'))
+		if (!$webUser->isGuest && $webUser->checkAccess('News.Edit'))
 		{
-			$articleLinks['edit'] = array();
-			$articleLinks['edit']['route'] = 'edit';
-			$articleLinks['edit']['params'] = array('id' => $model->id);
+			$links['edit'] = $this->createUrl('edit', array(
+				'id' => $model->id,
+			));
 		}
-		if ($webUser->checkAccess('News.Delete'))
+		if (!$webUser->isGuest && $webUser->checkAccess('News.Delete'))
 		{
-			$articleLinks['delete'] = array();
-			$articleLinks['delete']['route'] = 'delete';
-			$articleLinks['delete']['params'] = array('id' => $model->id);
+			$links['delete'] = $this->createUrl('delete', array(
+				'id' => $model->id,
+			));
 		}
 		
 		$this->layout = '//layouts/article';
 		$this->render('item', array(
 			'model' => $model,
-			'articleLinks' => $articleLinks,
+			'links' => $links,
 		));
 	}
 	
@@ -48,42 +48,35 @@ class NewsController extends Controller
 		));
 
 		$webUser = Yii::app()->user;
-		if ($webUser->checkAccess('News.Create'))
+		$links = array();
+		if (!$webUser->isGuest && $webUser->checkAccess('News.Create'))
 		{
-			$createUrlRoute = 'create';
-			$createUrlParams = array();
-		}
-		else
-		{
-			$createUrlRoute = null;
-			$createUrlParams = null;
+			$links['create'] = $this->createUrl('create');
 		}
 		
 		$data = $dataProvider->getData();
-		$articleLinks = array();
+		$links['article'] = array();
 		foreach ($data as $item)
 		{
 			$itemLinks = array();
-			if ($webUser->checkAccess('News.Edit'))
+			if (!$webUser->isGuest && $webUser->checkAccess('News.Edit'))
 			{
-				$itemLinks['edit'] = array();
-				$itemLinks['edit']['route'] = 'edit';
-				$itemLinks['edit']['params'] = array('id' => $item->id);
+				$itemLinks['edit'] = $this->createUrl('edit', array(
+					'id' => $item->id,
+				));
 			}
-			if ($webUser->checkAccess('News.Delete'))
+			if (!$webUser->isGuest && $webUser->checkAccess('News.Delete'))
 			{
-				$itemLinks['delete'] = array();
-				$itemLinks['delete']['route'] = 'delete';
-				$itemLinks['delete']['params'] = array('id' => $item->id);
+				$itemLinks['delete'] = $this->createUrl('delete', array(
+					'id' => $item->id,
+				));
 			}
-			$articleLinks[] = $itemLinks;
+			$links['article'][] = $itemLinks;
 		}
 		
 		$viewParameters = array(
 			'dataProvider' => $dataProvider,
-			'createUrlRoute' => $createUrlRoute,
-			'createUrlParams' => $createUrlParams,
-			'articleLinks' => $articleLinks,
+			'links' => $links,
 		);
 		
 		if (Yii::app()->request->isAjaxRequest)
@@ -123,6 +116,8 @@ class NewsController extends Controller
 			$model->attributes = $_POST['News'];
 			if ($model->save())
 			{
+				Yii::app()->cache->delete('model-news-' . $id);
+				Yii::app()->cache->delete('model-news-latest-10');
 				$this->redirect(array('item', 'id' => $model->id));
 			}
 		}
@@ -141,6 +136,8 @@ class NewsController extends Controller
 			if (isset($_POST['delete']))
 			{
 				$model->delete();
+				Yii::app()->cache->delete('model-news-' . $id);
+				Yii::app()->cache->delete('model-news-latest-10');
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('list'));
 			}
 			else
@@ -157,12 +154,17 @@ class NewsController extends Controller
 	public function loadModel($id)
 	{
 		$newsArticleId = (int)$id;
-		$this->_newsArticle = News::model()->findByPk($newsArticleId);
-		if ($this->_newsArticle === null)
+		$cacheId = "model-news-$newsArticleId";
+		if (($this->_newsArticle = Yii::app()->cache->get($cacheId)) === false)
 		{
-			Yii::log("News item with id=$newsArticleId is not found", 'error',
-				'application.controllers.NewsController');
-			throw new CHttpException(404, 'Новость не найдена.');
+			$this->_newsArticle = News::model()->findByPk($newsArticleId);
+			if ($this->_newsArticle === null)
+			{
+				Yii::log("News item with id=$newsArticleId is not found", 'error',
+					'application.controllers.NewsController');
+				throw new CHttpException(404, 'Новость не найдена.');
+			}
+			Yii::app()->cache->set($cacheId, $this->_newsArticle, 3600);
 		}
 		return $this->_newsArticle;
 	}
@@ -173,9 +175,13 @@ class NewsController extends Controller
 		require_once('Zend/Loader/Autoloader.php');
 		Yii::registerAutoloader(array('Zend_Loader_Autoloader', 'autoload'));
 		
-		$latestNews = News::model()->findAll(array(
-			'limit' => 10,
-		));
+		if (($latestNews = Yii::app()->cache->get('model-news-latest-10')) === false)
+		{
+			$latestNews = News::model()->findAll(array(
+				'limit' => 10,
+			));
+			Yii::app()->cache->set('model-news-latest-10', $latestNews, 3600);
+		}
 		
 		$feedEntries = array();
 		$lastUpdateTime = null; 
