@@ -2,7 +2,6 @@
 <?php
 $this->renderPartial('_item', array(
 	'data' => $data,
-	'links' => $links['article'][$index],
 ));
 ?>
 </article>
