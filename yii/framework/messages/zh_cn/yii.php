@@ -13,7 +13,7 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id: yii.php 1901 2010-03-14 03:51:17Z qiang.xue $
+ * @version $Id$
  */
 return array (
   '&lt; Previous' => '&lt; 前页',

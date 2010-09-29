@@ -17,7 +17,7 @@
  * the same as the one evaluated when storing the data to cache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CExpressionDependency.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.caching.dependencies
  * @since 1.0
  */
@@ -34,7 +34,7 @@ class CExpressionDependency extends CCacheDependency
 
 	/**
 	 * Constructor.
-	 * @param string the PHP expression whose result is used to determine the dependency.
+	 * @param string $expression the PHP expression whose result is used to determine the dependency.
 	 */
 	public function __construct($expression='true')
 	{

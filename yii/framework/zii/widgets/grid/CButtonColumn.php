@@ -20,7 +20,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * and customize the display order of the buttons.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CButtonColumn.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -140,7 +140,6 @@ class CButtonColumn extends CGridColumn
 	/**
 	 * Initializes the column.
 	 * This method registers necessary client script for the button column.
-	 * @param CGridView the grid view instance
 	 */
 	public function init()
 	{
@@ -247,8 +246,8 @@ EOD;
 	/**
 	 * Renders the data cell content.
 	 * This method renders the view, update and delete buttons in the data cell.
-	 * @param integer the row number (zero-based)
-	 * @param mixed the data associated with the row
+	 * @param integer $row the row number (zero-based)
+	 * @param mixed $data the data associated with the row
 	 */
 	protected function renderDataCellContent($row,$data)
 	{
@@ -266,11 +265,11 @@ EOD;
 
 	/**
 	 * Renders a link button.
-	 * @param string the ID of the button
-	 * @param array the button configuration which may contain 'label', 'url', 'imageUrl' and 'options' elements.
+	 * @param string $id the ID of the button
+	 * @param array $button the button configuration which may contain 'label', 'url', 'imageUrl' and 'options' elements.
 	 * See {@link buttons} for more details.
-	 * @param integer the row number (zero-based)
-	 * @param mixed the data object associated with the row
+	 * @param integer $row the row number (zero-based)
+	 * @param mixed $data the data object associated with the row
 	 */
 	protected function renderButton($id,$button,$row,$data)
 	{

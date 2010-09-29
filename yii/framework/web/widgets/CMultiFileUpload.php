@@ -16,7 +16,7 @@
  * files. Note, you have to set the enclosing form's 'enctype' attribute to be 'multipart/form-data'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMultiFileUpload.php 2110 2010-05-07 20:53:08Z qiang.xue $
+ * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */

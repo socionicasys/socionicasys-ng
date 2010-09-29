@@ -27,7 +27,7 @@
  * value doesn't follow the format, the attribute is considered as invalid.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CTypeValidator.php 1963 2010-03-25 04:00:48Z qiang.xue $
+ * @version $Id$
  * @package system.validators
  * @since 1.0
  */
@@ -68,8 +68,8 @@ class CTypeValidator extends CValidator
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{

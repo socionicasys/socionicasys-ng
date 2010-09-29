@@ -20,7 +20,7 @@
  * the attributes.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CFormModel.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -30,7 +30,7 @@ class CFormModel extends CModel
 
 	/**
 	 * Constructor.
-	 * @param string name of the scenario that this model is used in.
+	 * @param string $scenario name of the scenario that this model is used in.
 	 * See {@link CModel::scenario} on how scenario is used by models.
 	 * @see getScenario
 	 */

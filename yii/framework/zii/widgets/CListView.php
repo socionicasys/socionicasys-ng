@@ -50,7 +50,7 @@ Yii::import('zii.widgets.CBaseListView');
  * By doing so, a list of hyperlinks that can sort the data will be displayed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CListView.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id$
  * @package zii.widgets
  * @since 1.1
  */
@@ -196,7 +196,7 @@ class CListView extends CBaseListView
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
-		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiilistview.js');
+		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiilistview.js',CClientScript::POS_END);
 		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiListView($options);");
 	}
 

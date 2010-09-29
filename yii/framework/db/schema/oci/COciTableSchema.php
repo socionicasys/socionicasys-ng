@@ -12,7 +12,7 @@
  * COciTableSchema represents the metadata for a Oracle table.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id: COciTableSchema.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.db.schema.oci
  * @since 1.0.5
  */

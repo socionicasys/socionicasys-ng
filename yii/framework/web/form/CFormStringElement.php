@@ -12,7 +12,7 @@
  * CFormStringElement represents a string in a form.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CFormStringElement.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.web.form
  * @since 1.1
  */
@@ -39,7 +39,7 @@ class CFormStringElement extends CFormElement
 	}
 
 	/**
-	 * @param string scenario names separated by commas.
+	 * @param string $value scenario names separated by commas.
 	 */
 	public function setOn($value)
 	{

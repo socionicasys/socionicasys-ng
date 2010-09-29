@@ -44,7 +44,7 @@
  * targets, even if the routes are of the same type.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CLogRouter.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.logging
  * @since 1.0
  */
@@ -78,7 +78,7 @@ class CLogRouter extends CApplicationComponent
 	}
 
 	/**
-	 * @param array list of route configurations. Each array element represents
+	 * @param array $config list of route configurations. Each array element represents
 	 * the configuration for a single route and has the following array structure:
 	 * <ul>
 	 * <li>class: specifies the class name or alias for the route class.</li>
@@ -94,7 +94,7 @@ class CLogRouter extends CApplicationComponent
 	/**
 	 * Collects log messages from a logger.
 	 * This method is an event handler to the {@link CLogger::onFlush} event.
-	 * @param CEvent event parameter
+	 * @param CEvent $event event parameter
 	 */
 	public function collectLogs($event)
 	{
@@ -109,7 +109,7 @@ class CLogRouter extends CApplicationComponent
 	/**
 	 * Collects and processes log messages from a logger.
 	 * This method is an event handler to the {@link CApplication::onEndRequest} event.
-	 * @param CEvent event parameter
+	 * @param CEvent $event event parameter
 	 * @since 1.1.0
 	 */
 	public function processLogs($event)

@@ -24,7 +24,7 @@
  * CStarRating allows customization of its appearance. It also supports empty rating as well as read-only rating.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CStarRating.php 2251 2010-07-08 21:26:48Z qiang.xue $
+ * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */
@@ -120,7 +120,7 @@ class CStarRating extends CInputWidget
 
 	/**
 	 * Registers the necessary javascript and css scripts.
-	 * @param string the ID of the container
+	 * @param string $id the ID of the container
 	 */
 	public function registerClientScript($id)
 	{
@@ -137,7 +137,7 @@ class CStarRating extends CInputWidget
 
 	/**
 	 * Registers the needed CSS file.
-	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
 	 * @since 1.0.2
 	 */
 	public static function registerCssFile($url=null)
@@ -150,8 +150,8 @@ class CStarRating extends CInputWidget
 
 	/**
 	 * Renders the stars.
-	 * @param string the ID of the container
-	 * @param string the name of the input
+	 * @param string $id the ID of the container
+	 * @param string $name the name of the input
 	 */
 	protected function renderStars($id,$name)
 	{

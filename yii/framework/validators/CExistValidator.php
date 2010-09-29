@@ -15,7 +15,7 @@
  * that can be found in the foreign table.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CExistValidator.php 2188 2010-06-15 17:20:35Z qiang.xue $
+ * @version $Id$
  * @package system.validators
  * @since 1.0.4
  */
@@ -52,8 +52,8 @@ class CExistValidator extends CValidator
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{

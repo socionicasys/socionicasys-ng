@@ -12,7 +12,7 @@
  * CPgsqlColumnSchema class describes the column meta data of a PostgreSQL table.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CPgsqlColumnSchema.php 2228 2010-06-25 19:56:58Z qiang.xue $
+ * @version $Id$
  * @package system.db.schema.pgsql
  * @since 1.0
  */
@@ -20,7 +20,7 @@ class CPgsqlColumnSchema extends CDbColumnSchema
 {
 	/**
 	 * Extracts the PHP type from DB type.
-	 * @param string DB type
+	 * @param string $dbType DB type
 	 */
 	protected function extractType($dbType)
 	{
@@ -39,7 +39,7 @@ class CPgsqlColumnSchema extends CDbColumnSchema
 	/**
 	 * Extracts the default value for the column.
 	 * The value is typecasted to correct PHP type.
-	 * @param mixed the default value obtained from metadata
+	 * @param mixed $defaultValue the default value obtained from metadata
 	 */
 	protected function extractDefault($defaultValue)
 	{

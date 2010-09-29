@@ -9,7 +9,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: mimeTypes.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  */
 
 return array(

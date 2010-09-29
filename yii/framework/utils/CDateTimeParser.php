@@ -31,6 +31,7 @@
  * mm      | Minutes in 00 to 59, zero leading (since version 1.0.5)
  * s	   | Seconds in 0 to 59, no padding (since version 1.0.5)
  * ss      | Seconds in 00 to 59, zero leading (since version 1.0.5)
+ * a       | AM or PM, case-insensitive (since version 1.1.5)
  * ----------------------------------------------------
  * </pre>
  * All other characters must appear in the date string at the corresponding positions.
@@ -44,7 +45,7 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDateTimeParser.php 2184 2010-06-14 20:39:12Z qiang.xue $
+ * @version $Id$
  * @package system.utils
  * @since 1.0
  */
@@ -52,8 +53,8 @@ class CDateTimeParser
 {
 	/**
 	 * Converts a date string to a timestamp.
-	 * @param string the date string to be parsed
-	 * @param string the pattern that the date string is following
+	 * @param string $value the date string to be parsed
+	 * @param string $pattern the pattern that the date string is following
 	 * @return integer timestamp for the date string. False if parsing fails.
 	 */
 	public static function parse($value,$pattern='MM/dd/yyyy')
@@ -151,6 +152,20 @@ class CDateTimeParser
 					$i+=2;
 					break;
 				}
+				case 'a':
+				{
+				    if(($ampm=self::parseAmPm($value,$i))===false)
+				        return false;
+				    if(isset($hour))
+				    {
+				    	if($hour==12 && $ampm==='am')
+				    		$hour=0;
+				    	else if($hour<12 && $ampm==='pm')
+				    		$hour+=12;
+				    }
+					$i+=2;
+					break;
+				}
 				default:
 				{
 					$tn=strlen($token);
@@ -203,6 +218,9 @@ class CDateTimeParser
 			return false;
 	}
 
+	/*
+	 * @param string $pattern the pattern that the date string is following
+	 */
 	private static function tokenize($pattern)
 	{
 		if(!($n=strlen($pattern)))
@@ -221,6 +239,12 @@ class CDateTimeParser
 		return $tokens;
 	}
 
+	/*
+	 * @param string $value the date string to be parsed
+	 * @param integer $offset starting offset
+	 * @param integer $minLength minimum length
+	 * @param integer $maxLength maximum length
+	 */
 	protected static function parseInteger($value,$offset,$minLength,$maxLength)
 	{
 		for($len=$maxLength;$len>=$minLength;--$len)
@@ -230,5 +254,15 @@ class CDateTimeParser
 				return $v;
 		}
 		return false;
+	}
+
+	/*
+	 * @param string $value the date string to be parsed
+	 * @param integer $offset starting offset
+	 */
+	protected static function parseAmPm($value, $offset)
+	{
+		$v=strtolower(substr($value,$offset,2));
+		return $v==='am' || $v==='pm' ? $v : false;
 	}
 }

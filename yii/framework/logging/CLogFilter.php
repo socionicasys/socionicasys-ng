@@ -19,7 +19,7 @@
  * issues encountered.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CLogFilter.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.logging
  * @since 1.0.6
  */
@@ -37,7 +37,6 @@ class CLogFilter extends CComponent
 	public $prefixUser=false;
 	/**
 	 * @var boolean whether to log the current user name and ID. Defaults to true.
-	 * This property is effective only when {@link showContext} is true.
 	 */
 	public $logUser=true;
 	/**
@@ -51,13 +50,16 @@ class CLogFilter extends CComponent
 	 * Filters the given log messages.
 	 * This is the main method of CLogFilter. It processes the log messages
 	 * by adding context information, etc.
-	 * @param array the log messages
+	 * @param array $logs the log messages
 	 */
 	public function filter(&$logs)
 	{
-		if(($message=$this->getContext())!=='')
-			array_unshift($logs,array($message,CLogger::LEVEL_INFO,'application',YII_BEGIN_TIME));
-		$this->format($logs);
+		if (!empty($logs))
+		{
+			if(($message=$this->getContext())!=='')
+				array_unshift($logs,array($message,CLogger::LEVEL_INFO,'application',YII_BEGIN_TIME));
+			$this->format($logs);			
+		}
 		return $logs;
 	}
 
@@ -66,6 +68,7 @@ class CLogFilter extends CComponent
 	 * The default implementation will prefix each message with session ID
 	 * if {@link prefixSession} is set true. It may also prefix each message
 	 * with the current user's name and ID if {@link prefixUser} is true.
+	 * @param array $logs the log messages
 	 */
 	protected function format(&$logs)
 	{

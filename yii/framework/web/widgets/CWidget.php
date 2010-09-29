@@ -20,7 +20,7 @@
  * Usage is described at {@link CBaseController} and {@link CBaseController::widget}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CWidget.php 2145 2010-05-19 21:28:55Z alexander.makarow $
+ * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */
@@ -83,7 +83,7 @@ class CWidget extends CBaseController
 
 	/**
 	 * Constructor.
-	 * @param CBaseController owner/creator of this widget. It could be either a widget or a controller.
+	 * @param CBaseController $owner owner/creator of this widget. It could be either a widget or a controller.
 	 */
 	public function __construct($owner=null)
 	{
@@ -91,6 +91,7 @@ class CWidget extends CBaseController
 	}
 
 	/**
+	 * Returns the owner/creator of this widget.
 	 * @return CBaseController owner/creator of this widget. It could be either a widget or a controller.
 	 */
 	public function getOwner()
@@ -99,7 +100,8 @@ class CWidget extends CBaseController
 	}
 
 	/**
-	 * @param boolean whether to generate an ID if it is not set previously
+	 * Returns the ID of the widget or generates a new one if requested.
+	 * @param boolean $autoGenerate whether to generate an ID if it is not set previously
 	 * @return string id of the widget.
 	 */
 	public function getId($autoGenerate=true)
@@ -111,7 +113,8 @@ class CWidget extends CBaseController
 	}
 
 	/**
-	 * @param string id of the widget.
+	 * Sets the ID of the widget.
+	 * @param string $value id of the widget.
 	 */
 	public function setId($value)
 	{
@@ -172,7 +175,7 @@ class CWidget extends CBaseController
 	 * for more details.
 	 * Since version 1.0.2, the view name can also refer to a path alias
 	 * if it contains dot characters.
-	 * @param string name of the view (without file extension)
+	 * @param string $viewName name of the view (without file extension)
 	 * @return string the view file path. False if the view file does not exist
 	 * @see CApplication::findLocalizedFile
 	 */
@@ -202,10 +205,10 @@ class CWidget extends CBaseController
 	 * that is included by this method. If $data is an associative array,
 	 * it will be extracted as PHP variables and made available to the script.
 	 *
-	 * @param string name of the view to be rendered. See {@link getViewFile} for details
+	 * @param string $view name of the view to be rendered. See {@link getViewFile} for details
 	 * about how the view script is resolved.
-	 * @param array data to be extracted into PHP variables and made available to the view script
-	 * @param boolean whether the rendering result should be returned instead of being displayed to end users
+	 * @param array $data data to be extracted into PHP variables and made available to the view script
+	 * @param boolean $return whether the rendering result should be returned instead of being displayed to end users
 	 * @return string the rendering result. Null if the rendering result is not required.
 	 * @throws CException if the view does not exist
 	 * @see getViewFile

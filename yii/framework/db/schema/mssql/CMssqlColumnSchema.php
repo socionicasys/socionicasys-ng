@@ -14,7 +14,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
- * @version $Id: CMssqlColumnSchema.php 2380 2010-08-30 16:28:10Z qiang.xue $
+ * @version $Id$
  * @package system.db.schema.mssql
  * @since 1.0.4
  */
@@ -22,7 +22,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 {
 	/**
 	 * Extracts the PHP type from DB type.
-	 * @param string DB type
+	 * @param string $dbType DB type
 	 */
 	protected function extractType($dbType)
 	{
@@ -36,6 +36,11 @@ class CMssqlColumnSchema extends CDbColumnSchema
 			$this->type='string';
 	}
 
+	/*
+	 * Extracts the default value for the column.
+	 * The value is typecasted to correct PHP type.
+	 * @param mixed $defaultValue the default value obtained from metadata
+	 */
 	protected function extractDefault($defaultValue)
 	{
 		if($this->dbType==='timestamp' )
@@ -47,7 +52,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 	/**
 	 * Extracts size, precision and scale information from column's DB type.
 	 * We do nothing here, since sizes and precisions have been computed before.
-	 * @param string the column's DB type
+	 * @param string $dbType the column's DB type
 	 */
 	protected function extractLimit($dbType)
 	{
@@ -55,7 +60,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 
 	/**
 	 * Converts the input value to the type that this column is of.
-	 * @param mixed input value
+	 * @param mixed $value input value
 	 * @return mixed converted value
 	 */
 	public function typecast($value)

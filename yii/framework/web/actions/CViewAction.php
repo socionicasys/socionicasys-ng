@@ -23,7 +23,7 @@
  * the first letter must be a word letter.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CViewAction.php 1828 2010-02-20 00:51:38Z qiang.xue $
+ * @version $Id$
  * @package system.web.actions
  * @since 1.0
  */
@@ -89,7 +89,7 @@ class CViewAction extends CAction
 
 	/**
 	 * Resolves the user-specified view into a valid view name.
-	 * @param string user-specified view in the format of 'path.to.view'.
+	 * @param string $viewPath user-specified view in the format of 'path.to.view'.
 	 * @return string fully resolved view in the format of 'path/to/view'.
 	 * @throw CHttpException if the user-specified view is invalid
 	 */
@@ -147,7 +147,7 @@ class CViewAction extends CAction
 	 * Raised right before the action invokes the render method.
 	 * Event handlers can set the {@link CEvent::handled} property
 	 * to be true to stop further view rendering.
-	 * @param CEvent event parameter
+	 * @param CEvent $event event parameter
 	 */
 	public function onBeforeRender($event)
 	{
@@ -156,7 +156,7 @@ class CViewAction extends CAction
 
 	/**
 	 * Raised right after the action invokes the render method.
-	 * @param CEvent event parameter
+	 * @param CEvent $event event parameter
 	 */
 	public function onAfterRender($event)
 	{

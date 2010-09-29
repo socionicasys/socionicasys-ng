@@ -19,7 +19,7 @@
  * code files are successfully generated.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCodeGenerator.php 2023 2010-04-07 00:41:20Z qiang.xue $
+ * @version $Id$
  * @package system.gii
  * @since 1.1.2
  */
@@ -131,7 +131,7 @@ class CCodeGenerator extends CController
 	}
 
 	/**
-	 * @param string the view path of the generator.
+	 * @param string $value the view path of the generator.
 	 */
 	public function setViewPath($value)
 	{

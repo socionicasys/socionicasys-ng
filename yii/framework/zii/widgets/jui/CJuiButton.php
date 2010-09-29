@@ -43,7 +43,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id: CJuiButton.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id$
  * @package zii.widgets.jui
  * @since 1.1.3
  */
@@ -89,22 +89,28 @@ class CJuiButton extends CJuiInputWidget
 				echo CHtml::submitButton($this->caption, $this->htmlOptions);
 				break;
 			case 'button':
-				echo CHtml::button($this->caption, $this->htmlOptions);
+				echo CHtml::htmlButton($this->caption, $this->htmlOptions);
 				break;
 			case 'link':
 				echo CHtml::link($this->caption, $this->url, $this->htmlOptions);
 				break;
 			case 'radio':
-				if ($this->hasModel())
+				if ($this->hasModel()){
 					echo CHtml::activeRadioButton($this->model, $this->attribute, $this->htmlOptions);
-				else
+					echo CHtml::label($this->caption, CHtml::activeId($this->model, $this->attribute, $attribute));
+				}else{
 					echo CHtml::radioButton($name, $this->value, $this->htmlOptions);
+					echo CHtml::label($this->caption, $name);
+				}
 				break;
 			case 'checkbox':
-				if ($this->hasModel())
+				if ($this->hasModel()){
 					echo CHtml::activeCheckbox($this->model, $this->attribute, $this->htmlOptions);
-				else
+					echo CHtml::label($this->caption, CHtml::activeId($this->model, $this->attribute, $attribute));
+				}else{
 					echo CHtml::checkbox($name, $this->value, $this->htmlOptions);
+					echo CHtml::label($this->caption, $name);
+				}
 				break;
 			default:
 				throw new CException(Yii::t('zii','The button type "{type}" is not supported.',array('{type}'=>$this->buttonType)));
