@@ -14,7 +14,7 @@
  * It allows CMap to return a new iterator for traversing the items in the map.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMapIterator.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.collections
  * @since 1.0
  */
@@ -35,7 +35,7 @@ class CMapIterator implements Iterator
 
 	/**
 	 * Constructor.
-	 * @param array the data to be iterated through
+	 * @param array $data the data to be iterated through
 	 */
 	public function __construct(&$data)
 	{

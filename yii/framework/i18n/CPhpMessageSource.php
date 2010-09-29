@@ -37,7 +37,7 @@
  * the category name should be set as 'Xyz.categoryName'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CPhpMessageSource.php 1884 2010-03-11 14:58:33Z qiang.xue $
+ * @version $Id$
  * @package system.i18n
  * @since 1.0
  */
@@ -83,8 +83,8 @@ class CPhpMessageSource extends CMessageSource
 	 * In this case, the message file will be assumed to be located within the 'messages' subdirectory of
 	 * the directory containing the module class file.
 	 * Otherwise, the message file is assumed to be under the {@link basePath}.
-	 * @param string category name
-	 * @param string language ID
+	 * @param string $category category name
+	 * @param string $language language ID
 	 * @return string the message file path
 	 * @since 1.0.10
 	 */
@@ -107,8 +107,8 @@ class CPhpMessageSource extends CMessageSource
 
 	/**
 	 * Loads the message translation for the specified language and category.
-	 * @param string the message category
-	 * @param string the target language
+	 * @param string $category the message category
+	 * @param string $language the target language
 	 * @return array the loaded messages
 	 */
 	protected function loadMessages($category,$language)

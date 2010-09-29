@@ -12,7 +12,7 @@
  * CSqliteColumnSchema class describes the column meta data of a SQLite table.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CSqliteColumnSchema.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.db.schema.sqlite
  * @since 1.0
  */
@@ -21,7 +21,7 @@ class CSqliteColumnSchema extends CDbColumnSchema
 	/**
 	 * Extracts the default value for the column.
 	 * The value is typecasted to correct PHP type.
-	 * @param mixed the default value obtained from metadata
+	 * @param mixed $defaultValue the default value obtained from metadata
 	 */
 	protected function extractDefault($defaultValue)
 	{

@@ -17,7 +17,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: yiilite.php 2428 2010-09-05 13:05:24Z qiang.xue $
+ * @version $Id$
  * @since 1.0
  */
 

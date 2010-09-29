@@ -14,7 +14,7 @@
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CJuiWidget.php 2381 2010-08-30 17:51:29Z qiang.xue $
+ * @version $Id$
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -130,8 +130,8 @@ abstract class CJuiWidget extends CWidget
 	/**
 	 * Registers a JavaScript file under {@link scriptUrl}.
 	 * Note that by default, the script file will be rendered at the end of a page to improve page loading speed.
-	 * @param string JavaScript file name
-	 * @param integer the position of the JavaScript file. Valid values include the following:
+	 * @param string $fileName JavaScript file name
+	 * @param integer $position the position of the JavaScript file. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>

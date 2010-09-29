@@ -15,7 +15,7 @@
  * The method name is like 'actionXYZ' where 'XYZ' stands for the action name.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CInlineAction.php 2414 2010-09-02 14:40:22Z qiang.xue $
+ * @version $Id$
  * @package system.web.actions
  * @since 1.0
  */

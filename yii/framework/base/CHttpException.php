@@ -15,7 +15,7 @@
  * Error handlers may use this status code to decide how to format the error page.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHttpException.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.base
  * @since 1.0
  */
@@ -28,9 +28,9 @@ class CHttpException extends CException
 
 	/**
 	 * Constructor.
-	 * @param integer HTTP status code, such as 404, 500, etc.
-	 * @param string error message
-	 * @param integer error code
+	 * @param integer $status HTTP status code, such as 404, 500, etc.
+	 * @param string $message error message
+	 * @param integer $code error code
 	 */
 	public function __construct($status,$message=null,$code=0)
 	{

@@ -22,7 +22,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * {@link value}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCheckBoxColumn.php 2399 2010-09-01 12:56:08Z qiang.xue $
+ * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -110,8 +110,8 @@ EOD;
 	/**
 	 * Renders the data cell content.
 	 * This method renders a checkbox in the data cell.
-	 * @param integer the row number (zero-based)
-	 * @param mixed the data associated with the row
+	 * @param integer $row the row number (zero-based)
+	 * @param mixed $data the data associated with the row
 	 */
 	protected function renderDataCellContent($row,$data)
 	{

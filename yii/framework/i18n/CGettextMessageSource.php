@@ -22,7 +22,7 @@
  * {@link catalog} property, which defaults to 'messages'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CGettextMessageSource.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.i18n
  * @since 1.0
  */
@@ -79,8 +79,8 @@ class CGettextMessageSource extends CMessageSource
 
 	/**
 	 * Loads the message translation for the specified language and category.
-	 * @param string the message category
-	 * @param string the target language
+	 * @param string $category the message category
+	 * @param string $language the target language
 	 * @return array the loaded messages
 	 */
 	protected function loadMessages($category, $language)

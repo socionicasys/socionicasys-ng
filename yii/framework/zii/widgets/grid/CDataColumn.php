@@ -21,7 +21,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * value will be used by {@link CSort} to render a clickable link in the header cell to trigger the sorting.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDataColumn.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -123,8 +123,8 @@ class CDataColumn extends CGridColumn
 	/**
 	 * Renders the data cell content.
 	 * This method evaluates {@link value} or {@link name} and renders the result.
-	 * @param integer the row number (zero-based)
-	 * @param mixed the data associated with the row
+	 * @param integer $row the row number (zero-based)
+	 * @param mixed $data the data associated with the row
 	 */
 	protected function renderDataCellContent($row,$data)
 	{

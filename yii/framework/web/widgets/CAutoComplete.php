@@ -17,7 +17,7 @@
  * There is {@link http://www.learningjquery.com/2010/06/autocomplete-migration-guide a good migration guide from the author of both JavaScript solutions}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CAutoComplete.php 2250 2010-07-07 22:26:15Z alexander.makarow $
+ * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  * @deprecated in 1.1.3
@@ -254,7 +254,7 @@ class CAutoComplete extends CInputWidget
 
 	/**
 	 * Registers the needed CSS file.
-	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
 	 * @since 1.0.2
 	 */
 	public static function registerCssFile($url=null)

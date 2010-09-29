@@ -20,7 +20,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CVarDumper.php 2407 2010-09-01 18:05:24Z qiang.xue $
+ * @version $Id$
  * @package system.utils
  * @since 1.0
  */
@@ -34,9 +34,9 @@ class CVarDumper
 	 * Displays a variable.
 	 * This method achieves the similar functionality as var_dump and print_r
 	 * but is more robust when handling complex objects such as Yii controllers.
-	 * @param mixed variable to be dumped
-	 * @param integer maximum depth that the dumper should go into the variable. Defaults to 10.
-	 * @param boolean whether the result should be syntax-highlighted
+	 * @param mixed $var variable to be dumped
+	 * @param integer $depth maximum depth that the dumper should go into the variable. Defaults to 10.
+	 * @param boolean $highlight whether the result should be syntax-highlighted
 	 */
 	public static function dump($var,$depth=10,$highlight=false)
 	{
@@ -47,9 +47,9 @@ class CVarDumper
 	 * Dumps a variable in terms of a string.
 	 * This method achieves the similar functionality as var_dump and print_r
 	 * but is more robust when handling complex objects such as Yii controllers.
-	 * @param mixed variable to be dumped
-	 * @param integer maximum depth that the dumper should go into the variable. Defaults to 10.
-	 * @param boolean whether the result should be syntax-highlighted
+	 * @param mixed $var variable to be dumped
+	 * @param integer $depth maximum depth that the dumper should go into the variable. Defaults to 10.
+	 * @param boolean $highlight whether the result should be syntax-highlighted
 	 * @return string the string representation of the variable
 	 */
 	public static function dumpAsString($var,$depth=10,$highlight=false)
@@ -66,6 +66,10 @@ class CVarDumper
 		return self::$_output;
 	}
 
+	/*
+	 * @param mixed $var variable to be dumped
+	 * @param integer $level depth level
+	 */
 	private static function dumpInternal($var,$level)
 	{
 		switch(gettype($var))

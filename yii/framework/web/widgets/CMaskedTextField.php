@@ -17,7 +17,7 @@
  * (see {@link http://digitalbush.com/projects/masked-input-plugin}).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMaskedTextField.php 2075 2010-04-29 23:04:21Z alexander.makarow $
+ * @version $Id$
  * @package system.web.widgets
  * @since 1.0
  */

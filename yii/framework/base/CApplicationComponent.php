@@ -18,7 +18,7 @@
  * the application component can be customized through application configuration.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CApplicationComponent.php 2359 2010-08-28 23:10:51Z mdomba $
+ * @version $Id$
  * @package system.base
  * @since 1.0
  */

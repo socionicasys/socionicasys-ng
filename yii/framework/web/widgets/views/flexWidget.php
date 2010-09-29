@@ -6,7 +6,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: flexWidget.php 1766 2010-02-01 00:27:29Z qiang.xue $
+ * @version $Id$
  * @package system.web.widgets.views
  * @since 1.0
  */

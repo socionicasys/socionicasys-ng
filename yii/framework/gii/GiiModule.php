@@ -50,8 +50,8 @@ Yii::import('system.gii.CCodeForm');
  *         'urlFormat'=>'path',
  *         'rules'=>array(
  *             'gii'=>'gii',
- *             'gii/&lt;controller:\w+>'=>'gii/&lt;controller>',
- *             'gii/&lt;controller:\w+>/&lt;action:\w+>'=>'gii/&lt;controller>/&lt;action>',
+ *             'gii/<controller:\w+>'=>'gii/<controller>',
+ *             'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
  *             ...other rules...
  *         ),
  *     )
@@ -63,7 +63,7 @@ Yii::import('system.gii.CCodeForm');
  * http://localhost/path/to/index.php/gii
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: GiiModule.php 2078 2010-04-30 02:18:31Z qiang.xue $
+ * @version $Id$
  * @package system.gii
  * @since 1.1.2
  */
@@ -138,7 +138,7 @@ class GiiModule extends CWebModule
 	}
 
 	/**
-	 * @param string the base URL that contains all published asset files of gii.
+	 * @param string $value the base URL that contains all published asset files of gii.
 	 */
 	public function setAssetsUrl($value)
 	{
@@ -149,8 +149,8 @@ class GiiModule extends CWebModule
 	 * Performs access check to gii.
 	 * This method will check to see if user IP and password are correct if they attempt
 	 * to access actions other than "default/login" and "default/error".
-	 * @param CController the controller to be accessed.
-	 * @param CAction the action to be accessed.
+	 * @param CController $controller the controller to be accessed.
+	 * @param CAction $action the action to be accessed.
 	 * @return boolean whether the action should be executed.
 	 */
 	public function beforeControllerAction($controller, $action)
@@ -175,7 +175,7 @@ class GiiModule extends CWebModule
 
 	/**
 	 * Checks to see if the user IP is allowed by {@link ipFilters}.
-	 * @param string the user IP
+	 * @param string $ip the user IP
 	 * @return boolean whether the user IP is allowed by {@link ipFilters}.
 	 */
 	protected function allowIp($ip)

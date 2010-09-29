@@ -55,7 +55,7 @@
  * @author	 Michal Migurski <mike-json@teczno.com>
  * @author	 Matt Knapp <mdknapp[at]gmail[dot]com>
  * @author	 Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
- * @version $Id: CJSON.php 2163 2010-06-04 14:49:37Z alexander.makarow $
+ * @version $Id$
  * @package	system.web.helpers
  * @since 1.0
  */
@@ -89,12 +89,12 @@ class CJSON
    /**
 	* Encodes an arbitrary variable into JSON format
 	*
-	* @param	mixed   $var	any number, boolean, string, array, or object to be encoded.
+	* @param mixed $var any number, boolean, string, array, or object to be encoded.
 	*						   see argument 1 to JSON() above for array-parsing behavior.
 	*						   if var is a strng, note that encode() always expects it
 	*						   to be in ASCII or UTF-8 format!
 	*
-	* @return   string  JSON string representation of input var
+	* @return string JSON string representation of input var
 	*/
 	public static function encode($var)
 	{
@@ -277,8 +277,8 @@ class CJSON
    /**
 	* array-walking function for use in generating JSON-formatted name-value pairs
 	*
-	* @param	string  $name   name of key to use
-	* @param	mixed   $value  reference to an array element to be encoded
+	* @param string $name  name of key to use
+	* @param mixed $value reference to an array element to be encoded
 	*
 	* @return   string  JSON-formatted name-value pair, like '"name":value'
 	* @access   private
@@ -291,9 +291,9 @@ class CJSON
    /**
 	* reduce a string by removing leading and trailing comments and whitespace
 	*
-	* @param	$str	string	  string value to strip of comments and whitespace
+	* @param string $str string value to strip of comments and whitespace
 	*
-	* @return   string  string value stripped of comments and whitespace
+	* @return string string value stripped of comments and whitespace
 	* @access   private
 	*/
 	protected static function reduceString($str)
@@ -318,10 +318,10 @@ class CJSON
    /**
 	* decodes a JSON string into appropriate variable
 	*
-	* @param	string  $str	JSON-formatted string
-	* @param    boolean  whether to use associative array to represent object data
+	* @param string $str  JSON-formatted string
+	* @param boolean $useArray  whether to use associative array to represent object data
 	*
-	* @return   mixed   number, boolean, string, array, or object
+	* @return mixed   number, boolean, string, array, or object
 	*				   corresponding to given JSON input string.
 	*				   See argument 1 to JSON() above for object-output behavior.
 	*				   Note that decode() always returns strings
@@ -608,7 +608,7 @@ class CJSON
 	/**
 	* This function returns any UTF-8 encoded text as a list of
 	* Unicode values:
-	*
+	* @param string $str string to convert
 	* @author Scott Michael Reynen <scott@randomchaos.com>
 	* @link   http://www.randomchaos.com/document.php?source=php_and_unicode
 	* @see	unicodeToUTF8()
@@ -645,7 +645,7 @@ class CJSON
 
 	/**
 	* This function converts a Unicode array back to its UTF-8 representation
-	*
+	* @param string $str string to convert
 	* @author Scott Michael Reynen <scott@randomchaos.com>
 	* @link   http://www.randomchaos.com/document.php?source=php_and_unicode
 	* @see	utf8ToUnicode()
@@ -678,6 +678,8 @@ class CJSON
 	* UTF-8 to UTF-16BE conversion.
 	*
 	* Maybe really UCS-2 without mb_string due to utf8ToUnicode limits
+	* @param string $str string to convert
+	* @param boolean $bom whether to output BOM header
 	*/
 	protected static function utf8ToUTF16BE(&$str, $bom = false)
 	{
@@ -695,6 +697,7 @@ class CJSON
 	 * UTF-8 to UTF-16BE conversion.
 	 *
 	 * Maybe really UCS-2 without mb_string due to utf8ToUnicode limits
+	 * @param string $str string to convert
 	 */
 	protected static function utf16beToUTF8(&$str)
 	{

@@ -12,7 +12,7 @@
  * A CHttpCookie instance stores a single cookie, including the cookie name, value, domain, path, expire, and secure.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHttpCookie.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.web
  * @since 1.0
  */
@@ -52,8 +52,8 @@ class CHttpCookie extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param string name of this cookie
-	 * @param string value of this cookie
+	 * @param string $name name of this cookie
+	 * @param string $value value of this cookie
 	 */
 	public function __construct($name,$value)
 	{

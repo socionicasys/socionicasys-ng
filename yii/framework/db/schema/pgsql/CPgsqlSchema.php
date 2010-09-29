@@ -12,7 +12,7 @@
  * CPgsqlSchema is the class for retrieving metadata information from a PostgreSQL database.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CPgsqlSchema.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.db.schema.pgsql
  * @since 1.0
  */
@@ -23,7 +23,7 @@ class CPgsqlSchema extends CDbSchema
 
 	/**
 	 * Quotes a table name for use in a query.
-	 * @param string table name
+	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 */
 	public function quoteTableName($name)
@@ -35,8 +35,8 @@ class CPgsqlSchema extends CDbSchema
 	 * Resets the sequence value of a table's primary key.
 	 * The sequence will be reset such that the primary key of the next new row inserted
 	 * will have the specified value or 1.
-	 * @param CDbTableSchema the table schema whose primary key sequence will be reset
-	 * @param mixed the value for the primary key of the next new row inserted. If this is not set,
+	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
+	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
 	 * @since 1.1
 	 */
@@ -57,8 +57,8 @@ class CPgsqlSchema extends CDbSchema
 
 	/**
 	 * Enables or disables integrity check.
-	 * @param boolean whether to turn on or off the integrity check.
-	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @param boolean $check whether to turn on or off the integrity check.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * @since 1.1
 	 */
 	public function checkIntegrity($check=true,$schema='')
@@ -77,6 +77,7 @@ class CPgsqlSchema extends CDbSchema
 
 	/**
 	 * Creates a table instance representing the metadata for the named table.
+	 * @param string $name table name
 	 * @return CDbTableSchema driver dependent table metadata.
 	 */
 	protected function createTable($name)
@@ -106,8 +107,8 @@ class CPgsqlSchema extends CDbSchema
 
 	/**
 	 * Generates various kinds of table names.
-	 * @param CPgsqlTableSchema the table instance
-	 * @param string the unquoted table name
+	 * @param CPgsqlTableSchema $table the table instance
+	 * @param string $name the unquoted table name
 	 */
 	protected function resolveTableNames($table,$name)
 	{
@@ -133,7 +134,7 @@ class CPgsqlSchema extends CDbSchema
 
 	/**
 	 * Collects the table column metadata.
-	 * @param CPgsqlTableSchema the table metadata
+	 * @param CPgsqlTableSchema $table the table metadata
 	 * @return boolean whether the table exists in the database
 	 */
 	protected function findColumns($table)
@@ -171,7 +172,7 @@ EOD;
 
 	/**
 	 * Creates a table column.
-	 * @param array column metadata
+	 * @param array $column column metadata
 	 * @return CDbColumnSchema normalized column metadata
 	 */
 	protected function createColumn($column)
@@ -190,7 +191,7 @@ EOD;
 
 	/**
 	 * Collects the primary and foreign key column details for the given table.
-	 * @param CPgsqlTableSchema the table metadata
+	 * @param CPgsqlTableSchema $table the table metadata
 	 */
 	protected function findConstraints($table)
 	{
@@ -250,8 +251,8 @@ EOD;
 
 	/**
 	 * Collects primary key information.
-	 * @param CPgsqlTableSchema the table metadata
-	 * @param string pgsql primary key index list
+	 * @param CPgsqlTableSchema $table the table metadata
+	 * @param string $indices pgsql primary key index list
 	 */
 	protected function findPrimaryKey($table,$indices)
 	{
@@ -286,8 +287,8 @@ EOD;
 
 	/**
 	 * Collects foreign key information.
-	 * @param CPgsqlTableSchema the table metadata
-	 * @param string pgsql foreign key definition
+	 * @param CPgsqlTableSchema $table the table metadata
+	 * @param string $src pgsql foreign key definition
 	 */
 	protected function findForeignKey($table,$src)
 	{
@@ -310,6 +311,8 @@ EOD;
 
 	/**
 	 * Returns all table names in the database.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @return array all table names in the database.
 	 * @since 1.0.2
 	 */

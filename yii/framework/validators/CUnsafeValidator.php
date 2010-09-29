@@ -12,7 +12,7 @@
  * CUnsafeValidator marks the associated attributes to be unsafe so that they cannot be massively assigned.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CUnsafeValidator.php 2268 2010-07-18 17:44:48Z qiang.xue $
+ * @version $Id$
  * @package system.validators
  * @since 1.0
  */
@@ -27,8 +27,8 @@ class CUnsafeValidator extends CValidator
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{

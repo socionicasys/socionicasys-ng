@@ -14,7 +14,7 @@
  * under the specified directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: MessageCommand.php 1878 2010-03-10 21:19:30Z qiang.xue $
+ * @version $Id$
  * @package system.cli.commands
  * @since 1.0
  */

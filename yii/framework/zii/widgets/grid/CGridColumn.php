@@ -19,7 +19,7 @@
  * and {@link renderFooterCellContent} to customize how these cells are rendered.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CGridColumn.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -68,7 +68,7 @@ abstract class CGridColumn extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param CGridView the grid view that owns this column.
+	 * @param CGridView $grid the grid view that owns this column.
 	 */
 	public function __construct($grid)
 	{
@@ -117,7 +117,7 @@ abstract class CGridColumn extends CComponent
 
 	/**
 	 * Renders a data cell.
-	 * @param integer the row number (zero-based)
+	 * @param integer $row the row number (zero-based)
 	 */
 	public function renderDataCell($row)
 	{
@@ -169,8 +169,8 @@ abstract class CGridColumn extends CComponent
 	/**
 	 * Renders the data cell content.
 	 * This method SHOULD be overridden to customize the rendering of the data cell.
-	 * @param integer the row number (zero-based)
-	 * @param mixed the data associated with the row
+	 * @param integer $row the row number (zero-based)
+	 * @param mixed $data the data associated with the row
 	 */
 	protected function renderDataCellContent($row,$data)
 	{
