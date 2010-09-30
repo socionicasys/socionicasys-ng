@@ -16,6 +16,8 @@
  */
 class Library extends CActiveRecord
 {
+	const TYPE_ARTICLE = 'statja';
+	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Library the static model class
@@ -31,6 +33,28 @@ class Library extends CActiveRecord
 	public function tableName()
 	{
 		return '{{library}}';
+	}
+	
+	/**
+	 * Перекрываем метод для заполнения результатов findAll() и подобных
+	 * методов нужными нам моделями.
+	 * 
+	 * @param array $attributes
+	 * @return Item
+	 * @see db/ar/CActiveRecord::instantiate()
+	 */
+	protected function instantiate($attributes)
+	{
+		switch ($attributes['type'])
+		{
+		case self::TYPE_ARTICLE:
+			$class = 'Article';
+			break;
+		default:
+			$class = get_class($this);
+		}
+		$model = new $class(null);
+		return $model;
 	}
 
 	/**
