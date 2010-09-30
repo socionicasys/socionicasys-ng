@@ -125,14 +125,13 @@ class PageController extends Controller
 	public function actionEdit($path = '/')
 	{
 		$model = $this->loadModel($path);
-		$path = trim($path, '/');
 
 		if (isset($_POST['Nav']))
 		{
 			$model->attributes = $_POST['Nav'];
 			if ($model->saveNode())
 			{
-				$this->redirect(array('view', 'path' => $path));
+				$this->redirect(array('view', 'path' => trim($model->url, '/')));
 			}
 		}
 		
@@ -154,7 +153,7 @@ class PageController extends Controller
 			}
 			else
 			{
-				$this->redirect(array('view', 'path' => $model->url));
+				$this->redirect(array('view', 'path' => trim($model->url, '/')));
 			}
 		}
 		
