@@ -49,6 +49,12 @@ return array(
 				'novosti/statja/<id:\d+>/delete' => 'news/delete',
 				'novosti/create' => 'news/create',
 				'atom.xml' => 'news/feed',
+				// Библиотека: статьи, доклады, и т. п.
+				'biblioteka/<type:(statji)>/create' => 'library/create',
+				'biblioteka/<type:(statji)>/<title:(\w|-)+>/edit' => 'library/edit',
+				'biblioteka/<type:(statji)>/<title:(\w|-)+>/delete' => 'library/delete',
+				'biblioteka/<type:(statji)>/<title:(\w|-)+>' => 'library/view',
+				'biblioteka/<type:(statji)>' => 'library/list',
 				// Обработка pull-запросов с GitHub
 				'git/pull/<id:\w+>' => 'git/pull',
 				// Модуль Rights
