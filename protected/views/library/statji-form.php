@@ -30,7 +30,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'text'); ?>
 		<?php
 		$this->widget('ext.yiiext.widgets.ckeditor.ECKEditor', array(
 			'model' => $model,

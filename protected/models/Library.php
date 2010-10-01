@@ -92,11 +92,11 @@ class Library extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'type' => 'Type',
-			'url' => 'Url',
-			'title' => 'Title',
-			'author' => 'Author',
-			'published' => 'Published',
-			'text' => 'Text',
+			'url' => 'Адрес в браузере',
+			'title' => 'Название',
+			'author' => 'Автор',
+			'published' => 'Журнал',
+			'text' => 'Текст',
 		);
 	}
 
