@@ -16,7 +16,7 @@
  */
 class Library extends CActiveRecord
 {
-	const TYPE_ARTICLE = 'statja';
+	const TYPE_ARTICLE = 'statji';
 	
 	/**
 	 * Returns the static model of the specified AR class.
