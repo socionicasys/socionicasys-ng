@@ -1,5 +1,5 @@
 <?php if (!empty($links)): ?>
-<div class="library-operations child">
+<div id="page-controls">
 	<ul>
 		<?php if (isset($links['edit'])): ?>
 		<li>
