@@ -10,6 +10,7 @@
  * @property string $title
  * @property string $author
  * @property string $published
+ * @property string $published_number
  * @property string $text
  *
  * The followings are the available model relations:
@@ -65,11 +66,11 @@ class Library extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type, url, title, author, published', 'length', 'max'=>255),
+			array('type, url, title, author, published, published_number', 'length', 'max'=>255),
 			array('text', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, type, url, title, author, published, text', 'safe', 'on'=>'search'),
+			array('id, type, url, title, author, published, published_number, text', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -96,6 +97,7 @@ class Library extends CActiveRecord
 			'title' => 'Название',
 			'author' => 'Автор',
 			'published' => 'Журнал',
+			'published_number' => 'Номер',
 			'text' => 'Текст',
 		);
 	}
@@ -117,6 +119,7 @@ class Library extends CActiveRecord
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('author',$this->author,true);
 		$criteria->compare('published',$this->published,true);
+		$criteria->compare('published_number',$this->published_number,true);
 		$criteria->compare('text',$this->text,true);
 
 		return new CActiveDataProvider(get_class($this), array(
