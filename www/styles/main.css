@@ -227,6 +227,7 @@ body {
 
 #content ol,
 #content ul {
+	text-align: justify;
 	margin: 1.3125em 0;
 	padding-left: 1.5em;
 }
