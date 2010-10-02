@@ -179,27 +179,30 @@ body {
 }
 
 #content h1 {
-	font-size: 1.25em;
+	font-size: 1.428571429em;
 	line-height: 1.05;
 	margin-top: 1.05em;
 	margin-bottom: 1.05em;
 	position: relative;
-	top: -0.1em;
+	top: -0.15em;
 }
 
 #content h2 {
-	font-size: 1.125em;
+	font-size: 1.285714286em;
 	line-height: 1.166666667;
 	margin-top: 1.166666667em;
 	margin-bottom: 0;
 	position: relative;
-	top: -0.055555556em;
+	top: -0.111111111em;
 }
 
 #content h3 {
-	font-size: 1em;
+	font-size: 1.142857143em;
+	line-height: 1.3125em;
 	margin-top: 1.3125em;
 	margin-bottom: 0;
+	position: relative;
+	top: -0.0625em;
 }
 
 #content h4 {
@@ -276,8 +279,8 @@ body {
 }
 
 #content .article-abstract {
-	font-size: 0.875em;
-	line-height: 1.5;
+	font-size: 0.928571429em;
+	line-height: 1.615384615;
 	margin: 0 4em;
 	text-indent: 4em;
 }
