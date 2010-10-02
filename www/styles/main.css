@@ -173,36 +173,55 @@ body {
 }
 
 #content h1,
-#content h2 {
+#content h2,
+#content h3,
+#content h4 {
 	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 }
 
 #content h1 {
-	font-size: 1.125em;
-	line-height: 1.166666667;
-	margin-top: 1.166666667em;
-	margin-bottom: 1.166666667em;
+	font-size: 1.25em;
+	line-height: 1.05;
+	margin-top: 1.05em;
+	margin-bottom: 1.05em;
+	position: relative;
+	top: -0.1em;
 }
 
 #content h2 {
-	font-size: 1em;
-	margin-top: 1.3125em;
+	font-size: 1.125em;
+	line-height: 1.166666667;
+	margin-top: 1.166666667em;
+	margin-bottom: 0;
+	position: relative;
+	top: -0.055555556em;
 }
 
 #content h3 {
 	font-size: 1em;
+	margin-top: 1.3125em;
+	margin-bottom: 0;
+}
+
+#content h4 {
+	font-size: 1em;
 	float: left;
-	border-bottom: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	margin-right: 1.75em;
-	padding-bottom: 0.5em;
-	-webkit-border-bottom-right-radius: 10px;
-	-moz-border-radius-bottomright: 10px;
-	border-bottom-right-radius: 10px;
+	margin-right: 1em;
 }
 
 #content h2 + p,
-#content h2 + figure + p {
+#content h3 + p,
+#content h2 + figure + p,
+#content h3 + figure + p {
+		margin-top: 0;
+}
+
+#content h1.article-author {
+	font-weight: normal;
+	margin-bottom: 0;
+}
+
+#content h1.article-title {
 	margin-top: 0;
 }
 
@@ -252,6 +271,23 @@ body {
 	top: 2px;
 }
 
+#content .quote-author {
+	font-style: italic;
+	text-align: right;
+}
+
+#content .article-abstract {
+	font-size: 0.875em;
+	line-height: 1.5;
+	margin: 0 4em;
+	text-indent: 4em;
+}
+
+#content .definition {
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
 /** Сылки в подзаголовках и оглавление **/
 a.headerlink {
 	color: #c60f0f;
@@ -263,13 +299,15 @@ a.headerlink {
 
 h1:hover a.headerlink,
 h2:hover a.headerlink,
-h3:hover a.headerlink {
+h3:hover a.headerlink,
+h4:hover a.headerlink {
 	visibility: visible;
 }
 
 h1 a.headerlink:hover,
 h2 a.headerlink:hover,
-h3 a.headerlink:hover {
+h3 a.headerlink:hover,
+h4 a.headerlink:hover {
 	color: #fff;
 	background-color: #ccc;
 }
