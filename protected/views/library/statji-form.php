@@ -30,6 +30,12 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'published_number'); ?>
+		<?php echo $form->textField($model,'published_number',array('size'=>30,'maxlength'=>256)); ?>
+		<?php echo $form->error($model,'published_number'); ?>
+	</div>
+
+	<div class="row">
 		<?php
 		$this->widget('ECKEditorSetup', array(
 			'model' => $model,

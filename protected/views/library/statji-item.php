@@ -15,7 +15,11 @@ $this->renderItemLinks($model->type, $model->url);
 		<h1 class="article-author"><?php echo CHtml::encode($model->author); ?></h1>
 		<h1 class="article-title"><?php echo CHtml::encode($model->title); ?></h1>
 		<?php if (!empty($model->published)): ?>
-			<p class="published-info">Опубликовано в: <?php echo CHtml::encode($model->published); ?></p>
+			<p class="published-info">
+				Опубликовано в:
+				<?php echo CHtml::encode($model->published); ?>,
+				<?php echo CHtml::encode($model->published_number); ?>
+			</p>
 		<?php endif; ?>
 	</hgroup>
 </header>
