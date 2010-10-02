@@ -17,6 +17,9 @@ class LibraryController extends Controller
 	{
 		$model = $this->loadModel($type, $title);
 		
+		Yii::app()->clientScript->registerScriptFile(
+			Yii::app()->baseUrl . '/scripts/hyphenate.js'
+		);
 		$this->layout = '//layouts/article-wide';
 		$this->render("$type-item", array(
 			'model' => $model,
