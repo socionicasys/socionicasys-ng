@@ -56,6 +56,7 @@ class LibraryController extends Controller
 		{
 		case 'statji':
 			$modelClass = 'Article';
+			$defaultOrder = 'published_number DESC';
 			break;
 		default:
 			Yii::log("Unknow category $type in library list",
@@ -65,6 +66,9 @@ class LibraryController extends Controller
 		$dataProvider = new CActiveDataProvider($modelClass, array(
 			'pagination' => array(
 				'pageSize' => 10,
+			),
+			'sort' => array(
+				'defaultOrder' => $defaultOrder,
 			),
 		));
 
