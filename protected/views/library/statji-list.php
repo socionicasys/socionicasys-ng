@@ -6,6 +6,7 @@ $this->renderListLinks($type);
 $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider' => $dataProvider,
 	'columns' => array(
+		'author',
 		array(
 			'name' => 'title',
 			'type' => 'raw',
@@ -15,7 +16,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 				"title" => $data->url
 			))',
 		),
-		'author',
 		'published',
+		'published_number',
 	),
 ));

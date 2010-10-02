@@ -115,7 +115,7 @@ body {
 }
 
 #content-wrap.wide {
-	margin: 0 3em;
+	margin: 0 4em;
 }
 
 #content-wrap.narrow > * {
@@ -218,17 +218,24 @@ body {
 		margin-top: 0;
 }
 
+#content header.article-header {
+	margin: 0;
+}
+
 #content h1.article-author {
 	font-weight: normal;
+	margin-top: 1.05em;
 	margin-bottom: 0;
 }
 
 #content h1.article-title {
-	margin-top: 0;
+	margin-top: 1.05em;
+	margin-bottom: 1.05em;
 }
 
 #content ol,
 #content ul {
+	text-align: justify;
 	margin: 1.5em 0;
 	padding-left: 1.5em;
 }
@@ -379,6 +386,10 @@ h4 a.headerlink:hover {
 	border-bottom: 1px solid #ddd;
 	padding-bottom: 1.428571428em;
 	margin-bottom: 1.5em;
+}
+
+#page-controls.article-controls {
+	margin-bottom: 0;
 }
 
 #page-controls ul {

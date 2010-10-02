@@ -1,5 +1,5 @@
 <?php if (!empty($links)): ?>
-<div id="page-controls">
+<div id="page-controls" class="article-controls">
 	<ul>
 		<?php if (isset($links['edit'])): ?>
 		<li>
