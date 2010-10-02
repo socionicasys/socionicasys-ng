@@ -10,10 +10,8 @@ $this->setBreadcrumbs($breadcrumbs);
 $this->pageTitle = $model->title . ' | ' . Yii::app()->name;
 $this->renderItemLinks($model->type, $model->url);
 ?>
-<header>
+<header class="article-header">
 	<hgroup>
-		<h1 class="article-author"><?php echo CHtml::encode($model->author); ?></h1>
-		<h1 class="article-title"><?php echo CHtml::encode($model->title); ?></h1>
 		<?php if (!empty($model->published)): ?>
 			<p class="published-info">
 				Опубликовано в:
@@ -21,6 +19,8 @@ $this->renderItemLinks($model->type, $model->url);
 				<?php echo CHtml::encode($model->published_number); ?>
 			</p>
 		<?php endif; ?>
+		<h1 class="article-author"><?php echo CHtml::encode($model->author); ?></h1>
+		<h1 class="article-title"><?php echo CHtml::encode($model->title); ?></h1>
 	</hgroup>
 </header>
 <?php
