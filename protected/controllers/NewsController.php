@@ -102,6 +102,7 @@ class NewsController extends Controller
 			}
 		}
 		
+		$this->layout = '//layouts/section-wide';
 		$this->render('create', array(
 			'model' => $model,
 		));
@@ -122,6 +123,7 @@ class NewsController extends Controller
 			}
 		}
 		
+		$this->layout = '//layouts/section-wide';
 		$this->render('edit', array(
 			'model' => $model,
 		));

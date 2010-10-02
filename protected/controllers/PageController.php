@@ -40,6 +40,7 @@ class PageController extends Controller
 
 	public function actionManage()
 	{
+		$this->layout = '//layouts/section-wide';
 		$this->render('manage');
 	}
 
@@ -117,6 +118,7 @@ class PageController extends Controller
 			}
 		}
 		
+		$this->layout = '//layouts/section-wide';
 		$this->render('create', array(
 			'model' => $model,
 		));
@@ -135,6 +137,7 @@ class PageController extends Controller
 			}
 		}
 		
+		$this->layout = '//layouts/section-wide';
 		$this->render('edit', array(
 			'model' => $model,
 		));
