@@ -108,13 +108,17 @@ body {
 	margin: 0 1em;
 }
 
-#content-wrap {
+#content-wrap.narrow {
 	width: 100%;
 	float: right;
 	margin-left: -17em;
 }
 
-#content-wrap>* {
+#content-wrap.wide {
+	margin: 0 3em;
+}
+
+#content-wrap.narrow > * {
 	margin-left: 17em;
 }
 
