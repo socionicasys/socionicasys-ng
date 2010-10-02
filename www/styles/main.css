@@ -545,6 +545,11 @@ form.wide .errorMessage {
 	height: 18em;
 }
 
+/** Редактор CKEditor **/
+.cke_skin_kama .cke_button_source .cke_label {
+	display: none !important;
+}
+
 /*** «Подвал» ***/
 #main-footer {
 	clear: both;
