@@ -2,7 +2,7 @@
 
 class LibraryController extends Controller
 {
-	public $layout = '//layouts/section';
+	public $layout = '//layouts/section-wide';
 
 	private $_model;
 	
@@ -17,7 +17,7 @@ class LibraryController extends Controller
 	{
 		$model = $this->loadModel($type, $title);
 		
-		$this->layout = '//layouts/article';
+		$this->layout = '//layouts/article-wide';
 		$this->render("$type-item", array(
 			'model' => $model,
 		));

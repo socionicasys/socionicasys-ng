@@ -1,4 +1,4 @@
-<?php $this->beginContent('//layouts/full'); ?>
+<?php $this->beginContent('//layouts/wide'); ?>
 <section id="content">
 	<?php echo $content; ?>
 </section>

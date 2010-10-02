@@ -1,5 +1,5 @@
 <?php $this->beginContent('//layouts/common'); ?>
-<div id="content-wrap" class="narrow">
+<div id="content-wrap" class="wide">
 	<?php
 	$breadcrumbs = $this->getBreadcrumbs();
 	if (count($breadcrumbs) > 1):
@@ -15,15 +15,4 @@
 		<?php echo $content; ?>
 	</div>
 </div>
-<aside id="secondary-navigation">
-	<nav>
-		<?php
-			$this->widget('zii.widgets.CMenu', array(
-				'items' => $this->minorMenu,
-				'activateItems' => false,
-			));
-		?>
-	</nav>
-	<?php echo $this->clips['sidebar']; ?>
-</aside>
 <?php $this->endContent();
