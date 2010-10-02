@@ -1,6 +1,8 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'news-form',
 	'enableAjaxValidation'=>false,
+	'htmlOptions' => array(
+		'class' => 'wide',
+	),
 )); ?>
 
 	<?php echo $form->errorSummary($model); ?>
