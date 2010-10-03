@@ -11,10 +11,10 @@ $this->setBreadcrumbs($breadcrumbs);
 $this->pageTitle = 'Удалить статью | ' . Yii::app()->name;
 ?>
 
-<form method="post">
+<?php echo CHtml::beginForm(); ?>
 	<p>Вы действительно желаете удалить статью?</p>
 	<div class="row buttons">
 		<input type="submit" name="cancel" value="Отменить" />
 		<input type="submit" name="delete" value="Удалить" />
 	</div>
-</form>
+<?php echo CHtml::endForm();

@@ -29,6 +29,10 @@ return array(
 			'allowAutoLogin'=>true,
 			'loginUrl' => array('site/login'),
 		),
+		'request' => array(
+			'enableCsrfValidation' => true,
+			'enableCookieValidation' => true,
+		),
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
 			'class' => 'CustomUrlManager',
