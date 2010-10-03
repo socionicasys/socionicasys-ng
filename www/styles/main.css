@@ -416,6 +416,19 @@ h4 a.headerlink:hover {
 
 
 /** Таблицы и диаграммы **/
+/* Все таблицы */
+table {
+	border: 2px solid #fff;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+th, td {
+	border: 1px solid #aaa;
+	padding: 0.3em;
+}
+
+/* Таблица аспектов */
 #aspects {
 	margin: 0 auto;
 }
@@ -428,6 +441,11 @@ h4 a.headerlink:hover {
 	text-align: right;
 }
 
+#aspects th,
+#aspects td {
+	border: none;
+}
+
 #aspects tbody td {
 	padding: 0 0.75em;
 }
@@ -438,6 +456,7 @@ h4 a.headerlink:hover {
 
 .model-diagram {
 	margin: 0 auto;
+	border: none;
 }
 
 .model-diagram td,
