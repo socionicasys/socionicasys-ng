@@ -423,11 +423,25 @@ table {
 	border: 2px solid #fff;
 	border-collapse: collapse;
 	border-spacing: 0;
+	margin-top: 0.5625em;
+	margin-bottom: 0.5625em;
 }
 
 th, td {
 	border: 1px solid #aaa;
-	padding: 0.3em;
+	padding: 0.625em;
+}
+
+#content td>:first-child {
+	margin-top: 0;
+}
+
+#content td>:last-child {
+	margin-bottom: 0;
+}
+
+#content td blockquote {
+	border: none;
 }
 
 /* Таблица аспектов */
