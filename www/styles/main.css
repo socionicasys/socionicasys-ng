@@ -423,13 +423,13 @@ table {
 	border: 2px solid #fff;
 	border-collapse: collapse;
 	border-spacing: 0;
-	margin-top: 0.5625em;
-	margin-bottom: 0.5625em;
+	margin-top: 0.642857143em;
+	margin-bottom: 0.642857143em;
 }
 
 th, td {
 	border: 1px solid #aaa;
-	padding: 0.625em;
+	padding: 0.714285714em;
 }
 
 #content td>:first-child {
