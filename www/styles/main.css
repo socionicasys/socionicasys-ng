@@ -484,6 +484,7 @@ th, td {
 }
 
 .model-diagram th {
+	border: none;
 	padding: 0.5em 1em;
 	font-weight: normal;
 	vertical-align: middle;
