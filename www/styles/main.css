@@ -283,11 +283,6 @@ body {
 	white-space: nowrap;
 }
 
-#content .inline-icon {
-	position: relative;
-	top: 2px;
-}
-
 #content .quote-author {
 	font-style: italic;
 	text-align: right;
