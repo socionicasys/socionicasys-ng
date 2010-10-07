@@ -14,6 +14,7 @@
  * @property string $title
  * @property string $menu_title
  * @property string $text
+ * @property boolean $wide_layout
  *
  * The followings are the available model relations:
  */

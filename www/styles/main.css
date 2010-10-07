@@ -240,6 +240,10 @@ body {
 	padding-left: 1.5em;
 }
 
+#content ol.literature {
+	text-align: left;
+} 
+
 #content dt {
 	font-weight: bold;
 }
@@ -255,6 +259,12 @@ body {
 #content blockquote {
 	border-left: 1px solid #ccc;
 	padding: 0 2em;
+}
+
+#content blockquote.epigraph {
+	border: none;
+	margin-left: 50%;
+	padding: 0;
 }
 
 #content small {
@@ -273,11 +283,6 @@ body {
 #content .name,
 #content .nowrap {
 	white-space: nowrap;
-}
-
-#content .inline-icon {
-	position: relative;
-	top: 2px;
 }
 
 #content .quote-author {
@@ -486,6 +491,7 @@ th, td {
 }
 
 .model-diagram th {
+	border: none;
 	padding: 0.5em 1em;
 	font-weight: normal;
 	vertical-align: middle;

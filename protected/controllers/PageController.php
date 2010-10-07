@@ -90,7 +90,14 @@ class PageController extends Controller
 		Yii::app()->clientScript->registerScriptFile(
 			Yii::app()->baseUrl . '/scripts/hyphenate.js'
 		);
-		$this->layout = '//layouts/article';
+		if ($page->wide_layout)
+		{
+			$this->layout = '//layouts/article-wide'; 
+		}
+		else
+		{
+			$this->layout = '//layouts/article';
+		}
 		$this->render('view', array(
 			'text' => $page->text,
 			'links' => $links,

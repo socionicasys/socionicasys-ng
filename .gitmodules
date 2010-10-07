@@ -6,4 +6,4 @@
 	url = git://github.com/pieterclaerhout/yii-dbmigrations.git
 [submodule "protected/extensions/EJNestedTreeActions"]
 	path = protected/extensions/EJNestedTreeActions
-	url = git://github.com/samdark/EJNestedTreeActions.git
+	url = git://github.com/GreyTeardrop/EJNestedTreeActions.git

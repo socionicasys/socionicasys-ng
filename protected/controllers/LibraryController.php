@@ -64,9 +64,7 @@ class LibraryController extends Controller
 			throw new CHttpException(404, 'Страница не найдена.');
 		}
 		$dataProvider = new CActiveDataProvider($modelClass, array(
-			'pagination' => array(
-				'pageSize' => 10,
-			),
+			'pagination' => false,
 			'sort' => array(
 				'defaultOrder' => $defaultOrder,
 			),

@@ -1,5 +1,5 @@
 <?php
-$this->widget('JsTreeEx', array(
+$this->widget('ext.EJNestedTreeActions.EJsTreeEx', array(
 	'buttons' => array(
 		'create' => array(
 			'label' => 'Создать страницу',

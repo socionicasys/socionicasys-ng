@@ -5,6 +5,8 @@ $this->renderListLinks($type);
 
 $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider' => $dataProvider,
+	'enablePagination' => false,
+	'template' => '{items}',
 	'columns' => array(
 		'author',
 		array(
@@ -13,7 +15,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 			'value' => 'CHtml::link($data->title, array(
 				"view",
 				"type" => $data->type,
-				"title" => $data->url
+				"title" => $data->url,
 			))',
 		),
 		'published',
