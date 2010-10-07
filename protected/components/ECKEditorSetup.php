@@ -8,7 +8,7 @@ class ECKEditorSetup extends ECKEditor
 		$this->editorTemplate = 'advanced';
 		$this->toolbar = array(
 			array(
-				'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'Styles',
+				'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'Styles', 'FontSize',
 				'-',
 				'TextColor', 'BGColor',
 				'-',
