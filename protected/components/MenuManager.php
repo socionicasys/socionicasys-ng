@@ -170,6 +170,13 @@ class MenuManager extends CApplicationComponent
 			{
 				$breadcrumbs = array_merge($breadcrumbs, $subtree[1]);
 			}
+			
+			if (($currentItem->isDescendantOf($item)
+				|| $currentItem->equals($item))
+				&& $item->type == Nav::TYPE_SECTION)
+			{
+				return array($subtree[0], $breadcrumbs);
+			}
 		}
 		if (!empty($childMenu) && ($currentItem->isDescendantOf($root) || $currentItem->equals($root)))
 		{

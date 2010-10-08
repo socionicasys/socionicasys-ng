@@ -20,6 +20,9 @@
  */
 class Nav extends CActiveRecord
 {
+	const TYPE_PAGE = 0;
+	const TYPE_SECTION = 1;
+	
 	protected $_htmlPurifier;
 	
 	/**
