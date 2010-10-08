@@ -4,6 +4,15 @@ class SiteController extends Controller
 {
 	public $layout = '//layouts/section-wide';
 	
+	public function actions()
+	{
+		return array(
+			'fileManager' => array(
+				'class' => 'ext.yiiext.widgets.elfinder.ElFinderAction',
+			),
+		);
+	}
+	
 	/**
 	 * This is the action to handle external exceptions.
 	 */
@@ -46,5 +55,19 @@ class SiteController extends Controller
 	{
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
+	}
+	
+	public function actionBrowse()
+	{
+		$this->layout='//site/browse';
+		$this->renderText($this->widget('ext.yiiext.widgets.elfinder.ElFinderWidget', array(
+			'lang' => Yii::app()->getLanguage(),
+            'url' => CHtml::normalizeUrl(array('site/fileManager')),
+            'editorCallback' => 'js:function(url) {
+				var funcNum = window.location.search.replace(/^.*CKEditorFuncNum=(\d+).*$/, "$1");
+				window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+				window.close();
+			}',
+		), true));
 	}
 }

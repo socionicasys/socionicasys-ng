@@ -24,6 +24,7 @@ class ECKEditorSetup extends ECKEditor
 		);
 		$this->options = array(
 			'toolbarCanCollapse' => false,
+			'filebrowserBrowseUrl' => CHtml::normalizeUrl(array('site/browse')),
 			'stylesSet' => array(
 				array(
 					'name' =>  'Заголовок 1',
