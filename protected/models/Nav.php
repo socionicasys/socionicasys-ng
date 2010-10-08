@@ -20,6 +20,9 @@
  */
 class Nav extends CActiveRecord
 {
+	const TYPE_PAGE = 0;
+	const TYPE_SECTION = 1;
+	
 	protected $_htmlPurifier;
 	
 	/**
@@ -219,5 +222,12 @@ class Nav extends CActiveRecord
 		// Остальные символы - уже никуда не денешься
 		$text = rawurlencode($text);
 		return $text;
+	}
+	
+	public function getUrl()
+	{
+		return Yii::app()->createUrl('page/view', array(
+			'path' => trim($this->url, '/'),
+		));
 	}
 }
