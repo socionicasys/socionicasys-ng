@@ -126,4 +126,12 @@ class Library extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	
+	public function getUrl()
+	{
+		return Yii::app()->createUrl('library/view', array(
+			'type' => $this->type,
+			'title' => $this->title,
+		));
+	}
 }

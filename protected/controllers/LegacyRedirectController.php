@@ -34,106 +34,174 @@ class LegacyRedirectController extends Controller
 			// Раздел «Теория» старого сайта
 			$infoPages = array(
 				'' => array(
-					'' => array('static/view', 'path' => 'teorija'),
+					// Теория
+					'' => array('Nav', 7),
 				),
 				'0' => array(
-					'' => array('static/view', 'path' => 'teorija'),
+					// Теория
+					'' => array('Nav', 7),
 				),
 				'1' => array(
-					''   => array('static/view', 'path' => 'teorija/sistemnyj-podhod'),
-					'23' => array('static/view', 'path' => 'teorija/sistemnyj-podhod/sistema'),
-					'26' => array('static/view', 'path' => 'teorija/sistemnyj-podhod/sistemnye-principy'),
+					// Теория » Системный подход
+					''   => array('Nav', 13),
+					// Теория » Системный подход » Система
+					'23' => array('Nav', 14),
+					// Теория » Системный подход » Системные принципы
+					'26' => array('Nav', 15),
 				),
 				'9' => array(
-					'' => array('static/view', 'path' => 'teorija/aspekty'),
+					// Теория » Деление информации на аспекты
+					'' => array('Nav', 16),
 				),
 				'10' => array(
-					''   => array('static/view', 'path' => 'teorija/model-tima'),
-					'32' => array('static/view', 'path' => 'teorija/model-tima/vital-mental'),
-					'33' => array('static/view', 'path' => 'teorija/model-tima/rac-irrac'),
-					'38' => array('static/view', 'path' => 'teorija/model-tima/extra-intro'),
-					'41' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej'),
+					// Теория » Модель ТИМа
+					''   => array('Nav', 17),
+					// Теория » Модель ТИМа » Суперблоки ВИТАЛ и МЕНТАЛ
+					'32' => array('Nav', 38),
+					// Теория » Модель ТИМа » Рациональность / иррациональность
+					'33' => array('Nav', 40),
+					// Теория » Модель ТИМа » Экстраверсия / интроверсия
+					'38' => array('Nav', 39),
+					// Теория » Модель ТИМа » 16 моделей ТИМ психики
+					'41' => array('Nav', 21),
 				),
 				'12' => array(
-					''   => array('static/view', 'path' => 'teorija/model-tima/funkcii'),
-					'30' => array('static/view', 'path' => 'teorija/model-tima/funkcii/razmernosti'),
-					'31' => array('static/view', 'path' => 'teorija/model-tima/funkcii/znaki'),
+					// Теория » Модель ТИМа » Функции
+					''   => array('Nav', 18),
+					// Теория » Модель ТИМа » Функции » Размерность функций
+					'30' => array('Nav', 19),
+					// Теория » Модель ТИМа » Функции » Знаки функций
+					'31' => array('Nav', 20),
 				),
 				'2' => array(
-					''   => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej'),
-					'3'  => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ile'),
-					'5'  => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sei'),
-					'6'  => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ese'),
-					'7'  => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lii'),
-					'8'  => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eie'),
-					'9'  => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lsi'),
-					'10' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sle'),
-					'11' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iei'),
-					'12' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/see'),
-					'13' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/ili'),
-					'14' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lie'),
-					'15' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/esi'),
-					'16' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/lse'),
-					'17' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/eii'),
-					'18' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/iee'),
-					'19' => array('static/view', 'path' => 'teorija/model-tima/opisanije-modelej/sli'),
+					// Теория » Модель ТИМа » Описание моделей ТИМ
+					''   => array('Nav', 21),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ИЛЭ
+					'3'  => array('Nav', 22),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » СЭИ
+					'5'  => array('Nav', 23),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ЭСЭ
+					'6'  => array('Nav', 24),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ЛИИ
+					'7'  => array('Nav', 25),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ЭИЭ
+					'8'  => array('Nav', 26),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ЛСИ
+					'9'  => array('Nav', 27),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » СЛЭ
+					'10' => array('Nav', 28),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ИЭИ
+					'11' => array('Nav', 29),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » СЭЭ
+					'12' => array('Nav', 30),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ИЛИ
+					'13' => array('Nav', 31),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ЛИЭ
+					'14' => array('Nav', 32),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ЭСИ
+					'15' => array('Nav', 33),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ЛСЭ
+					'16' => array('Nav', 34),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ЭИИ
+					'17' => array('Nav', 35),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » ИЭЭ
+					'18' => array('Nav', 36),
+					// Теория » Модель ТИМа » Описание моделей ТИМ » СЛИ
+					'19' => array('Nav', 37),
 				),
 				'13' => array(
-					'' => array('static/view', 'path' => 'teorija/model-tima'),
+					// Теория » Модель ТИМа » Коммуникативные модели
+					'' => array('Nav', 17),
 				),
 				'11' => array(
-					'' => array('static/view', 'path' => 'teorija/otnoshenija'),
+					// Теория » Межтипные отношения
+					'' => array('Nav', 41),
 				),
 				'14' => array(
-					'' => array('static/view', 'path' => 'teorija/otnoshenija/diady'),
+					// Теория » Межтипные отношения » Диады
+					'' => array('Nav', 42),
 				),
 				'15' => array(
-					'' => array('static/view', 'path' => 'teorija/otnoshenija/kvadry'),
+					// Теория » Межтипные отношения » Квадры
+					'' => array('Nav', 43),
 				),
 				'16' => array(
-					'' => array('static/view', 'path' => 'teorija/otnoshenija/kolca'),
+					// Теория » Межтипные отношения » Кольца
+					'' => array('Nav', 44),
 				),
 				'18' => array(
-					'' => array('static/view', 'path' => 'teorija/i-timy'),
+					// Теория » Интегральные ТИМы
+					'' => array('Nav', 45),
 				),
 				'19' => array(
-					'' => array('static/view', 'path' => 'praktika/metodika'),
+					// Теория » Методика типирования
+					'' => array('Nav', 47),
 				),
 				'21' => array(
-					''   => array('static/view', 'path' => 'statji-doklady'),
-					'45' => array('static/view', 'path' => 'statji-doklady'),
-					'46' => array('static/view', 'path' => 'statji-doklady'),
-					'47' => array('static/view', 'path' => 'statji-doklady'),
-					'48' => array('static/view', 'path' => 'statji-doklady'),
-					'49' => array('static/view', 'path' => 'statji-doklady'),
-					'50' => array('static/view', 'path' => 'statji-doklady'),
-					'51' => array('static/view', 'path' => 'statji-doklady'),
-					'52' => array('static/view', 'path' => 'statji-doklady'),
-					'53' => array('static/view', 'path' => 'statji-doklady'),
-					'54' => array('static/view', 'path' => 'statji-doklady'),
-					'55' => array('static/view', 'path' => 'statji-doklady'),
-					'56' => array('static/view', 'path' => 'statji-doklady'),
-					'57' => array('static/view', 'path' => 'statji-doklady'),
-					'58' => array('static/view', 'path' => 'statji-doklady'),
-					'59' => array('static/view', 'path' => 'statji-doklady'),
-					'62' => array('static/view', 'path' => 'statji-doklady'),
-					'63' => array('static/view', 'path' => 'statji-doklady'),
-					'64' => array('static/view', 'path' => 'statji-doklady'),
-					'65' => array('static/view', 'path' => 'statji-doklady'),
-					'66' => array('static/view', 'path' => 'statji-doklady'),
-					'67' => array('static/view', 'path' => 'statji-doklady'),
+					// Теория » Статьи В.Д.Ермака
+					''   => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Структура и функционирование психики…
+					'45' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Базовый цикл лекций по основам… 
+					'46' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Описания моделей ТИМ психики (первая квадра) 
+					'47' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Описания моделей ТИМ психики (вторая квадра)
+					'48' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Описания моделей ТИМ психики (третья квадра)
+					'49' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Описания моделей ТИМ психики (четвертая квадра)
+					'50' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Моделирование информационного метоаболизма психики… 
+					'51' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Взаимодействие психики человека с окружающим миром
+					'52' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Соционика — эффективный инструмент…
+					'53' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Современные основания соционики достаточно прочны…
+					'54' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » К вопросу об интегральном ТИМе психики России
+					'55' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Типоведение и соционика
+					'56' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » К проблеме интегрального типа…
+					'57' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Возрастное развитие… 
+					'58' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Конфликт, агрессия и национальная безопасность
+					'59' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Список научных трудов в области соционики
+					'62' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Искусство вопросов и некоторые ошибки интервьюиров
+					'63' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Электоральное поведение и ТИМ психики
+					'64' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Категория «ВРЕМЯ» в соционике
+					'65' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Проблемы идентификации… 
+					'66' => array('Nav', 53),
+					// Теория » Статьи В.Д.Ермака » Искажения ТИМ психики…
+					'67' => array('Nav', 53),
 				),
 				'24' => array(
-					''   => array('static/view', 'path' => 'statji-doklady'),
-					'68' => array('static/view', 'path' => 'statji-doklady'),
-					'69' => array('static/view', 'path' => 'statji-doklady'),
-					'70' => array('static/view', 'path' => 'statji-doklady'),
-					'72' => array('static/view', 'path' => 'statji-doklady'),
-					'73' => array('static/view', 'path' => 'statji-doklady'),
-					'74' => array('static/view', 'path' => 'statji-doklady'),
+					// Теория » Статьи разных авторов
+					''   => array('Nav', 53),
+					// Теория » Статьи разных авторов » Экспертная работа в соционике
+					'68' => array('Nav', 53),
+					// Теория » Статьи разных авторов » Трактовка некоторых странностей…
+					'69' => array('Nav', 53),
+					// Теория » Статьи разных авторов » Исследование страхов…
+					'70' => array('Nav', 53),
+					// Теория » Статьи разных авторов » О возможности фальсификации…
+					'72' => array('Nav', 53),
+					// Теория » Статьи разных авторов » Размерность функций
+					'73' => array('Nav', 53),
+					// Теория » Статьи разных авторов » Знаки психических функций в модели А
+					'74' => array('Nav', 53),
 				),
 				'23' => array(
-					'' => array('static/view', 'path' => 'statji-doklady'),
+					// Теория » Доклады
+					'' => array('Nav', 53),
 				),
 			);
 
@@ -141,7 +209,10 @@ class LegacyRedirectController extends Controller
 			$page = $params['page'];
 			if (isset($infoPages[$group]) && isset($infoPages[$group][$page]))
 			{
-				$url = $infoPages[$group][$page];
+				$modelClass = $infoPages[$group][$page][0];
+				$modelId = $infoPages[$group][$page][1];
+				$model = $modelClass::model()->FindByPk($modelId);
+				$url = $model->getUrl();
 			}
 		}
 		else if ($params['name'] === 'Forums')
