@@ -42,7 +42,7 @@ class LegacyRedirectController extends Controller
 			{
 				$modelClass = $redirect->model_class;
 				$modelId = $redirect->model_id;
-				$model = $modelClass::model()->FindByPk($modelId);
+				$model = CActiveRecord::model($modelClass)->FindByPk($modelId);
 				$url = $model->getUrl();
 			}
 		}
