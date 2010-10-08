@@ -13,25 +13,8 @@ body {
 	margin-top: 0.5em;
 }
 
-#main-header hgroup {
-	margin-left: 7em;
-	color: #7c900a;
-	background-color: #fff;
-}
-
-#main-header h1 {
-	font-size: 1.625em;
-	font-weight: bold;
-}
-
-#main-header h1 a {
-	color: #313131;
-	text-decoration: none;
-}
-
-#main-header h2 {
-	font-size: 1em;
-	font-weight: normal;
+#main-header a:focus {
+	outline: none;
 }
 
 /*** Главное меню ***/
