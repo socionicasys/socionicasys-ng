@@ -22,7 +22,7 @@ class ECKEditorSetup extends ECKEditor
 				'Maximize', 'Source',
 			),
 		);
-		$this->options = array(
+		$options = array(
 			'toolbarCanCollapse' => false,
 			'stylesSet' => array(
 				array(
@@ -78,8 +78,9 @@ class ECKEditorSetup extends ECKEditor
 		if (isset(Yii::app()->params['enableFileManager'])
 			&& Yii::app()->params['enableFileManager'])
 		{
-			$this->options['filebrowserBrowseUrl'] = CHtml::normalizeUrl(array('site/browse'));
+			$options['filebrowserBrowseUrl'] = CHtml::normalizeUrl(array('site/browse'));
 		}
+		$this->options = $options;
 		$this->htmlOptions = array(
 			'rows' => 10,
 			'cols' => 60,
