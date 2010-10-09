@@ -66,7 +66,7 @@ class ECKEditor extends CInputWidget {
 
     private $toolbar=array();
     
-    private $editorSkin='kama';
+    private $_skin='kama';
     private $theme='default';
 
 
@@ -199,13 +199,13 @@ class ECKEditor extends CInputWidget {
     public function setEditorSkin($value)
     {
         if (!is_string($value))
-            throw new CException(Yii::t(__CLASS__, 'Editor skin must be a string'));
-        $this->editorSkin = $value;
+            throw new CException(Yii::t(__CLASS__, 'Skin must be a string'));
+        $this->_skin = $value;
     }
 
     public function getEditorSkin()
     {
-        return $this->editorSkin;
+        return $this->_skin;
     }
 
     public function setTheme($value)
@@ -256,13 +256,15 @@ class ECKEditor extends CInputWidget {
         
         $options['extraPlugins'] = implode(',', $this->plugins);
 
-        $options['skin']=$this->editorSkin;
+        $options['skin']=$this->_skin;
         $options['theme']=$this->theme;
       // here any option is overriden by user's options
         if (is_array($this->options)) {
             $options = array_merge($options, $this->options);
         }
 
+        $options['width']=$this->width;
+        $options['height']=$this->height;
         return CJavaScript::encode($options);
    }
 
@@ -294,7 +296,7 @@ class ECKEditor extends CInputWidget {
         $js =<<<EOP
 CKEDITOR.replace('{$name}',{$options});
 EOP;
-        $cs->registerScript('Yii.'.get_class($this).'#'.$id, $js, CClientScript::POS_LOAD);
+        $cs->registerScript('Yii.'.get_class($this).'#'.$id, $js, CClientScript::POS_READY);
 
         if($this->hasModel()) {
             $html = CHtml::activeTextArea($this->model, $this->attribute, $this->htmlOptions);
