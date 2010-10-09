@@ -23,6 +23,10 @@ class SiteController extends Controller
             		'root' => Yii::getPathOfAlias('webroot.images'),
             		'URL' => Yii::app()->baseUrl . '/images/',
 					'rootAlias' => 'Изображения',
+					'disabled' => array(
+						'extract',
+						'archive',
+					),
 				),
 			));
 		}
