@@ -15,11 +15,11 @@ class ElFinderAction extends CAction
     
     public function  run()
     {
-        $this->options=array_merge($this->options,array(
+        $this->options=array_merge(array(
             'root'=>Yii::getPathOfAlias('webroot.upload'),
             'URL'=>Yii::app()->baseUrl.'/upload/',
             'rootAlias'=>'Home',
-        ));
+        ), $this->options);
 
         $fm = new elFinder($this->options);
         $fm->run();
