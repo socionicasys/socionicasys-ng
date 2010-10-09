@@ -6,11 +6,19 @@ class SiteController extends Controller
 	
 	public function actions()
 	{
-		return array(
-			'fileManager' => array(
-				'class' => 'ext.yiiext.widgets.elfinder.ElFinderAction',
-			),
-		);
+		$actions = array();
+		if (isset(Yii::app()->params['enableFileManager'])
+			&& Yii::app()->params['enableFileManager'])
+		{
+			$actions = CMap::mergeArray($actions, array(
+				'fileManager' => array(
+					'class' => 'ext.yiiext.widgets.elfinder.ElFinderAction',
+            		'root'=>Yii::getPathOfAlias('webroot'),
+            		'URL'=>Yii::app()->baseUrl,
+				),
+			));
+		}
+		return $actions;
 	}
 	
 	/**
@@ -59,10 +67,16 @@ class SiteController extends Controller
 	
 	public function actionBrowse()
 	{
+		if (!isset(Yii::app()->params['enableFileManager'])
+			|| !Yii::app()->params['enableFileManager'])
+		{
+			throw new CHttpException(404, 'Страница не найдена');
+		}
 		$this->layout='//site/browse';
 		$this->renderText($this->widget('ext.yiiext.widgets.elfinder.ElFinderWidget', array(
 			'lang' => Yii::app()->getLanguage(),
             'url' => CHtml::normalizeUrl(array('site/fileManager')),
+			'places' => '',
             'editorCallback' => 'js:function(url) {
 				var funcNum = window.location.search.replace(/^.*CKEditorFuncNum=(\d+).*$/, "$1");
 				window.opener.CKEDITOR.tools.callFunction(funcNum, url);

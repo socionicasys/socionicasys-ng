@@ -24,7 +24,6 @@ class ECKEditorSetup extends ECKEditor
 		);
 		$this->options = array(
 			'toolbarCanCollapse' => false,
-			'filebrowserBrowseUrl' => CHtml::normalizeUrl(array('site/browse')),
 			'stylesSet' => array(
 				array(
 					'name' =>  'Заголовок 1',
@@ -76,6 +75,11 @@ class ECKEditorSetup extends ECKEditor
 				),
 			),
 		);
+		if (isset(Yii::app()->params['enableFileManager'])
+			&& Yii::app()->params['enableFileManager'])
+		{
+			$this->options['filebrowserBrowseUrl'] = CHtml::normalizeUrl(array('site/browse'));
+		}
 		$this->htmlOptions = array(
 			'rows' => 10,
 			'cols' => 60,
