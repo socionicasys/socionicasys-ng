@@ -13,8 +13,9 @@ class SiteController extends Controller
 			$actions = CMap::mergeArray($actions, array(
 				'fileManager' => array(
 					'class' => 'ext.yiiext.widgets.elfinder.ElFinderAction',
-            		'root'=>Yii::getPathOfAlias('webroot'),
-            		'URL'=>Yii::app()->baseUrl,
+            		'root' => Yii::getPathOfAlias('webroot.images'),
+            		'URL' => Yii::app()->baseUrl . '/images/',
+					'rootAlias' => 'Изображения',
 				),
 			));
 		}
