@@ -131,7 +131,7 @@ class Library extends CActiveRecord
 	{
 		return Yii::app()->createUrl('library/view', array(
 			'type' => $this->type,
-			'title' => $this->title,
+			'title' => $this->url,
 		));
 	}
 }

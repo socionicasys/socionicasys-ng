@@ -23,10 +23,9 @@ $cs->registerLinkTag(
 </head>
 <body>
 	<header id="main-header">
-		<hgroup>
-			<h1><a href="<?php echo Yii::app()->homeUrl; ?>">Школа системной соционики</a></h1>
-			<h2>Практика — критерий истины</h2>
-		</hgroup>
+		<a href="<?php echo Yii::app()->homeUrl; ?>">
+			<img src="/images/Logo.png?2" alt="Школа системной соционики" />
+		</a>
 	</header>
 	<nav id="major-navigation">
 		<?php $this->widget('zii.widgets.CMenu', array(
