@@ -30,6 +30,10 @@ return array(
 			'loginUrl' => array('site/login'),
 		),
 		'request' => array(
+			'class' => 'HttpRequest',
+			'noCsrfValidationRoutes' => array(
+				'^site/fileManager$',
+			),
 			'enableCsrfValidation' => true,
 			'enableCookieValidation' => true,
 		),
