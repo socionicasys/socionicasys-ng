@@ -4,6 +4,13 @@ class SiteController extends Controller
 {
 	public $layout = '//layouts/section-wide';
 	
+	public function filters()
+	{
+		return array(
+			'rights + fileManager, browse',
+		);
+	}
+	
 	public function actions()
 	{
 		$actions = array();
