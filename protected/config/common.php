@@ -30,6 +30,10 @@ return array(
 			'loginUrl' => array('site/login'),
 		),
 		'request' => array(
+			'class' => 'HttpRequest',
+			'noCsrfValidationRoutes' => array(
+				'^site/fileManager$',
+			),
 			'enableCsrfValidation' => true,
 			'enableCookieValidation' => true,
 		),
@@ -45,6 +49,9 @@ return array(
 				// Вход-выход с сайта
 				'login' => 'site/login',
 				'logout' => 'site/logout',
+				// Менеджер файлов
+				'browse' => 'site/browse',
+				'fileManager' => 'site/fileManager',
 				// Новости
 				'novosti/<News_page:\d+>' => 'news/list',
 				'novosti' => 'news/list',
@@ -115,5 +122,6 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
+		'enableFileManager' => true,
 	),
 );
