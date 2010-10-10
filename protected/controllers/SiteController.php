@@ -27,6 +27,7 @@ class SiteController extends Controller
 						'extract',
 						'archive',
 					),
+					'logger' => new FileOperationsLogger(),
 				),
 			));
 		}
@@ -95,5 +96,38 @@ class SiteController extends Controller
 				window.close();
 			}',
 		), true));
+	}
+}
+
+require_once(Yii::getPathOfAlias('ext.yiiext.widgets.elfinder') . '/elFinder.class.php');
+
+class FileOperationsLogger implements elFinderILogger
+{
+	/**
+	 * @param string $cmd
+	 * @param boolean $ok
+	 * @param array $context
+	 * @param string $err
+	 * @param array $errorData
+	 * @see elFinderILogger::log()
+	 */
+	public function log($cmd, $ok, $context, $err = '', $errorData = array())
+	{
+		Yii::app()->user->name;
+		$message = "Command: '$cmd' from user " . Yii::app()->user->name;
+		$message .= ' (IP ' . Yii::app()->request->userHostAddress . ')';
+		$message .= "\nContext: " . CVarDumper::dumpAsString($context) . "\n";
+		if ($ok)
+		{
+			$message .= 'Result: OK';
+		}
+		else
+		{
+			$message .= "Result: FAILED. Error message $err\n";
+			$message .= 'ErrorData: ' . CVarDumper::dumpAsString($errorData); 
+		}
+		Yii::log($message, 'debug', 'FileOperationsLogger');
+		// Сохранить логи до вызова exit() в коде elFinder.class
+		Yii::app()->log->processLogs(new CEvent($this));
 	}
 }
