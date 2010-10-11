@@ -474,7 +474,8 @@ th, td {
 	vertical-align: middle;
 }
 
-.model-diagram .separator {
+.model-diagram .separator,
+.model-diagram .superid {
 	border-top: 2px solid #313131;
 }
 
