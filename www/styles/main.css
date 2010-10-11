@@ -487,6 +487,20 @@ th, td {
 	text-align: right;
 }
 
+.model-diagram.directed .ego,
+.model-diagram.directed .id {
+	background-image: url('/images/diagrams/arrow_right.png');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.model-diagram.directed .superego,
+.model-diagram.directed .superid {
+	background-image: url('/images/diagrams/arrow_left.png');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
 #content .model-diagram.compact .inline-icon {
 	position: relative;
 	top: 1px;
