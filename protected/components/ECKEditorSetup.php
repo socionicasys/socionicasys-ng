@@ -12,6 +12,8 @@ class ECKEditorSetup extends ECKEditor
 				'-',
 				'TextColor', 'BGColor',
 				'-',
+				'Undo', 'Redo',
+				'-',
 				'NumberedList', 'BulletedList', 'Blockquote', 'Outdent','Indent',
 				'-',
 				'JustifyLeft', 'JustifyCenter', 'JustifyRight',

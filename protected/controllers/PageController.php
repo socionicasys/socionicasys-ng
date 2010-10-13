@@ -35,6 +35,9 @@ class PageController extends Controller
 	{
 		return array(
 			'rights - view',
+			array(
+				'SpaceFixer',
+			),
 		);
 	}
 

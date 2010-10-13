@@ -7,3 +7,6 @@
 [submodule "protected/extensions/EJNestedTreeActions"]
 	path = protected/extensions/EJNestedTreeActions
 	url = git://github.com/GreyTeardrop/EJNestedTreeActions.git
+[submodule "protected/vendors/phpbrowscap"]
+	path = protected/vendors/phpbrowscap
+	url = http://github.com/GaretJax/phpbrowscap.git

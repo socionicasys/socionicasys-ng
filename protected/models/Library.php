@@ -67,7 +67,7 @@ class Library extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('type, url, title, author, published, published_number', 'length', 'max'=>255),
-			array('text', 'safe'),
+			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, type, url, title, author, published, published_number, text', 'safe', 'on'=>'search'),
