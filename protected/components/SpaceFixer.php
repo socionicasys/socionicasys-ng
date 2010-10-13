@@ -10,7 +10,7 @@ class SpaceFixer extends COutputProcessor
 {
 	public function processOutput($output)
 	{
-		$cachedir = Yii::getPathOfAlias('application.runtime');
+		$cachedir = Yii::app()->getRuntimePath();
 		$browscap = new Browscap($cachedir);
 		$browser = $browscap->getBrowser();
 		if ($browser->Browser === 'Opera')
