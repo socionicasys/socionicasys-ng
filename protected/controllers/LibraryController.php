@@ -10,6 +10,9 @@ class LibraryController extends Controller
 	{
 		return array(
 			'rights + create, edit, delete',
+			array(
+				'SpaceFixer',
+			),
 		);
 	}
 	
