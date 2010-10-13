@@ -192,8 +192,8 @@ body {
 
 #content h2 + p,
 #content h3 + p,
-#content h2 + figure + p,
-#content h3 + figure + p {
+#content h2 + table + p,
+#content h3 + table + p {
 		margin-top: 0;
 }
 
@@ -516,7 +516,7 @@ figure.standalone>img {
 	border: 1px solid #ccc;
 }
 
-figure.floating {
+.floating {
 	float: right;
 	margin-left: 1em;
 }

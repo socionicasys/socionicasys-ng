@@ -20,8 +20,8 @@ class SiteController extends Controller
 			$actions = CMap::mergeArray($actions, array(
 				'fileManager' => array(
 					'class' => 'ext.yiiext.widgets.elfinder.ElFinderAction',
-            		'root' => Yii::getPathOfAlias('webroot.images'),
-            		'URL' => Yii::app()->baseUrl . '/images/',
+					'root' => Yii::getPathOfAlias('webroot.images'),
+					'URL' => Yii::app()->baseUrl . '/images/',
 					'rootAlias' => 'Изображения',
 					'disabled' => array(
 						'extract',
@@ -88,9 +88,9 @@ class SiteController extends Controller
 		$this->layout='//site/browse';
 		$this->renderText($this->widget('ext.yiiext.widgets.elfinder.ElFinderWidget', array(
 			'lang' => Yii::app()->getLanguage(),
-            'url' => CHtml::normalizeUrl(array('site/fileManager')),
+			'url' => CHtml::normalizeUrl(array('site/fileManager')),
 			'places' => '',
-            'editorCallback' => 'js:function(url) {
+			'editorCallback' => 'js:function(url) {
 				var funcNum = window.location.search.replace(/^.*CKEditorFuncNum=(\d+).*$/, "$1");
 				window.opener.CKEDITOR.tools.callFunction(funcNum, url);
 				window.close();
