@@ -15,7 +15,7 @@ class SpaceFixer extends COutputProcessor
 		$browser = $browscap->getBrowser();
 		if ($browser->Browser === 'Opera')
 		{
-			$output = str_replace('&thinsp;', ' ', $output);
+			$output = str_replace(array('&thinsp;', ' '), ' ', $output);
 		}
 		parent::processOutput($output);
 	}
