@@ -12,12 +12,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>256)); ?>
-		<?php echo $form->error($model,'title'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'menu_title'); ?>
 		<?php echo $form->textField($model,'menu_title',array('size'=>60,'maxlength'=>256)); ?>
 		<?php echo $form->error($model,'menu_title'); ?>
