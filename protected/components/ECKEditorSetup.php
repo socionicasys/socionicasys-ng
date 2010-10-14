@@ -26,6 +26,11 @@ class ECKEditorSetup extends ECKEditor
 		);
 		$options = array(
 			'toolbarCanCollapse' => false,
+			'bodyId' => 'content',
+			'bodyClass' => 'content-editor',
+			'contentsCss' => Yii::app()->clientScript->appendTimestamp(
+				Yii::app()->request->baseUrl . '/styles/main.css'
+			),
 			'stylesSet' => array(
 				array(
 					'name' =>  'Заголовок 1',

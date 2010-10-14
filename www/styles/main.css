@@ -146,6 +146,10 @@ body {
 	line-height: 1.3125;
 }
 
+#content.content-editor {
+    padding: 0.5em;
+}
+
 #content p {
 	margin: 1.3125em 0;
 	text-align: justify;
