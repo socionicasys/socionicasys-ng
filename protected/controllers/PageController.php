@@ -80,8 +80,12 @@ class PageController extends Controller
 			));
 			$pageControls = true;
 		}
-		
-		if (!empty($page->title))
+
+		if ($page->title === null)
+		{
+			$this->pageTitle = $page->menu_title . ' | ' . Yii::app()->name;
+		}
+		else if (!empty($page->title))
 		{
 			$this->pageTitle = $page->title . ' | ' . Yii::app()->name;
 		}
