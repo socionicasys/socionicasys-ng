@@ -83,7 +83,7 @@ class ECKEditorSetup extends ECKEditor
 				array(
 					'name' => 'Термин',
 					'element' => 'span',
-					'attibutes' => array(
+					'attributes' => array(
 						'class' => 'term',
 					),
 				),
