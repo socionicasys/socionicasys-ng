@@ -283,6 +283,10 @@ body {
 	margin-right: 2em;
 }
 
+.term {
+    color: #b22222;
+}
+
 /** Сылки в подзаголовках и оглавление **/
 a.headerlink {
 	color: #c60f0f;

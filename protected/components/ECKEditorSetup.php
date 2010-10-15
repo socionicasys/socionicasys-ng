@@ -80,6 +80,13 @@ class ECKEditorSetup extends ECKEditor
 					'name' =>  'Обычный текст',
 					'element' => 'p',
 				),
+				array(
+					'name' => 'Термин',
+					'element' => 'span',
+					'attibutes' => array(
+						'class' => 'term',
+					),
+				),
 			),
 		);
 		if (isset(Yii::app()->params['enableFileManager'])
