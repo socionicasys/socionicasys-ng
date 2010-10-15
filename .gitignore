@@ -6,3 +6,4 @@ protected/config/local.php
 protected/config/console-local.php
 protected/data/*.db
 protected/runtime
+nbproject
