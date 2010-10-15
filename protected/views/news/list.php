@@ -18,4 +18,7 @@ $this->widget('zii.widgets.CListView', array(
 	'viewData' => array(
 		'links' => $links,
 	),
+	'afterAjaxUpdate' => "function(id, data) {
+		$(document).scrollTop(0);
+	}",
 ));
