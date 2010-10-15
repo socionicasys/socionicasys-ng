@@ -63,13 +63,6 @@ class ECKEditorSetup extends ECKEditor
 					),
 				),
 				array(
-					'name' => 'Эпиграф',
-					'element' => 'blockquote',
-					'attributes' => array(
-						'class' => 'epigraph',
-					),
-				),
-				array(
 					'name' => 'Определение',
 					'element' => 'p',
 					'attributes' => array(
@@ -83,7 +76,7 @@ class ECKEditorSetup extends ECKEditor
 				array(
 					'name' => 'Термин',
 					'element' => 'span',
-					'attibutes' => array(
+					'attributes' => array(
 						'class' => 'term',
 					),
 				),
