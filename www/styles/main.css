@@ -2,7 +2,7 @@ body {
 	color: #313131;
 	background-color: #fff;
 	font-size: 100%;
-	font-family: 'Verdana', 'Arial', sans-serif;
+	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 	line-height: 1.3125;
 	max-width: 55em;
 	margin: 0 auto;
@@ -142,7 +142,7 @@ body {
 /*** Содержимое ***/
 #content {
 	font-size: 0.875em;
-	font-family: 'Verdana', 'Arial', sans-serif;
+	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 	line-height: 1.5;
 }
 
