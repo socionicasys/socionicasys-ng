@@ -13,6 +13,8 @@ $form = $this->beginWidget('CActiveForm', array(
 	),
 ));
 ?>
+	<?php echo CHtml::hiddenField('backUrl', $backUrl); ?>
+	
 	<div class="row">
 		<?php echo $form->labelEx($model, 'username'); ?>
 		<?php echo $form->textField($model, 'username'); ?>
