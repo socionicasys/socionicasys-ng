@@ -64,19 +64,43 @@ class SiteController extends Controller
 			$model->attributes = $_POST['LoginForm'];
 			if ($model->validate() && $model->login())
 			{
-				$this->redirect(Yii::app()->user->returnUrl);
+				if (isset($_POST['backUrl']))
+				{
+					$backUrl = $_POST['backUrl'];
+				}
+				else
+				{
+					$backUrl = Yii::app()->homeUrl;
+				}
+				$this->redirect($backUrl);
 			}
 		}
-		
+
+		$backUrl = Yii::app()->user->returnUrl;
+		if (empty($backUrl) || ($backUrl === Yii::app()->request->scriptUrl))
+		{
+			$backUrl = Yii::app()->request->urlReferrer;
+		}
+		if (empty($backUrl))
+		{
+			$backUrl = Yii::app()->homeUrl;
+		}
+
 		$this->render('login', array(
 			'model' => $model,
+			'backUrl' => $backUrl,
 		));
 	}
 	
 	public function actionLogout()
 	{
 		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+		$backUrl = Yii::app()->request->urlReferrer;
+		if (empty($backUrl))
+		{
+			$backUrl = Yii::app()->homeUrl;
+		}
+		$this->redirect($backUrl);
 	}
 	
 	public function actionBrowse()

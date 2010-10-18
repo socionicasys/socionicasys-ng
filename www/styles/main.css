@@ -40,6 +40,13 @@ body:before {
 	outline: none;
 }
 
+.header-link {
+	float: right;
+	padding-right: 1em;
+	color: #afca2f;
+	text-decoration: none;
+}
+
 /*** Главное меню ***/
 #major-navigation {
 	font-size: 0.875em;
@@ -300,7 +307,6 @@ body:before {
 	font-size: 0.928571429em;
 	line-height: 1.615384615;
 	margin: 0 4em;
-	text-indent: 4em;
 }
 
 #content .definition {
@@ -311,6 +317,10 @@ body:before {
 .term {
 	color: #b22222;
 	font-weight: bold;
+}
+
+.colored {
+	color: #7c900a;
 }
 
 #content .aside {

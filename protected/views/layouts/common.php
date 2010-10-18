@@ -29,6 +29,9 @@ $cs->registerLinkTag(
 <body>
 	<div id="wrap">
 		<header id="main-header">
+			<?php foreach ($this->headerlinks as $label => $url): ?>
+				<a class="header-link" href="<?php echo $url; ?>"><?php echo $label; ?></a>
+			<?php endforeach; ?>
 			<a href="<?php echo Yii::app()->homeUrl; ?>">
 				<img src="/images/Logo.png?2" alt="Школа системной соционики" />
 			</a>
