@@ -20,21 +20,28 @@ $cs->registerLinkTag(
 	<script src="<?php echo $cs->appendTimestamp($base . '/scripts/html5shiv.js'); ?>"></script>
 	<script src="<?php echo $cs->appendTimestamp($base . '/scripts/ie9.js'); ?>"></script>
 	<![endif]-->
+	<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display: table; height: 100%;}
+	</style>
+	<![endif]-->
 </head>
 <body>
-	<header id="main-header">
-		<a href="<?php echo Yii::app()->homeUrl; ?>">
-			<img src="/images/Logo.png?2" alt="Школа системной соционики" />
-		</a>
-	</header>
-	<nav id="major-navigation">
-		<?php $this->widget('zii.widgets.CMenu', array(
-			'items' => $this->majorMenu,
-			'activateItems' => false,
-		)); ?>
-	</nav>
-	<div id="content-area">
-		<?php echo $content; ?>
+	<div id="wrap">
+		<header id="main-header">
+			<a href="<?php echo Yii::app()->homeUrl; ?>">
+				<img src="/images/Logo.png?2" alt="Школа системной соционики" />
+			</a>
+		</header>
+		<nav id="major-navigation">
+			<?php $this->widget('zii.widgets.CMenu', array(
+				'items' => $this->majorMenu,
+				'activateItems' => false,
+			)); ?>
+		</nav>
+		<div id="content-area">
+			<?php echo $content; ?>
+		</div>
 	</div>
 	<footer id="main-footer">
 		<p>&copy; Школа системной соционики</p>
