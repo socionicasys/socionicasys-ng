@@ -157,4 +157,18 @@ class Controller extends RightsBaseController
 		    return '';
 	    }
 	}
+
+	public function getYears()
+	{
+		$year = date('Y');
+		$startYear = '2010';
+		if ($year === $startYear)
+		{
+			return $year;
+		}
+	    else
+	    {
+		    return $startYear . '&ndash;' . $year;
+	    }
+	}
 }
