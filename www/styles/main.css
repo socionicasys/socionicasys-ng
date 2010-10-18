@@ -316,11 +316,11 @@ body:before {
 #content .aside {
 	float: left;
 	border: none;
-	margin: 0 0 1.5em -19.42em;
+	margin: 0 0 1.5em -20.923077em;
 	padding: 0;
-	width: 17.5em;
-	font-size: 0.875em;
-	line-height: 1.5;
+	width: 19em;
+	font-size: 0.928571em;
+	line-height: 1.61538;
 }
 
 #content .aside p {
