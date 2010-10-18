@@ -324,6 +324,13 @@ body:before {
 	margin: 0;
 }
 
+#content.content-editor .aside {
+	float: none;
+	width: auto;
+	margin: inherit;
+	padding: inherit;
+}
+
 /** Сылки в подзаголовках и оглавление **/
 a.headerlink {
 	color: #c60f0f;
