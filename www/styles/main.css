@@ -31,8 +31,9 @@ body:before {
 }
 
 #main-header a {
-	margin-top: 0.5em;
-	margin-left: 1em;
+	padding-top: 0.5em;
+	padding-left: 1em;
+	display: block;
 }
 
 #main-header a:focus {
