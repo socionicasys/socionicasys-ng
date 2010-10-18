@@ -171,4 +171,18 @@ class Controller extends RightsBaseController
 		    return $startYear . '&ndash;' . $year;
 	    }
 	}
+
+	public function getHeaderlinks()
+	{
+		$links = array();
+		if (Yii::app()->user->isGuest)
+		{
+			$links['Войти'] = Yii::app()->createUrl('site/login');
+		}
+	    else
+	    {
+		    $links['Выйти'] = Yii::app()->createUrl('site/logout');
+	    }
+	    return $links;
+	}
 }

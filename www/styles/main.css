@@ -40,6 +40,13 @@ body:before {
 	outline: none;
 }
 
+.header-link {
+	float: right;
+	padding-right: 1em;
+	color: #afca2f;
+	text-decoration: none;
+}
+
 /*** Главное меню ***/
 #major-navigation {
 	font-size: 0.875em;
