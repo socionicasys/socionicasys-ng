@@ -1,13 +1,5 @@
 <?php
-$this->pageTitle=Yii::app()->name;
-$breadcrumbs = $this->getBreadcrumbs();
-$lastCrumb = $breadcrumbs[0];
-unset($breadcrumbs[0]);
-$breadcrumbs = array_merge($breadcrumbs, array(
-	$lastCrumb => Yii::app()->homeUrl,
-	'Вход',
-));
-$this->setBreadcrumbs($breadcrumbs);
+$this->setBreadcrumbs(null);
 $this->pageTitle = 'Вход | ' . Yii::app()->name;
 ?>
 <h1>Вход</h1>

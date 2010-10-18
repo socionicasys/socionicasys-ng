@@ -3,6 +3,7 @@
 class SiteController extends Controller
 {
 	public $layout = '//layouts/section-wide';
+	public $layoutClass = 'wide';
 	
 	public function filters()
 	{

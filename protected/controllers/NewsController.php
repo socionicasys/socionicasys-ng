@@ -104,7 +104,8 @@ class NewsController extends Controller
 				$this->redirect(array('item', 'id' => $model->id));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
 		$this->layout = '//layouts/section-wide';
 		$this->render('create', array(
 			'model' => $model,
@@ -125,7 +126,8 @@ class NewsController extends Controller
 				$this->redirect(array('item', 'id' => $model->id));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
 		$this->layout = '//layouts/section-wide';
 		$this->render('edit', array(
 			'model' => $model,
