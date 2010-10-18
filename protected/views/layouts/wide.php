@@ -1,5 +1,5 @@
 <?php $this->beginContent('//layouts/common'); ?>
-<div id="content-wrap" class="wide">
+<div id="content-wrap" <?php echo $this->layoutAttr; ?>>
 	<?php
 	$breadcrumbs = $this->getBreadcrumbs();
 	if (count($breadcrumbs) > 1):

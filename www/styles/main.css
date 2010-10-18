@@ -1,3 +1,7 @@
+html {
+	height: 100%;
+}
+
 body {
 	color: #313131;
 	background-color: #fff;
@@ -5,13 +9,31 @@ body {
 	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 	line-height: 1.3125;
 	max-width: 55em;
+	height: 100%;
 	margin: 0 auto;
+}
+
+/* Opera fix */
+body:before {
+	content: "";
+	height: 100%;
+	float: left;
+	width: 0;
+	margin-top: -32767px;
+}
+
+#wrap {
+	min-height: 100%;
 }
 
 /*** Шапка ***/
 #main-header {
-	margin-top: 0.5em;
-	margin-left: 1em;
+}
+
+#main-header a {
+	padding-top: 0.5em;
+	padding-left: 1em;
+	display: block;
 }
 
 #main-header a:focus {
@@ -85,6 +107,8 @@ body {
 
 /*** Основной раздел ***/
 #content-area {
+	overflow: hidden;
+	padding-bottom: 5em;
 }
 
 #content-wrap.narrow {
@@ -94,7 +118,6 @@ body {
 }
 
 #content-wrap.wide {
-	margin: 0 4em;
 }
 
 #content-wrap.narrow > * {
@@ -288,6 +311,27 @@ body {
 .term {
 	color: #b22222;
 	font-weight: bold;
+}
+
+#content .aside {
+	float: left;
+	border: none;
+	margin: 0 0 1.5em -19.42em;
+	padding: 0;
+	width: 17.5em;
+	font-size: 0.875em;
+	line-height: 1.5;
+}
+
+#content .aside p {
+	margin: 0;
+}
+
+#content.content-editor .aside {
+	float: none;
+	width: auto;
+	margin: inherit;
+	padding: inherit;
 }
 
 /** Сылки в подзаголовках и оглавление **/
@@ -535,6 +579,10 @@ figcaption {
 }
 
 /** Дерево страниц **/
+#content .tree {
+	margin-top: 0.5em;
+}
+
 #content .tree ol,
 #content .tree ul {
 	margin: inherit;
@@ -646,8 +694,14 @@ form.wide .errorMessage {
 /*** «Подвал» ***/
 #main-footer {
 	clear: both;
-	padding-top: 1em;
-	border-top: 1px solid #afca2f;
+	position: relative;
+	margin: -3.875em 0 0;
+	height: 3.75em;
+	border-top: 2px solid #afca2f;
 	text-align: center;
+}
+
+#main-footer p {
 	font-size: 0.875em;
+	padding: 1.5em 0;
 }
