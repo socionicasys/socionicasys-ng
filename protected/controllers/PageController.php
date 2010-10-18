@@ -44,6 +44,7 @@ class PageController extends Controller
 	public function actionManage()
 	{
 		$this->layout = '//layouts/section-wide';
+		$this->layoutClass = 'wide';
 		$this->render('manage');
 	}
 

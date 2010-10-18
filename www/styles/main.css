@@ -569,6 +569,10 @@ figcaption {
 }
 
 /** Дерево страниц **/
+#content .tree {
+	margin-top: 0.5em;
+}
+
 #content .tree ol,
 #content .tree ul {
 	margin: inherit;
