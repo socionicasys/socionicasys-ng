@@ -74,10 +74,24 @@ class ECKEditorSetup extends ECKEditor
 					'element' => 'p',
 				),
 				array(
+					'name' => 'Вырезка',
+					'element' => 'div',
+					'attributes' => array(
+						'class' => 'aside',
+					),
+				),
+				array(
 					'name' => 'Термин',
 					'element' => 'span',
 					'attributes' => array(
 						'class' => 'term',
+					),
+				),
+				array(
+					'name' => 'Цветной текст',
+					'element' => 'span',
+					'attributes' => array(
+						'class' => 'colored',
 					),
 				),
 			),

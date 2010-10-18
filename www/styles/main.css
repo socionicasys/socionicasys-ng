@@ -311,6 +311,10 @@ body:before {
 	font-weight: bold;
 }
 
+.colored {
+	color: #7c900a;
+}
+
 #content .aside {
 	float: left;
 	border: none;
