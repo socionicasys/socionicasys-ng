@@ -36,6 +36,9 @@ $cs->registerLinkTag(
 	<div id="content-area">
 		<?php echo $content; ?>
 	</div>
+	<footer id="main-footer">
+		<p>&copy; Школа системной соционики</p>
+	</footer>
 <?php $this->widget('GoogleAnalytics'); ?>
 </body>
 </html>
