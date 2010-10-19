@@ -762,7 +762,7 @@ form.wide .errorMessage {
 		color: #313131;
 	}
 
-	#content a[href^="/"] {
+	#content a[href^="/"]:after {
 		content: " 〈http://socionicasys.ru" attr(href) "〉 ";
 	}
 
