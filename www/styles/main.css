@@ -9,8 +9,11 @@ body {
 	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 	line-height: 1.3125;
 	max-width: 55em;
-	height: 100%;
 	margin: 0 auto;
+}
+
+body#body {
+	height: 100%;
 }
 
 /* Opera fix */
