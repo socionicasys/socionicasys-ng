@@ -343,6 +343,7 @@ body:before {
 	width: auto;
 	margin: inherit;
 	padding: inherit;
+	background-color: #afca2f;
 }
 
 /** Сылки в подзаголовках и оглавление **/
