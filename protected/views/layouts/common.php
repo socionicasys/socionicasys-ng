@@ -26,7 +26,7 @@ $cs->registerLinkTag(
 	</style>
 	<![endif]-->
 </head>
-<body>
+<body id="body">
 	<div id="wrap">
 		<header id="main-header">
 			<?php foreach ($this->headerlinks as $label => $url): ?>
