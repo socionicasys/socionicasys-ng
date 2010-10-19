@@ -758,12 +758,12 @@ form.wide .errorMessage {
 
 	#content a:link:after,
 	#content a:visited:after {
-		content: " 〈" attr(href) "〉 ";
+		content: " 〈" attr(href) "〉";
 		color: #313131;
 	}
 
 	#content a[href^="/"]:after {
-		content: " 〈http://socionicasys.ru" attr(href) "〉 ";
+		content: " 〈http://socionicasys.ru" attr(href) "〉";
 	}
 
 	#main-footer {
