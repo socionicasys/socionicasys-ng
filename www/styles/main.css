@@ -150,8 +150,8 @@ body:before {
 }
 
 #secondary-navigation nav {
-	font-size: 0.75em;
-	line-height: 1.75;
+	font-size: 0.875em;
+	line-height: 1.5;
 }
 
 #secondary-navigation ul ul ul {
@@ -164,11 +164,11 @@ body:before {
 }
 
 #manage-pages {
-	font-size: 0.75em;
-	line-height: 1.75;
-	width: 14em;
-	margin-top: 0.833em;
-	padding-top: 0.833em;
+	font-size: 0.875em;
+	line-height: 1.5;
+	width: 12em;
+	margin-top: 0.714em;
+	padding-top: 0.714em;
 	border-top: 1px solid #ddd;
 }
 
