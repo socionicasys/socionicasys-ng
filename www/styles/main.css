@@ -493,6 +493,14 @@ th, td {
 	border: none;
 }
 
+td.correct {
+	background-color: #d0f032;
+}
+
+td.skipped {
+	background-color: #e0e0e0;
+}
+
 /* Таблица аспектов */
 #aspects {
 	margin: 0 auto;
