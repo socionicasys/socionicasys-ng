@@ -39,6 +39,7 @@ class NewsController extends Controller
 		$this->render('item', array(
 			'model' => $model,
 			'links' => $links,
+		    'shortTitle' => TextHelper::truncate($model->title, 70, '…', true),
 		));
 	}
 	
