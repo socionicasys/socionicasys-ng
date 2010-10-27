@@ -50,5 +50,6 @@ $cs->registerLinkTag(
 		<p>&copy; Школа системной соционики, <?php echo $this->years; ?>.</p>
 	</footer>
 <?php $this->widget('GoogleAnalytics'); ?>
+<?php $this->widget('YandexMetrika'); ?>
 </body>
 </html>
