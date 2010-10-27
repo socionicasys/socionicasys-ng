@@ -16,6 +16,7 @@ class TextHelper
 	 */
 	static function truncate($text, $length, $indicator = '...', $wholeWord = false)
 	{
+		mb_internal_encoding('UTF-8');
 		if (mb_strlen($text) <= $length)
 		{
 			return $text;
