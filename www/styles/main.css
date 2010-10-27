@@ -238,13 +238,17 @@ body:before {
 	margin: 0;
 }
 
-#content h1.article-author {
+#content .article-author {
+	font-size: 1.25em;
 	font-weight: normal;
+	line-height: 1.05;
 	margin-top: 1.05em;
 	margin-bottom: 0;
+	position: relative;
+	top: -0.1em;
 }
 
-#content h1.article-title {
+#content .article-title {
 	margin-top: 1.05em;
 	margin-bottom: 1.05em;
 }
