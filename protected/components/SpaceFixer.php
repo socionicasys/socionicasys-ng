@@ -14,8 +14,7 @@ class SpaceFixer extends COutputProcessor
 		try
 		{
 			$browscap = new Browscap($cachedir);
-			$browscap->updateMethod = Browscap::UPDATE_LOCAL;
-			$browscap->localFile = $cachedir . DIRECTORY_SEPARATOR . 'browscap_autoupdate.ini';
+			$browscap->doAutoUpdate = false;
 			$browser = $browscap->getBrowser();
 			if ($browser->Browser === 'Opera')
 			{
