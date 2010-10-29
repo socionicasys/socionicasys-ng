@@ -127,9 +127,17 @@ class Library extends CActiveRecord
 		));
 	}
 	
-	public function getUrl()
+	public function getUrl($absolute = false)
 	{
-		return Yii::app()->createUrl('library/view', array(
+		if ($absolute)
+		{
+			$create = 'createAbsoluteUrl';
+		}
+		else
+		{
+			$create = 'createUrl';
+		}
+		return Yii::app()->$create('library/view', array(
 			'type' => $this->type,
 			'title' => $this->url,
 		));

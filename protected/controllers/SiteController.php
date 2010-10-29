@@ -122,6 +122,16 @@ class SiteController extends Controller
 			}',
 		), true));
 	}
+
+	public function actionSitemap()
+	{
+		header('Content-Type: application/xml');
+		$this->renderPartial('sitemap-xml', array(
+			'news' => News::model()->findAll(),
+			'pages' => Nav::model()->findAll('level>1'),
+			'articles' => Library::model()->findAll(),
+		));
+	}
 }
 
 require_once(Yii::getPathOfAlias('ext.yiiext.widgets.elfinder') . '/elFinder.class.php');
