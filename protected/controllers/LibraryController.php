@@ -26,6 +26,7 @@ class LibraryController extends Controller
 		$this->layout = '//layouts/article-wide';
 		$this->render("$type-item", array(
 			'model' => $model,
+		    'shortTitle' => TextHelper::truncate($model->title, 70, '…', true),
 		));
 	}
 	
@@ -77,7 +78,8 @@ class LibraryController extends Controller
 			'dataProvider' => $dataProvider,
 			'type' => $type,
 		);
-		
+
+		$this->layoutClass = 'wide';
 		if (Yii::app()->request->isAjaxRequest)
 		{
 			$this->renderPartial("$type-list", $viewParameters);
@@ -130,7 +132,8 @@ class LibraryController extends Controller
 				));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
 		$this->render("$type-create", array(
 			'model' => $model,
 		));
@@ -154,7 +157,8 @@ class LibraryController extends Controller
 				));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
 		$this->render("$type-edit", array(
 			'model' => $model,
 		));
@@ -184,7 +188,8 @@ class LibraryController extends Controller
 				));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
 		$this->render("$type-delete", array(
 			'model' => $model,
 		));

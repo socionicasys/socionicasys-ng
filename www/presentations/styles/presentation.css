@@ -1,0 +1,32 @@
+strong,
+dt {
+	color: #3366ff;
+}
+
+em {
+	color: #c60f0f;
+}
+
+div.slide h1 {
+	color: #c60f0f;
+	text-align: center;
+	padding-right: 0;
+	margin-right: 0;
+}
+
+h2 {
+	color: #3366ff;
+	text-align: center;
+}
+
+.cleared {
+	clear: both;
+}
+
+.inline {
+	float: right;
+}
+
+.centered {
+	text-align: center;
+}

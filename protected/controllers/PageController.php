@@ -44,6 +44,7 @@ class PageController extends Controller
 	public function actionManage()
 	{
 		$this->layout = '//layouts/section-wide';
+		$this->layoutClass = 'wide';
 		$this->render('manage');
 	}
 
@@ -99,7 +100,7 @@ class PageController extends Controller
 		);
 		if ($page->wide_layout)
 		{
-			$this->layout = '//layouts/article-wide'; 
+			$this->layout = '//layouts/article-wide';
 		}
 		else
 		{
@@ -131,7 +132,8 @@ class PageController extends Controller
 				$this->redirect(array('view', 'path' => trim($model->url, '/')));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
 		$this->layout = '//layouts/section-wide';
 		$this->render('create', array(
 			'model' => $model,
@@ -150,7 +152,8 @@ class PageController extends Controller
 				$this->redirect(array('view', 'path' => trim($model->url, '/')));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
 		$this->layout = '//layouts/section-wide';
 		$this->render('edit', array(
 			'model' => $model,

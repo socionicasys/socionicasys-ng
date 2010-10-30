@@ -19,4 +19,16 @@ return CMap::mergeArray($localConfig, array(
 			'class' => 'ext.yii-dbmigrations.CDbMigrationCommand',
 		),
 	),
+	'preload' => array('log'),
+	'components' => array(
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'logFile' => 'console.log',
+				),
+			),
+		),
+	),
 ));

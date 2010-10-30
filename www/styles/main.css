@@ -1,3 +1,7 @@
+html {
+	height: 100%;
+}
+
 body {
 	color: #313131;
 	background-color: #fff;
@@ -8,14 +12,42 @@ body {
 	margin: 0 auto;
 }
 
+body#body {
+	height: 100%;
+}
+
+/* Opera fix */
+body:before {
+	content: "";
+	height: 100%;
+	float: left;
+	width: 0;
+	margin-top: -32767px;
+}
+
+#wrap {
+	min-height: 100%;
+}
+
 /*** Шапка ***/
 #main-header {
-	margin-top: 0.5em;
-	margin-left: 1em;
+}
+
+#main-header a {
+	padding-top: 0.5em;
+	padding-left: 1em;
+	display: block;
 }
 
 #main-header a:focus {
 	outline: none;
+}
+
+.header-link {
+	float: right;
+	padding-right: 1em;
+	color: #afca2f;
+	text-decoration: none;
 }
 
 /*** Главное меню ***/
@@ -85,6 +117,8 @@ body {
 
 /*** Основной раздел ***/
 #content-area {
+	overflow: hidden;
+	padding-bottom: 5em;
 }
 
 #content-wrap.narrow {
@@ -94,7 +128,6 @@ body {
 }
 
 #content-wrap.wide {
-	margin: 0 4em;
 }
 
 #content-wrap.narrow > * {
@@ -203,13 +236,17 @@ body {
 	margin: 0;
 }
 
-#content h1.article-author {
+#content .article-author {
+	font-size: 1.25em;
 	font-weight: normal;
+	line-height: 1.05;
 	margin-top: 1.05em;
 	margin-bottom: 0;
+	position: relative;
+	top: -0.1em;
 }
 
-#content h1.article-title {
+#content .article-title {
 	margin-top: 1.05em;
 	margin-bottom: 1.05em;
 }
@@ -275,12 +312,42 @@ body {
 	font-size: 0.875em;
 	line-height: 1.5;
 	margin: 0 4em;
-	text-indent: 4em;
 }
 
 #content .definition {
 	margin-left: 2em;
 	margin-right: 2em;
+}
+
+.term {
+	color: #b22222;
+	font-weight: bold;
+}
+
+.colored {
+	color: #7c900a;
+}
+
+#content .aside {
+	float: left;
+	border: none;
+	margin: 0 0 1.5em -19.42em;
+	padding: 0;
+	width: 17.5em;
+	font-size: 0.875em;
+	line-height: 1.5;
+}
+
+#content .aside p {
+	margin: 0;
+}
+
+#content.content-editor .aside {
+	float: none;
+	width: auto;
+	margin: inherit;
+	padding: inherit;
+	background-color: #afca2f;
 }
 
 /** Сылки в подзаголовках и оглавление **/
@@ -430,6 +497,14 @@ th, td {
 	border: none;
 }
 
+td.correct {
+	background-color: #d0f032;
+}
+
+td.skipped {
+	background-color: #e0e0e0;
+}
+
 /* Таблица аспектов */
 #aspects {
 	margin: 0 auto;
@@ -528,6 +603,10 @@ figcaption {
 }
 
 /** Дерево страниц **/
+#content .tree {
+	margin-top: 0.5em;
+}
+
 #content .tree ol,
 #content .tree ul {
 	margin: inherit;
@@ -639,8 +718,70 @@ form.wide .errorMessage {
 /*** «Подвал» ***/
 #main-footer {
 	clear: both;
-	padding-top: 1em;
-	border-top: 1px solid #afca2f;
+	position: relative;
+	margin: -3.875em 0 0;
+	height: 3.75em;
+	border-top: 2px solid #afca2f;
 	text-align: center;
+}
+
+#main-footer p {
 	font-size: 0.875em;
+	padding: 1.5em 0;
+}
+
+@media print {
+	#main-header,
+	#major-navigation,
+	#breadcrumbs,
+	#page-controls,
+	#yiiWebDebugToolbar,
+	#secondary-navigation,
+	blockquote.aside {
+		display: none;
+	}
+
+	html,
+	body {
+		height: auto;
+	}
+
+	#content-area {
+		overflow: visible;
+		padding: 0;
+	}
+
+	#content-wrap,
+	#content-wrap > * {
+		margin-left: 0 !important;
+	}
+
+	.aside {
+		margin: 0 !important;
+		float: none !important;
+		width: auto !important;
+	}
+
+	#content a:link,
+	#content a:visited {
+		color: #520;
+		text-decoration: none;
+	}
+
+	#content a:link:after,
+	#content a:visited:after {
+		content: " 〈" attr(href) "〉";
+		color: #313131;
+	}
+
+	#content a[href^="/"]:after {
+		content: " 〈http://socionicasys.ru" attr(href) "〉";
+	}
+
+	#main-footer {
+		position: static;
+		margin: 0;
+		height: auto;
+		border-top: 2px solid #aaa;
+	}
 }
