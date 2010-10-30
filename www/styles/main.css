@@ -602,6 +602,15 @@ figcaption {
 	font-weight: bold;
 }
 
+/** Виджет ВКонтакте **/
+#vkontakte-share-button table,
+#vkontakte-share-button td,
+#vkontakte-share-button th {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
 /** Дерево страниц **/
 #content .tree {
 	margin-top: 0.5em;
