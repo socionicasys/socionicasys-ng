@@ -19,10 +19,10 @@ $cs->registerLinkTag(
 	<!--[if lt IE 9]>
 	<script src="<?php echo $cs->appendTimestamp($base . '/scripts/html5shiv.js'); ?>"></script>
 	<script src="<?php echo $cs->appendTimestamp($base . '/scripts/ie9.js'); ?>"></script>
-	<![endif]-->
-	<!--[if !IE 7]>
 	<style type="text/css">
-		#wrap {display: table; height: 100%;}
+		#content-area {
+			zoom: 1;
+		}
 	</style>
 	<![endif]-->
 </head>
