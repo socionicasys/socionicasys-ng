@@ -89,15 +89,19 @@ class VKontakteShareWidget extends CWidget
 				|| ($this->pageImage);
 		}
 		$contentParameter['noparse'] = !($this->parsePage);
+		$contentParameter = CJavaScript::encode($contentParameter);
 
 		$buttonParameter = array(
 			'type' => $this->buttonType,
 			'text' => $this->buttonText,
 		);
+		$buttonParameter = CJavaScript::encode($buttonParameter);
 
 		Yii::app()->clientScript->registerScript('vk.share',
-			"document.getElementById('vkontakte-share-button').innerHTML = VK.Share.button(" .
-				CJavaScript::encode($contentParameter) . ', ' . CJavaScript::encode($buttonParameter) . ');',
+			"document.getElementById('vkontakte-share-button').innerHTML = VK.Share.button(
+				$contentParameter,
+				$buttonParameter
+			);",
 			CClientScript::POS_READY);
 		$this->render('vkontakte-share', array(
 			'url' => $this->pageUrl,
