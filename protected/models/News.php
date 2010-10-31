@@ -28,6 +28,15 @@ class News extends CActiveRecord
 		return '{{news}}';
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'purge' => array(
+				'class' => 'PurgeModelCache',
+			),			
+		);
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

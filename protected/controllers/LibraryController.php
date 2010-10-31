@@ -149,7 +149,6 @@ class LibraryController extends Controller
 			$model->attributes = $_POST[$modelClass];
 			if ($model->save())
 			{
-				Yii::app()->cache->delete("model-library-$type-$title");
 				$this->redirect(array(
 					'view',
 					'type' => $type,
@@ -173,7 +172,6 @@ class LibraryController extends Controller
 			if (isset($_POST['delete']))
 			{
 				$model->delete();
-				Yii::app()->cache->delete("model-library-$type-$title");
 				$this->redirect(isset($_POST['returnUrl']) ?
 					$_POST['returnUrl'] :
 					array('list', 'type' => $type)

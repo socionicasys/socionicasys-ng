@@ -130,8 +130,6 @@ class NewsController extends Controller
 			$model->attributes = $_POST['News'];
 			if ($model->save())
 			{
-				Yii::app()->cache->delete('model-news-' . $id);
-				Yii::app()->cache->delete('model-news-latest-10');
 				$this->redirect(array('item', 'id' => $model->id));
 			}
 		}
@@ -152,8 +150,6 @@ class NewsController extends Controller
 			if (isset($_POST['delete']))
 			{
 				$model->delete();
-				Yii::app()->cache->delete('model-news-' . $id);
-				Yii::app()->cache->delete('model-news-latest-10');
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('list'));
 			}
 			else

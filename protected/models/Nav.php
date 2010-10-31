@@ -50,7 +50,10 @@ class Nav extends CActiveRecord
 				'left' => 'lft',
 				'right' => 'rgt',
 				'level' => 'level',
-			),		
+			),
+			'purge' => array(
+				'class' => 'PurgeModelCache',
+			),
 		);
 	}
 
