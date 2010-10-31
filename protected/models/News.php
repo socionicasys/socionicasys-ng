@@ -120,4 +120,19 @@ class News extends CActiveRecord
 			return false;
 		}
 	}
+
+	public function getUrl($absolute = false)
+	{
+		if ($absolute)
+		{
+			$create = 'createAbsoluteUrl';
+		}
+		else
+		{
+			$create = 'createUrl';
+		}
+		return Yii::app()->$create('news/item', array(
+			'id' => $this->id,
+		));
+	}
 }

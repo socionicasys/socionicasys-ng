@@ -195,9 +195,7 @@ class NewsController extends Controller
 		$lastUpdateTime = null; 
 		foreach ($latestNews as $newsItem)
 		{
-			$entryUrl = $this->createAbsoluteUrl('item', array(
-				'id' => $newsItem->id
-			)); 
+			$entryUrl = $newsItem->getUrl(true);
 			if ($lastUpdateTime === null)
 			{
 				$lastUpdateTime = $newsItem->post_time;

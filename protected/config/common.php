@@ -52,6 +52,8 @@ return array(
 				// Менеджер файлов
 				'browse' => 'site/browse',
 				'fileManager' => 'site/fileManager',
+				// sitemap.xml
+				'sitemap.xml' => 'site/sitemap',
 				// Новости
 				'novosti/<News_page:\d+>' => 'news/list',
 				'novosti' => 'news/list',

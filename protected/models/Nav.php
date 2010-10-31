@@ -209,9 +209,17 @@ class Nav extends CActiveRecord
 		return $text;
 	}
 	
-	public function getUrl()
+	public function getUrl($absolute = false)
 	{
-		return Yii::app()->createUrl('page/view', array(
+		if ($absolute)
+		{
+			$create = 'createAbsoluteUrl';
+		}
+		else
+		{
+			$create = 'createUrl';
+		}
+		return Yii::app()->$create('page/view', array(
 			'path' => trim($this->url, '/'),
 		));
 	}
