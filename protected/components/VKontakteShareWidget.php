@@ -105,6 +105,7 @@ class VKontakteShareWidget extends CWidget
 			CClientScript::POS_READY);
 		$this->render('vkontakte-share', array(
 			'url' => $this->pageUrl,
+			'label' => $this->buttonText,
 		));
 	}
 }
