@@ -11,6 +11,9 @@ class NewsController extends Controller
 		return array(
 			'rights + create, edit, delete',
 			array(
+				'SpaceFixer',
+			),
+			array(
 				'COutputCache + item, list',
 				'duration' => 3600,
 				'varyByRoute' => true,
@@ -26,6 +29,7 @@ class NewsController extends Controller
 		$this->layout = '//layouts/article';
 		$this->render('item', array(
 			'model' => $model,
+			'shortTitle' => TextHelper::truncate($model->title, 70, '…', true),
 		));
 	}
 	
@@ -109,7 +113,9 @@ class NewsController extends Controller
 				$this->redirect(array('item', 'id' => $model->id));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
+		$this->layout = '//layouts/section-wide';
 		$this->render('create', array(
 			'model' => $model,
 		));
@@ -129,7 +135,9 @@ class NewsController extends Controller
 				$this->redirect(array('item', 'id' => $model->id));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
+		$this->layout = '//layouts/section-wide';
 		$this->render('edit', array(
 			'model' => $model,
 		));
@@ -195,9 +203,7 @@ class NewsController extends Controller
 		$lastUpdateTime = null; 
 		foreach ($latestNews as $newsItem)
 		{
-			$entryUrl = $this->createAbsoluteUrl('item', array(
-				'id' => $newsItem->id
-			)); 
+			$entryUrl = $newsItem->getUrl(true);
 			if ($lastUpdateTime === null)
 			{
 				$lastUpdateTime = $newsItem->post_time;

@@ -12,6 +12,16 @@ class Controller extends RightsBaseController
 	 * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
 	 */
 	public $layout='//layouts/full';
+
+	/**
+	 * @var string CSS-класс, применяющийся к контейнеру страницы
+	 */
+	public $layoutClass = 'narrow';
+
+	/**
+	 * @var string CSS-класс, применяющийся к содержимому
+	 */
+	public $contentClass;
 	
 	/**
 	 * @var MenuManager компонент управления меню
@@ -122,5 +132,57 @@ class Controller extends RightsBaseController
 	public function setBreadcrumbs($breadcrumbs)
 	{
 		$this->_breadcrumbs = $breadcrumbs;
+	}
+
+	public function getLayoutAttr()
+	{
+		if (!empty($this->layoutClass))
+		{
+			return 'class = "' . $this->layoutClass . '"';
+		}
+	    else
+	    {
+		    return '';
+	    }
+	}
+
+	public function getContentAttr()
+	{
+		if (!empty($this->contentClass))
+		{
+			return 'class = "' . $this->contentClass . '"';
+		}
+	    else
+	    {
+		    return '';
+	    }
+	}
+
+	public function getYears()
+	{
+		$year = date('Y');
+		$startYear = '2010';
+		if ($year === $startYear)
+		{
+			return $year;
+		}
+	    else
+	    {
+		    return $startYear . '&ndash;' . $year;
+	    }
+	}
+
+	public function getHeaderlinks()
+	{
+		$links = array();
+		if (Yii::app()->user->isGuest)
+		{
+			$links['Войти'] = Yii::app()->createUrl('site/login');
+		}
+	    else
+	    {
+		    $links['Выйти'] = Yii::app()->createUrl('site/logout');
+	    }
+	    return $links;
 	}
 }

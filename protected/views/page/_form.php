@@ -12,12 +12,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'title'); ?>
-		<?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>256)); ?>
-		<?php echo $form->error($model,'title'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'menu_title'); ?>
 		<?php echo $form->textField($model,'menu_title',array('size'=>60,'maxlength'=>256)); ?>
 		<?php echo $form->error($model,'menu_title'); ?>
@@ -25,35 +19,9 @@
 
 	<div class="row">
 		<?php
-		$this->widget('ext.yiiext.widgets.ckeditor.ECKEditor', array(
+		$this->widget('ECKEditorSetup', array(
 			'model' => $model,
 			'attribute' => 'text',
-			'editorTemplate' => 'advanced',
-			'toolbar' => array(
-				array(
-					'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat', 'Format',
-					'-',
-					'TextColor', 'BGColor',
-					'-',
-					'NumberedList', 'BulletedList', 'Blockquote',
-					'-',
-					'JustifyLeft', 'JustifyCenter', 'JustifyRight',
-				),
-				array(
-					'Link', 'Unlink', 'Image',
-					'-',
-					'Maximize',
-					'-',
-					'Source',
-				),
-			),
-			'options' => array(
-				'toolbarCanCollapse' => false,
-			),
-			'htmlOptions' => array(
-				'rows' => 10,
-				'cols' => 60,
-			),
 		));
 		?>
 		<?php echo $form->error($model,'text'); ?>

@@ -1,3 +1,7 @@
+html {
+	height: 100%;
+}
+
 body {
 	color: #313131;
 	background-color: #fff;
@@ -8,40 +12,48 @@ body {
 	margin: 0 auto;
 }
 
+body#body {
+	height: 100%;
+}
+
+/* Opera fix */
+body:before {
+	content: "";
+	height: 100%;
+	float: left;
+	width: 0;
+	margin-top: -32767px;
+}
+
+#wrap {
+	min-height: 100%;
+}
+
 /*** Шапка ***/
 #main-header {
-	padding: 0.5em;
-	background-image: url(../images/Logo.png?1);
-	background-repeat: no-repeat;
-	background-position: 0.5em 0.5em;
-	height: 5em;
 }
 
-#main-header hgroup {
-	margin-left: 7em;
-	color: #7c900a;
-	background-color: #fff;
+#main-header a {
+	padding-top: 0.5em;
+	padding-left: 1em;
+	display: block;
 }
 
-#main-header h1 {
-	font-size: 1.625em;
-	font-weight: bold;
+#main-header a:focus {
+	outline: none;
 }
 
-#main-header h1 a {
-	color: #313131;
+.header-link {
+	float: right;
+	padding-right: 1em;
+	color: #afca2f;
 	text-decoration: none;
-}
-
-#main-header h2 {
-	font-size: 1em;
-	font-weight: normal;
 }
 
 /*** Главное меню ***/
 #major-navigation {
 	font-size: 0.875em;
-	margin-bottom: 1.5em;
+	margin-bottom: 0.75em;
 	overflow: hidden;
 }
 
@@ -105,16 +117,20 @@ body {
 
 /*** Основной раздел ***/
 #content-area {
-	margin: 0 1em;
+	overflow: hidden;
+	padding-bottom: 5em;
 }
 
-#content-wrap {
+#content-wrap.narrow {
 	width: 100%;
 	float: right;
 	margin-left: -17em;
 }
 
-#content-wrap>* {
+#content-wrap.wide {
+}
+
+#content-wrap.narrow > * {
 	margin-left: 17em;
 }
 
@@ -163,50 +179,88 @@ body {
 	line-height: 1.3125;
 }
 
+#content.content-editor {
+    padding: 0.5em;
+}
+
 #content p {
 	margin: 1.3125em 0;
 	text-align: justify;
 }
 
 #content h1,
-#content h2 {
+#content h2,
+#content h3,
+#content h4 {
 	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 }
 
 #content h1 {
-	font-size: 1.125em;
-	line-height: 1.166666667;
-	margin-top: 1.166666667em;
-	margin-bottom: 1.166666667em;
+	font-size: 1.25em;
+	line-height: 1.05;
+	margin-top: 1.05em;
+	margin-bottom: 1.05em;
+	position: relative;
+	top: -0.1em;
 }
 
 #content h2 {
-	font-size: 1em;
-	margin-top: 1.3125em;
+	font-size: 1.125em;
+	line-height: 1.166666667;
+	margin-top: 1.166666667em;
+	margin-bottom: 0;
+	position: relative;
+	top: -0.055555556em;
 }
 
 #content h3 {
 	font-size: 1em;
+	margin-top: 1.3125em;
+	margin-bottom: 0;
+}
+
+#content h4 {
+	font-size: 1em;
 	float: left;
-	border-bottom: 1px solid #ccc;
-	border-right: 1px solid #ccc;
-	margin-right: 1.75em;
-	padding-bottom: 0.5em;
-	-webkit-border-bottom-right-radius: 10px;
-	-moz-border-radius-bottomright: 10px;
-	border-bottom-right-radius: 10px;
+	margin-right: 1em;
 }
 
 #content h2 + p,
-#content h2 + figure + p {
-	margin-top: 0;
+#content h3 + p,
+#content h2 + table + p,
+#content h3 + table + p {
+		margin-top: 0;
+}
+
+#content header.article-header {
+	margin: 0;
+}
+
+#content .article-author {
+	font-size: 1.25em;
+	font-weight: normal;
+	line-height: 1.05;
+	margin-top: 1.05em;
+	margin-bottom: 0;
+	position: relative;
+	top: -0.1em;
+}
+
+#content .article-title {
+	margin-top: 1.05em;
+	margin-bottom: 1.05em;
 }
 
 #content ol,
 #content ul {
+	text-align: justify;
 	margin: 1.3125em 0;
 	padding-left: 1.5em;
 }
+
+#content ol.literature {
+	text-align: left;
+} 
 
 #content dt {
 	font-weight: bold;
@@ -223,6 +277,12 @@ body {
 #content blockquote {
 	border-left: 1px solid #ccc;
 	padding: 0 2em;
+}
+
+#content blockquote.epigraph {
+	border: none;
+	margin-left: 50%;
+	padding: 0;
 }
 
 #content small {
@@ -243,9 +303,51 @@ body {
 	white-space: nowrap;
 }
 
-#content .inline-icon {
-	position: relative;
-	top: 2px;
+#content .quote-author {
+	font-style: italic;
+	text-align: right;
+}
+
+#content .article-abstract {
+	font-size: 0.875em;
+	line-height: 1.5;
+	margin: 0 4em;
+}
+
+#content .definition {
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+.term {
+	color: #b22222;
+	font-weight: bold;
+}
+
+.colored {
+	color: #7c900a;
+}
+
+#content .aside {
+	float: left;
+	border: none;
+	margin: 0 0 1.5em -19.42em;
+	padding: 0;
+	width: 17.5em;
+	font-size: 0.875em;
+	line-height: 1.5;
+}
+
+#content .aside p {
+	margin: 0;
+}
+
+#content.content-editor .aside {
+	float: none;
+	width: auto;
+	margin: inherit;
+	padding: inherit;
+	background-color: #afca2f;
 }
 
 /** Сылки в подзаголовках и оглавление **/
@@ -259,13 +361,15 @@ a.headerlink {
 
 h1:hover a.headerlink,
 h2:hover a.headerlink,
-h3:hover a.headerlink {
+h3:hover a.headerlink,
+h4:hover a.headerlink {
 	visibility: visible;
 }
 
 h1 a.headerlink:hover,
 h2 a.headerlink:hover,
-h3 a.headerlink:hover {
+h3 a.headerlink:hover,
+h4 a.headerlink:hover {
 	color: #fff;
 	background-color: #ccc;
 }
@@ -337,6 +441,10 @@ h3 a.headerlink:hover {
 	margin-bottom: 1.325em;
 }
 
+#page-controls.article-controls {
+	margin-bottom: 0;
+}
+
 #page-controls ul {
 	padding: 0;
 	margin: 0;
@@ -363,6 +471,41 @@ h3 a.headerlink:hover {
 
 
 /** Таблицы и диаграммы **/
+/* Все таблицы */
+table {
+	border: 2px solid #fff;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin-top: 0.5625em;
+	margin-bottom: 0.5625em;
+}
+
+th, td {
+	border: 1px solid #aaa;
+	padding: 0.625em;
+}
+
+#content td>:first-child {
+	margin-top: 0;
+}
+
+#content td>:last-child {
+	margin-bottom: 0;
+}
+
+#content td blockquote {
+	border: none;
+}
+
+td.correct {
+	background-color: #d0f032;
+}
+
+td.skipped {
+	background-color: #e0e0e0;
+}
+
+/* Таблица аспектов */
 #aspects {
 	margin: 0 auto;
 }
@@ -375,6 +518,11 @@ h3 a.headerlink:hover {
 	text-align: right;
 }
 
+#aspects th,
+#aspects td {
+	border: none;
+}
+
 #aspects tbody td {
 	padding: 0 0.75em;
 }
@@ -385,6 +533,7 @@ h3 a.headerlink:hover {
 
 .model-diagram {
 	margin: 0 auto;
+	border: none;
 }
 
 .model-diagram td,
@@ -398,12 +547,14 @@ h3 a.headerlink:hover {
 }
 
 .model-diagram th {
+	border: none;
 	padding: 0.5em 1em;
 	font-weight: normal;
 	vertical-align: middle;
 }
 
-.model-diagram .separator {
+.model-diagram .separator,
+.model-diagram .superid {
 	border-top: 2px solid #313131;
 }
 
@@ -411,6 +562,20 @@ h3 a.headerlink:hover {
 	border: none;
 	padding: 0.5em;
 	text-align: right;
+}
+
+.model-diagram.directed .ego,
+.model-diagram.directed .id {
+	background-image: url('/images/diagrams/arrow_right.png');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.model-diagram.directed .superego,
+.model-diagram.directed .superid {
+	background-image: url('/images/diagrams/arrow_left.png');
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 #content .model-diagram.compact .inline-icon {
@@ -428,7 +593,7 @@ figure.standalone>img {
 	border: 1px solid #ccc;
 }
 
-figure.floating {
+.floating {
 	float: right;
 	margin-left: 1em;
 }
@@ -437,7 +602,20 @@ figcaption {
 	font-weight: bold;
 }
 
+/** Виджет ВКонтакте **/
+#vkontakte-share-button table,
+#vkontakte-share-button td,
+#vkontakte-share-button th {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
 /** Дерево страниц **/
+#content .tree {
+	margin-top: 0.5em;
+}
+
 #content .tree ol,
 #content .tree ul {
 	margin: inherit;
@@ -541,11 +719,78 @@ form.wide .errorMessage {
 	height: 18em;
 }
 
+/** Редактор CKEditor **/
+.cke_skin_kama .cke_button_source .cke_label {
+	display: none !important;
+}
+
 /*** «Подвал» ***/
 #main-footer {
 	clear: both;
-	padding-top: 1em;
-	border-top: 1px solid #afca2f;
+	position: relative;
+	margin: -3.875em 0 0;
+	height: 3.75em;
+	border-top: 2px solid #afca2f;
 	text-align: center;
+}
+
+#main-footer p {
 	font-size: 0.875em;
+	padding: 1.5em 0;
+}
+
+@media print {
+	#main-header,
+	#major-navigation,
+	#breadcrumbs,
+	#page-controls,
+	#yiiWebDebugToolbar,
+	#secondary-navigation,
+	blockquote.aside {
+		display: none;
+	}
+
+	html,
+	body {
+		height: auto;
+	}
+
+	#content-area {
+		overflow: visible;
+		padding: 0;
+	}
+
+	#content-wrap,
+	#content-wrap > * {
+		margin-left: 0 !important;
+	}
+
+	.aside {
+		margin: 0 !important;
+		float: none !important;
+		width: auto !important;
+	}
+
+	#content a:link,
+	#content a:visited {
+		color: #520;
+		text-decoration: none;
+	}
+
+	#content a:link:after,
+	#content a:visited:after {
+		content: " 〈" attr(href) "〉";
+		color: #313131;
+	}
+
+	#content a[href^="/"]:after {
+		content: " 〈http://socionicasys.ru" attr(href) "〉";
+	}
+
+	#main-footer {
+		position: static;
+		margin: 0;
+		height: auto;
+		border-top: 2px solid #aaa;
+	}
 }

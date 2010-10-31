@@ -29,6 +29,14 @@ return array(
 			'allowAutoLogin'=>true,
 			'loginUrl' => array('site/login'),
 		),
+		'request' => array(
+			'class' => 'HttpRequest',
+			'noCsrfValidationRoutes' => array(
+				'^site/fileManager$',
+			),
+			'enableCsrfValidation' => true,
+			'enableCookieValidation' => true,
+		),
 		// uncomment the following to enable URLs in path-format
 		'urlManager'=>array(
 			'class' => 'CustomUrlManager',
@@ -41,6 +49,11 @@ return array(
 				// Вход-выход с сайта
 				'login' => 'site/login',
 				'logout' => 'site/logout',
+				// Менеджер файлов
+				'browse' => 'site/browse',
+				'fileManager' => 'site/fileManager',
+				// sitemap.xml
+				'sitemap.xml' => 'site/sitemap',
 				// Новости
 				'novosti/<News_page:\d+>' => 'news/list',
 				'novosti' => 'news/list',
@@ -49,6 +62,12 @@ return array(
 				'novosti/statja/<id:\d+>/delete' => 'news/delete',
 				'novosti/create' => 'news/create',
 				'atom.xml' => 'news/feed',
+				// Библиотека: статьи, доклады, и т. п.
+				'biblioteka/<type:(statji)>/create' => 'library/create',
+				'biblioteka/<type:(statji)>/<title:(\w|-)+>/edit' => 'library/edit',
+				'biblioteka/<type:(statji)>/<title:(\w|-)+>/delete' => 'library/delete',
+				'biblioteka/<type:(statji)>/<title:(\w|-)+>' => 'library/view',
+				'biblioteka/<type:(statji)>' => 'library/list',
 				// Обработка pull-запросов с GitHub
 				'git/pull/<id:\w+>' => 'git/pull',
 				// Модуль Rights
@@ -105,5 +124,6 @@ return array(
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>array(
+		'enableFileManager' => true,
 	),
 );

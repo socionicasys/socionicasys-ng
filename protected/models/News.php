@@ -11,8 +11,6 @@
  */
 class News extends CActiveRecord
 {
-	protected $_htmlPurifier;
-	
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return News the static model class
@@ -40,6 +38,7 @@ class News extends CActiveRecord
 		return array(
 			array('title, text', 'required'),
 			array('title', 'length', 'max'=>256),
+			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, title, text', 'safe', 'on'=>'search'),
@@ -114,7 +113,6 @@ class News extends CActiveRecord
 			{
 				$this->post_time = time();
 			}
-			$this->text = $this->getHtmlPurifier()->purify($this->text);
 			return true;
 		}
 		else
@@ -122,16 +120,19 @@ class News extends CActiveRecord
 			return false;
 		}
 	}
-	
-	/**
-	 * @return CHtmlPurifier
-	 */
-	public function getHtmlPurifier()
+
+	public function getUrl($absolute = false)
 	{
-		if ($this->_htmlPurifier === null)
+		if ($absolute)
 		{
-			$this->_htmlPurifier = new CHtmlPurifier();
+			$create = 'createAbsoluteUrl';
 		}
-		return $this->_htmlPurifier;
+		else
+		{
+			$create = 'createUrl';
+		}
+		return Yii::app()->$create('news/item', array(
+			'id' => $this->id,
+		));
 	}
 }

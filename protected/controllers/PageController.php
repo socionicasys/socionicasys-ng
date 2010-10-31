@@ -35,11 +35,16 @@ class PageController extends Controller
 	{
 		return array(
 			'rights - view',
+			array(
+				'SpaceFixer',
+			),
 		);
 	}
 
 	public function actionManage()
 	{
+		$this->layout = '//layouts/section-wide';
+		$this->layoutClass = 'wide';
 		$this->render('manage');
 	}
 
@@ -76,8 +81,12 @@ class PageController extends Controller
 			));
 			$pageControls = true;
 		}
-		
-		if (!empty($page->title))
+
+		if ($page->title === null)
+		{
+			$this->pageTitle = $page->menu_title . ' | ' . Yii::app()->name;
+		}
+		else if (!empty($page->title))
 		{
 			$this->pageTitle = $page->title . ' | ' . Yii::app()->name;
 		}
@@ -89,7 +98,14 @@ class PageController extends Controller
 		Yii::app()->clientScript->registerScriptFile(
 			Yii::app()->baseUrl . '/scripts/hyphenate.js'
 		);
-		$this->layout = '//layouts/article';
+		if ($page->wide_layout)
+		{
+			$this->layout = '//layouts/article-wide';
+		}
+		else
+		{
+			$this->layout = '//layouts/article';
+		}
 		$this->render('view', array(
 			'text' => $page->text,
 			'links' => $links,
@@ -116,7 +132,9 @@ class PageController extends Controller
 				$this->redirect(array('view', 'path' => trim($model->url, '/')));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
+		$this->layout = '//layouts/section-wide';
 		$this->render('create', array(
 			'model' => $model,
 		));
@@ -125,17 +143,18 @@ class PageController extends Controller
 	public function actionEdit($path = '/')
 	{
 		$model = $this->loadModel($path);
-		$path = trim($path, '/');
 
 		if (isset($_POST['Nav']))
 		{
 			$model->attributes = $_POST['Nav'];
 			if ($model->saveNode())
 			{
-				$this->redirect(array('view', 'path' => $path));
+				$this->redirect(array('view', 'path' => trim($model->url, '/')));
 			}
 		}
-		
+
+		$this->layoutClass = 'wide';
+		$this->layout = '//layouts/section-wide';
 		$this->render('edit', array(
 			'model' => $model,
 		));
@@ -154,7 +173,7 @@ class PageController extends Controller
 			}
 			else
 			{
-				$this->redirect(array('view', 'path' => $model->url));
+				$this->redirect(array('view', 'path' => trim($model->url, '/')));
 			}
 		}
 		

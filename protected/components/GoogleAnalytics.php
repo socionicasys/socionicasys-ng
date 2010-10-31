@@ -7,7 +7,7 @@ class GoogleAnalytics extends CWidget
 		$appParams = Yii::app()->params;
 		if (isset($appParams['google.analytics']))
 		{
-			$this->render('tracking', array(
+			$this->render('google-analytics', array(
 				'id' => $appParams['google.analytics'],
 			));
 		}

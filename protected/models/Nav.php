@@ -14,12 +14,14 @@
  * @property string $title
  * @property string $menu_title
  * @property string $text
+ * @property boolean $wide_layout
  *
  * The followings are the available model relations:
  */
 class Nav extends CActiveRecord
 {
-	protected $_htmlPurifier;
+	const TYPE_PAGE = 0;
+	const TYPE_SECTION = 1;
 	
 	/**
 	 * Returns the static model of the specified AR class.
@@ -64,7 +66,7 @@ class Nav extends CActiveRecord
 				'pattern' => '/^(\/[-a-z0-9_%+.]+)*\/?$/',
 				'message' => 'Адрес может содержать только символы a-z, 0-9, -, _, %, +, .',
 			),
-			array('text', 'safe'),
+			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, root, lft, rgt, level, type, url, title, menu_title, text', 'safe', 'on'=>'search'),
@@ -132,7 +134,6 @@ class Nav extends CActiveRecord
 				$this->url = '/' . trim($parent->url, '/') . '/' .
 					$this->rus2translit($this->menu_title);
 			}
-			$this->text = $this->getHtmlPurifier()->purify($this->text);
 			return true;
 		}
 		else
@@ -140,19 +141,7 @@ class Nav extends CActiveRecord
 			return false;
 		}
 	}
-	
-	/**
-	 * @return CHtmlPurifier
-	 */
-	public function getHtmlPurifier()
-	{
-		if ($this->_htmlPurifier === null)
-		{
-			$this->_htmlPurifier = new CHtmlPurifier();
-		}
-		return $this->_htmlPurifier;
-	}
-	
+		
 	/**
 	 * Функция необратимой транслитерации для SEO.
 	 * Текст в таком транслите утрачивает однозначность и восстановлению не поделижит,
@@ -218,5 +207,20 @@ class Nav extends CActiveRecord
 		// Остальные символы - уже никуда не денешься
 		$text = rawurlencode($text);
 		return $text;
+	}
+	
+	public function getUrl($absolute = false)
+	{
+		if ($absolute)
+		{
+			$create = 'createAbsoluteUrl';
+		}
+		else
+		{
+			$create = 'createUrl';
+		}
+		return Yii::app()->$create('page/view', array(
+			'path' => trim($this->url, '/'),
+		));
 	}
 }
