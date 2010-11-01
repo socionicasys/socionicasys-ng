@@ -172,17 +172,18 @@ class Controller extends RightsBaseController
 	    }
 	}
 
-	public function getHeaderlinks()
+	public function renderHeaderLinks()
 	{
-		$links = array();
 		if (Yii::app()->user->isGuest)
 		{
-			$links['Войти'] = Yii::app()->createUrl('site/login');
+			$label = 'Войти';
+			$url = array('site/login');
 		}
 	    else
 	    {
-		    $links['Выйти'] = Yii::app()->createUrl('site/logout');
+			$label = 'Выйти';
+			$url = array('site/logout');
 	    }
-	    return $links;
+	    return CHtml::link($label, $url, array('class' => 'header-link'));
 	}
 }
