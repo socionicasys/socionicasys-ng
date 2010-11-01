@@ -186,4 +186,9 @@ class Controller extends RightsBaseController
 	    }
 	    return CHtml::link($label, $url, array('class' => 'header-link'));
 	}
+
+	public function renderSidebarLinks()
+	{
+		return '';
+	}
 }

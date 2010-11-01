@@ -24,6 +24,6 @@
 			));
 		?>
 	</nav>
-	<?php echo $this->clips['sidebar']; ?>
+	<?php $this->renderDynamic('renderSidebarLinks'); ?>
 </aside>
 <?php $this->endContent();
