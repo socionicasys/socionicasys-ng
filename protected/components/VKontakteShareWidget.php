@@ -53,19 +53,26 @@ class VKontakteShareWidget extends CWidget
 	 */
 	public $parsePage;
 
-	public function __construct()
+	public function __construct($owner = null)
 	{
+		parent::__construct($owner);
 		if ($this->pageUrl === null)
 		{
 			$this->pageUrl = '';
 		}
 		$this->pageUrl = Yii::app()->getRequest()->getHostInfo() . CHtml::normalizeUrl($this->pageUrl);
+		if ($this->getId(false) === null)
+		{
+			$this->setId('vkontakte-share-widget');
+		}
 	}
 
 	public function run()
 	{
 		Yii::app()->clientScript->registerScriptFile('http://vkontakte.ru/js/api/share.js?10',
 			CClientScript::POS_HEAD, false);
+
+		$id = $this->getId();
 
 		$contentParameter = array(
 			'url' => $this->pageUrl,
@@ -97,13 +104,14 @@ class VKontakteShareWidget extends CWidget
 		);
 		$buttonParameter = CJavaScript::encode($buttonParameter);
 
-		Yii::app()->clientScript->registerScript('vk.share',
-			"document.getElementById('vkontakte-share-button').innerHTML = VK.Share.button(
+		Yii::app()->clientScript->registerScript($id,
+			"document.getElementById('$id').innerHTML = VK.Share.button(
 				$contentParameter,
 				$buttonParameter
 			);",
 			CClientScript::POS_READY);
 		$this->render('vkontakte-share', array(
+			'id' => $id,
 			'url' => $this->pageUrl,
 			'label' => $this->buttonText,
 		));
