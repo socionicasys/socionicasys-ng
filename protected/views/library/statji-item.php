@@ -8,7 +8,7 @@ $breadcrumbs = array_merge($breadcrumbs, array(
 ));
 $this->setBreadcrumbs($breadcrumbs);
 $this->pageTitle = $model->title . ' | ' . Yii::app()->name;
-$this->renderItemLinks($model->type, $model->url);
+$this->renderDynamic('renderItemLinks', $model->type, $model->url);
 ?>
 <header class="article-header">
 	<?php if (!empty($model->published)): ?>

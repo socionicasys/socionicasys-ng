@@ -1,7 +1,7 @@
 <?php
 $this->pageTitle='Статьи | ' . Yii::app()->name;
 
-$this->renderListLinks($type);
+$this->renderDynamic('renderListLinks', $type);
 
 $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider' => $dataProvider,

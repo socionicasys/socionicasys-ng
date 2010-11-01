@@ -13,6 +13,12 @@ class LibraryController extends Controller
 			array(
 				'SpaceFixer',
 			),
+			array(
+				'COutputCache + view, list',
+				'duration' => 86400,
+				'varyByRoute' => true,
+				'varyByParam' => array('type', 'title'),
+			),
 		);
 	}
 	
@@ -49,9 +55,9 @@ class LibraryController extends Controller
 			));
 		}
 		
-		$this->renderPartial('item-links', array(
+		return $this->renderPartial('item-links', array(
 			'links' => $links,
-		));
+		), true);
 	}
 	
 	public function actionList($type)
@@ -101,9 +107,9 @@ class LibraryController extends Controller
 			));
 		}
 		
-		$this->renderPartial('list-links', array(
+		return $this->renderPartial('list-links', array(
 			'links' => $links,
-		));
+		), true);
 	}
 	
 	public function actionCreate($type)
