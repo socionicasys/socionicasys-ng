@@ -8,6 +8,7 @@ body {
 	font-size: 100%;
 	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 	line-height: 1.3125;
+	min-width: 51em;
 	max-width: 55em;
 	margin: 0 auto;
 }
