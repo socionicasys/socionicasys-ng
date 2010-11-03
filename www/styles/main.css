@@ -387,6 +387,11 @@ h4 a.headerlink:hover {
 	color: #7C900A;
 }
 
+h1 a {
+	color: #7c900a;
+	text-decoration: none;
+}
+
 /** Новости **/
 #content .news-item {
 	border-top: 1px solid #ccc;
