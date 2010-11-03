@@ -291,7 +291,8 @@ body:before {
 	padding: 0;
 }
 
-#content small {
+#content small,
+#content .note {
 	font-size: 0.875em;
 }
 
