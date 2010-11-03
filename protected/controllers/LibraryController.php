@@ -19,7 +19,16 @@ class LibraryController extends Controller
 	public function actionView($type, $title)
 	{
 		$model = $this->loadModel($type, $title);
-		
+
+		if ($model->meta_description !== null)
+		{
+			$this->pageDescription = $model->meta_description;
+		}
+		if ($model->meta_keywords !== null)
+		{
+			$this->pageKeywords = $model->meta_keywords;
+		}
+
 		Yii::app()->clientScript->registerScriptFile(
 			Yii::app()->baseUrl . '/scripts/hyphenate.js'
 		);

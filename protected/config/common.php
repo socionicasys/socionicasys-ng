@@ -125,5 +125,7 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		'enableFileManager' => true,
+		'meta.description' => 'Соционика, модель психики, информационный метаболизм, с точки зрения системного подхода',
+		'meta.keywords' => 'соционика',
 	),
 );

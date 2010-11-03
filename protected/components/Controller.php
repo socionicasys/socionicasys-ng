@@ -22,6 +22,16 @@ class Controller extends RightsBaseController
 	 * @var string CSS-класс, применяющийся к содержимому
 	 */
 	public $contentClass;
+
+	/**
+	 * @var string мета-поле description текущей страницы
+	 */
+	public $pageDescription;
+
+	/**
+	 * @var string мета-поле keywords текущей страницы
+	 */
+	public $pageKeywords;
 	
 	/**
 	 * @var MenuManager компонент управления меню
@@ -184,5 +194,40 @@ class Controller extends RightsBaseController
 		    $links['Выйти'] = Yii::app()->createUrl('site/logout');
 	    }
 	    return $links;
+	}
+
+	public function init()
+	{
+		parent::init();
+		$appParams = Yii::app()->params;
+		if (isset($appParams['meta.description']))
+		{
+			$this->pageDescription = $appParams['meta.description'];
+		}
+		if (isset($appParams['meta.keywords']))
+		{
+			$this->pageKeywords = $appParams['meta.keywords'];
+		}
+	}
+
+	public function render($view, $data = null, $return = false)
+	{
+		if ($this->beforeRender())
+		{
+			return parent::render($view, $data, $return);
+		}
+	}
+
+	protected function beforeRender()
+	{
+		if ($this->pageDescription !== null)
+		{
+			Yii::app()->clientScript->registerMetaTag($this->pageDescription, 'description');
+		}
+		if ($this->pageKeywords !== null)
+		{
+			Yii::app()->clientScript->registerMetaTag($this->pageKeywords, 'keywords');
+		}
+		return true;
 	}
 }

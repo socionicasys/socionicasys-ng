@@ -95,6 +95,15 @@ class PageController extends Controller
 			$this->pageTitle = Yii::app()->name;
 		}
 		
+		if ($page->meta_description !== null)
+		{
+			$this->pageDescription = $page->meta_description;
+		}
+		if ($page->meta_keywords !== null)
+		{
+			$this->pageKeywords = $page->meta_keywords;
+		}
+		
 		Yii::app()->clientScript->registerScriptFile(
 			Yii::app()->baseUrl . '/scripts/hyphenate.js'
 		);
