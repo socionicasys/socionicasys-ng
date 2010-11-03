@@ -12,6 +12,8 @@
  * @property string $published
  * @property string $published_number
  * @property string $text
+ * @property string $meta_description
+ * @property string $meta_keywords
  *
  * The followings are the available model relations:
  */
