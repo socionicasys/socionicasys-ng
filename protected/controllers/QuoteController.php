@@ -101,7 +101,9 @@ class QuoteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider = new CActiveDataProvider('Quote');
+		$dataProvider = new CActiveDataProvider('Quote', array(
+			'pagination' => false,
+		));
 
 		$this->render('list', array(
 			'dataProvider' => $dataProvider,
