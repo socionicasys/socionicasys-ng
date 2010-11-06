@@ -35,25 +35,10 @@ class Quote extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
-			array('author, note', 'length', 'max'=>255),
-			array('text', 'safe'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, author, note, text', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
+			array('author, note', 'length', 'max' => 255),
+			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
+			array('id, author, note, text', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -64,9 +49,9 @@ class Quote extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'author' => 'Author',
-			'note' => 'Note',
-			'text' => 'Text',
+			'author' => 'Автор',
+			'note' => 'Комментарий (аспект, блок и т. п.)',
+			'text' => 'Текст',
 		);
 	}
 
