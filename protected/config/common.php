@@ -68,6 +68,11 @@ return array(
 				'biblioteka/<type:(statji)>/<title:(\w|-)+>/delete' => 'library/delete',
 				'biblioteka/<type:(statji)>/<title:(\w|-)+>' => 'library/view',
 				'biblioteka/<type:(statji)>' => 'library/list',
+				// Цитаты
+				'quote/<id:\d+>' => 'quote/view',
+				'quote/<id:\d+>/<action:(update|delete)>' => 'quote/<action>',
+				'quote/create' => 'quote/create',
+				'quote' => 'quote/index',
 				// Обработка pull-запросов с GitHub
 				'git/pull/<id:\w+>' => 'git/pull',
 				// Модуль Rights
