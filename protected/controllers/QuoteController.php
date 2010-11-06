@@ -75,17 +75,25 @@ class QuoteController extends Controller
 	 */
 	public function actionDelete($id)
 	{
+		$model = $this->loadModel($id);
+		
 		if(Yii::app()->request->isPostRequest)
 		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+			$ajaxRequest = Yii::app()->request->isAjaxRequest;
+			if (isset($_POST['delete']) || $ajaxRequest)
+			{
+				$model->delete();
+			}
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!Yii::app()->request->isAjaxRequest)
+			if(!$ajaxRequest)
+			{
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+			}
 		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+
+		$this->render('delete', array(
+			'model' => $model,
+		));
 	}
 
 	/**
