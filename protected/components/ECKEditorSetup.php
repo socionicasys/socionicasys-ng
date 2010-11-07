@@ -31,6 +31,12 @@ class ECKEditorSetup extends ECKEditor
 			'contentsCss' => Yii::app()->clientScript->appendTimestamp(
 				Yii::app()->request->baseUrl . '/styles/main.css'
 			),
+			'coreStyles_underline' => array(
+				'element' => 'span',
+				'attributes' => array(
+					'class' => 'underlined',
+				),
+			),
 			'stylesSet' => array(
 				array(
 					'name' =>  'Заголовок 1',
