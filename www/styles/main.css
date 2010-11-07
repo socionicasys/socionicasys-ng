@@ -357,6 +357,10 @@ body:before {
 	background-color: #6ebb21;
 }
 
+.underlined {
+	text-decoration: underline;
+}
+
 /** Сылки в подзаголовках и оглавление **/
 a.headerlink {
 	color: #c60f0f;
