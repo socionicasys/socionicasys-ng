@@ -103,6 +103,49 @@ class PageController extends Controller
 		{
 			$this->pageKeywords = $page->meta_keywords;
 		}
+
+		$prevLink = null;
+		$nextLink = null;
+		if (!$page->standalone)
+		{
+			if ($page->type != Nav::TYPE_SECTION)
+			{
+				$section = $page->ancestors()->find(array(
+					'condition' => 'type = ' . Nav::TYPE_SECTION,
+					'order' => 'level DESC',
+				));
+				$prevPage = Nav::model()->find(array(
+					'condition' => 'lft < ' . $page->lft,
+					'order' => 'lft DESC',
+				));
+				if ($prevPage !== null && !($prevPage->isDescendantOf($section) || $prevPage->equals($section)))
+				{
+					$prevPage = null;
+				}
+			}
+			else
+			{
+				$section = $page;
+				$prevPage = null;
+			}
+			$nextPage = Nav::model()->find(array(
+				'condition' => 'lft > ' . $page->lft,
+				'order' => 'lft ASC',
+			));
+			if ($nextPage !== null && !($nextPage->isDescendantOf($section) || $nextPage->equals($section)))
+			{
+				$nextPage = null;
+			}
+
+			if ($prevPage !== null)
+			{
+				$prevLink = $prevPage->getUrl();
+			}
+			if ($nextPage !== null)
+			{
+				$nextLink = ($nextPage === null) ? null : $nextPage->getUrl();
+			}
+		}
 		
 		Yii::app()->clientScript->registerScriptFile(
 			Yii::app()->baseUrl . '/scripts/hyphenate.js'
@@ -119,6 +162,9 @@ class PageController extends Controller
 			'text' => $page->text,
 			'links' => $links,
 			'pageControls' => $pageControls,
+			'standalone' => $page->standalone,
+			'prevLink' => $prevLink,
+			'nextLink' => $nextLink,
 		));
 	}
 	

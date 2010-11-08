@@ -452,6 +452,34 @@ h1 a {
 	border: none;
 }
 
+#nav-controls {
+	border-top: 1px solid #ddd;
+	padding-top: 1.25em;
+	margin-top: 1.325em;
+}
+
+#nav-controls ul {
+	padding: 0;
+	margin: 0;
+}
+
+#nav-controls li {
+	list-style: none;
+}
+
+#prev-link {
+	float: left;
+}
+
+#next-link {
+	float: right;
+}
+
+#nav-controls a {
+	text-decoration: none;
+	color: #6ebb21;
+}
+
 /** Ссылки управления страницей **/
 #page-controls {
 	border-bottom: 1px solid #ddd;
