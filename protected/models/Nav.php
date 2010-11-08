@@ -17,6 +17,7 @@
  * @property boolean $wide_layout
  * @property string $meta_description
  * @property string $meta_keywords
+ * @property boolean $standalone
  *
  * The followings are the available model relations:
  */
