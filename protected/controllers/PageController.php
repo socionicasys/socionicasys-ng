@@ -104,6 +104,8 @@ class PageController extends Controller
 			$this->pageKeywords = $page->meta_keywords;
 		}
 
+		$prevLink = null;
+		$nextLink = null;
 		if (!$page->standalone)
 		{
 			if ($page->type != Nav::TYPE_SECTION)
@@ -135,8 +137,14 @@ class PageController extends Controller
 				$nextPage = null;
 			}
 
-			$prevLink = ($prevPage === null) ? null : $prevPage->getUrl();
-			$nextLink = ($nextPage === null) ? null : $nextPage->getUrl();
+			if ($prevPage !== null)
+			{
+				$prevLink = $prevPage->getUrl();
+			}
+			if ($nextPage !== null)
+			{
+				$nextLink = ($nextPage === null) ? null : $nextPage->getUrl();
+			}
 		}
 		
 		Yii::app()->clientScript->registerScriptFile(
