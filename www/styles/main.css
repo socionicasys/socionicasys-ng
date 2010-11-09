@@ -363,6 +363,17 @@ body:before {
 	text-decoration: underline;
 }
 
+a {
+	color: #6ebb21;
+}
+
+a.footnote {
+	text-decoration: none;
+	font-size: 0.875em;
+	position: relative;
+	top: -0.3em;
+}
+
 /** Сылки в подзаголовках и оглавление **/
 a.headerlink {
 	color: #c60f0f;
@@ -387,12 +398,7 @@ h4 a.headerlink:hover {
 	background-color: #ccc;
 }
 
-.toc a {
-	color: #6ebb21;
-}
-
 h1 a {
-	color: #6ebb21;
 	text-decoration: none;
 }
 
@@ -544,7 +550,7 @@ th, td {
 }
 
 td.correct {
-	background-color: #92e627;
+	background-color: #8aeb2a;
 }
 
 td.skipped {
