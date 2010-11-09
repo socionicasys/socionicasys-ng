@@ -372,6 +372,34 @@ a.footnote {
 	top: -0.3em;
 }
 
+code, pre {
+	font-size: 0.875em;
+	font-family: 'Consolas', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
+	line-height: 1.5;
+}
+
+pre {
+	margin-top: 0.71429em;
+	margin-bottom: 0.78571em;
+}
+
+pre code {
+	font-size: 1em;
+}
+
+sub, sup {
+	font-size: 0.875em;
+	position: relative;
+}
+
+sub {
+	top: 0.3em;
+}
+
+sup {
+	top: -0.3em;
+}
+
 /** Сылки в подзаголовках и оглавление **/
 a.headerlink {
 	color: #c60f0f;
