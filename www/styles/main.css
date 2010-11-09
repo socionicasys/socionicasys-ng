@@ -375,7 +375,7 @@ a.footnote {
 }
 
 code, pre {
-	font-size: 0.875em;
+	font-size: 1em;
 	font-family: 'Consolas', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
 	line-height: 1.5;
 }
@@ -390,7 +390,7 @@ pre code {
 }
 
 sub, sup {
-	font-size: 0.875em;
+	font-size: 0.857142857em;
 	position: relative;
 }
 
