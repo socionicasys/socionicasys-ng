@@ -18,12 +18,10 @@ $cs->registerLinkTag(
 	<link rel="shortcut icon" href="<?php echo $base; ?>/favicon.ico" type="image/x-icon" />
 	<!--[if lt IE 9]>
 	<script src="<?php echo $cs->appendTimestamp($base . '/scripts/html5shiv.js'); ?>"></script>
-	<script src="<?php echo $cs->appendTimestamp($base . '/scripts/ie9.js'); ?>"></script>
-	<style type="text/css">
-		#content-area {
-			zoom: 1;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="<?php echo $cs->appendTimestamp($base . '/styles/ie.css'); ?>">
+	<![endif]-->
+	<!--[if lt IE 7]>
+	<link rel="stylesheet" type="text/css" href="<?php echo $cs->appendTimestamp($base . '/styles/ie6.css'); ?>" media="all">
 	<![endif]-->
 </head>
 <body id="body">
@@ -42,7 +40,7 @@ $cs->registerLinkTag(
 				'activateItems' => false,
 			)); ?>
 		</nav>
-		<div id="content-area">
+		<div id="content-area" <?php echo $this->layoutAttr; ?>>
 			<?php echo $content; ?>
 		</div>
 	</div>

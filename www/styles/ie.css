@@ -1,0 +1,8 @@
+body {
+	width: 55em;
+}
+
+#content-area,
+#content-wrap {
+	zoom: 1;
+}
