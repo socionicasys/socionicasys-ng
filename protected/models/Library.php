@@ -128,7 +128,23 @@ class Library extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-	
+
+	protected function beforeSave()
+	{
+		if (parent::beforeSave())
+		{
+			if (empty($this->url))
+			{
+				$this->url = TextHelper::rus2translit($this->title);
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	public function getUrl($absolute = false)
 	{
 		if ($absolute)
