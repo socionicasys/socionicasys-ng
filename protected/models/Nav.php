@@ -131,7 +131,7 @@ class Nav extends CActiveRecord
 	{
 		if (parent::beforeSave())
 		{
-			if ($this->isNewRecord && empty($this->url))
+			if (empty($this->url))
 			{
 				$parent = $this->parent();
 				$this->url = '/' . trim($parent->url, '/') . '/' .
@@ -204,6 +204,7 @@ class Nav extends CActiveRecord
 			'Я'=>'ja',
 			' '=>'-', // сохраняем пробел от перехода в %20 понятным гуглу способом
 			','=>'',
+			'"'=>'-',
 			"'"=>'-',
 		);
 		$text = str_replace(array_keys($exchange), array_values($exchange), $text);
