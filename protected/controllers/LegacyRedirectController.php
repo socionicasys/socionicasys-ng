@@ -93,4 +93,32 @@ class LegacyRedirectController extends Controller
 			$this->redirect(Yii::app()->homeUrl);
 		}
 	}
+
+	/**
+	 * Перенаправление ссылок старого файлового архива (/userimages/…)
+	 * на страницы сайта и файлы из нового архива. 
+	 * @param string $path путь к файлу внутри каталога /userimages
+	 */
+	public function actionFiles($path)
+	{
+		Yii::log('Redirecting from ' .  Yii::app()->request->url, 'info');
+		
+		$redirect = RedirectModel::model()->findByAttributes(array(
+			'path' => $path,
+		));
+		if ($redirect !== null)
+		{
+			$modelClass = $redirect->model_class;
+			$modelId = $redirect->model_id;
+			$model = CActiveRecord::model($modelClass)->FindByPk($modelId);
+			$url = $model->getUrl();
+		}
+		else
+		{
+			$url = '/public/' . $path;
+		}
+
+		Yii::log('Redirecting to ' . $url, 'info');
+		$this->redirect($url, true, 301);
+	}
 }
