@@ -16,7 +16,7 @@
  * {@link setSentFrom sentFrom} address and any additional {@link setHeaders headers}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CEmailLogRoute.php 2364 2010-08-29 13:40:49Z keyboard.idol@gmail.com $
+ * @version $Id: CEmailLogRoute.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.logging
  * @since 1.0
  */
@@ -41,7 +41,7 @@ class CEmailLogRoute extends CLogRoute
 
 	/**
 	 * Sends log messages to specified email addresses.
-	 * @param array list of log messages
+	 * @param array $logs list of log messages
 	 */
 	protected function processLogs($logs)
 	{
@@ -58,9 +58,9 @@ class CEmailLogRoute extends CLogRoute
 
 	/**
 	 * Sends an email.
-	 * @param string single email address
-	 * @param string email subject
-	 * @param string email content
+	 * @param string $email single email address
+	 * @param string $subject email subject
+	 * @param string $message email content
 	 */
 	protected function sendEmail($email,$subject,$message)
 	{
@@ -79,7 +79,7 @@ class CEmailLogRoute extends CLogRoute
 	}
 
 	/**
-	 * @param mixed list of destination email addresses. If the value is
+	 * @param mixed $value list of destination email addresses. If the value is
 	 * a string, it is assumed to be comma-separated email addresses.
 	 */
 	public function setEmails($value)
@@ -99,7 +99,7 @@ class CEmailLogRoute extends CLogRoute
 	}
 
 	/**
-	 * @param string email subject.
+	 * @param string $value email subject.
 	 */
 	public function setSubject($value)
 	{
@@ -115,7 +115,7 @@ class CEmailLogRoute extends CLogRoute
 	}
 
 	/**
-	 * @param string send from address of the email
+	 * @param string $value send from address of the email
 	 */
 	public function setSentFrom($value)
 	{
@@ -132,7 +132,7 @@ class CEmailLogRoute extends CLogRoute
 	}
 
 	/**
-	 * @param mixed list of additional headers to use when sending an email.
+	 * @param mixed $value list of additional headers to use when sending an email.
 	 * If the value is a string, it is assumed to be line break separated headers.
 	 * @since 1.1.4
 	 */

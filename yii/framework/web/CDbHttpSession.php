@@ -36,7 +36,7 @@
  * You may also create a DB index for the 'expire' column in the session table to further improve the performance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbHttpSession.php 2412 2010-09-02 02:10:43Z qiang.xue $
+ * @version $Id: CDbHttpSession.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web
  * @since 1.0
  */
@@ -81,8 +81,8 @@ class CDbHttpSession extends CHttpSession
 
 	/**
 	 * Creates the session DB table.
-	 * @param CDbConnection the database connection
-	 * @param string the name of the table to be created
+	 * @param CDbConnection $db the database connection
+	 * @param string $tableName the name of the table to be created
 	 */
 	protected function createSessionTable($db,$tableName)
 	{
@@ -122,8 +122,8 @@ CREATE TABLE $tableName
 	/**
 	 * Session open handler.
 	 * Do not call this method directly.
-	 * @param string session save path
-	 * @param string session name
+	 * @param string $savePath session save path
+	 * @param string $sessionName session name
 	 * @return boolean whether session is opened successfully
 	 */
 	public function openSession($savePath,$sessionName)
@@ -149,7 +149,7 @@ CREATE TABLE $tableName
 	/**
 	 * Session read handler.
 	 * Do not call this method directly.
-	 * @param string session ID
+	 * @param string $id session ID
 	 * @return string the session data
 	 */
 	public function readSession($id)
@@ -166,8 +166,8 @@ WHERE expire>$now AND id=:id
 	/**
 	 * Session write handler.
 	 * Do not call this method directly.
-	 * @param string session ID
-	 * @param string session data
+	 * @param string $id session ID
+	 * @param string $data session data
 	 * @return boolean whether session write is successful
 	 */
 	public function writeSession($id,$data)
@@ -198,7 +198,7 @@ WHERE expire>$now AND id=:id
 	/**
 	 * Session destroy handler.
 	 * Do not call this method directly.
-	 * @param string session ID
+	 * @param string $id session ID
 	 * @return boolean whether session is destroyed successfully
 	 */
 	public function destroySession($id)
@@ -211,7 +211,7 @@ WHERE expire>$now AND id=:id
 	/**
 	 * Session GC (garbage collection) handler.
 	 * Do not call this method directly.
-	 * @param integer the number of seconds after which data will be seen as 'garbage' and cleaned up.
+	 * @param integer $maxLifetime the number of seconds after which data will be seen as 'garbage' and cleaned up.
 	 * @return boolean whether session is GCed successfully
 	 */
 	public function gcSession($maxLifetime)

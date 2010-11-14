@@ -20,7 +20,7 @@
  * An action instance can access its controller via {@link getController controller} property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CAction.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CAction.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.actions
  * @since 1.0
  */
@@ -31,8 +31,8 @@ abstract class CAction extends CComponent implements IAction
 
 	/**
 	 * Constructor.
-	 * @param CController the controller who owns this action.
-	 * @param string id of the action.
+	 * @param CController $controller the controller who owns this action.
+	 * @param string $id id of the action.
 	 */
 	public function __construct($controller,$id)
 	{

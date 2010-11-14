@@ -12,7 +12,7 @@
  * CBooleanValidator validates that the attribute value is either {@link trueValue}  or {@link falseValue}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CBooleanValidator.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CBooleanValidator.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.validators
  * @since 1.0.10
  */
@@ -41,8 +41,8 @@ class CBooleanValidator extends CValidator
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{

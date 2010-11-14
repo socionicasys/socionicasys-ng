@@ -6,7 +6,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: YiiBase.php 2428 2010-09-05 13:05:24Z qiang.xue $
+ * @version $Id: YiiBase.php 2653 2010-11-14 14:23:12Z qiang.xue $
  * @package system
  * @since 1.0
  */
@@ -49,15 +49,21 @@ defined('YII_ZII_PATH') or define('YII_ZII_PATH',YII_PATH.DIRECTORY_SEPARATOR.'z
  * you can customize methods of YiiBase.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: YiiBase.php 2428 2010-09-05 13:05:24Z qiang.xue $
+ * @version $Id: YiiBase.php 2653 2010-11-14 14:23:12Z qiang.xue $
  * @package system
  * @since 1.0
  */
 class YiiBase
 {
+	/**
+	 * @var array class map used by the Yii autoloading mechanism.
+	 * The array keys are the class names and the array values are the corresponding class file paths.
+	 * @since 1.1.5
+	 */
+	public static $classMap=array();
+
 	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
-	private static $_classes=array();
 	private static $_includePaths;						// list of include paths
 	private static $_app;
 	private static $_logger;
@@ -68,12 +74,12 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.4';
+		return '1.1.5';
 	}
 
 	/**
 	 * Creates a Web application instance.
-	 * @param mixed application configuration.
+	 * @param mixed $config application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
 	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
@@ -87,7 +93,7 @@ class YiiBase
 
 	/**
 	 * Creates a console application instance.
-	 * @param mixed application configuration.
+	 * @param mixed $config application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
 	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
@@ -101,8 +107,8 @@ class YiiBase
 
 	/**
 	 * Creates an application of the specified class.
-	 * @param string the application class name
-	 * @param mixed application configuration. This parameter will be passed as the parameter
+	 * @param string $class the application class name
+	 * @param mixed $config application configuration. This parameter will be passed as the parameter
 	 * to the constructor of the application class.
 	 * @return mixed the application instance
 	 * @since 1.0.10
@@ -126,7 +132,7 @@ class YiiBase
 	 * Repeated invocation of this method or the CApplication constructor
 	 * will cause the throw of an exception.
 	 * To retrieve the application instance, use {@link app()}.
-	 * @param CApplication the application instance. If this is null, the existing
+	 * @param CApplication $app the application instance. If this is null, the existing
 	 * application singleton will be removed.
 	 * @throws CException if multiple application instances are registered.
 	 */
@@ -161,7 +167,7 @@ class YiiBase
 	 *
 	 * NOTE: the array-typed configuration has been supported since version 1.0.1.
 	 *
-	 * @param mixed the configuration. It can be either a string or an array.
+	 * @param mixed $config the configuration. It can be either a string or an array.
 	 * @return mixed the created object
 	 * @throws CException if the configuration does not have a 'class' element.
 	 */
@@ -211,22 +217,40 @@ class YiiBase
 	}
 
 	/**
-	 * Imports the definition of a class or a directory of class files.
+	 * Imports a class or a directory.
 	 *
-	 * Path aliases are used to refer to the class file or directory being imported.
-	 * If importing a path alias ending with '.*', the alias is considered as a directory
-	 * which will be added to the PHP include paths; Otherwise, the alias is translated
-	 * to the path of a class file which is included when needed.
+	 * Importing a class is like including the corresponding class file.
+	 * The main difference is that importing a class is much lighter because it only
+	 * includes the class file when the class is referenced the first time.
 	 *
-	 * For example, importing 'system.web.*' will add the 'web' directory of the framework
-	 * to the PHP include paths; while importing 'system.web.CController' will include
-	 * the class file 'web/CController.php' when needed.
+	 * Importing a directory is equivalent to adding a directory into the PHP include path.
+	 * If multiple directories are imported, the directories imported later will take
+	 * precedence in class file searching (i.e., they are added to the front of the PHP include path).
 	 *
-	 * The same alias can be imported multiple times, but only the first time is effective.
+	 * Path aliases are used to import a class or directory. For example,
+	 * <ul>
+	 *   <li><code>application.components.GoogleMap</code>: import the <code>GoogleMap</code> class.</li>
+	 *   <li><code>application.components.*</code>: import the <code>components</code> directory.</li>
+	 * </ul>
 	 *
-	 * @param string path alias to be imported
-	 * @param boolean whether to include the class file immediately. If false, the class file
-	 * will be included only when the class is being used.
+	 * The same path alias can be imported multiple times, but only the first time is effective.
+	 * Importing a directory does not import any of its subdirectories.
+	 *
+	 * Starting from version 1.1.5, this method can also be used to import a class in namespace format
+	 * (available for PHP 5.3 or above only). It is similar to importing a class in path alias format,
+	 * except that the dot separator is replaced by the backslash separator. For example, importing
+	 * <code>application\components\GoogleMap</code> is similar to importing <code>application.components.GoogleMap</code>.
+	 * The difference is that the former class is using qualified name, while the latter unqualified.
+	 *
+	 * Note, importing a class in namespace format requires that the namespace is corresponding to
+	 * a valid path alias if we replace the backslash characters with dot characters.
+	 * For example, the namespace <code>application\components</code> must correspond to a valid
+	 * path alias <code>application.components</code>.
+	 *
+	 * @param string $alias path alias to be imported
+	 * @param boolean $forceInclude whether to include the class file immediately. If false, the class file
+	 * will be included only when the class is being used. This parameter is used only when
+	 * the path alias refers to a class.
 	 * @return string the class name or the directory that this alias refers to
 	 * @throws CException if the alias is invalid
 	 */
@@ -238,6 +262,29 @@ class YiiBase
 		if(class_exists($alias,false) || interface_exists($alias,false))
 			return self::$_imports[$alias]=$alias;
 
+		if(($pos=strrpos($alias,'\\'))!==false) // a class name in PHP 5.3 namespace format
+		{
+			$namespace=str_replace('\\','.',ltrim(substr($alias,0,$pos),'\\'));
+			if(($path=self::getPathOfAlias($namespace))!==false)
+			{
+				$classFile=$path.DIRECTORY_SEPARATOR.substr($alias,$pos+1).'.php';
+				if($forceInclude)
+				{
+					if(is_file($classFile))
+						require($classFile);
+					else
+						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file.',array('{alias}'=>$alias)));
+					self::$_imports[$alias]=$alias;
+				}
+				else
+					self::$classMap[$alias]=$classFile;
+				return $alias;
+			}
+			else
+				throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
+					array('{alias}'=>$namespace)));
+		}
+
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
 			if($forceInclude && self::autoload($alias))
@@ -245,12 +292,15 @@ class YiiBase
 			return $alias;
 		}
 
-		if(($className=(string)substr($alias,$pos+1))!=='*' && (class_exists($className,false) || interface_exists($className,false)))
+		$className=(string)substr($alias,$pos+1);
+		$isClass=$className!=='*';
+
+		if($isClass && (class_exists($className,false) || interface_exists($className,false)))
 			return self::$_imports[$alias]=$className;
 
 		if(($path=self::getPathOfAlias($alias))!==false)
 		{
-			if($className!=='*')
+			if($isClass)
 			{
 				if($forceInclude)
 				{
@@ -261,7 +311,7 @@ class YiiBase
 					self::$_imports[$alias]=$className;
 				}
 				else
-					self::$_classes[$className]=$path.'.php';
+					self::$classMap[$className]=$path.'.php';
 				return $className;
 			}
 			else  // a directory
@@ -272,9 +322,12 @@ class YiiBase
 					if(($pos=array_search('.',self::$_includePaths,true))!==false)
 						unset(self::$_includePaths[$pos]);
 				}
+
 				array_unshift(self::$_includePaths,$path);
+
 				if(set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths))===false)
 					throw new CException(Yii::t('yii','Unable to import "{alias}". Please check your server configuration to make sure you are allowed to change PHP include_path.',array('{alias}'=>$alias)));
+
 				return self::$_imports[$alias]=$path;
 			}
 		}
@@ -287,7 +340,7 @@ class YiiBase
 	 * Translates an alias into a file path.
 	 * Note, this method does not ensure the existence of the resulting file path.
 	 * It only checks if the root alias is valid or not.
-	 * @param string alias (e.g. system.web.CController)
+	 * @param string $alias alias (e.g. system.web.CController)
 	 * @return mixed file path corresponding to the alias, false if the alias is invalid.
 	 */
 	public static function getPathOfAlias($alias)
@@ -311,8 +364,8 @@ class YiiBase
 	/**
 	 * Create a path alias.
 	 * Note, this method neither checks the existence of the path nor normalizes the path.
-	 * @param string alias to the path
-	 * @param string the path corresponding to the alias. If this is null, the corresponding
+	 * @param string $alias alias to the path
+	 * @param string $path the path corresponding to the alias. If this is null, the corresponding
 	 * path alias will be removed.
 	 */
 	public static function setPathOfAlias($alias,$path)
@@ -326,7 +379,7 @@ class YiiBase
 	/**
 	 * Class autoload loader.
 	 * This method is provided to be invoked within an __autoload() magic method.
-	 * @param string class name
+	 * @param string $className class name
 	 * @return boolean whether the class has been loaded successfully
 	 */
 	public static function autoload($className)
@@ -334,11 +387,20 @@ class YiiBase
 		// use include so that the error PHP file may appear
 		if(isset(self::$_coreClasses[$className]))
 			include(YII_PATH.self::$_coreClasses[$className]);
-		else if(isset(self::$_classes[$className]))
-			include(self::$_classes[$className]);
+		else if(isset(self::$classMap[$className]))
+			include(self::$classMap[$className]);
 		else
 		{
-			include($className.'.php');
+			if(strpos($className,'\\')===false)
+				include($className.'.php');
+			else  // class name with namespace in PHP 5.3
+			{
+				$namespace=str_replace('\\','.',ltrim($className,'\\'));
+				if(($path=self::getPathOfAlias($namespace))!==false)
+					include($path.'.php');
+				else
+					return false;
+			}
 			return class_exists($className,false) || interface_exists($className,false);
 		}
 		return true;
@@ -347,8 +409,8 @@ class YiiBase
 	/**
 	 * Writes a trace message.
 	 * This method will only log a message when the application is in debug mode.
-	 * @param string message to be logged
-	 * @param string category of the message
+	 * @param string $msg message to be logged
+	 * @param string $category category of the message
 	 * @see log
 	 */
 	public static function trace($msg,$category='application')
@@ -362,9 +424,9 @@ class YiiBase
 	 * Messages logged by this method may be retrieved via {@link CLogger::getLogs}
 	 * and may be recorded in different media, such as file, email, database, using
 	 * {@link CLogRouter}.
-	 * @param string message to be logged
-	 * @param string level of the message (e.g. 'trace', 'warning', 'error'). It is case-insensitive.
-	 * @param string category of the message (e.g. 'system.web'). It is case-insensitive.
+	 * @param string $msg message to be logged
+	 * @param string $level level of the message (e.g. 'trace', 'warning', 'error'). It is case-insensitive.
+	 * @param string $category category of the message (e.g. 'system.web'). It is case-insensitive.
 	 */
 	public static function log($msg,$level=CLogger::LEVEL_INFO,$category='application')
 	{
@@ -408,8 +470,8 @@ class YiiBase
 	 * Yii::endProfile('block1');
 	 * Yii::endProfile('block2');
 	 * </pre>
-	 * @param string token for the code block
-	 * @param string the category of this log message
+	 * @param string $token token for the code block
+	 * @param string $category the category of this log message
 	 * @see endProfile
 	 */
 	public static function beginProfile($token,$category='application')
@@ -420,8 +482,8 @@ class YiiBase
 	/**
 	 * Marks the end of a code block for profiling.
 	 * This has to be matched with a previous call to {@link beginProfile()} with the same token.
-	 * @param string token for the code block
-	 * @param string the category of this log message
+	 * @param string $token token for the code block
+	 * @param string $category the category of this log message
 	 * @see beginProfile
 	 */
 	public static function endProfile($token,$category='application')
@@ -454,18 +516,18 @@ class YiiBase
 	 * i.e., the message returned will be chosen from a few candidates according to the given
 	 * number value. This feature is mainly used to solve plural format issue in case
 	 * a message has different plural forms in some languages.
-	 * @param string message category. Please use only word letters. Note, category 'yii' is
+	 * @param string $category message category. Please use only word letters. Note, category 'yii' is
 	 * reserved for Yii framework core code use. See {@link CPhpMessageSource} for
 	 * more interpretation about message category.
-	 * @param string the original message
-	 * @param array parameters to be applied to the message using <code>strtr</code>.
+	 * @param string $message the original message
+	 * @param array $params parameters to be applied to the message using <code>strtr</code>.
 	 * Starting from version 1.0.2, the first parameter can be a number without key.
 	 * And in this case, the method will call {@link CChoiceFormat::format} to choose
 	 * an appropriate message translation.
-	 * @param string which message source application component to use.
+	 * @param string $source which message source application component to use.
 	 * Defaults to null, meaning using 'coreMessages' for messages belonging to
 	 * the 'yii' category and using 'messages' for the rest messages.
-	 * @param string the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
+	 * @param string $language the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
 	 * This parameter has been available since version 1.0.3.
 	 * @return string the translated message
 	 * @see CMessageSource
@@ -493,7 +555,7 @@ class YiiBase
 	 * Registers a new class autoloader.
 	 * The new autoloader will be placed before {@link autoload} and after
 	 * any other existing autoloaders.
-	 * @param callback a valid PHP callback (function name or array($className,$methodName)).
+	 * @param callback $callback a valid PHP callback (function name or array($className,$methodName)).
 	 * @since 1.0.10
 	 */
 	public static function registerAutoloader($callback)
@@ -552,6 +614,7 @@ class YiiBase
 		'CStack' => '/collections/CStack.php',
 		'CStackIterator' => '/collections/CStackIterator.php',
 		'CTypedList' => '/collections/CTypedList.php',
+		'CTypedMap' => '/collections/CTypedMap.php',
 		'CConsoleApplication' => '/console/CConsoleApplication.php',
 		'CConsoleCommand' => '/console/CConsoleCommand.php',
 		'CConsoleCommandRunner' => '/console/CConsoleCommandRunner.php',

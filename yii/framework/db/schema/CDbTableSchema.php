@@ -24,7 +24,7 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbTableSchema.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CDbTableSchema.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.db.schema
  * @since 1.0
  */
@@ -58,7 +58,7 @@ class CDbTableSchema extends CComponent
 	/**
 	 * Gets the named column metadata.
 	 * This is a convenient method for retrieving a named column even if it does not exist.
-	 * @param string column name
+	 * @param string $name column name
 	 * @return CDbColumnSchema metadata of the named column. Null if the named column does not exist.
 	 */
 	public function getColumn($name)

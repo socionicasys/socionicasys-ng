@@ -13,7 +13,7 @@
  * CListPager displays a dropdown list that contains options leading to different pages of target.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CListPager.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CListPager.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.widgets.pagers
  * @since 1.0
  */
@@ -76,7 +76,7 @@ class CListPager extends CBasePager
 	/**
 	 * Generates the list option for the specified page number.
 	 * You may override this method to customize the option display.
-	 * @param integer zero-based page number
+	 * @param integer $page zero-based page number
 	 * @return string the list option for the page number
 	 */
 	protected function generatePageText($page)

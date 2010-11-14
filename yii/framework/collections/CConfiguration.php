@@ -16,13 +16,10 @@
  *
  * The configuration data may be obtained from a PHP script. For example,
  * <pre>
- * &lt;?php
- * return array
- * (
+ * return array(
  *     'name'=>'My Application',
  *     'defaultController'=>'index',
  * );
- * ?&gt;
  * </pre>
  * Use the following code to load the above configuration data:
  * <pre>
@@ -37,7 +34,7 @@
  * used like an associative array. See {@link CMap} for more details.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CConfiguration.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CConfiguration.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.collections
  * @since 1.0
  */
@@ -45,7 +42,7 @@ class CConfiguration extends CMap
 {
 	/**
 	 * Constructor.
-	 * @param mixed if string, it represents a config file (a PHP script returning the configuration as an array);
+	 * @param mixed $data if string, it represents a config file (a PHP script returning the configuration as an array);
 	 * If array, it is config data.
 	 */
 	public function __construct($data=null)
@@ -68,7 +65,7 @@ class CConfiguration extends CMap
 	 * );
 	 * </pre>
 	 *
-	 * @param string configuration file path (if using relative path, be aware of what is the current path)
+	 * @param string $configFile configuration file path (if using relative path, be aware of what is the current path)
 	 * @see mergeWith
 	 */
 	public function loadFromFile($configFile)
@@ -94,7 +91,7 @@ class CConfiguration extends CMap
 	 * Applies the configuration to an object.
 	 * Each (key,value) pair in the configuration data is applied
 	 * to the object like: $object->$key=$value.
-	 * @param object object to be applied with this configuration
+	 * @param object $object object to be applied with this configuration
 	 */
 	public function applyTo($object)
 	{
@@ -108,7 +105,7 @@ class CConfiguration extends CMap
 	 * NOTE: this method has been deprecated since version 1.0.1.
 	 * Please use {@link YiiBase::createComponent Yii::createComponent}, instead.
 	 *
-	 * @param mixed the configuration. It can be either a string or an array.
+	 * @param mixed $config the configuration. It can be either a string or an array.
 	 * @return mixed the created object
 	 * @throws CException if the configuration does not have 'class' value
 	 */

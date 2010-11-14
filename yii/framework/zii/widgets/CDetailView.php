@@ -37,7 +37,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDetailView.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CDetailView.php 2547 2010-10-14 15:47:07Z keyboard.idol@gmail.com $
  * @package zii.widgets
  * @since 1.1
  */
@@ -83,6 +83,8 @@ class CDetailView extends CWidget
 	 * <li>template: the template used to render the attribute. If this is not specified, {@link itemTemplate}
 	 * will be used instead. For more details on how to set this option, please refer to {@link itemTemplate}.
 	 * This option is available since version 1.1.1.</li>
+	 * <li>visible: whether the attribute is visible. If set to <code>false</code>, the table row for the attribute will not be rendered.
+	 * This option is available since version 1.1.5.</li>
 	 * </ul>
 	 */
 	public $attributes;
@@ -164,8 +166,10 @@ class CDetailView extends CWidget
 		$formatter=$this->getFormatter();
 		echo CHtml::openTag($this->tagName,$this->htmlOptions);
 
+		$i=0;
 		$n=is_array($this->itemCssClass) ? count($this->itemCssClass) : 0;
-		foreach($this->attributes as $i=>$attribute)
+						
+		foreach($this->attributes as $attribute)
 		{
 			if(is_string($attribute))
 			{
@@ -178,6 +182,9 @@ class CDetailView extends CWidget
 				if(isset($matches[5]))
 					$attribute['label']=$matches[5];
 			}
+			
+			if(isset($attribute['visible']) && !$attribute['visible'])
+				continue;
 
 			$tr=array('{label}'=>'', '{class}'=>$n ? $this->itemCssClass[$i%$n] : '');
 			if(isset($attribute['cssClass']))
@@ -205,6 +212,9 @@ class CDetailView extends CWidget
 			$tr['{value}']=$value===null ? $this->nullDisplay : $formatter->format($value,$attribute['type']);
 
 			echo strtr(isset($attribute['template']) ? $attribute['template'] : $this->itemTemplate,$tr);
+			
+			$i++;
+															
 		}
 
 		echo CHtml::closeTag($this->tagName);
@@ -221,7 +231,7 @@ class CDetailView extends CWidget
 	}
 
 	/**
-	 * @param CFormatter the formatter instance
+	 * @param CFormatter $value the formatter instance
 	 */
 	public function setFormatter($value)
 	{

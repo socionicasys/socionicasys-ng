@@ -8,14 +8,22 @@
  * @license http://www.yiiframework.com/license/
  */
 
-require_once('PHPUnit/Framework.php');
-require_once('PHPUnit/Framework/TestCase.php');
+require_once('PHPUnit/Runner/Version.php');
+if(version_compare(PHPUnit_Runner_Version::id(), '3.5.0RC1')<0)
+{
+    require_once('PHPUnit/Framework.php');
+    require_once('PHPUnit/Framework/TestCase.php');
+}
+else
+{
+    require_once('PHPUnit/Autoload.php');
+}
 
 /**
  * CTestCase is the base class for all test case classes.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CTestCase.php 1906 2010-03-14 05:14:31Z qiang.xue $
+ * @version $Id: CTestCase.php 2529 2010-10-05 13:57:06Z alexander.makarow $
  * @package system.test
  * @since 1.1
  */

@@ -19,19 +19,11 @@
 <?php foreach($columns as $column): ?>
  * @property <?php echo $column->type.' $'.$column->name."\n"; ?>
 <?php endforeach; ?>
+<?php if(!empty($relations)): ?>
  *
  * The followings are the available model relations:
 <?php foreach($relations as $name=>$relation): ?>
  * @property <?php
-    $relationTypes = array(
-		'' => '',
-		'' => '',
-		'' => 'array',
-		'' => 'array',
-	);
-
-	$type = 'mixed';
-
 	if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches))
     {
         $relationType = $matches[1];
@@ -56,6 +48,7 @@
 	}
     ?>
 <?php endforeach; ?>
+<?php endif; ?>
  */
 class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {

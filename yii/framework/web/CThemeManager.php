@@ -27,7 +27,7 @@
  * Web accessible, please make sure the view/layout files are protected from Web access.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CThemeManager.php 1832 2010-02-20 03:22:45Z qiang.xue $
+ * @version $Id: CThemeManager.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web
  * @since 1.0
  */
@@ -49,7 +49,7 @@ class CThemeManager extends CApplicationComponent
 
 
 	/**
-	 * @param string name of the theme to be retrieved
+	 * @param string $name name of the theme to be retrieved
 	 * @return CTheme the theme retrieved. Null if the theme does not exist.
 	 */
 	public function getTheme($name)
@@ -97,7 +97,7 @@ class CThemeManager extends CApplicationComponent
 	}
 
 	/**
-	 * @param string the base path for all themes.
+	 * @param string $value the base path for all themes.
 	 * @throws CException if the base path does not exist
 	 */
 	public function setBasePath($value)
@@ -118,7 +118,7 @@ class CThemeManager extends CApplicationComponent
 	}
 
 	/**
-	 * @param string the base URL for all themes.
+	 * @param string $value the base URL for all themes.
 	 */
 	public function setBaseUrl($value)
 	{

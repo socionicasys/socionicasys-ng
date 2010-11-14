@@ -22,7 +22,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * {@link value}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCheckBoxColumn.php 2399 2010-09-01 12:56:08Z qiang.xue $
+ * @version $Id: CCheckBoxColumn.php 2615 2010-11-03 15:57:01Z qiang.xue $
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -72,10 +72,15 @@ class CCheckBoxColumn extends CGridColumn
 	 */
 	public function init()
 	{
-		$name=isset($this->checkBoxHtmlOptions['name']) ? $this->checkBoxHtmlOptions['name'] : $this->id;
-		if(substr($name,-2)!=='[]')
-			$name.='[]';
-		$this->checkBoxHtmlOptions['name']=$name;
+		if(isset($this->checkBoxHtmlOptions['name']))
+			$name=$this->checkBoxHtmlOptions['name'];
+		else
+		{
+			$name=$this->id;
+			if(substr($name,-2)!=='[]')
+				$name.='[]';
+			$this->checkBoxHtmlOptions['name']=$name;
+		}
 		$name=strtr($name,array('['=>"\\[",']'=>"\\]"));
 		if($this->grid->selectableRows==1)
 			$one="\n\tjQuery(\"input:not(#\"+$(this).attr('id')+\")[name='$name']\").attr('checked',false);";
@@ -110,8 +115,8 @@ EOD;
 	/**
 	 * Renders the data cell content.
 	 * This method renders a checkbox in the data cell.
-	 * @param integer the row number (zero-based)
-	 * @param mixed the data associated with the row
+	 * @param integer $row the row number (zero-based)
+	 * @param mixed $data the data associated with the row
 	 */
 	protected function renderDataCellContent($row,$data)
 	{

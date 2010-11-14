@@ -40,18 +40,18 @@
  *
  * View:
  * <pre>
- * <?foreach($models as $model):?>
+ * <?php foreach($models as $model): ?>
  *     // display a model
- * <?endforeach?>
+ * <?php endforeach; ?>
  *
  * // display pagination
- * <?$this->widget('CLinkPager', array(
+ * <?php $this->widget('CLinkPager', array(
  *     'pages' => $pages,
- * ))?>
+ * )) ?>
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CPagination.php 2313 2010-08-10 02:52:27Z qiang.xue $
+ * @version $Id: CPagination.php 2585 2010-10-29 20:31:06Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -94,7 +94,7 @@ class CPagination extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param integer total number of items.
+	 * @param integer $itemCount total number of items.
 	 * @since 1.0.1
 	 */
 	public function __construct($itemCount=0)
@@ -111,7 +111,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param integer number of items in each page
+	 * @param integer $value number of items in each page
 	 */
 	public function setPageSize($value)
 	{
@@ -128,7 +128,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param integer total number of items.
+	 * @param integer $value total number of items.
 	 */
 	public function setItemCount($value)
 	{
@@ -145,7 +145,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param boolean whether to recalculate the current page based on the page size and item count.
+	 * @param boolean $recalculate whether to recalculate the current page based on the page size and item count.
 	 * @return integer the zero-based index of the current page. Defaults to 0.
 	 */
 	public function getCurrentPage($recalculate=true)
@@ -171,7 +171,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param integer the zero-based index of the current page.
+	 * @param integer $value the zero-based index of the current page.
 	 */
 	public function setCurrentPage($value)
 	{
@@ -186,8 +186,8 @@ class CPagination extends CComponent
 	 * the controller's createUrl method with the page information.
 	 * You may override this method if your URL scheme is not the same as
 	 * the one supported by the controller's createUrl method.
-	 * @param CController the controller that will create the actual URL
-	 * @param integer the page that the URL should point to. This is a zero-based index.
+	 * @param CController $controller the controller that will create the actual URL
+	 * @param integer $page the page that the URL should point to. This is a zero-based index.
 	 * @return string the created URL
 	 */
 	public function createPageUrl($controller,$page)
@@ -202,13 +202,13 @@ class CPagination extends CComponent
 
 	/**
 	 * Applies LIMIT and OFFSET to the specified query criteria.
-	 * @param CDbCriteria the query criteria that should be applied with the limit
+	 * @param CDbCriteria $criteria the query criteria that should be applied with the limit
 	 * @since 1.0.1
 	 */
 	public function applyLimit($criteria)
 	{
-		$criteria->limit=$this->pageSize;
-		$criteria->offset=$this->currentPage*$this->pageSize;
+		$criteria->limit=$this->getLimit();
+		$criteria->offset=$this->getOffset();
 	}
 
 	/**

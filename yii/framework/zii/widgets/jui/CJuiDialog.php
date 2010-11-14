@@ -43,11 +43,11 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id: CJuiDialog.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CJuiDialog.php 2545 2010-10-14 13:51:43Z sebathi $
  * @package zii.widgets.jui
  * @since 1.1
  */
-class CJuiDialog extends CJuiWidget
+class CJuiDialog extends CJuiWidget 
 {
 	/**
 	 * @var string the name of the container element that contains all panels. Defaults to 'div'.
@@ -61,8 +61,12 @@ class CJuiDialog extends CJuiWidget
 	public function init()
 	{
 		parent::init();
+		
 		$id=$this->getId();
-		$this->htmlOptions['id']=$id;
+		if (isset($this->htmlOptions['id']))
+			$id = $this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$id;
 		
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').dialog($options);");

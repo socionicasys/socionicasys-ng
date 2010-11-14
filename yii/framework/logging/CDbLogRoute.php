@@ -18,7 +18,7 @@
  * and used under the application runtime directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbLogRoute.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CDbLogRoute.php 2567 2010-10-22 18:10:54Z qiang.xue $
  * @package system.logging
  * @since 1.0
  */
@@ -60,16 +60,6 @@ class CDbLogRoute extends CLogRoute
 	private $_db;
 
 	/**
-	 * Destructor.
-	 * Disconnect the db connection.
-	 */
-	public function __destruct()
-	{
-		if($this->_db!==null)
-			$this->_db->setActive(false);
-	}
-
-	/**
 	 * Initializes the route.
 	 * This method is invoked after the route is created by the route manager.
 	 */
@@ -96,8 +86,8 @@ class CDbLogRoute extends CLogRoute
 
 	/**
 	 * Creates the DB table for storing log messages.
-	 * @param CDbConnection the database connection
-	 * @param string the name of the table to be created
+	 * @param CDbConnection $db the database connection
+	 * @param string $tableName the name of the table to be created
 	 */
 	protected function createLogTable($db,$tableName)
 	{
@@ -146,7 +136,7 @@ CREATE TABLE $tableName
 
 	/**
 	 * Stores log messages into database.
-	 * @param array list of log messages
+	 * @param array $logs list of log messages
 	 */
 	protected function processLogs($logs)
 	{

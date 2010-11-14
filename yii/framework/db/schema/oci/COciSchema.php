@@ -12,7 +12,7 @@
  * COciSchema is the class for retrieving metadata information from an Oracle database.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id: COciSchema.php 2262 2010-07-14 21:47:16Z qiang.xue $
+ * @version $Id: COciSchema.php 2590 2010-10-31 14:42:39Z qiang.xue $
  * @package system.db.schema.oci
  * @since 1.0.5
  */
@@ -22,7 +22,7 @@ class COciSchema extends CDbSchema
 
 	/**
 	 * Quotes a table name for use in a query.
-	 * @param string table name
+	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 */
 	public function quoteTableName($name)
@@ -32,7 +32,7 @@ class COciSchema extends CDbSchema
 
 	/**
 	 * Quotes a column name for use in a query.
-	 * @param string column name
+	 * @param string $name column name
 	 * @return string the properly quoted column name
 	 */
 	public function quoteColumnName($name)
@@ -51,7 +51,7 @@ class COciSchema extends CDbSchema
 	}
 
 	/**
-     * @param string default schema.
+     * @param string $schema default schema.
      */
     public function setDefaultSchema($schema)
     {
@@ -72,7 +72,7 @@ class COciSchema extends CDbSchema
     }
 
     /**
-     * @param string table name with optional schema name prefix, uses default schema name prefix is not provided.
+     * @param string $table table name with optional schema name prefix, uses default schema name prefix is not provided.
      * @return array tuple as ($schemaName,$tableName)
      */
     protected function getSchemaTableName($table)
@@ -86,6 +86,7 @@ class COciSchema extends CDbSchema
 
 	/**
 	 * Creates a table instance representing the metadata for the named table.
+	 * @param string $name table name
 	 * @return CDbTableSchema driver dependent table metadata.
 	 */
 	protected function createTable($name)
@@ -102,8 +103,8 @@ class COciSchema extends CDbSchema
 
 	/**
 	 * Generates various kinds of table names.
-	 * @param COciTableSchema the table instance
-	 * @param string the unquoted table name
+	 * @param COciTableSchema $table the table instance
+	 * @param string $name the unquoted table name
 	 */
 	protected function resolveTableNames($table,$name)
 	{
@@ -129,7 +130,7 @@ class COciSchema extends CDbSchema
 
 	/**
 	 * Collects the table column metadata.
-	 * @param COciTableSchema the table metadata
+	 * @param COciTableSchema $table the table metadata
 	 * @return boolean whether the table exists in the database
 	 */
 	protected function findColumns($table)
@@ -191,7 +192,7 @@ EOD;
 
 	/**
 	 * Creates a table column.
-	 * @param array column metadata
+	 * @param array $column column metadata
 	 * @return CDbColumnSchema normalized column metadata
 	 */
 	protected function createColumn($column)
@@ -209,7 +210,7 @@ EOD;
 
 	/**
 	 * Collects the primary and foreign key column details for the given table.
-	 * @param COciTableSchema the table metadata
+	 * @param COciTableSchema $table the table metadata
 	 */
 	protected function findConstraints($table)
 	{
@@ -242,6 +243,8 @@ EOD;
 
 	/**
 	 * Returns all table names in the database.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @return array all table names in the database.
 	 */
 	protected function findTableNames($schema='')
@@ -267,10 +270,10 @@ EOD;
 		$names=array();
 		foreach($rows as $row)
 		{
-			if($schema===$this->getDefaultSchema())
+			if($schema===$this->getDefaultSchema() || $schema==='')
 				$names[]=$row['TABLE_NAME'];
 			else
-				$names[]=$row['SCHEMA_NAME'].'.'.$row['TABLE_NAME'];
+				$names[]=$row['TABLE_SCHEMA'].'.'.$row['TABLE_NAME'];
 		}
 		return $names;
 	}

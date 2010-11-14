@@ -18,7 +18,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * In addition, if {@link imageUrl} is set, an image link will be rendered.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CLinkColumn.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CLinkColumn.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -74,8 +74,8 @@ class CLinkColumn extends CGridColumn
 	/**
 	 * Renders the data cell content.
 	 * This method renders a hyperlink in the data cell.
-	 * @param integer the row number (zero-based)
-	 * @param mixed the data associated with the row
+	 * @param integer $row the row number (zero-based)
+	 * @param mixed $data the data associated with the row
 	 */
 	protected function renderDataCellContent($row,$data)
 	{

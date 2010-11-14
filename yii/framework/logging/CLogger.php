@@ -15,7 +15,7 @@
  * various filter conditions, including log levels and log categories.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CLogger.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CLogger.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.logging
  * @since 1.0
  */
@@ -59,9 +59,9 @@ class CLogger extends CComponent
 	/**
 	 * Logs a message.
 	 * Messages logged by this method may be retrieved back via {@link getLogs}.
-	 * @param string message to be logged
-	 * @param string level of the message (e.g. 'Trace', 'Warning', 'Error'). It is case-insensitive.
-	 * @param string category of the message (e.g. 'system.web'). It is case-insensitive.
+	 * @param string $message message to be logged
+	 * @param string $level level of the message (e.g. 'Trace', 'Warning', 'Error'). It is case-insensitive.
+	 * @param string $category category of the message (e.g. 'system.web'). It is case-insensitive.
 	 * @see getLogs
 	 */
 	public function log($message,$level='info',$category='application')
@@ -88,8 +88,8 @@ class CLogger extends CComponent
 	 * Level filter and category filter are combinational, i.e., only messages
 	 * satisfying both filter conditions will be returned.
 	 *
-	 * @param string level filter
-	 * @param string category filter
+	 * @param string $levels level filter
+	 * @param string $categories category filter
 	 * @return array list of messages. Each array elements represents one message
 	 * with the following structure:
 	 * array(
@@ -117,7 +117,7 @@ class CLogger extends CComponent
 
 	/**
 	 * Filter function used by {@link getLogs}
-	 * @param array element to be filtered
+	 * @param array $value element to be filtered
 	 * @return array valid log, false if not.
 	 */
 	private function filterByCategory($value)
@@ -133,7 +133,7 @@ class CLogger extends CComponent
 
 	/**
 	 * Filter function used by {@link getLogs}
-	 * @param array element to be filtered
+	 * @param array $value element to be filtered
 	 * @return array valid log, false if not.
 	 */
 	private function filterByLevel($value)
@@ -190,9 +190,9 @@ class CLogger extends CComponent
 	 * If no filter is specified, the returned results would be an array with each element
 	 * being array($token,$category,$time).
 	 * If a filter is specified, the results would be an array of timings.
-	 * @param string token filter. Defaults to null, meaning not filtered by token.
-	 * @param string category filter. Defaults to null, meaning not filtered by category.
-	 * @param boolean whether to refresh the internal timing calculations. If false,
+	 * @param string $token token filter. Defaults to null, meaning not filtered by token.
+	 * @param string $category category filter. Defaults to null, meaning not filtered by category.
+	 * @param boolean $refresh whether to refresh the internal timing calculations. If false,
 	 * only the first time calling this method will the timings be calculated internally.
 	 * @return array the profiling results.
 	 * @since 1.0.6
@@ -264,7 +264,7 @@ class CLogger extends CComponent
 
 	/**
 	 * Raises an <code>onFlush</code> event.
-	 * @param CEvent the event parameter
+	 * @param CEvent $event the event parameter
 	 * @since 1.1.0
 	 */
 	public function onFlush($event)

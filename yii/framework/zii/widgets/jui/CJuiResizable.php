@@ -36,7 +36,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id: CJuiResizable.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CJuiResizable.php 2545 2010-10-14 13:51:43Z sebathi $
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -55,17 +55,22 @@ class CJuiResizable extends CJuiWidget
 	{
 		parent::init();
 		$id=$this->getId();
-		$this->htmlOptions['id']=$id;
+		if (isset($this->htmlOptions['id']))
+			$id = $this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$id;
+		
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
+		
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').resizable($options);");
+
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 	}
 
 	/**
 	 * Renders the close tag of the resizable element.
 	 */
-	public function run()
-	{
+	public function run(){
 		echo CHtml::closeTag($this->tagName);
 	}
 

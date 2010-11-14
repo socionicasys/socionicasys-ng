@@ -27,7 +27,7 @@
  * the validator name being "sticky".
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCodeModel.php 2416 2010-09-02 14:56:54Z qiang.xue $
+ * @version $Id: CCodeModel.php 2594 2010-11-01 15:37:35Z qiang.xue $
  * @package system.gii
  * @since 1.1.2
  */
@@ -91,8 +91,8 @@ abstract class CCodeModel extends CFormModel
 	 * Validates the template selection.
 	 * This method validates whether the user selects an existing template
 	 * and the template contains all required template files as specified in {@link requiredTemplates}.
-	 * @param string the attribute to be validated
-	 * @param array validation parameters
+	 * @param string $attribute the attribute to be validated
+	 * @param array $params validation parameters
 	 */
 	public function validateTemplate($attribute,$params)
 	{
@@ -112,7 +112,7 @@ abstract class CCodeModel extends CFormModel
 
 	/**
 	 * Checks if the named class exists (in a case sensitive manner).
-	 * @param string class name to be checked
+	 * @param string $name class name to be checked
 	 * @return boolean whether the class exists
 	 */
 	public function classExists($name)
@@ -209,7 +209,7 @@ abstract class CCodeModel extends CFormModel
 	}
 
 	/**
-	 * @param CCodeFile whether the code file should be saved
+	 * @param CCodeFile $file whether the code file should be saved
 	 */
 	public function confirmed($file)
 	{
@@ -220,8 +220,8 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * Generates the code using the specified code template file.
 	 * This method is manly used in {@link generate} to generate code.
-	 * @param string the code template file path
-	 * @param array a set of parameters to be extracted and made available in the code template
+	 * @param string $templateFile the code template file path
+	 * @param array $_params_ a set of parameters to be extracted and made available in the code template
 	 * @return string the generated code
 	 */
 	public function render($templateFile,$_params_=null)
@@ -264,8 +264,8 @@ abstract class CCodeModel extends CFormModel
 	 * The "sticky" validator.
 	 * This validator does not really validate the attributes.
 	 * It actually saves the attribute value in a file to make it sticky.
-	 * @param string the attribute to be validated
-	 * @param array the validation parameters
+	 * @param string $attribute the attribute to be validated
+	 * @param array $params the validation parameters
 	 */
 	public function sticky($attribute,$params)
 	{
@@ -317,7 +317,7 @@ abstract class CCodeModel extends CFormModel
 	 * Converts a word to its plural form.
 	 * Note that this is for English only!
 	 * For example, 'apple' will become 'apples', and 'child' will become 'children'.
-	 * @param string the word to be pluralized
+	 * @param string $name the word to be pluralized
 	 * @return string the pluralized word
 	 */
 	public function pluralize($name)
@@ -341,7 +341,7 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * Converts a class name into a HTML ID.
 	 * For example, 'PostTag' will be converted as 'post-tag'.
-	 * @param string the string to be converted
+	 * @param string $name the string to be converted
 	 * @return string the resulting ID
 	 */
 	public function class2id($name)
@@ -352,8 +352,8 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * Converts a class name into space-separated words.
 	 * For example, 'PostTag' will be converted as 'Post Tag'.
-	 * @param string the string to be converted
-	 * @param boolean whether to capitalize the first letter in each word
+	 * @param string $name the string to be converted
+	 * @param boolean $ucwords whether to capitalize the first letter in each word
 	 * @return string the resulting words
 	 */
 	public function class2name($name,$ucwords=true)
@@ -365,7 +365,7 @@ abstract class CCodeModel extends CFormModel
 	/**
 	 * Converts a class name into a variable name with the first letter in lower case.
 	 * This method is provided because lcfirst() PHP function is only available for PHP 5.3+.
-	 * @param string the class name
+	 * @param string $name the class name
 	 * @return string the variable name converted from the class name
 	 * @since 1.1.4
 	 */
@@ -373,5 +373,93 @@ abstract class CCodeModel extends CFormModel
 	{
 		$name[0]=strtolower($name[0]);
 		return $name;
+	}
+
+	/**
+	 * Validates an attribute to make sure it is not taking a PHP reserved keyword.
+	 * @param string $attribute the attribute to be validated
+	 * @param array $params validation parameters
+	 */
+	public function validateReservedWord($attribute,$params)
+	{
+		static $keywords=array(
+			'__CLASS__',
+			'__DIR__',
+			'__FILE__',
+			'__FUNCTION__',
+			'__LINE__',
+			'__METHOD__',
+			'__NAMESPACE__',
+			'abstract',
+			'and',
+			'array',
+			'as',
+			'break',
+			'case',
+			'catch',
+			'cfunction',
+			'class',
+			'clone',
+			'const',
+			'continue',
+			'declare',
+			'default',
+			'die',
+			'do',
+			'echo',
+			'else',
+			'elseif',
+			'empty',
+			'enddeclare',
+			'endfor',
+			'endforeach',
+			'endif',
+			'endswitch',
+			'endwhile',
+			'eval',
+			'exception',
+			'exit',
+			'extends',
+			'final',
+			'final',
+			'for',
+			'foreach',
+			'function',
+			'global',
+			'goto',
+			'if',
+			'implements',
+			'include',
+			'include_once',
+			'instanceof',
+			'interface',
+			'isset',
+			'list',
+			'namespace',
+			'new',
+			'old_function',
+			'or',
+			'php_user_filter',
+			'print',
+			'private',
+			'protected',
+			'public',
+			'require',
+			'require_once',
+			'return',
+			'static',
+			'switch',
+			'this',
+			'throw',
+			'try',
+			'unset',
+			'use',
+			'var',
+			'while',
+			'xor',
+		);
+		$value=$this->$attribute;
+		if(in_array($value,$keywords))
+			$this->addError($attribute, $this->getAttributeLabel($attribute).' cannot take a reserved PHP keyword.');
 	}
 }

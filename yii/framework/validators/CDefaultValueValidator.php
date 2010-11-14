@@ -14,7 +14,7 @@
  * specifying attribute default values in a dynamic way.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDefaultValueValidator.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CDefaultValueValidator.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.validators
  * @since 1.0.2
  */
@@ -33,8 +33,8 @@ class CDefaultValueValidator extends CValidator
 
 	/**
 	 * Validates the attribute of the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{

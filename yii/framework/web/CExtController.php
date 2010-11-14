@@ -17,7 +17,7 @@
  * the controller class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CExtController.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CExtController.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web
  * @since 1.0
  */
@@ -43,7 +43,7 @@ class CExtController extends CController
 	}
 
 	/**
-	 * @param string the directory containing the view files for this controller.
+	 * @param string $value the directory containing the view files for this controller.
 	 * @since 1.0.1
 	 */
 	public function setViewPath($value)

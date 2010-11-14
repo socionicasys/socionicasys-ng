@@ -15,7 +15,7 @@
  * or in FireBug console window (if {@link showInFireBug} is set true).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CWebLogRoute.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CWebLogRoute.php 2504 2010-09-26 15:44:27Z keyboard.idol@gmail.com $
  * @package system.logging
  * @since 1.0
  */
@@ -27,8 +27,15 @@ class CWebLogRoute extends CLogRoute
 	public $showInFireBug=false;
 
 	/**
+	 * @var boolean whether the log should be ignored in FireBug for ajax calls. Defaults to true.
+	 * This option should be used carefully, because an ajax call returns all output as a result data.
+	 * For example if the ajax call expects a json type result any output from the logger will cause ajax call to fail.
+	 */
+	public $ignoreAjaxInFireBug=true;
+	
+	/**
 	 * Displays the log messages.
-	 * @param array list of log messages
+	 * @param array $logs list of log messages
 	 */
 	public function processLogs($logs)
 	{
@@ -37,21 +44,24 @@ class CWebLogRoute extends CLogRoute
 
 	/**
 	 * Renders the view.
-	 * @param string the view name (file name without extension). The file is assumed to be located under framework/data/views.
-	 * @param array data to be passed to the view
+	 * @param string $view the view name (file name without extension). The file is assumed to be located under framework/data/views.
+	 * @param array $data data to be passed to the view
 	 */
 	protected function render($view,$data)
 	{
+		$app=Yii::app();
+		$isAjax=$app->getRequest()->getIsAjaxRequest();
+
 		if($this->showInFireBug)
-			$view.='-firebug';
-		else
 		{
-			$app=Yii::app();
-			if(!($app instanceof CWebApplication) || $app->getRequest()->getIsAjaxRequest())
+			if($isAjax && $this->ignoreAjaxInFireBug)
 				return;
+			$view.='-firebug';
 		}
+		else if(!($app instanceof CWebApplication) || $isAjax)
+			return;
+
 		$viewFile=YII_PATH.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.$view.'.php';
-		include(Yii::app()->findLocalizedFile($viewFile,'en'));
+		include($app->findLocalizedFile($viewFile,'en'));
 	}
 }
-

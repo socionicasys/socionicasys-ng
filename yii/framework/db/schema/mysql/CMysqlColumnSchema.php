@@ -12,7 +12,7 @@
  * CMysqlColumnSchema class describes the column meta data of a MySQL table.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMysqlColumnSchema.php 2298 2010-08-02 15:31:37Z qiang.xue $
+ * @version $Id: CMysqlColumnSchema.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.db.schema.mysql
  * @since 1.0
  */
@@ -20,7 +20,7 @@ class CMysqlColumnSchema extends CDbColumnSchema
 {
 	/**
 	 * Extracts the PHP type from DB type.
-	 * @param string DB type
+	 * @param string $dbType DB type
 	 */
 	protected function extractType($dbType)
 	{
@@ -36,6 +36,11 @@ class CMysqlColumnSchema extends CDbColumnSchema
 			$this->type='string';
 	}
 
+	/*
+	 * Extracts the default value for the column.
+	 * The value is typecasted to correct PHP type.
+	 * @param mixed $defaultValue the default value obtained from metadata
+	 */
 	protected function extractDefault($defaultValue)
 	{
 		if($this->dbType==='timestamp' && $defaultValue==='CURRENT_TIMESTAMP')
@@ -46,7 +51,7 @@ class CMysqlColumnSchema extends CDbColumnSchema
 
 	/**
 	 * Extracts size, precision and scale information from column's DB type.
-	 * @param string the column's DB type
+	 * @param string $dbType the column's DB type
 	 */
 	protected function extractLimit($dbType)
 	{

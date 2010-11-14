@@ -22,7 +22,7 @@
  * accessed via {@link CWebApplication::getRequest()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHttpRequest.php 2278 2010-07-21 14:08:46Z qiang.xue $
+ * @version $Id: CHttpRequest.php 2607 2010-11-02 20:35:59Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -104,7 +104,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Strips slashes from input data.
 	 * This method is applied when magic quotes is enabled.
-	 * @param mixed input data to be processed
+	 * @param mixed $data input data to be processed
 	 * @return mixed processed data
 	 */
 	public function stripSlashes(&$data)
@@ -116,8 +116,8 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns the named GET or POST parameter value.
 	 * If the GET or POST parameter does not exist, the second parameter to this method will be returned.
 	 * If both GET and POST contains such a named parameter, the GET parameter takes precedence.
-	 * @param string the GET parameter name
-	 * @param mixed the default parameter value if the GET parameter does not exist.
+	 * @param string $name the GET parameter name
+	 * @param mixed $defaultValue the default parameter value if the GET parameter does not exist.
 	 * @return mixed the GET parameter value
 	 * @since 1.0.4
 	 * @see getQuery
@@ -131,8 +131,8 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns the named GET parameter value.
 	 * If the GET parameter does not exist, the second parameter to this method will be returned.
-	 * @param string the GET parameter name
-	 * @param mixed the default parameter value if the GET parameter does not exist.
+	 * @param string $name the GET parameter name
+	 * @param mixed $defaultValue the default parameter value if the GET parameter does not exist.
 	 * @return mixed the GET parameter value
 	 * @since 1.0.4
 	 * @see getPost
@@ -146,8 +146,8 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Returns the named POST parameter value.
 	 * If the POST parameter does not exist, the second parameter to this method will be returned.
-	 * @param string the POST parameter name
-	 * @param mixed the default parameter value if the POST parameter does not exist.
+	 * @param string $name the POST parameter name
+	 * @param mixed $defaultValue the default parameter value if the POST parameter does not exist.
 	 * @return mixed the POST parameter value
 	 * @since 1.0.4
 	 * @see getParam
@@ -192,7 +192,7 @@ class CHttpRequest extends CApplicationComponent
 	 * The returned URL does not have an ending slash.
 	 * By default this is determined based on the user request information.
 	 * You may explicitly specify it by setting the {@link setHostInfo hostInfo} property.
-	 * @param string schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
+	 * @param string $schema schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
 	 * @return string schema and hostname part (with port number if needed) of the request URL (e.g. http://www.yiiframework.com)
 	 * @see setHostInfo
 	 */
@@ -237,7 +237,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the schema and host part of the application URL.
 	 * This setter is provided in case the schema and hostname cannot be determined
 	 * on certain Web servers.
-	 * @param string the schema and host part of the application URL.
+	 * @param string $value the schema and host part of the application URL.
 	 */
 	public function setHostInfo($value)
 	{
@@ -248,7 +248,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns the relative URL for the application.
 	 * This is similar to {@link getScriptUrl scriptUrl} except that
 	 * it does not have the script file name, and the ending slashes are stripped off.
-	 * @param boolean whether to return an absolute URL. Defaults to false, meaning returning a relative one.
+	 * @param boolean $absolute whether to return an absolute URL. Defaults to false, meaning returning a relative one.
 	 * This parameter has been available since 1.0.2.
 	 * @return string the relative URL for the application
 	 * @see setScriptUrl
@@ -264,7 +264,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the relative URL for the application.
 	 * By default the URL is determined based on the entry script URL.
 	 * This setter is provided in case you want to change this behavior.
-	 * @param string the relative URL for the application
+	 * @param string $value the relative URL for the application
 	 */
 	public function setBaseUrl($value)
 	{
@@ -301,7 +301,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the relative URL for the application entry script.
 	 * This setter is provided in case the entry script URL cannot be determined
 	 * on certain Web servers.
-	 * @param string the relative URL for the application entry script.
+	 * @param string $value the relative URL for the application entry script.
 	 */
 	public function setScriptUrl($value)
 	{
@@ -360,8 +360,13 @@ class CHttpRequest extends CApplicationComponent
 			else if(isset($_SERVER['REQUEST_URI']))
 			{
 				$this->_requestUri=$_SERVER['REQUEST_URI'];
-				if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
-					$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
+				if(isset($_SERVER['HTTP_HOST']))
+				{
+					if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
+						$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
+				}
+				else
+					$this->_requestUri=preg_replace('/^(http|https):\/\/[^\/]+/i','',$this->_requestUri);
 			}
 			else if(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
 			{
@@ -441,11 +446,11 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return string user agent
+	 * @return string user agent, null if not present
 	 */
 	public function getUserAgent()
 	{
-		return $_SERVER['HTTP_USER_AGENT'];
+		return isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:null;
 	}
 
 	/**
@@ -477,7 +482,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns information about the capabilities of user browser.
-	 * @param string the user agent to be analyzed. Defaults to null, meaning using the
+	 * @param string $userAgent the user agent to be analyzed. Defaults to null, meaning using the
 	 * current User-Agent HTTP header information.
 	 * @return array user browser capabilities.
 	 * @see http://www.php.net/manual/en/function.get-browser.php
@@ -488,11 +493,11 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return string user browser accept types
+	 * @return string user browser accept types, null if not present
 	 */
 	public function getAcceptTypes()
 	{
-		return $_SERVER['HTTP_ACCEPT'];
+		return isset($_SERVER['HTTP_ACCEPT'])?$_SERVER['HTTP_ACCEPT']:null;
 	}
 
 	private $_port;
@@ -517,7 +522,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the port to use for insecure requests.
 	 * This setter is provided in case a custom port is necessary for certain
 	 * server configurations.
-	 * @param integer port number.
+	 * @param integer $value port number.
 	 * @since 1.1.3
 	 */
 	public function setPort($value)
@@ -529,7 +534,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_securePort;
 
 	/**
-	 * Returns the port to use for insecure requests.
+	 * Returns the port to use for secure requests.
 	 * Defaults to 443, or the port specified by the server if the current
 	 * request is secure.
 	 * You may explicitly specify it by setting the {@link setSecurePort securePort} property.
@@ -548,7 +553,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Sets the port to use for secure requests.
 	 * This setter is provided in case a custom port is necessary for certain
 	 * server configurations.
-	 * @param integer port number.
+	 * @param integer $value port number.
 	 * @since 1.1.3
 	 */
 	public function setSecurePort($value)
@@ -574,10 +579,10 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Redirects the browser to the specified URL.
-	 * @param string URL to be redirected to. If the URL is a relative one, the base URL of
+	 * @param string $url URL to be redirected to. If the URL is a relative one, the base URL of
 	 * the application will be inserted at the beginning.
-	 * @param boolean whether to terminate the current application
-	 * @param integer the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
+	 * @param boolean $terminate whether to terminate the current application
+	 * @param integer $statusCode the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
 	 * for details about HTTP status code. This parameter has been available since version 1.0.4.
 	 */
 	public function redirect($url,$terminate=true,$statusCode=302)
@@ -614,10 +619,10 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Sends a file to user.
-	 * @param string file name
-	 * @param string content to be set.
-	 * @param string mime type of the content. If null, it will be guessed automatically based on the given file name.
-	 * @param boolean whether to terminate the current application after calling this method
+	 * @param string $fileName file name
+	 * @param string $content content to be set.
+	 * @param string $mimeType mime type of the content. If null, it will be guessed automatically based on the given file name.
+	 * @param boolean $terminate whether to terminate the current application after calling this method
 	 */
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
 	{
@@ -631,12 +636,20 @@ class CHttpRequest extends CApplicationComponent
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-type: $mimeType");
 		if(ini_get("output_handler")=='')
-			header('Content-Length: '.strlen($content));
+			header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
-		echo $content;
+
 		if($terminate)
-			Yii::app()->end();
+		{
+			// clean up the application first because the file downloading could take long time
+			// which may cause timeout of some resources (such as DB connection)
+			Yii::app()->end(0,false);
+			echo $content;
+			exit(0);
+		}
+		else
+			echo $content;
 	}
 
 	/**
@@ -671,7 +684,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	protected function createCsrfCookie()
 	{
-		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(rand(),true)));
+		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(mt_rand(),true)));
 		if(is_array($this->csrfCookie))
 		{
 			foreach($this->csrfCookie as $name=>$value)
@@ -685,7 +698,7 @@ class CHttpRequest extends CApplicationComponent
 	 * This is the event handler responding to {@link CApplication::onBeginRequest}.
 	 * The default implementation will compare the CSRF token obtained
 	 * from a cookie and from a POST field. If they are different, a CSRF attack is detected.
-	 * @param CEvent event parameter
+	 * @param CEvent $event event parameter
 	 * @throws CHttpException if the validation fails
 	 * @since 1.0.4
 	 */
@@ -724,7 +737,7 @@ class CHttpRequest extends CApplicationComponent
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHttpRequest.php 2278 2010-07-21 14:08:46Z qiang.xue $
+ * @version $Id: CHttpRequest.php 2607 2010-11-02 20:35:59Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -735,7 +748,7 @@ class CCookieCollection extends CMap
 
 	/**
 	 * Constructor.
-	 * @param CHttpRequest owner of this collection.
+	 * @param CHttpRequest $request owner of this collection.
 	 */
 	public function __construct(CHttpRequest $request)
 	{
@@ -776,11 +789,11 @@ class CCookieCollection extends CMap
 	}
 
 	/**
-	 * Inserts an item at the specified position.
+	 * Adds a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
 	 * operations for each newly added CHttpCookie object.
-	 * @param integer the specified position.
-	 * @param mixed new item
+	 * @param mixed $name Cookie name.
+	 * @param CHttpCookie $cookie Cookie object.
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
 	public function add($name,$cookie)
@@ -797,11 +810,11 @@ class CCookieCollection extends CMap
 	}
 
 	/**
-	 * Removes an item at the specified position.
+	 * Removes a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
-	 * cleanup work when removing a TCookie object.
-	 * @param integer the index of the item to be removed.
-	 * @return mixed the removed item.
+	 * cleanup work when removing a CHttpCookie object.
+	 * @param mixed $name Cookie name.
+	 * @return CHttpCookie The removed cookie object.
 	 */
 	public function remove($name)
 	{
@@ -815,7 +828,7 @@ class CCookieCollection extends CMap
 
 	/**
 	 * Sends a cookie.
-	 * @param CHttpCookie cook to be sent
+	 * @param CHttpCookie $cookie cook to be sent
 	 */
 	protected function addCookie($cookie)
 	{
@@ -830,7 +843,7 @@ class CCookieCollection extends CMap
 
 	/**
 	 * Deletes a cookie.
-	 * @param CHttpCookie cook to be deleted
+	 * @param CHttpCookie $cookie cook to be deleted
 	 */
 	protected function removeCookie($cookie)
 	{
