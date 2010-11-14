@@ -9,6 +9,10 @@ class SiteController extends Controller
 	{
 		return array(
 			'rights + fileManager, browse',
+			array(
+				'COutputCache + sitemap',
+				'duration' => 86400,
+			),
 		);
 	}
 	

@@ -13,6 +13,12 @@ class LibraryController extends Controller
 			array(
 				'SpaceFixer',
 			),
+			array(
+				'COutputCache + view, list',
+				'duration' => 86400,
+				'varyByRoute' => true,
+				'varyByParam' => array('type', 'title'),
+			),
 		);
 	}
 	
@@ -58,9 +64,9 @@ class LibraryController extends Controller
 			));
 		}
 		
-		$this->renderPartial('item-links', array(
+		return $this->renderPartial('item-links', array(
 			'links' => $links,
-		));
+		), true);
 	}
 	
 	public function actionList($type)
@@ -110,9 +116,9 @@ class LibraryController extends Controller
 			));
 		}
 		
-		$this->renderPartial('list-links', array(
+		return $this->renderPartial('list-links', array(
 			'links' => $links,
-		));
+		), true);
 	}
 	
 	public function actionCreate($type)
@@ -158,7 +164,6 @@ class LibraryController extends Controller
 			$model->attributes = $_POST[$modelClass];
 			if ($model->save())
 			{
-				Yii::app()->cache->delete("model-library-$type-$title");
 				$this->redirect(array(
 					'view',
 					'type' => $type,
@@ -182,7 +187,6 @@ class LibraryController extends Controller
 			if (isset($_POST['delete']))
 			{
 				$model->delete();
-				Yii::app()->cache->delete("model-library-$type-$title");
 				$this->redirect(isset($_POST['returnUrl']) ?
 					$_POST['returnUrl'] :
 					array('list', 'type' => $type)

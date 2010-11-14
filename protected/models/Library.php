@@ -37,6 +37,15 @@ class Library extends CActiveRecord
 	{
 		return '{{library}}';
 	}
+
+	public function behaviors()
+	{
+		return array(
+			'purge' => array(
+				'class' => 'PurgeModelCache',
+			),
+		);
+	}
 	
 	/**
 	 * Перекрываем метод для заполнения результатов findAll() и подобных
