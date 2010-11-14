@@ -9,6 +9,7 @@
  * @property string $page
  * @property string $model_class
  * @property integer $model_id
+ * @property string $path
  *
  * The followings are the available model relations:
  */
