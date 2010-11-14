@@ -86,27 +86,27 @@ class PageController extends Controller
 			$this->pageTitle = Yii::app()->name;
 		}
 		
-		if ($page->meta_description !== null)
+		if ($model->meta_description !== null)
 		{
-			$this->pageDescription = $page->meta_description;
+			$this->pageDescription = $model->meta_description;
 		}
-		if ($page->meta_keywords !== null)
+		if ($model->meta_keywords !== null)
 		{
-			$this->pageKeywords = $page->meta_keywords;
+			$this->pageKeywords = $model->meta_keywords;
 		}
 
 		$prevLink = null;
 		$nextLink = null;
-		if (!$page->standalone)
+		if (!$model->standalone)
 		{
-			if ($page->type != Nav::TYPE_SECTION)
+			if ($model->type != Nav::TYPE_SECTION)
 			{
-				$section = $page->ancestors()->find(array(
+				$section = $model->ancestors()->find(array(
 					'condition' => 'type = ' . Nav::TYPE_SECTION,
 					'order' => 'level DESC',
 				));
 				$prevPage = Nav::model()->find(array(
-					'condition' => 'lft < ' . $page->lft,
+					'condition' => 'lft < ' . $model->lft,
 					'order' => 'lft DESC',
 				));
 				if ($prevPage !== null && !($prevPage->isDescendantOf($section) || $prevPage->equals($section)))
@@ -116,11 +116,11 @@ class PageController extends Controller
 			}
 			else
 			{
-				$section = $page;
+				$section = $model;
 				$prevPage = null;
 			}
 			$nextPage = Nav::model()->find(array(
-				'condition' => 'lft > ' . $page->lft,
+				'condition' => 'lft > ' . $model->lft,
 				'order' => 'lft ASC',
 			));
 			if ($nextPage !== null && !($nextPage->isDescendantOf($section) || $nextPage->equals($section)))
@@ -151,7 +151,7 @@ class PageController extends Controller
 		}
 		$this->render('view', array(
 			'model' => $model,
-			'standalone' => $page->standalone,
+			'standalone' => $model->standalone,
 			'prevLink' => $prevLink,
 			'nextLink' => $nextLink,
 		));
@@ -192,23 +192,6 @@ class PageController extends Controller
 		{
 			return '';
 		}
-		
-		Yii::app()->clientScript->registerScriptFile(
-			Yii::app()->baseUrl . '/scripts/hyphenate.js'
-		);
-		if ($page->wide_layout)
-		{
-			$this->layout = '//layouts/article-wide';
-		}
-		else
-		{
-			$this->layout = '//layouts/article';
-		}
-		$this->render('view', array(
-			'text' => $page->text,
-			'links' => $links,
-			'pageControls' => $pageControls,
-		));
 	}
 	
 	public function actionCreate($id = null)
