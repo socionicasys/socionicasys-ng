@@ -5,7 +5,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
+ * @version $Id: jquery.yii.js 2505 2010-09-27 11:51:46Z mdomba $
  */
 
 ;(function($) {

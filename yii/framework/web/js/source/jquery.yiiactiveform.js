@@ -5,14 +5,14 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
+ * @version $Id: jquery.yiiactiveform.js 2597 2010-11-01 21:17:02Z qiang.xue $
  * @since 1.1.1
  */
 
 ;(function($) {
 	/**
 	 * yiiactiveform set function.
-	 * @param options map  settings for the active form plugin. Please see {@link CActiveForm::options} for availablel options.
+	 * @param options map settings for the active form plugin. Please see {@link CActiveForm::options} for availablel options.
 	 */
 	$.fn.yiiactiveform = function(options) {
 		return this.each(function() {
@@ -137,6 +137,54 @@
 					return false;
 				});
 			}
+
+			/*
+			 * In case of reseting the form we need to reset error messages
+			 * NOTE1: $form.reset - does not exist
+			 * NOTE2: $form.live('reset',...) does not work
+			 */
+			$form.bind('reset',function(){
+				/*
+				 * because we bind directly to a form reset event, not to a reset button (that could or could not exist),
+				 * when this function is executed form elements values have not been reset yet,
+				 * because of that we use the setTimeout
+				 */
+				setTimeout(function(){
+					$.each(settings.attributes, function(i, attribute){
+						attribute.status = 0;
+						var $error = $('#'+attribute.errorID);
+						var $container = $.fn.yiiactiveform.getInputContainer(attribute);
+
+						$container
+							.removeClass(attribute.validatingCssClass)
+							.removeClass(attribute.errorCssClass)
+							.removeClass(attribute.successCssClass);
+
+						$error.html('').hide();
+
+						/*
+						 * without the setTimeout() call val() would return the entered value instead of the reseted value
+						 */
+						attribute.value = $('#'+attribute.inputID).val();
+
+						/*
+						 * If the form is submited (non ajax) with errors, labels and input gets the class 'error'
+						 */
+						$('label,input',$form).each(function(){
+							$(this).removeClass('error');
+						});
+					});
+					$('#'+settings.summaryID+' ul').html('');
+					$('#'+settings.summaryID).hide();
+					//.. set to initial focus on reset
+					if(settings.focus != undefined && !window.location.hash)
+						$(settings.focus).focus();
+				},1);
+			});
+
+			/*
+			 * set to initial focus
+			 */
 			if(settings.focus != undefined && !window.location.hash)
 				$(settings.focus).focus();
 		});
@@ -264,6 +312,8 @@
 		/**
 		 * list of attributes to be validated. Each array element is of the following structure:
 		 * {
+		 *     model : 'ModelClass', // the model class name
+		 *     name : 'name', // attribute name
 		 *     inputID : 'input-tag-id',
 		 *     errorID : 'error-tag-id',
 		 *     value : undefined,

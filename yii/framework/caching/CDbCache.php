@@ -23,7 +23,7 @@
  * See {@link CCache} manual for common cache operations that are supported by CDbCache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbCache.php 2567 2010-10-22 18:10:54Z qiang.xue $
  * @package system.caching
  * @since 1.0
  */
@@ -59,16 +59,6 @@ class CDbCache extends CCache
 	private $_db;
 	private $_gcProbability=100;
 	private $_gced=false;
-
-	/**
-	 * Destructor.
-	 * Disconnect the db connection.
-	 */
-	public function __destruct()
-	{
-		if($this->_db!==null)
-			$this->_db->setActive(false);
-	}
 
 	/**
 	 * Initializes this application component.
@@ -292,9 +282,11 @@ EOD;
 
 	/**
 	 * Deletes all values from cache.
-	 * Be careful of performing this operation if the cache is shared by multiple applications.
+	 * This is the implementation of the method declared in the parent class.
+	 * @return boolean whether the flush operation was successful.
+	 * @since 1.1.5
 	 */
-	public function flush()
+	protected function flushValues()
 	{
 		$this->getDbConnection()->createCommand("DELETE FROM {$this->cacheTableName}")->execute();
 		return true;

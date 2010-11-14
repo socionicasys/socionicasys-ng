@@ -12,7 +12,7 @@
 /**
  * CNumberFormatter provides number localization functionalities.
  *
- * CNumberFormatter formats a number (integer or double) and outputs a string
+ * CNumberFormatter formats a number (integer or float) and outputs a string
  * based on the specified format. A CNumberFormatter instance is associated with a locale,
  * and thus generates the string representation of the number in a locale-dependent fashion.
  *
@@ -54,7 +54,7 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CNumberFormatter.php 2572 2010-10-26 00:26:40Z qiang.xue $
  * @package system.i18n
  * @since 1.0
  */

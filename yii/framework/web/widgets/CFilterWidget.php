@@ -21,7 +21,7 @@
  * CFilterWidget provides all properties and methods of {@link CWidget} and {@link CFilter}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CFilterWidget.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.widgets
  * @since 1.0
  */

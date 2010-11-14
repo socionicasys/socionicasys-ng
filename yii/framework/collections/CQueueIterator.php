@@ -14,7 +14,7 @@
  * It allows CQueue to return a new iterator for traversing the items in the queue.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CQueueIterator.php 2499 2010-09-23 14:14:20Z mdomba $
  * @package system.collections
  * @since 1.0
  */

@@ -24,7 +24,7 @@
  * the {@link setBasePath basePath}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CAssetManager.php 2599 2010-11-01 23:19:19Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -34,6 +34,25 @@ class CAssetManager extends CApplicationComponent
 	 * Default web accessible base path for storing private files
 	 */
 	const DEFAULT_BASEPATH='assets';
+	/**
+	 * @var boolean whether to use symbolic link to publish asset files. Defaults to false, meaning
+	 * asset files are copied to public folders. Using symbolic links has the benefit that the published
+	 * assets will always be consistent with the source assets. This is especially useful during development.
+	 *
+	 * However, there are special requirements for hosting environments in order to use symbolic links.
+	 * In particular, symbolic links are supported only on Linux/Unix, and Windows Vista/2008 or greater.
+	 * The latter requires PHP 5.3 or greater.
+	 *
+	 * Moreover, some Web servers need to be properly configured so that the linked assets are accessible
+	 * to Web users. For example, for Apache Web server, the following configuration directive should be added
+	 * for the Web folder:
+	 * <pre>
+	 * Options FollowSymLinks
+	 * </pre>
+	 *
+	 * @since 1.1.5
+	 */
+	public $linkAssets=false;
 	/**
 	 * @var string base web accessible path for storing private files
 	 */
@@ -137,7 +156,12 @@ class CAssetManager extends CApplicationComponent
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
 
-				if(@filemtime($dstFile)<@filemtime($src) || $forceCopy)
+				if($this->linkAssets)
+				{
+					if(!is_file($dstFile))
+						symlink($src,$dstFile);
+				}
+				else if(@filemtime($dstFile)<@filemtime($src) || $forceCopy)
 				{
 					if(!is_dir($dstDir))
 					{
@@ -154,7 +178,12 @@ class CAssetManager extends CApplicationComponent
 				$dir=$this->hash($hashByName ? basename($src) : $src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 
-				if(!is_dir($dstDir) || $forceCopy)
+				if($this->linkAssets)
+				{
+					if(!is_dir($dstDir))
+						symlink($src,$dstDir);
+				}
+				else if(!is_dir($dstDir) || $forceCopy)
 					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>array('.svn'),'level'=>$level));
 
 				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;

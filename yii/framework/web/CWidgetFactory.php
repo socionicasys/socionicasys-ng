@@ -72,7 +72,7 @@
  * normally without causing any error.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CWidgetFactory.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web
  * @since 1.1
  */

@@ -12,7 +12,7 @@
  * CDbCommandBuilder provides basic methods to create query commands for tables.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbCommandBuilder.php 2601 2010-11-02 15:08:56Z qiang.xue $
  * @package system.db.schema
  * @since 1.0
  */
@@ -113,30 +113,42 @@ class CDbCommandBuilder extends CComponent
 			$alias=$criteria->alias;
 		$alias=$this->_schema->quoteTableName($alias);
 
-		if(is_string($criteria->select) && stripos($criteria->select,'count')===0)
-			$sql="SELECT ".$criteria->select;
-		else if(!empty($criteria->group))
-			$sql="SELECT COUNT(DISTINCT {$criteria->group})";
-		else if($criteria->distinct)
+		if(!empty($this->group) || !empty($this->having))
 		{
-			if(is_array($table->primaryKey))
-			{
-				$pk=array();
-				foreach($table->primaryKey as $key)
-					$pk[]=$alias.'.'.$key;
-				$pk=implode(', ',$pk);
-			}
-			else
-				$pk=$alias.'.'.$table->primaryKey;
-			$sql="SELECT COUNT(DISTINCT $pk)";
+			$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
+			if($criteria->alias!='')
+				$alias=$criteria->alias;
+			$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." {$select} FROM {$table->rawName} $alias";
+			$sql=$this->applyJoin($sql,$criteria->join);
+			$sql=$this->applyCondition($sql,$criteria->condition);
+			$sql=$this->applyGroup($sql,$criteria->group);
+			$sql=$this->applyHaving($sql,$criteria->having);
+			$sql="SELECT COUNT(*) FROM ($sql) sq";
 		}
 		else
-			$sql="SELECT COUNT(*)";
-		$sql.=" FROM {$table->rawName} $alias";
-		$sql=$this->applyJoin($sql,$criteria->join);
-		$sql=$this->applyCondition($sql,$criteria->condition);
-		$sql=$this->applyGroup($sql,$criteria->group);
-		$sql=$this->applyHaving($sql,$criteria->having);
+		{
+			if(is_string($criteria->select) && stripos($criteria->select,'count')===0)
+				$sql="SELECT ".$criteria->select;
+			else if($criteria->distinct)
+			{
+				if(is_array($table->primaryKey))
+				{
+					$pk=array();
+					foreach($table->primaryKey as $key)
+						$pk[]=$alias.'.'.$key;
+					$pk=implode(', ',$pk);
+				}
+				else
+					$pk=$alias.'.'.$table->primaryKey;
+				$sql="SELECT COUNT(DISTINCT $pk)";
+			}
+			else
+				$sql="SELECT COUNT(*)";
+			$sql.=" FROM {$table->rawName} $alias";
+			$sql=$this->applyJoin($sql,$criteria->join);
+			$sql=$this->applyCondition($sql,$criteria->condition);
+		}
+
 		$command=$this->_connection->createCommand($sql);
 		$this->bindValues($command,$criteria->params);
 		return $command;

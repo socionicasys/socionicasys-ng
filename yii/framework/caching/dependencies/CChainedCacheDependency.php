@@ -19,7 +19,7 @@
  * (see {@link CList} for more details}).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CChainedCacheDependency.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.caching.dependencies
  * @since 1.0
  */

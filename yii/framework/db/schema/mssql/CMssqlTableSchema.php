@@ -14,7 +14,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
- * @version $Id$
+ * @version $Id: CMssqlTableSchema.php 1678 2010-01-07 21:02:00Z qiang.xue $
  * @package system.db.schema.mssql
  * @since 1.0.4
  */

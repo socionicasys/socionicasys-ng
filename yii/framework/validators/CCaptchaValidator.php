@@ -14,7 +14,7 @@
  * CCaptchaValidator should be used together with {@link CCaptchaAction}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CCaptchaValidator.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.validators
  * @since 1.0
  */

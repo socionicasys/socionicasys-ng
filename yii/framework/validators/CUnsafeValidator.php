@@ -12,7 +12,7 @@
  * CUnsafeValidator marks the associated attributes to be unsafe so that they cannot be massively assigned.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CUnsafeValidator.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.validators
  * @since 1.0
  */

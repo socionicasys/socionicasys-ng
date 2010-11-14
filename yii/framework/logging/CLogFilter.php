@@ -19,7 +19,7 @@
  * issues encountered.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CLogFilter.php 2499 2010-09-23 14:14:20Z mdomba $
  * @package system.logging
  * @since 1.0.6
  */

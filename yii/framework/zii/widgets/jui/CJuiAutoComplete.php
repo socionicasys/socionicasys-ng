@@ -23,7 +23,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *     'source'=>array('ac1', 'ac2', 'ac3'),
  *     // additional javascript options for the autocomplete plugin
  *     'options'=>array(
- *         'showAnim'=>'fold',
+ *         'minLength'=>'2',
  *     ),
  *     'htmlOptions'=>array(
  *         'style'=>'height:20px;'
@@ -42,7 +42,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * autocomplete items from an ajax response.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
+ * @version $Id: CJuiAutoComplete.php 2544 2010-10-14 08:59:20Z alexander.makarow $
  * @package zii.widgets.jui
  * @since 1.1.2
  */
@@ -79,8 +79,6 @@ class CJuiAutoComplete extends CJuiInputWidget
 
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
-		else
-			$this->htmlOptions['name']=$name;
 
 		if($this->hasModel())
 			echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);

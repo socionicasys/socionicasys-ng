@@ -23,7 +23,7 @@
  * the first letter must be a word letter.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CViewAction.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.actions
  * @since 1.0
  */

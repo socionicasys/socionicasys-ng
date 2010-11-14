@@ -20,7 +20,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * and customize the display order of the buttons.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CButtonColumn.php 2626 2010-11-07 04:02:50Z qiang.xue $
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -235,7 +235,8 @@ EOD;
 			if(isset($button['click']))
 			{
 				$function=CJavaScript::encode($button['click']);
-				$js[]="jQuery('#{$this->grid->id} a.{$button['options']['class']}').live('click',$function);";
+				$class=preg_replace('/\s+/','.',$button['options']['class']);
+				$js[]="jQuery('#{$this->grid->id} a.{$class}').live('click',$function);";
 			}
 		}
 

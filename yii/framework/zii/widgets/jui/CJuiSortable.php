@@ -40,7 +40,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * start of the js code definition and Yii will use this string as js code.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
+ * @version $Id: CJuiSortable.php 2545 2010-10-14 13:51:43Z sebathi $
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -69,7 +69,10 @@ class CJuiSortable extends CJuiWidget
 	public function run()
 	{
 		$id=$this->getId();
-		$this->htmlOptions['id']=$id;
+		if (isset($this->htmlOptions['id']))
+			$id = $this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$id;
 
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').sortable({$options});");

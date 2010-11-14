@@ -17,7 +17,7 @@
  * the same as the one evaluated when storing the data to cache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CExpressionDependency.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.caching.dependencies
  * @since 1.0
  */

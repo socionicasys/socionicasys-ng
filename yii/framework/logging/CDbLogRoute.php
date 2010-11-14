@@ -18,7 +18,7 @@
  * and used under the application runtime directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbLogRoute.php 2567 2010-10-22 18:10:54Z qiang.xue $
  * @package system.logging
  * @since 1.0
  */
@@ -58,16 +58,6 @@ class CDbLogRoute extends CLogRoute
 	 * @var CDbConnection the DB connection instance
 	 */
 	private $_db;
-
-	/**
-	 * Destructor.
-	 * Disconnect the db connection.
-	 */
-	public function __destruct()
-	{
-		if($this->_db!==null)
-			$this->_db->setActive(false);
-	}
 
 	/**
 	 * Initializes the route.

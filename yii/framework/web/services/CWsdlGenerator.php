@@ -76,7 +76,7 @@
  * a primitive type, CWsdlGenerator will look further to find the definition of 'Member'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CWsdlGenerator.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.services
  * @since 1.0
  */

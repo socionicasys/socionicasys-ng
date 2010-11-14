@@ -63,7 +63,7 @@ Yii::import('system.gii.CCodeForm');
  * http://localhost/path/to/index.php/gii
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: GiiModule.php 2584 2010-10-29 20:27:32Z qiang.xue $
  * @package system.gii
  * @since 1.1.2
  */
@@ -115,6 +115,7 @@ class GiiModule extends CWebModule
 		parent::init();
 		Yii::app()->setComponents(array(
 			'errorHandler'=>array(
+				'class'=>'CErrorHandler',
 				'errorAction'=>'gii/default/error',
 			),
 			'user'=>array(
@@ -122,7 +123,7 @@ class GiiModule extends CWebModule
 				'stateKeyPrefix'=>'gii',
 				'loginUrl'=>Yii::app()->createUrl('gii/default/login'),
 			),
-		));
+		), false);
 		$this->generatorPaths[]='gii.generators';
 		$this->controllerMap=$this->findGenerators();
 	}

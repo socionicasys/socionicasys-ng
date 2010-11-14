@@ -46,7 +46,7 @@
  * the application will switch to its error handling logic and jump to step 6 afterwards.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CApplication.php 2623 2010-11-06 03:20:01Z qiang.xue $
  * @package system.base
  * @since 1.0
  */
@@ -142,12 +142,15 @@ abstract class CApplication extends CModule
 	 * This method replaces PHP's exit() function by calling
 	 * {@link onEndRequest} before exiting.
 	 * @param integer $status exit status (value 0 means normal exit while other values mean abnormal exit).
+	 * @param boolean $exit whether to exit the current request. This parameter has been available since version 1.1.5.
+	 * It defaults to true, meaning the PHP's exit() function will be called at the end of this method.
 	 */
-	public function end($status=0)
+	public function end($status=0, $exit=true)
 	{
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
-		exit($status);
+		if($exit)
+			exit($status);
 	}
 
 	/**
@@ -173,7 +176,8 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * @return string a unique identifier for the application.
+	 * Returns the unique identifier for the application.
+	 * @return string the unique identifier for the application.
 	 */
 	public function getId()
 	{
@@ -184,7 +188,8 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * @param string $id a unique identifier for the application.
+	 * Sets the unique identifier for the application.
+	 * @param string $id the unique identifier for the application.
 	 */
 	public function setId($id)
 	{
@@ -192,6 +197,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the root path of the application.
 	 * @return string the root directory of the application. Defaults to 'protected'.
 	 */
 	public function getBasePath()
@@ -213,6 +219,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the directory that stores runtime files.
 	 * @return string the directory that stores runtime files. Defaults to 'protected/runtime'.
 	 */
 	public function getRuntimePath()
@@ -227,6 +234,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Sets the directory that stores runtime files.
 	 * @param string $path the directory that stores runtime files.
 	 * @throws CException if the directory does not exist or is not writable
 	 */
@@ -248,6 +256,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Sets the root directory that holds all third-party extensions.
 	 * @param string $path the directory that contains all third-party extensions.
 	 */
 	public function setExtensionPath($path)
@@ -259,6 +268,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the language that the user is using and the application should be targeted to.
 	 * @return string the language that the user is using and the application should be targeted to.
 	 * Defaults to the {@link sourceLanguage source language}.
 	 */
@@ -339,7 +349,8 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * @param string $localeID locale ID (e.g. en_US). If null, the {@link getLanguage application language ID} will be used.
+	 * Returns the locale instance.
+	 * @param string $localeID the locale ID (e.g. en_US). If null, the {@link getLanguage application language ID} will be used.
 	 * @return CLocale the locale instance
 	 */
 	public function getLocale($localeID=null)
@@ -348,6 +359,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the directory that contains the locale data.
 	 * @return string the directory that contains the locale data. It defaults to 'framework/i18n/data'.
 	 * @since 1.1.0
 	 */
@@ -357,6 +369,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Sets the directory that contains the locale data.
 	 * @param string $value the directory that contains the locale data.
 	 * @since 1.1.0
 	 */
@@ -375,6 +388,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the locale-dependent date formatter.
 	 * @return CDateFormatter the locale-dependent date formatter.
 	 * The current {@link getLocale application locale} will be used.
 	 */
@@ -384,6 +398,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the database connection component.
 	 * @return CDbConnection the database connection
 	 */
 	public function getDb()
@@ -392,6 +407,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the error handler component.
 	 * @return CErrorHandler the error handler application component.
 	 */
 	public function getErrorHandler()
@@ -400,6 +416,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the security manager component.
 	 * @return CSecurityManager the security manager application component.
 	 */
 	public function getSecurityManager()
@@ -408,6 +425,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the state persister component.
 	 * @return CStatePersister the state persister application component.
 	 */
 	public function getStatePersister()
@@ -416,6 +434,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the cache component.
 	 * @return CCache the cache application component. Null if the component is not enabled.
 	 */
 	public function getCache()
@@ -424,6 +443,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the core message translations component.
 	 * @return CPhpMessageSource the core message translations
 	 */
 	public function getCoreMessages()
@@ -432,6 +452,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the application message translations component.
 	 * @return CMessageSource the application message translations
 	 */
 	public function getMessages()
@@ -440,6 +461,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the request component.
 	 * @return CHttpRequest the request component
 	 */
 	public function getRequest()
@@ -448,6 +470,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the URL manager component.
 	 * @return CUrlManager the URL manager component
 	 */
 	public function getUrlManager()
@@ -488,11 +511,24 @@ abstract class CApplication extends CModule
 	{
 		if($this->_globalState===null)
 			$this->loadGlobalState();
-		$this->_stateChanged=true;
+
+		$changed=$this->_stateChanged;
 		if($value===$defaultValue)
-			unset($this->_globalState[$key]);
-		else
+		{
+			if(isset($this->_globalState[$key]))
+			{
+				unset($this->_globalState[$key]);
+				$this->_stateChanged=true;
+			}
+		}
+		else if(!isset($this->_globalState[$key]) || $this->_globalState[$key]!==$value)
+		{
 			$this->_globalState[$key]=$value;
+			$this->_stateChanged=true;
+		}
+
+		if($this->_stateChanged!==$changed)
+			$this->attachEventHandler('onEndRequest',array($this,'saveGlobalState'));
 	}
 
 	/**
@@ -503,13 +539,7 @@ abstract class CApplication extends CModule
 	 */
 	public function clearGlobalState($key)
 	{
-		if($this->_globalState===null)
-			$this->loadGlobalState();
-		if(isset($this->_globalState[$key]))
-		{
-			$this->_stateChanged=true;
-			unset($this->_globalState[$key]);
-		}
+		$this->setGlobalState($key,true,true);
 	}
 
 	/**
@@ -517,13 +547,13 @@ abstract class CApplication extends CModule
 	 * @see getStatePersister
 	 * @throws CException if the state persister is not available
 	 */
-	protected function loadGlobalState()
+	public function loadGlobalState()
 	{
 		$persister=$this->getStatePersister();
 		if(($this->_globalState=$persister->load())===null)
 			$this->_globalState=array();
 		$this->_stateChanged=false;
-		$this->attachEventHandler('onEndRequest',array($this,'saveGlobalState'));
+		$this->detachEventHandler('onEndRequest',array($this,'saveGlobalState'));
 	}
 
 	/**
@@ -531,13 +561,13 @@ abstract class CApplication extends CModule
 	 * @see getStatePersister
 	 * @throws CException if the state persister is not available
 	 */
-	protected function saveGlobalState()
+	public function saveGlobalState()
 	{
 		if($this->_stateChanged)
 		{
-			$persister=$this->getStatePersister();
 			$this->_stateChanged=false;
-			$persister->save($this->_globalState);
+			$this->detachEventHandler('onEndRequest',array($this,'saveGlobalState'));
+			$this->getStatePersister()->save($this->_globalState);
 		}
 	}
 
@@ -587,7 +617,23 @@ abstract class CApplication extends CModule
 		{
 			$this->displayException($e);
 		}
-		$this->end(1);
+
+		try
+		{
+			$this->end(1);
+		}
+		catch(Exception $e)
+		{
+			// use the most primitive way to log error
+			$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+			$msg .= $e->getTraceAsString()."\n";
+			$msg .= "Previous exception:\n";
+			$msg .= get_class($exception).': '.$exception->getMessage().' ('.$exception->getFile().':'.$exception->getLine().")\n";
+			$msg .= $exception->getTraceAsString()."\n";
+			$msg .= '$_SERVER='.var_export($_SERVER,true);
+			error_log($msg);
+			exit(1);
+		}
 	}
 
 	/**
@@ -655,7 +701,22 @@ abstract class CApplication extends CModule
 			{
 				$this->displayException($e);
 			}
-			$this->end(1);
+
+			try
+			{
+				$this->end(1);
+			}
+			catch(Exception $e)
+			{
+				// use the most primitive way to log error
+				$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+				$msg .= $e->getTraceAsString()."\n";
+				$msg .= "Previous error:\n";
+				$msg .= $log."\n";
+				$msg .= '$_SERVER='.var_export($_SERVER,true);
+				error_log($msg);
+				exit(1);
+			}
 		}
 	}
 

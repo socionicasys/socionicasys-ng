@@ -12,7 +12,7 @@
  * CDbSchema is the base class for retrieving metadata information.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbSchema.php 2573 2010-10-26 00:35:09Z qiang.xue $
  * @package system.db.schema
  * @since 1.0
  */
@@ -94,7 +94,10 @@ abstract class CDbSchema extends CComponent
 	{
 		$tables=array();
 		foreach($this->getTableNames($schema) as $name)
-			$tables[$name]=$this->getTable($name);
+		{
+			if(($table=$this->getTable($name))!==null)
+				$tables[$name]=$table;
+		}
 		return $tables;
 	}
 

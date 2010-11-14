@@ -17,7 +17,7 @@
  * (see {@link http://digitalbush.com/projects/masked-input-plugin}).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CMaskedTextField.php 2544 2010-10-14 08:59:20Z alexander.makarow $
  * @package system.web.widgets
  * @since 1.0
  */
@@ -63,8 +63,6 @@ class CMaskedTextField extends CInputWidget
 			$this->htmlOptions['id']=$id;
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
-		else
-			$this->htmlOptions['name']=$name;
 
 		$this->registerClientScript();
 

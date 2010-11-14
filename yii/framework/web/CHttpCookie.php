@@ -12,7 +12,7 @@
  * A CHttpCookie instance stores a single cookie, including the cookie name, value, domain, path, expire, and secure.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CHttpCookie.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web
  * @since 1.0
  */

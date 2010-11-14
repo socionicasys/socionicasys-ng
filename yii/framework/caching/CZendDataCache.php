@@ -17,7 +17,7 @@
  * See {@link CCache} manual for common cache operations that are supported by CZendDataCache.
  *
  * @author Steffen Dietz <steffo.dietz[at]googlemail[dot]com>
- * @version $Id$
+ * @version $Id: CZendDataCache.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.caching
  * @since 1.0.4
  */
@@ -89,10 +89,12 @@ class CZendDataCache extends CCache
 
 	/**
 	 * Deletes all values from cache.
-	 * Be careful of performing this operation if the cache is shared by multiple applications.
+	 * This is the implementation of the method declared in the parent class.
+	 * @return boolean whether the flush operation was successful.
+	 * @since 1.1.5
 	 */
-	public function flush()
+	protected function flushValues()
 	{
-		zend_shm_cache_clear();
+		return zend_shm_cache_clear();
 	}
 }

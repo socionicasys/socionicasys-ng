@@ -22,7 +22,7 @@
  * accessed via {@link CWebApplication::getRequest()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CHttpRequest.php 2607 2010-11-02 20:35:59Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -360,8 +360,13 @@ class CHttpRequest extends CApplicationComponent
 			else if(isset($_SERVER['REQUEST_URI']))
 			{
 				$this->_requestUri=$_SERVER['REQUEST_URI'];
-				if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
-					$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
+				if(isset($_SERVER['HTTP_HOST']))
+				{
+					if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
+						$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
+				}
+				else
+					$this->_requestUri=preg_replace('/^(http|https):\/\/[^\/]+/i','',$this->_requestUri);
 			}
 			else if(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
 			{
@@ -529,7 +534,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_securePort;
 
 	/**
-	 * Returns the port to use for insecure requests.
+	 * Returns the port to use for secure requests.
 	 * Defaults to 443, or the port specified by the server if the current
 	 * request is secure.
 	 * You may explicitly specify it by setting the {@link setSecurePort securePort} property.
@@ -631,12 +636,20 @@ class CHttpRequest extends CApplicationComponent
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-type: $mimeType");
 		if(ini_get("output_handler")=='')
-			header('Content-Length: '.strlen($content));
+			header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
-		echo $content;
+
 		if($terminate)
-			Yii::app()->end();
+		{
+			// clean up the application first because the file downloading could take long time
+			// which may cause timeout of some resources (such as DB connection)
+			Yii::app()->end(0,false);
+			echo $content;
+			exit(0);
+		}
+		else
+			echo $content;
 	}
 
 	/**
@@ -671,7 +684,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	protected function createCsrfCookie()
 	{
-		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(rand(),true)));
+		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(mt_rand(),true)));
 		if(is_array($this->csrfCookie))
 		{
 			foreach($this->csrfCookie as $name=>$value)
@@ -724,7 +737,7 @@ class CHttpRequest extends CApplicationComponent
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CHttpRequest.php 2607 2010-11-02 20:35:59Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -776,11 +789,11 @@ class CCookieCollection extends CMap
 	}
 
 	/**
-	 * Inserts an item at the specified position.
+	 * Adds a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
 	 * operations for each newly added CHttpCookie object.
-	 * @param integer $name the specified position.
-	 * @param mixed $cookie new item
+	 * @param mixed $name Cookie name.
+	 * @param CHttpCookie $cookie Cookie object.
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
 	public function add($name,$cookie)
@@ -797,11 +810,11 @@ class CCookieCollection extends CMap
 	}
 
 	/**
-	 * Removes an item at the specified position.
+	 * Removes a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
-	 * cleanup work when removing a TCookie object.
-	 * @param integer $name the index of the item to be removed.
-	 * @return mixed the removed item.
+	 * cleanup work when removing a CHttpCookie object.
+	 * @param mixed $name Cookie name.
+	 * @return CHttpCookie The removed cookie object.
 	 */
 	public function remove($name)
 	{

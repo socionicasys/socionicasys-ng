@@ -92,7 +92,7 @@
  * {@link CWebApplication::getUrlManager()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CUrlManager.php 2561 2010-10-18 12:31:06Z mdomba $
  * @package system.web
  * @since 1.0
  */
@@ -400,6 +400,7 @@ class CUrlManager extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the base URL of the application.
 	 * @return string the base URL of the application (the part after host name and before query string).
 	 * If {@link showScriptName} is true, it will include the script name part.
 	 * Otherwise, it will not, and the ending slashes are stripped off.
@@ -432,6 +433,7 @@ class CUrlManager extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the URL format.
 	 * @return string the URL format. Defaults to 'path'. Valid values include 'path' and 'get'.
 	 * Please refer to the guide for more details about the difference between these two formats.
 	 */
@@ -441,6 +443,7 @@ class CUrlManager extends CApplicationComponent
 	}
 
 	/**
+	 * Sets the URL format.
 	 * @param string $value the URL format. It must be either 'path' or 'get'.
 	 */
 	public function setUrlFormat($value)
@@ -462,7 +465,7 @@ class CUrlManager extends CApplicationComponent
  * may have a set of named parameters.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CUrlManager.php 2561 2010-10-18 12:31:06Z mdomba $
  * @package system.web
  * @since 1.0
  */
@@ -604,7 +607,7 @@ class CUrlRule extends CComponent
 	 * @param string $route the route
 	 * @param array $params list of parameters
 	 * @param string $ampersand the token separating name-value pairs in the URL.
-	 * @return string the constructed URL
+	 * @return mixed the constructed URL or false on error
 	 */
 	public function createUrl($manager,$route,$params,$ampersand)
 	{
@@ -687,7 +690,7 @@ class CUrlRule extends CComponent
 	 * @param CHttpRequest $request the request object
 	 * @param string $pathInfo path info part of the URL
 	 * @param string $rawPathInfo path info that contains the potential URL suffix
-	 * @return string the route that consists of the controller ID and action ID
+	 * @return mixed the route that consists of the controller ID and action ID or false on error
 	 */
 	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
 	{

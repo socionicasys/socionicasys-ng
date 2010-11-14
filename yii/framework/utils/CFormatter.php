@@ -40,7 +40,7 @@
  * Therefore, one may call <code>Yii::app()->format->boolean(1)</code>.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CFormatter.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.utils
  * @since 1.1.0
  */

@@ -12,7 +12,7 @@
  * CException represents a generic exception for all purposes.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CException.php 1678 2010-01-07 21:02:00Z qiang.xue $
  * @package system.base
  * @since 1.0
  */

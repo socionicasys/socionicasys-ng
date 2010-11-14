@@ -37,7 +37,7 @@
  * the 32-bit signed integer range.
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @version $Id$
+ * @version $Id: CTimestamp.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.utils
  * @since 1.0
  */

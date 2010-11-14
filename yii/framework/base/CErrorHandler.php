@@ -48,7 +48,7 @@ Yii::import('CHtml',true);
  * {@link CApplication::getErrorHandler()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CErrorHandler.php 2526 2010-10-04 12:48:19Z mdomba $
  * @package system.base
  * @since 1.0
  */
@@ -67,7 +67,7 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	public $discardOutput=true;
 	/**
-	 * @var string the route (e.g. 'site/error') to the controller action that will be used to display external errors.
+	 * @var string the route (eg 'site/error') to the controller action that will be used to display external errors.
 	 * Inside the action, it can retrieve the error information by Yii::app()->errorHandler->error.
 	 * This property defaults to null, meaning CErrorHandler will handle the error display.
 	 * @since 1.0.6

@@ -51,7 +51,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CPagination.php 2585 2010-10-29 20:31:06Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -207,8 +207,8 @@ class CPagination extends CComponent
 	 */
 	public function applyLimit($criteria)
 	{
-		$criteria->limit=$this->pageSize;
-		$criteria->offset=$this->currentPage*$this->pageSize;
+		$criteria->limit=$this->getLimit();
+		$criteria->offset=$this->getOffset();
 	}
 
 	/**

@@ -29,7 +29,7 @@
  * </ol>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CCaptchaAction.php 2538 2010-10-13 03:12:49Z qiang.xue $
  * @package system.web.widgets.captcha
  * @since 1.0
  */
@@ -99,8 +99,6 @@ class CCaptchaAction extends CAction
 
 	/**
 	 * Runs the action.
-	 * If the GET parameter {@link wsdlVar} exists, the action will serve WSDL content;
-	 * If not, the action will handle the remote method invocation.
 	 */
 	public function run()
 	{
@@ -164,9 +162,6 @@ class CCaptchaAction extends CAction
 	 */
 	protected function generateVerifyCode()
 	{
-		if(!CCaptcha::checkGD())
-			return mt_rand(5,9);
-
 		if($this->minLength < 3)
 			$this->minLength = 3;
 		if($this->maxLength > 20)
@@ -205,13 +200,6 @@ class CCaptchaAction extends CAction
 	 */
 	protected function renderImage($code)
 	{
-		if(!CCaptcha::checkGD())
-		{
-			$num = mt_rand(1,4);
-			echo $code - $num . " + " . $num;
-			return;
-		}
-
 		$image = imagecreatetruecolor($this->width,$this->height);
 
 		$backColor = imagecolorallocate($image,

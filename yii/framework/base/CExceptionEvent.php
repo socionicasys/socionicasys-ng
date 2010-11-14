@@ -12,7 +12,7 @@
  * CExceptionEvent represents the parameter for the {@link CApplication::onException onException} event.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CExceptionEvent.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.base
  * @since 1.0
  */

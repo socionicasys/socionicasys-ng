@@ -36,7 +36,7 @@
  * You may also create a DB index for the 'expire' column in the session table to further improve the performance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbHttpSession.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web
  * @since 1.0
  */

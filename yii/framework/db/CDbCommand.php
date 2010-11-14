@@ -29,7 +29,7 @@
  * You may also call {@link prepare} to explicitly prepare an SQL statement.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbCommand.php 2625 2010-11-07 01:07:08Z qiang.xue $
  * @package system.db
  * @since 1.0
  */
@@ -183,6 +183,28 @@ class CDbCommand extends CComponent
 	}
 
 	/**
+	 * Binds a list of values to the corresponding parameters.
+	 * This is similar to {@link bindValue} except that it binds multiple values.
+	 * Note that the SQL data type of each value is determined by its PHP type.
+	 * @param array $values the values to be bound. This must be given in terms of an associative
+	 * array with array keys being the parameter names, and array values the corresponding parameter values.
+	 * For example, <code>array(':name'=>'John', ':age'=>25)</code>.
+	 * @return CDbCommand the current command being executed
+	 * @since 1.1.5
+	 */
+	public function bindValues($values)
+	{
+		$this->prepare();
+		foreach($values as $name=>$value)
+		{
+			$this->_statement->bindValue($name,$value,$this->_connection->getPdoType(gettype($value)));
+			if($this->_connection->enableParamLogging)
+				$this->_params[$name]=var_export($value,true);
+		}
+		return $this;
+	}
+
+	/**
 	 * Executes the SQL statement.
 	 * This method is meant only for executing non-query SQL statement.
 	 * No result set will be returned.
@@ -202,7 +224,7 @@ class CDbCommand extends CComponent
 			$p=array();
 			foreach($pars as $name=>$value)
 				$p[$name]=$name.'='.$value;
-			$par='. Bind with parameter ' .implode(', ',$p);
+			$par='. Bound with ' .implode(', ',$p);
 		}
 		else
 			$par='';
@@ -349,7 +371,7 @@ class CDbCommand extends CComponent
 			$p=array();
 			foreach($pars as $name=>$value)
 				$p[$name]=$name.'='.$value;
-			$par='. Bind with parameter ' .implode(', ',$p);
+			$par='. Bound with '.implode(', ',$p);
 		}
 		else
 			$par='';
@@ -357,7 +379,7 @@ class CDbCommand extends CComponent
 		try
 		{
 			if($this->_connection->enableProfiling)
-				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			$this->prepare();
 			if($params===array())
@@ -374,14 +396,14 @@ class CDbCommand extends CComponent
 			}
 
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			return $result;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',

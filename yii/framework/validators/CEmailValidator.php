@@ -12,7 +12,7 @@
  * CEmailValidator validates that the attribute value is a valid email address.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CEmailValidator.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.validators
  * @since 1.0
  */

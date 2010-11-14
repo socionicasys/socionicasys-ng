@@ -21,7 +21,7 @@
  * requests, call {@link run}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CWebService.php 2598 2010-11-01 22:57:10Z qiang.xue $
  * @package system.web.services
  * @since 1.0
  */
@@ -118,7 +118,7 @@ class CWebService extends CComponent
 	{
 		$wsdl=$this->generateWsdl();
 		header('Content-Type: text/xml;charset='.$this->encoding);
-		header('Content-Length: '.strlen($wsdl));
+		header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($wsdl,'8bit') : strlen($wsdl)));
 		echo $wsdl;
 	}
 
@@ -245,7 +245,7 @@ class CWebService extends CComponent
  * CSoapObjectWrapper is a wrapper class internally used when SoapServer::setObject() is not defined.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CWebService.php 2598 2010-11-01 22:57:10Z qiang.xue $
  * @package system.web.services
  * @since 1.0.5
  */

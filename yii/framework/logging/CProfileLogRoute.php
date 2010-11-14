@@ -21,7 +21,7 @@
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CProfileLogRoute.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.logging
  * @since 1.0
  */

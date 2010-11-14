@@ -19,7 +19,7 @@
  * before the action, and {@link postFilter()} for filtering logic after the action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CFilter.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.filters
  * @since 1.0
  */

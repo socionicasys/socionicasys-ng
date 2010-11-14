@@ -24,7 +24,7 @@
  * CStarRating allows customization of its appearance. It also supports empty rating as well as read-only rating.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CStarRating.php 2572 2010-10-26 00:26:40Z qiang.xue $
  * @package system.web.widgets
  * @since 1.0
  */
@@ -35,11 +35,11 @@ class CStarRating extends CInputWidget
 	 */
 	public $starCount=5;
 	/**
-	 * @var mixed the minimum rating allowed. This can be either an integer or a double value. Defaults to 1.
+	 * @var mixed the minimum rating allowed. This can be either an integer or a float value. Defaults to 1.
 	 */
 	public $minRating=1;
 	/**
-	 * @var mixed the maximum rating allowed. This can be either an integer or a double value. Defaults to 1.
+	 * @var mixed the maximum rating allowed. This can be either an integer or a float value. Defaults to 1.
 	 */
 	public $maxRating=10;
 	/**
@@ -108,8 +108,6 @@ class CStarRating extends CInputWidget
 			$this->htmlOptions['id']=$id;
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
-		else
-			$this->htmlOptions['name']=$name;
 
 		$this->registerClientScript($id);
 

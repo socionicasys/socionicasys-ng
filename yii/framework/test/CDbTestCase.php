@@ -32,7 +32,7 @@ Yii::import('system.test.CTestCase');
  * Note, here 'first post' refers to a key to a row in the original fixture data.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbTestCase.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.test
  * @since 1.1
  */

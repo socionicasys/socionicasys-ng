@@ -16,7 +16,7 @@
  * of the directory containing the SWF file of the Flex application.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CFlexWidget.php 1766 2010-02-01 00:27:29Z qiang.xue $
  * @package system.web.widgets
  * @since 1.0
  */

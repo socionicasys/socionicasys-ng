@@ -26,7 +26,7 @@
  * for more details.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbDataReader.php 2644 2010-11-12 13:15:29Z qiang.xue $
  * @package system.db
  * @since 1.0
  */
@@ -124,7 +124,9 @@ class CDbDataReader extends CComponent implements Iterator
 	 */
 	public function nextResult()
 	{
-		return $this->_statement->nextRowset();
+		if(($result=$this->_statement->nextRowset())!==false)
+			$this->_index=-1;
+		return $result;
 	}
 
 	/**

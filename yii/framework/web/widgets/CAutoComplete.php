@@ -17,7 +17,7 @@
  * There is {@link http://www.learningjquery.com/2010/06/autocomplete-migration-guide a good migration guide from the author of both JavaScript solutions}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CAutoComplete.php 2543 2010-10-13 22:16:27Z alexander.makarow $
  * @package system.web.widgets
  * @since 1.0
  * @deprecated in 1.1.3
@@ -209,8 +209,6 @@ class CAutoComplete extends CInputWidget
 			$this->htmlOptions['id']=$id;
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
-		else
-			$this->htmlOptions['name']=$name;
 
 		$this->registerClientScript();
 

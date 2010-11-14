@@ -43,7 +43,7 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CHtmlPurifier.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.widgets
  * @since 1.0
  */

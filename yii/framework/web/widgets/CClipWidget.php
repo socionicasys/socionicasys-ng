@@ -18,7 +18,7 @@
  * for a shortcut usage of CClipWidget.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CClipWidget.php 2201 2010-06-16 19:11:00Z alexander.makarow $
  * @package system.web.widgets
  * @since 1.0
  */

@@ -32,7 +32,7 @@
  * so that the provider knows which columns can be sorted.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CArrayDataProvider.php 2583 2010-10-29 20:17:12Z qiang.xue $
  * @package system.web
  * @since 1.1.4
  */
@@ -110,13 +110,19 @@ class CArrayDataProvider extends CDataProvider
 		if(empty($directions))
 			return;
 		$args=array();
+		$dummy=array();
 		foreach($directions as $name=>$descending)
 		{
 			$column=array();
 			foreach($this->rawData as $index=>$data)
 				$column[$index]=is_object($data) ? $data->$name : $data[$name];
-			$args[]=$column;
-			$args[]=$descending ? SORT_DESC : SORT_ASC;
+			$args[]=&$column;
+			$dummy[]=&$column;
+			unset($column);
+			$direction=$descending ? SORT_DESC : SORT_ASC;
+			$args[]=&$direction;
+			$dummy[]=&$direction;
+			unset($direction);
 		}
 		$args[]=&$this->rawData;
 		call_user_func_array('array_multisort', $args);

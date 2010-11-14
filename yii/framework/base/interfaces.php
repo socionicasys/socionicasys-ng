@@ -15,7 +15,7 @@
  * method of every loaded application component.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0
  */
@@ -38,7 +38,7 @@ interface IApplicationComponent
  * This interface must be implemented by classes supporting caching feature.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.caching
  * @since 1.0
  */
@@ -93,6 +93,7 @@ interface ICache
 	/**
 	 * Deletes all values from cache.
 	 * Be careful of performing this operation if the cache is shared by multiple applications.
+	 * @return boolean whether the flush operation was successful.
 	 */
 	public function flush();
 }
@@ -106,7 +107,7 @@ interface ICache
  * Objects implementing this interface must be able to be serialized and unserialized.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.caching
  * @since 1.0
  */
@@ -130,7 +131,7 @@ interface ICacheDependency
  * This interface must be implemented by all state persister classes (such as
  * {@link CStatePersister}.
  *
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0
  */
@@ -152,7 +153,7 @@ interface IStatePersister
 /**
  * IFilter is the interface that must be implemented by action filters.
  *
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0
  */
@@ -172,7 +173,7 @@ interface IFilter
 /**
  * IAction is the interface that must be implemented by controller actions.
  *
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0
  */
@@ -200,7 +201,7 @@ interface IAction
  * If this interface is implemented, the provider instance will be able
  * to intercept the remote method invocation (e.g. for logging or authentication purpose).
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0
  */
@@ -228,7 +229,7 @@ interface IWebServiceProvider
  * implemented in {@link CBaseController}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0
  */
@@ -254,7 +255,7 @@ interface IViewRenderer
  * used with the {@link CWebApplication::user user application component}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0
  */
@@ -297,7 +298,7 @@ interface IUserIdentity
  * for the current user.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0
  */
@@ -335,7 +336,7 @@ interface IWebUser
  * An auth manager is mainly responsible for providing role-based access control (RBAC) service.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0
  */
@@ -508,7 +509,7 @@ interface IAuthManager
  * are defined in the behavior class and not available in the component class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.base
  * @since 1.0.2
  */
@@ -541,7 +542,7 @@ interface IBehavior
  * it will be used for creating the requested widget.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.web
  * @since 1.1
  */
@@ -564,7 +565,7 @@ interface IWidgetFactory
  * Besides providing data, they also support pagination and sorting.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: interfaces.php 2537 2010-10-12 18:50:13Z keyboard.idol@gmail.com $
  * @package system.web
  * @since 1.1
  */

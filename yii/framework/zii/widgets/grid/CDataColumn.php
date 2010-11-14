@@ -21,7 +21,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * value will be used by {@link CSort} to render a clickable link in the header cell to trigger the sorting.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDataColumn.php 2546 2010-10-14 14:01:33Z mdomba $
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -50,7 +50,7 @@ class CDataColumn extends CGridColumn
 	 */
 	public $type='text';
 	/**
-	 * @var boolean whether the column is sortable. If so, the header celll will contain a link that may trigger the sorting.
+	 * @var boolean whether the column is sortable. If so, the header cell will contain a link that may trigger the sorting.
 	 * Defaults to true. Note that if {@link name} is not set, or if {@link name} is not allowed by {@link CSort},
 	 * this property will be treated as false.
 	 * @see name

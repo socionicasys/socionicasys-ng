@@ -16,7 +16,7 @@
  * about this class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveRecord.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  *
@@ -790,7 +790,8 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * This event is raised before the record is saved.
-	 * @param CEvent $event the event parameter
+	 * By setting {@link CModelEvent::isValid} to be false, the normal {@link save()} process will be stopped.
+	 * @param CModelEvent $event the event parameter
 	 * @since 1.0.2
 	 */
 	public function onBeforeSave($event)
@@ -810,7 +811,8 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * This event is raised before the record is deleted.
-	 * @param CEvent $event the event parameter
+	 * By setting {@link CModelEvent::isValid} to be false, the normal {@link delete()} process will be stopped.
+	 * @param CModelEvent $event the event parameter
 	 * @since 1.0.2
 	 */
 	public function onBeforeDelete($event)
@@ -829,18 +831,12 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * This event is raised after the record instance is created by new operator.
-	 * @param CEvent $event the event parameter
-	 * @since 1.0.2
-	 */
-	public function onAfterConstruct($event)
-	{
-		$this->raiseEvent('onAfterConstruct',$event);
-	}
-
-	/**
 	 * This event is raised before an AR finder performs a find call.
-	 * @param CEvent $event the event parameter
+	 * In this event, the {@link CModelEvent::criteria} property contains the query criteria
+	 * passed as parameters to those find methods. If you want to access
+	 * the query criteria specified in scopes, please use {@link getDbCriteria()}.
+	 * You can modify either criteria to customize them based on needs.
+	 * @param CModelEvent $event the event parameter
 	 * @see beforeFind
 	 * @since 1.0.9
 	 */
@@ -924,30 +920,27 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * This method is invoked after a record instance is created by new operator.
-	 * The default implementation raises the {@link onAfterConstruct} event.
-	 * You may override this method to do postprocessing after record creation.
-	 * Make sure you call the parent implementation so that the event is raised properly.
-	 */
-	protected function afterConstruct()
-	{
-		if($this->hasEventHandler('onAfterConstruct'))
-			$this->onAfterConstruct(new CEvent($this));
-	}
-
-	/**
 	 * This method is invoked before an AR finder executes a find call.
 	 * The find calls include {@link find}, {@link findAll}, {@link findByPk},
 	 * {@link findAllByPk}, {@link findByAttributes} and {@link findAllByAttributes}.
 	 * The default implementation raises the {@link onBeforeFind} event.
 	 * If you override this method, make sure you call the parent implementation
 	 * so that the event is raised properly.
+	 *
+	 * Starting from version 1.1.5, this method may be called with a hidden {@link CDbCriteria}
+	 * parameter which represents the current query criteria as passed to a find method of AR.
+	 *
 	 * @since 1.0.9
 	 */
 	protected function beforeFind()
 	{
 		if($this->hasEventHandler('onBeforeFind'))
-			$this->onBeforeFind(new CEvent($this));
+		{
+			$event=new CModelEvent($this);
+			// for backward compatibility
+			$event->criteria=func_num_args()>0 ? func_get_arg(0) : null;
+			$this->onBeforeFind($event);
+		}
 	}
 
 	/**
@@ -1234,14 +1227,14 @@ abstract class CActiveRecord extends CModel
 	 */
 	private function query($criteria,$all=false)
 	{
-        $this->beforeFind();
+        $this->beforeFind($criteria);
 		$this->applyScopes($criteria);
 		if(empty($criteria->with))
 		{
 			if(!$all)
 				$criteria->limit=1;
 			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
-			return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
+			return $all ? $this->populateRecords($command->queryAll(), true, $criteria->index) : $this->populateRecord($command->queryRow());
 		}
 		else
 		{
@@ -1549,9 +1542,6 @@ abstract class CActiveRecord extends CModel
 	 * ))->findAll();
 	 * </pre>
 	 *
-	 * This method returns a {@link CActiveFinder} instance that provides
-	 * a set of find methods similar to that of CActiveRecord.
-	 *
 	 * Note, the possible parameters to this method have been changed since version 1.0.2.
 	 * Previously, it was not possible to specify on-th-fly query options,
 	 * and child-relations were specified as hierarchical arrays.
@@ -1733,16 +1723,22 @@ abstract class CActiveRecord extends CModel
 	 * @param array $data list of attribute values for the active records.
 	 * @param boolean $callAfterFind whether to call {@link afterFind} after each record is populated.
 	 * This parameter is added in version 1.0.3.
+	 * @param string $index the name of the attribute whose value will be used as indexes of the query result array.
+	 * If null, it means the array will be indexed by zero-based integers.
 	 * @return array list of active records.
 	 */
-	public function populateRecords($data,$callAfterFind=true)
+	public function populateRecords($data,$callAfterFind=true,$index=null)
 	{
 		$records=array();
 		foreach($data as $attributes)
 		{
-			$record=$this->populateRecord($attributes,$callAfterFind);
-			if($record!==null)
-				$records[]=$record;
+			if(($record=$this->populateRecord($attributes,$callAfterFind))!==null)
+			{
+				if($index===null)
+					$records[]=$record;
+				else
+					$records[$record->$index]=$record;
+			}
 		}
 		return $records;
 	}
@@ -1782,7 +1778,7 @@ abstract class CActiveRecord extends CModel
 /**
  * CBaseActiveRelation is the base class for all active relations.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveRecord.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.db.ar
  * @since 1.0.4
  */
@@ -1925,7 +1921,7 @@ class CBaseActiveRelation extends CComponent
 /**
  * CStatRelation represents a statistical relational query.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveRecord.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.db.ar
  * @since 1.0.4
  */
@@ -1963,7 +1959,7 @@ class CStatRelation extends CBaseActiveRelation
 /**
  * CActiveRelation is the base class for representing active relations that bring back related objects.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveRecord.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -1989,6 +1985,16 @@ class CActiveRelation extends CBaseActiveRelation
 	 * For more details about this property, see {@link CActiveRecord::with()}.
 	 */
 	public $with=array();
+	/**
+	 * @var boolean whether this table should be joined with the primary table.
+	 * When setting this property to be false, the table associated with this relation will
+	 * appear in a separate JOIN statement.
+	 * If this property is set true, then the corresponding table will ALWAYS be joined together
+	 * with the primary table, no matter the primary table is limited or not.
+	 * If this property is not set, the corresponding table will be joined with the primary table
+	 * only when the primary table is not limited.
+	 */
+	public $together;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.
@@ -2040,7 +2046,7 @@ class CActiveRelation extends CBaseActiveRelation
 /**
  * CBelongsToRelation represents the parameters specifying a BELONGS_TO relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveRecord.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -2052,7 +2058,7 @@ class CBelongsToRelation extends CActiveRelation
 /**
  * CHasOneRelation represents the parameters specifying a HAS_ONE relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveRecord.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -2064,7 +2070,7 @@ class CHasOneRelation extends CActiveRelation
 /**
  * CHasManyRelation represents the parameters specifying a HAS_MANY relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveRecord.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -2078,16 +2084,6 @@ class CHasManyRelation extends CActiveRelation
 	 * @var integer offset of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no offset.
 	 */
 	public $offset=-1;
-	/**
-	 * @var boolean whether this table should be joined with the primary table.
-	 * When setting this property to be false, the table associated with this relation will
-	 * appear in a separate JOIN statement.
-	 * If this property is set true, then the corresponding table will ALWAYS be joined together
-	 * with the primary table, no matter the primary table is limited or not.
-	 * If this property is not set, the corresponding table will be joined with the primary table
-	 * only when the primary table is not limited.
-	 */
-	public $together;
 	/**
 	 * @var string the name of the column that should be used as the key for storing related objects.
 	 * Defaults to null, meaning using zero-based integer IDs.
@@ -2121,7 +2117,7 @@ class CHasManyRelation extends CActiveRelation
 /**
  * CManyManyRelation represents the parameters specifying a MANY_MANY relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveRecord.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -2134,7 +2130,7 @@ class CManyManyRelation extends CHasManyRelation
  * CActiveRecordMetaData represents the meta-data for an Active Record class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveRecord.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */

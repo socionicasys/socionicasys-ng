@@ -14,7 +14,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * CJuiInputWidget is the base class for JUI widgets that can collect user input.
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
+ * @version $Id: CJuiInputWidget.php 2326 2010-08-20 17:02:07Z qiang.xue $
  * @package zii.widgets.jui
  * @since 1.1
  */

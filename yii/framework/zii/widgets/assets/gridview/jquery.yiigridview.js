@@ -28,7 +28,7 @@
 			var $this = $(this);
 			var id = $this.attr('id');
 			if(settings.updateSelector == undefined) {
-				settings.updateSelector = '#'+id+' .'+settings.pagerClass+' a, #'+id+' .'+settings.tableClass+' thead th a';
+				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.tableClass.replace(/\s+/g,'.')+' thead th a';
 			}
 			$.fn.yiiGridView.settings[id] = settings;
 
@@ -158,7 +158,7 @@
 				window.location.href=options.url;
 			}
 			else {  // POST mode
-				var $form=$('<form action="'+options.url+'" method="post"></form').appendTo('body');
+				var $form=$('<form action="'+options.url+'" method="post"></form>').appendTo('body');
 				if(options.data==undefined) {
 					options.data={};
 				}

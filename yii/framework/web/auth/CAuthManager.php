@@ -31,7 +31,7 @@
  * has the needed permission for an operation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CAuthManager.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.auth
  * @since 1.0
  */

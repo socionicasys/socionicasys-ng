@@ -12,7 +12,7 @@
  * CSqliteSchema is the class for retrieving metadata information from a SQLite (2/3) database.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CSqliteSchema.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.db.schema.sqlite
  * @since 1.0
  */

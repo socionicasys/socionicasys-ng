@@ -12,7 +12,7 @@
  * COciSchema is the class for retrieving metadata information from an Oracle database.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id$
+ * @version $Id: COciSchema.php 2590 2010-10-31 14:42:39Z qiang.xue $
  * @package system.db.schema.oci
  * @since 1.0.5
  */
@@ -270,10 +270,10 @@ EOD;
 		$names=array();
 		foreach($rows as $row)
 		{
-			if($schema===$this->getDefaultSchema())
+			if($schema===$this->getDefaultSchema() || $schema==='')
 				$names[]=$row['TABLE_NAME'];
 			else
-				$names[]=$row['SCHEMA_NAME'].'.'.$row['TABLE_NAME'];
+				$names[]=$row['TABLE_SCHEMA'].'.'.$row['TABLE_NAME'];
 		}
 		return $names;
 	}

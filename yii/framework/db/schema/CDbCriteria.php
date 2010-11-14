@@ -12,7 +12,7 @@
  * CDbCriteria represents a query criteria, such as conditions, ordering by, limit/offset.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbCriteria.php 2596 2010-11-01 21:05:22Z qiang.xue $
  * @package system.db.schema
  * @since 1.0
  */
@@ -111,6 +111,12 @@ class CDbCriteria extends CComponent
 	 * @since 1.1.4
 	 */
 	public $together;
+	/**
+	 * @var string the name of the AR attribute whose value should be used as index of the query result array.
+	 * Defaults to null, meaning the result array will be zero-based integers.
+	 * @since 1.1.5
+	 */
+	public $index;
 
 	/**
 	 * Constructor.
@@ -481,6 +487,9 @@ class CDbCriteria extends CComponent
 		if($criteria->together!==null)
 			$this->together=$criteria->together;
 
+		if($criteria->index!==null)
+			$this->index=$criteria->index;
+
 		if(empty($this->with))
 			$this->with=$criteria->with;
 		else if(!empty($criteria->with))
@@ -494,7 +503,7 @@ class CDbCriteria extends CComponent
 	public function toArray()
 	{
 		$result=array();
-		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'with', 'alias', 'together') as $name)
+		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'with', 'alias', 'index', 'together') as $name)
 			$result[$name]=$this->$name;
 		return $result;
 	}

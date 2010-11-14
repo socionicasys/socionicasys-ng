@@ -17,7 +17,7 @@
  * {@link itemChildTable} and {@link assignmentTable}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbAuthManager.php 2567 2010-10-22 18:10:54Z qiang.xue $
  * @package system.web.auth
  * @since 1.0
  */
@@ -47,16 +47,6 @@ class CDbAuthManager extends CAuthManager
 	public $db;
 
 	private $_usingSqlite;
-
-	/**
-	 * Destructor.
-	 * Disconnect the db connection.
-	 */
-	public function __destruct()
-	{
-		if($this->db!==null)
-			$this->db->setActive(false);
-	}
 
 	/**
 	 * Initializes the application component.
@@ -380,7 +370,7 @@ class CDbAuthManager extends CAuthManager
 		{
 			if(($data=@unserialize($row['data']))===false)
 				$data=null;
-			$items[$row['name']]=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule']);
+			$items[$row['name']]=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],$data);
 		}
 		return $items;
 	}

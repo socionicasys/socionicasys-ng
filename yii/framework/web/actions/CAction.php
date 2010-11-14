@@ -20,7 +20,7 @@
  * An action instance can access its controller via {@link getController controller} property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CAction.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.actions
  * @since 1.0
  */

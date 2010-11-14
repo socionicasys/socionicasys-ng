@@ -30,7 +30,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbTransaction.php 2499 2010-09-23 14:14:20Z mdomba $
  * @package system.db
  * @since 1.0
  */

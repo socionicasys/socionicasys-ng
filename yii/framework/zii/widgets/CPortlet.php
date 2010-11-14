@@ -28,7 +28,7 @@
  * to further customize the decorative display of a portlet (e.g. adding min/max buttons).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CPortlet.php 2480 2010-09-18 19:37:52Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */

@@ -20,7 +20,7 @@
  * specifies how many files to be kept.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CFileLogRoute.php 2574 2010-10-26 19:25:43Z qiang.xue $
  * @package system.logging
  * @since 1.0
  */
@@ -150,13 +150,14 @@ class CFileLogRoute extends CLogRoute
 			$rotateFile=$file.'.'.$i;
 			if(is_file($rotateFile))
 			{
+				// suppress errors because it's possible multiple processes enter into this section
 				if($i===$max)
-					unlink($rotateFile);
+					@unlink($rotateFile);
 				else
-					rename($rotateFile,$file.'.'.($i+1));
+					@rename($rotateFile,$file.'.'.($i+1));
 			}
 		}
 		if(is_file($file))
-			rename($file,$file.'.1');
+			@rename($file,$file.'.1'); // suppress errors because it's possible multiple processes enter into this section
 	}
 }

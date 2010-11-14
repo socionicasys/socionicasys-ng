@@ -15,7 +15,7 @@
  * added to the list is of certain class type.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CTypedList.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.collections
  * @since 1.0
  */

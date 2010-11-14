@@ -25,7 +25,7 @@
  * satisfying both filter conditions will they be returned.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CLogRoute.php 2553 2010-10-15 18:01:58Z qiang.xue $
  * @package system.logging
  * @since 1.0
  */
@@ -91,12 +91,11 @@ abstract class CLogRoute extends CComponent
 	{
 		$logs=$logger->getLogs($this->levels,$this->categories);
 		$this->logs=empty($this->logs) ? $logs : array_merge($this->logs,$logs);
-		if($processLogs)
+		if($processLogs && !empty($this->logs))
 		{
 			if($this->filter!==null)
 				Yii::createComponent($this->filter)->filter($this->logs);
-			if(!empty($this->logs))
-				$this->processLogs($this->logs);
+			$this->processLogs($this->logs);
 		}
 	}
 

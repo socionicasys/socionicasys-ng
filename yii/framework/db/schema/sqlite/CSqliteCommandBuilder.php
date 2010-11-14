@@ -12,7 +12,7 @@
  * CSqliteCommandBuilder provides basic methods to create query commands for SQLite tables.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CSqliteCommandBuilder.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.db.schema.sqlite
  * @since 1.0
  */

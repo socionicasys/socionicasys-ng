@@ -18,7 +18,7 @@
  * See {@link CCache} manual for common cache operations that are supported by CFileCache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CFileCache.php 2641 2010-11-12 01:53:28Z qiang.xue $
  * @package system.caching
  * @since 1.0.6
  */
@@ -85,9 +85,11 @@ class CFileCache extends CCache
 
 	/**
 	 * Deletes all values from cache.
-	 * Be careful of performing this operation if the cache is shared by multiple applications.
+	 * This is the implementation of the method declared in the parent class.
+	 * @return boolean whether the flush operation was successful.
+	 * @since 1.1.5
 	 */
-	public function flush()
+	protected function flushValues()
 	{
 		return $this->gc(false);
 	}
@@ -132,7 +134,7 @@ class CFileCache extends CCache
 		$cacheFile=$this->getCacheFile($key);
 		if($this->directoryLevel>0)
 			@mkdir(dirname($cacheFile),0777,true);
-		if(@file_put_contents($cacheFile,$value,LOCK_EX)==strlen($value))
+		if(@file_put_contents($cacheFile,$value,LOCK_EX)!==false)
 		{
 			@chmod($cacheFile,0777);
 			return @touch($cacheFile,$expire);

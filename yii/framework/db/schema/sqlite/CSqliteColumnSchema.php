@@ -12,7 +12,7 @@
  * CSqliteColumnSchema class describes the column meta data of a SQLite table.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CSqliteColumnSchema.php 2648 2010-11-12 22:12:29Z qiang.xue $
  * @package system.db.schema.sqlite
  * @since 1.0
  */
@@ -28,6 +28,6 @@ class CSqliteColumnSchema extends CDbColumnSchema
 		if($this->type==='string') // PHP 5.2.6 adds single quotes while 5.2.0 doesn't
 			$this->defaultValue=trim($defaultValue,"'\"");
 		else
-			$this->defaultValue=$this->typecast($defaultValue);
+			$this->defaultValue=$this->typecast(strcasecmp($defaultValue,'null') ? $defaultValue : null);
 	}
 }

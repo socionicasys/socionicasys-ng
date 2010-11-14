@@ -17,7 +17,7 @@ require_once('PHPUnit/Extensions/SeleniumTestCase.php');
  * fixture management feature like {@link CDbTestCase}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CWebTestCase.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.test
  * @since 1.1
  */

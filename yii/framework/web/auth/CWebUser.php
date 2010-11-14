@@ -45,7 +45,7 @@
  * you should store them directly in session on the server side if needed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CWebUser.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.auth
  * @since 1.0
  */

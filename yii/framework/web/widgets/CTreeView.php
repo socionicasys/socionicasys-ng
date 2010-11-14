@@ -21,7 +21,7 @@
  * {@link url} to be the URL that can serve the tree view data upon request.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CTreeView.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.widgets
  * @since 1.0
  */

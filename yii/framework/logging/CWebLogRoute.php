@@ -15,7 +15,7 @@
  * or in FireBug console window (if {@link showInFireBug} is set true).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CWebLogRoute.php 2504 2010-09-26 15:44:27Z keyboard.idol@gmail.com $
  * @package system.logging
  * @since 1.0
  */

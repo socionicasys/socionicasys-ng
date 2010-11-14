@@ -83,7 +83,7 @@
  * is attached to.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CComponent.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.base
  * @since 1.0
  */
@@ -634,7 +634,7 @@ class CComponent
  * that are not invoked yet will not be invoked anymore.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CComponent.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.base
  * @since 1.0
  */
@@ -646,7 +646,7 @@ class CEvent extends CComponent
 	public $sender;
 	/**
 	 * @var boolean whether the event is handled. Defaults to false.
-	 * When a handler sets this true, the rest uninvoked handlers will not be invoked anymore.
+	 * When a handler sets this true, the rest of the uninvoked event handlers will not be invoked anymore.
 	 */
 	public $handled=false;
 
@@ -679,7 +679,7 @@ class CEvent extends CComponent
  * TextAlign::Right.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CComponent.php 2639 2010-11-11 16:12:42Z qiang.xue $
  * @package system.base
  * @since 1.0
  */

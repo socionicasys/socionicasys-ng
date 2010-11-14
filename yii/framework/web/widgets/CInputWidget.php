@@ -17,7 +17,7 @@
  * Child classes may use {@link resolveNameID} and {@link hasModel}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CInputWidget.php 1678 2010-01-07 21:02:00Z qiang.xue $
  * @package system.web.widgets
  * @since 1.0
  */

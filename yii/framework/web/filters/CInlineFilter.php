@@ -15,7 +15,7 @@
  * in the controller, where the name 'XYZ' can be retrieved from the {@link name} property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CInlineFilter.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.filters
  * @since 1.0
  */

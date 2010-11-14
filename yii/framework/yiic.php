@@ -9,7 +9,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id$
+ * @version $Id: yiic.php 1870 2010-03-09 22:23:19Z qiang.xue $
  */
 
 // fix for fcgi

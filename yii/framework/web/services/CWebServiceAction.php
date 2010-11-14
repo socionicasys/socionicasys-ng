@@ -24,7 +24,7 @@
  * Note, PHP SOAP extension is required for this action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CWebServiceAction.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.services
  * @since 1.0
  */

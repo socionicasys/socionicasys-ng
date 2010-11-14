@@ -36,7 +36,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
+ * @version $Id: CJuiDatePicker.php 2595 2010-11-01 17:40:06Z sebathi $
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -58,13 +58,19 @@ class CJuiDatePicker extends CJuiInputWidget
 	 * It has to be set at the first call of CJuiDatePicker widget in the request.
 	 */
 	public $defaultOptions;
-
+	
+	/**
+	 * @var boolean If true, shows the widget as an inline calendar and the input as a hidden field. Use the onSelect event to update the hidden field
+	 */
+	public $flat = false;
+	
 	/**
 	 * Run this widget.
 	 * This method registers necessary javascript and renders the needed HTML code.
 	 */
 	public function run()
 	{
+		
 		list($name,$id)=$this->resolveNameID();
 
 		if(isset($this->htmlOptions['id']))
@@ -73,26 +79,53 @@ class CJuiDatePicker extends CJuiInputWidget
 			$this->htmlOptions['id']=$id;
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
-		else
-			$this->htmlOptions['name']=$name;
 
-		if($this->hasModel())
-			echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
+		if ($this->flat===false)
+		{
+			if($this->hasModel())
+				echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
+			else
+				echo CHtml::textField($name,$this->value,$this->htmlOptions);
+		}
 		else
-			echo CHtml::textField($name,$this->value,$this->htmlOptions);
+		{
+			if($this->hasModel())
+			{
+				echo CHtml::activeHiddenField($this->model,$this->attribute,$this->htmlOptions);
+				$attribute = $this->attribute;
+				$this->options['defaultDate'] = $this->model->$attribute;
+			}
+			else
+			{
+				echo CHtml::hiddenField($name,$this->value,$this->htmlOptions);
+				$this->options['defaultDate'] = $this->value;
+			}
+			
+			if (!isset($this->options['onSelect']))
+				$this->options['onSelect']="js:function( selectedDate ) { jQuery('#{$id}').val(selectedDate);}";
+			
+			$this->htmlOptions['id'] = $id =  $this->htmlOptions['id'].'_container';
+			$this->htmlOptions['name']= $name = $this->htmlOptions['name'].'_container';
 
+			echo CHtml::tag('div', $this->htmlOptions);
+		}
 
 		$options=CJavaScript::encode($this->options);
-
 		$js = "jQuery('#{$id}').datepicker($options);";
 
-		if (isset($this->language)){
+		if (isset($this->language))
+		{
 			$this->registerScriptFile($this->i18nScriptFile);
 			$js = "jQuery('#{$id}').datepicker(jQuery.extend({showMonthAfterYear:false}, jQuery.datepicker.regional['{$this->language}'], {$options}));";
 		}
 
 		$cs = Yii::app()->getClientScript();
-		$cs->registerScript(__CLASS__, 	$this->defaultOptions?'jQuery.datepicker.setDefaults('.CJavaScript::encode($this->defaultOptions).');':'');
+		
+		if (isset($this->defaultOptions))
+		{
+			$this->registerScriptFile($this->i18nScriptFile);
+			$cs->registerScript(__CLASS__, 	$this->defaultOptions!==null?'jQuery.datepicker.setDefaults('.CJavaScript::encode($this->defaultOptions).');':'');
+		}
 		$cs->registerScript(__CLASS__.'#'.$id, $js);
 
 	}

@@ -12,7 +12,7 @@
  * COciCommandBuilder provides basic methods to create query commands for tables.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id$
+ * @version $Id: COciCommandBuilder.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.db.schema.oci
  * @since 1.0.5
  */

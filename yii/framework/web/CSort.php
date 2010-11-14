@@ -37,7 +37,7 @@
  * For more details, please check the documentation about {@link attributes}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CSort.php 2558 2010-10-16 12:29:48Z mdomba $
  * @package system.web
  * @since 1.0.1
  */
@@ -138,12 +138,12 @@ class CSort extends CComponent
 	 */
 	public $descTag='desc';
 	/**
-	 * @var string the default order that should be applied to the query criteria when
-	 * the current request does not specify any sort. For example, 'create_time DESC', or
-	 * 'name, create_time DESC'.
+	 * @var mixed the default order that should be applied to the query criteria when
+	 * the current request does not specify any sort. For example, 'name, create_time DESC' or
+	 * 'UPPER(name)'.
 	 *
-	 * Starting from version 1.1.3, you can also specify the default order using an array,
-	 * where the array keys are virtual attribute names as declared in {@link attributes},
+	 * Starting from version 1.1.3, you can also specify the default order using an array.
+	 * The array keys could be attribute names or virtual attribute names as declared in {@link attributes},
 	 * and the array values indicate whether the sorting of the corresponding attributes should
 	 * be in descending order. For example,
 	 * <pre>
@@ -151,6 +151,10 @@ class CSort extends CComponent
 	 *     'price'=>true,
 	 * )
 	 * </pre>
+	 *
+	 * Please note when using array to specify the default order, the corresponding attributes
+	 * will be put into {@link directions} and thus affect how the sort links are rendered
+	 * (e.g. an arrow may be displayed next to the currently active sort link).
 	 */
 	public $defaultOrder;
 	/**

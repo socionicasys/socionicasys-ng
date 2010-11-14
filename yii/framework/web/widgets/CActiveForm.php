@@ -114,7 +114,7 @@
  * you should design your own lightweight AJAX validation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveForm.php 2597 2010-11-01 21:17:02Z qiang.xue $
  * @package system.web.widgets
  * @since 1.1.1
  */
@@ -284,9 +284,18 @@ class CActiveForm extends CWidget
 	 */
 	public function run()
 	{
+		if(is_array($this->focus))
+			$this->focus="#".CHtml::activeId($this->focus[0],$this->focus[1]);
+
 		echo CHtml::endForm();
 		if(!$this->enableAjaxValidation || empty($this->_attributes))
+		{
+			Yii::app()->clientScript->registerScript('CActiveForm#focus',"
+				if(!window.location.hash)
+					$('".$this->focus."').focus();
+			");
 			return;
+		}
 
 		$options=$this->clientOptions;
 		if(isset($this->clientOptions['validationUrl']) && is_array($this->clientOptions['validationUrl']))
@@ -297,12 +306,8 @@ class CActiveForm extends CWidget
 		if($this->_summary!==null)
 			$options['summaryID']=$this->_summary;
 
-		if($this->focus!==null) {
-			if(is_array($this->focus))
-				$options['focus']="#".CHtml::activeId($this->focus[0],$this->focus[1]);
-			else
+		if($this->focus!==null)
 				$options['focus']=$this->focus;
-		}
 
 		$options=CJavaScript::encode($options);
 		Yii::app()->clientScript->registerCoreScript('yiiactiveform');
@@ -349,7 +354,12 @@ class CActiveForm extends CWidget
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=$inputID.'_em_';
 
-		$option=array('inputID'=>$inputID, 'errorID'=>$htmlOptions['id']);
+		$option=array(
+			'inputID'=>$inputID,
+			'errorID'=>$htmlOptions['id'],
+			'model'=>get_class($model),
+			'name'=>$attribute,
+		);
 
 		$optionNames=array(
 			'validationDelay',

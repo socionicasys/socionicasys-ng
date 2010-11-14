@@ -50,7 +50,7 @@ Yii::import('zii.widgets.CBaseListView');
  * By doing so, a list of hyperlinks that can sort the data will be displayed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CListView.php 2516 2010-09-29 21:22:13Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */
@@ -77,7 +77,7 @@ class CListView extends CBaseListView
 	public $viewData=array();
 	/**
 	 * @var array list of sortable attribute names. In order for an attribute to be sortable, it must also
-	 * appear as as a sortable attribute the {@link IDataProvider::sort} property of {@link dataProvider}.
+	 * appear as a sortable attribute in the {@link IDataProvider::sort} property of {@link dataProvider}.
 	 * @see enableSorting
 	 */
 	public $sortableAttributes;

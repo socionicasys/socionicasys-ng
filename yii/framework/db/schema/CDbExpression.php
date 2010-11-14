@@ -22,7 +22,7 @@
  * one can set {@link params} to be <code>array(':value'=>$value)</code>.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbExpression.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.db.schema
  * @since 1.0.2
  */

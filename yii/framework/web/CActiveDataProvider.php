@@ -23,7 +23,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CActiveDataProvider.php 2608 2010-11-02 20:43:23Z qiang.xue $
  * @package system.web
  * @since 1.1
  */
@@ -73,6 +73,7 @@ class CActiveDataProvider extends CDataProvider
 	}
 
 	/**
+	 * Returns the query criteria.
 	 * @return CDbCriteria the query criteria
 	 */
 	public function getCriteria()
@@ -83,6 +84,7 @@ class CActiveDataProvider extends CDataProvider
 	}
 
 	/**
+	 * Sets the query criteria.
 	 * @param mixed $value the query criteria. This can be either a CDbCriteria object or an array
 	 * representing the query criteria.
 	 */
@@ -92,6 +94,7 @@ class CActiveDataProvider extends CDataProvider
 	}
 
 	/**
+	 * Returns the sorting object.
 	 * @return CSort the sorting object. If this is false, it means the sorting is disabled.
 	 */
 	public function getSort()
@@ -109,6 +112,7 @@ class CActiveDataProvider extends CDataProvider
 	{
 		$criteria=clone $this->getCriteria();
 		$baseCriteria=$this->model->getDbCriteria(false);
+
 		if(($pagination=$this->getPagination())!==false)
 		{
 			if($baseCriteria!==null)
@@ -116,8 +120,19 @@ class CActiveDataProvider extends CDataProvider
 			$pagination->setItemCount($this->getTotalItemCount());
 			$pagination->applyLimit($criteria);
 		}
+
 		if(($sort=$this->getSort())!==false)
+		{
+			if($baseCriteria!==null)
+			{
+				$c=clone $baseCriteria;
+				$c->mergeWith($criteria);
+				$this->model->setDbCriteria($c);
+			}
+			else
+				$this->model->setDbCriteria($criteria);
 			$sort->applyOrder($criteria);
+		}
 
 		$this->model->setDbCriteria($baseCriteria);
 		return $this->model->findAll($criteria);
@@ -130,15 +145,10 @@ class CActiveDataProvider extends CDataProvider
 	protected function fetchKeys()
 	{
 		$keys=array();
-		if($this->keyAttribute===null)
+		foreach($this->getData() as $i=>$data)
 		{
-			foreach($this->getData() as $i=>$data)
-				$keys[$i]=$data->getPrimaryKey();
-		}
-		else
-		{
-			foreach($this->getData() as $i=>$data)
-				$keys[$i]=$data->{$this->keyAttribute};
+			$key=$this->keyAttribute===null ? $data->getPrimaryKey() : $data->{$this->keyAttribute};
+			$keys[$i]=is_array($key) ? implode(',',$key) : $key;
 		}
 		return $keys;
 	}

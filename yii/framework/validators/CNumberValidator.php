@@ -12,7 +12,7 @@
  * CNumberValidator validates that the attribute value is a number.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CNumberValidator.php 2572 2010-10-26 00:26:40Z qiang.xue $
  * @package system.validators
  * @since 1.0
  */
@@ -28,11 +28,11 @@ class CNumberValidator extends CValidator
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var integer|double upper limit of the number. Defaults to null, meaning no upper limit.
+	 * @var integer|float upper limit of the number. Defaults to null, meaning no upper limit.
 	 */
 	public $max;
 	/**
-	 * @var integer|double lower limit of the number. Defaults to null, meaning no lower limit.
+	 * @var integer|float lower limit of the number. Defaults to null, meaning no lower limit.
 	 */
 	public $min;
 	/**

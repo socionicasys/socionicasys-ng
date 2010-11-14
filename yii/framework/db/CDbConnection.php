@@ -79,7 +79,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CDbConnection.php 2621 2010-11-05 18:53:15Z qiang.xue $
  * @package system.db
  * @since 1.0
  */
@@ -324,7 +324,7 @@ class CDbConnection extends CApplicationComponent
 		if($this->charset!==null)
 		{
 			$driver=strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
-			if(!in_array($driver,array('sqlite','mssql','dblib','sqlsrv')))
+			if(in_array($driver,array('pgsql','mysql','mysqli')))
 				$pdo->exec('SET NAMES '.$pdo->quote($this->charset));
 		}
 		if($this->initSQLs!==null)

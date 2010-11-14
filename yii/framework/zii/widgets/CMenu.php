@@ -36,7 +36,7 @@
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CMenu.php 2506 2010-09-27 16:16:55Z alexander.makarow $
  * @package zii.widgets
  * @since 1.1
  */

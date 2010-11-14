@@ -12,7 +12,7 @@
  * CJavaScript is a helper class containing JavaScript-related handling functions.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CJavaScript.php 2570 2010-10-26 00:12:03Z qiang.xue $
  * @package system.web.helpers
  * @since 1.0
  */
@@ -73,7 +73,7 @@ class CJavaScript
 			else if($value===INF)
 				return 'Number.POSITIVE_INFINITY';
 			else
-				return "$value";
+				return rtrim(sprintf('%.16F',$value),'0');  // locale-independent representation
 		}
 		else if(is_object($value))
 			return self::encode(get_object_vars($value));

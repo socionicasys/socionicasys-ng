@@ -25,9 +25,9 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *     ),
  * ));
  *     echo 'Your droppable content here';
- *     
+ *
  * $this->endWidget();
- * 
+ *
  * </pre>
  *
  * By configuring the {@link options} property, you may specify the options
@@ -36,7 +36,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id$
+ * @version $Id: CJuiDroppable.php 2545 2010-10-14 13:51:43Z sebathi $
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -55,20 +55,24 @@ class CJuiDroppable extends CJuiWidget
 	{
 		parent::init();
 		$id=$this->getId();
-		$this->htmlOptions['id']=$id;
+		if (isset($this->htmlOptions['id']))
+			$id = $this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$id;
+
+		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
+		
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').droppable($options);");
-		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 	}
 
 	/**
 	 * Renders the close tag of the droppable element.
 	 */
-	public function run()
-	{
+	public function run(){
 		echo CHtml::closeTag($this->tagName);
 	}
-	
+
 }
 
 

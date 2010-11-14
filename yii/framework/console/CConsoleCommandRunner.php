@@ -12,7 +12,7 @@
  * CConsoleCommandRunner manages commands and executes the requested command.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CConsoleCommandRunner.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.console
  * @since 1.0
  */

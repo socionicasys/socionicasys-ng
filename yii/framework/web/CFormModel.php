@@ -20,7 +20,7 @@
  * the attributes.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CFormModel.php 2604 2010-11-02 18:03:49Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -39,6 +39,7 @@ class CFormModel extends CModel
 		$this->setScenario($scenario);
 		$this->init();
 		$this->attachBehaviors($this->behaviors());
+		$this->afterConstruct();
 	}
 
 	/**

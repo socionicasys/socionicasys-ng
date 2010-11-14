@@ -33,7 +33,7 @@
  * you must configure {@link sort} property so that the provider knows which columns can be sorted.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CSqlDataProvider.php 2611 2010-11-03 14:16:12Z qiang.xue $
  * @package system.web
  * @since 1.1.4
  */
@@ -84,7 +84,7 @@ class CSqlDataProvider extends CDataProvider
 			$order=$sort->getOrderBy();
 			if(!empty($order))
 			{
-				if(preg_match('/\s+order\s+by\s+/i',$sql))
+				if(preg_match('/\s+order\s+by\s+[\w\s,]+$/i',$sql))
 					$sql.=', '.$order;
 				else
 					$sql.=' ORDER BY '.$order;

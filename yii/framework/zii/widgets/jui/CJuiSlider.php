@@ -37,7 +37,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * for possible options (name-value pairs).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CJuiSlider.php 2545 2010-10-14 13:51:43Z sebathi $
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -59,7 +59,10 @@ class CJuiSlider extends CJuiWidget
 	public function run()
 	{
 		$id=$this->getId();
-		$this->htmlOptions['id']=$id;
+		if (isset($this->htmlOptions['id']))
+			$id = $this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$id;
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions);
 		echo CHtml::closeTag($this->tagName);

@@ -73,7 +73,7 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  * Please refer to {@link columns} for more details about how to configure this property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
+ * @version $Id: CGridView.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package zii.widgets.grid
  * @since 1.1
  */
