@@ -11,7 +11,7 @@
 		)); ?>
 	</nav>
 	<?php endif; ?>
-	<div class="hyphenate">
+	<div id="content" class="hyphenate">
 		<?php echo $content; ?>
 	</div>
 </div>
