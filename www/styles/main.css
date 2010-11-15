@@ -102,10 +102,13 @@ body:before {
 
 /*** «Хлебные крошки» ***/
 #breadcrumbs {
-	font-size: 0.75em;
-	line-height: 1.75;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: -1px;
+}
+
+#breadcrumbs .breadcrumbs {
+	font-size: 0.75em;
+	line-height: 1.75;
 }
 
 #breadcrumbs a {
@@ -115,28 +118,32 @@ body:before {
 
 /*** Основной раздел ***/
 #content-area {
-	position: relative;
 	overflow: hidden;
 	padding-bottom: 5em;
 }
 
-#content-area.narrow {
-	padding-left: 17em;
+.narrow #content-wrap {
+	width: 100%;
+	float: right;
+	margin-left: -17em;
 }
 
-#content-wrap>div {
+.narrow #content,
+.narrow #breadcrumbs {
+	margin-left: 17em;
+}
+
+#content {
 	margin-top: 1.3125em;
 }
 
-#content-wrap #breadcrumbs + div {
+#breadcrumbs + #content {
 	margin-top: 0;
 }
 
 /*** Боковое меню ***/
 #secondary-navigation {
-	position: absolute;
-	top: 0;
-	left: 0;
+	float: left;
 	width: 15em;
 	margin-top: 0.8125em;
 	padding: 0.5em;
