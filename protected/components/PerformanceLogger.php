@@ -16,6 +16,6 @@ class PerformanceLogger extends CApplicationComponent
 		$message = 'Request to ' . Yii::app()->getRequest()->getUrl() . " finished\n";
 		$message .= 'Execution time: ' . round($logger->getExecutionTime(), 5) . " s\n";
 		$message .= 'Memory used: ' . round($logger->getMemoryUsage() / (1024*1024), 2) . " MB\n";
-		$logger->log($message, CLogger::LEVEL_INFO, 'application.components.PerformanceLogger');
+		$logger->log($message, CLogger::LEVEL_PROFILE, 'application.components.PerformanceLogger');
 	}
 }
