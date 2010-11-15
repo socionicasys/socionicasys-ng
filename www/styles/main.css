@@ -128,13 +128,16 @@ body:before {
 	margin-left: -17em;
 }
 
-.narrow #content,
+.narrow #content {
+	margin-left: 19.428571em;
+}
+
 .narrow #breadcrumbs {
 	margin-left: 17em;
 }
 
 #content {
-	margin-top: 1.3125em;
+	margin-top: 1.5em;
 }
 
 #breadcrumbs + #content {
