@@ -12,7 +12,7 @@ return array(
 	'defaultController' => 'static',
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>array('perfLogger', 'log'),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -100,6 +100,11 @@ return array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
 				array(
+					'class' => 'CFileLogRoute',
+					'logFile' => 'perf.log',
+					'categories' => 'application.components.PerformanceLogger',
+				),
+				array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning, info, debug',
 				),
@@ -118,6 +123,9 @@ return array(
 			'itemTable'       => '{{auth_item}}',
 			'itemChildTable'  => '{{auth_item_child}}',
 			'itemWeightTable' => '{{auth_item_weight}}',
+		),
+		'perfLogger' => array(
+			'class' => 'PerformanceLogger',
 		),
 	),
 	
