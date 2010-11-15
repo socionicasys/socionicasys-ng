@@ -5,7 +5,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: jquery.yii.js 1892 2010-03-12 19:00:31Z qiang.xue $
+ * @version $Id: jquery.yii.js 2505 2010-09-27 11:51:46Z mdomba $
  */
 
 ;(function($) {
@@ -20,10 +20,10 @@ $.yii = {
 			f.style.display = 'none';
 			element.parentNode.appendChild(f);
 			f.method = 'POST';
-		};
+		}
 		if (typeof url == 'string' && url != '') {
 			f.action = url;
-		};
+		}
 		var inputs = [];
 		$.each(params, function(name, value) {
 			var input = document.createElement("input");

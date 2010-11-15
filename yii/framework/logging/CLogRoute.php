@@ -25,7 +25,7 @@
  * satisfying both filter conditions will they be returned.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CLogRoute.php 2213 2010-06-18 13:17:30Z qiang.xue $
+ * @version $Id: CLogRoute.php 2553 2010-10-15 18:01:58Z qiang.xue $
  * @package system.logging
  * @since 1.0
  */
@@ -45,7 +45,7 @@ abstract class CLogRoute extends CComponent
 	 */
 	public $categories='';
 	/**
-	 * @var mixed the additional filter (e.g. {@link CLogFilter}) that can be applied to the log messages.
+	 * @var mixed the additional filter (eg {@link CLogFilter}) that can be applied to the log messages.
 	 * The value of this property will be passed to {@link Yii::createComponent} to create
 	 * a log filter object. As a result, this can be either a string representing the
 	 * filter class name or an array representing the filter configuration.
@@ -71,10 +71,10 @@ abstract class CLogRoute extends CComponent
 
 	/**
 	 * Formats a log message given different fields.
-	 * @param string message content
-	 * @param integer message level
-	 * @param string message category
-	 * @param integer timestamp
+	 * @param string $message message content
+	 * @param integer $level message level
+	 * @param string $category message category
+	 * @param integer $time timestamp
 	 * @return string formatted message
 	 */
 	protected function formatLogMessage($message,$level,$category,$time)
@@ -84,26 +84,25 @@ abstract class CLogRoute extends CComponent
 
 	/**
 	 * Retrieves filtered log messages from logger for further processing.
-	 * @param CLogger logger instance
-	 * @param boolean whether to process the logs after they are collected from the logger
+	 * @param CLogger $logger logger instance
+	 * @param boolean $processLogs whether to process the logs after they are collected from the logger
 	 */
 	public function collectLogs($logger, $processLogs=false)
 	{
 		$logs=$logger->getLogs($this->levels,$this->categories);
 		$this->logs=empty($this->logs) ? $logs : array_merge($this->logs,$logs);
-		if($processLogs)
+		if($processLogs && !empty($this->logs))
 		{
 			if($this->filter!==null)
 				Yii::createComponent($this->filter)->filter($this->logs);
-			if(!empty($this->logs))
-				$this->processLogs($this->logs);
+			$this->processLogs($this->logs);
 		}
 	}
 
 	/**
 	 * Processes log messages and sends them to specific destination.
 	 * Derived child classes must implement this method.
-	 * @param array list of messages.  Each array elements represents one message
+	 * @param array $logs list of messages.  Each array elements represents one message
 	 * with the following structure:
 	 * array(
 	 *   [0] => message (string)

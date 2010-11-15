@@ -39,7 +39,7 @@
  * You can use {@link CFileValidator} to validate the file attribute.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CFileValidator.php 2347 2010-08-28 13:22:20Z mdomba $
+ * @version $Id: CFileValidator.php 2605 2010-11-02 18:10:56Z qiang.xue $
  * @package system.validators
  * @since 1.0
  */
@@ -102,15 +102,15 @@ class CFileValidator extends CValidator
 	/**
 	 * Set the attribute and then validates using {@link validateFile}.
 	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object, $attribute)
 	{
 		if($this->maxFiles > 1)
 		{
 			$files=$object->$attribute;
-			if(!is_array($files))
+			if(!is_array($files) || !isset($files[0]) || !$files[0] instanceof CUploadedFile)
 				$files = CUploadedFile::getInstances($object, $attribute);
 			if(array()===$files)
 				return $this->emptyAttribute($object, $attribute);
@@ -138,9 +138,9 @@ class CFileValidator extends CValidator
 
 	/**
 	 * Internally validates a file object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
-	 * @param CUploadedFile uploaded file passed to check against a set of rules
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
+	 * @param CUploadedFile $file uploaded file passed to check against a set of rules
 	 */
 	protected function validateFile($object, $attribute, $file)
 	{
@@ -182,8 +182,8 @@ class CFileValidator extends CValidator
 
 	/**
 	 * Raises an error to inform end user about blank attribute.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function emptyAttribute($object, $attribute)
 	{
@@ -208,7 +208,7 @@ class CFileValidator extends CValidator
 	protected function getSizeLimit()
 	{
 		$limit=ini_get('upload_max_filesize');
-		$limit=$this->sizeToBytes($limit);			
+		$limit=$this->sizeToBytes($limit);
 		if($this->maxSize!==null && $limit>0 && $this->maxSize<$limit)
 			$limit=$this->maxSize;
 		if(isset($_POST['MAX_FILE_SIZE']) && $_POST['MAX_FILE_SIZE']>0 && $_POST['MAX_FILE_SIZE']<$limit)
@@ -219,7 +219,7 @@ class CFileValidator extends CValidator
 	/**
 	 * Converts php.ini style size to bytes
 	 *
-	 * @param string $sizeStr
+	 * @param string $sizeStr $sizeStr
 	 * @return int
 	 */
 	private function sizeToBytes($sizeStr)

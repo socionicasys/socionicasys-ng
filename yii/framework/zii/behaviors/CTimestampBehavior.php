@@ -36,7 +36,7 @@
  * you may specify a custom value to use instead via {@link timestampExpression}
  * 
  * @author Jonah Turnquist <poppitypop@gmail.com>
- * @version $Id: CTimestampBehavior.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CTimestampBehavior.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package zii.behaviors
  * @since 1.1
  */
@@ -80,7 +80,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	* Responds to {@link CModel::onBeforeSave} event.
 	* Sets the values of the creation or modified attributes as configured
 	* 
-	* @param CModelEvent event parameter
+	* @param CModelEvent $event event parameter
 	*/
 	public function beforeSave($event) {
 		if ($this->getOwner()->getIsNewRecord() && ($this->createAttribute !== null)) {
@@ -94,7 +94,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	/**
 	* Gets the approprate timestamp depending on the column type $attribute is
 	* 
-	* @param string $attribute
+	* @param string $attribute $attribute
 	* @return mixed timestamp (eg unix timestamp or a mysql function)
 	*/
 	protected function getTimestampByAttribute($attribute) {
@@ -108,7 +108,7 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	/**
 	* Returns the approprate timestamp depending on $columnType
 	* 
-	* @param string $columnType
+	* @param string $columnType $columnType
 	* @return mixed timestamp (eg unix timestamp or a mysql function)
 	*/
 	protected function getTimestampByColumnType($columnType) {

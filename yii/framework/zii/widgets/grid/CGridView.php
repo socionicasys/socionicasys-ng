@@ -73,7 +73,7 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  * Please refer to {@link columns} for more details about how to configure this property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CGridView.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CGridView.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -279,7 +279,7 @@ class CGridView extends CBaseListView
 
 	/**
 	 * Creates a {@link CDataColumn} based on a shortcut column specification string.
-	 * @param string the column specification string
+	 * @param string $text the column specification string
 	 * @return CDataColumn the column instance
 	 */
 	protected function createDataColumn($text)
@@ -326,7 +326,7 @@ class CGridView extends CBaseListView
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 		$cs->registerCoreScript('bbq');
-		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiigridview.js');
+		$cs->registerScriptFile($this->baseScriptUrl.'/jquery.yiigridview.js',CClientScript::POS_END);
 		$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#$id').yiiGridView($options);");
 	}
 
@@ -440,7 +440,7 @@ class CGridView extends CBaseListView
 
 	/**
 	 * Renders a table body row.
-	 * @param integer the row number (zero-based).
+	 * @param integer $row the row number (zero-based).
 	 */
 	public function renderTableRow($row)
 	{
@@ -481,7 +481,7 @@ class CGridView extends CBaseListView
 	}
 
 	/**
-	 * @param CFormatter the formatter instance
+	 * @param CFormatter $value the formatter instance
 	 */
 	public function setFormatter($value)
 	{

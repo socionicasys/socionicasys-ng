@@ -59,6 +59,16 @@ class MenuManager extends CApplicationComponent
 	 */
 	public function updateMenus($requestUrl)
 	{
+		$cachedMenuId = 'model-nav-menu:' . $requestUrl;
+		$cachedMenu = Yii::app()->getCache()->get($cachedMenuId);
+		if ($cachedMenu !== false)
+		{
+			$this->_majorMenu = $cachedMenu[0];
+			$this->_minorMenu = $cachedMenu[1];
+			$this->_breadcrumbs = $cachedMenu[2];
+			return;
+		}
+
 		// Определяем текущий пункт в меню
 		$pathParts = explode('/', $requestUrl);
 		$currentNode = null;
@@ -86,13 +96,9 @@ class MenuManager extends CApplicationComponent
 		
 		// Главное меню
 		$majorMenu = array();
-		if (($toplevelNodes = Yii::app()->cache->get('model-nav-menu-toplevel')) === false)
-		{
-			$toplevelNodes = Nav::model()->findAllByAttributes(array(
-				'level' => 2,
-			));
-			Yii::app()->cache->set('model-nav-menu-toplevel', $toplevelNodes, 600);
-		}
+		$toplevelNodes = Nav::model()->findAllByAttributes(array(
+			'level' => 2,
+		));
 		$currentToplevelNode = null;
 		foreach ($toplevelNodes as $node)
 		{
@@ -116,6 +122,8 @@ class MenuManager extends CApplicationComponent
 		$this->_majorMenu = $majorMenu;
 		$this->_minorMenu = array($minorSubmenu);
 		$this->_breadcrumbs = $breadcrumbs;
+
+		Yii::app()->getCache()->set($cachedMenuId, array($majorMenu, array($minorSubmenu), $breadcrumbs), 3600);
 	}
 
 	/**

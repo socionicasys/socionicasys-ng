@@ -27,7 +27,7 @@
  * value doesn't follow the format, the attribute is considered as invalid.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CTypeValidator.php 1963 2010-03-25 04:00:48Z qiang.xue $
+ * @version $Id: CTypeValidator.php 2606 2010-11-02 18:37:10Z qiang.xue $
  * @package system.validators
  * @since 1.0
  */
@@ -68,8 +68,8 @@ class CTypeValidator extends CValidator
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -82,11 +82,11 @@ class CTypeValidator extends CValidator
 		else if($this->type==='float')
 			$valid=preg_match('/^[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?$/',trim($value));
 		else if($this->type==='date')
-			$valid=CDateTimeParser::parse($value,$this->dateFormat)!==false;
+			$valid=CDateTimeParser::parse($value,$this->dateFormat,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
 	    else if($this->type==='time')
 			$valid=CDateTimeParser::parse($value,$this->timeFormat)!==false;
 	    else if($this->type==='datetime')
-			$valid=CDateTimeParser::parse($value,$this->datetimeFormat)!==false;
+			$valid=CDateTimeParser::parse($value,$this->datetimeFormat, array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
 		else if($this->type==='array')
 			$valid=is_array($value);
 		else

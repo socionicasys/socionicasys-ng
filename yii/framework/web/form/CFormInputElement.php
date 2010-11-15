@@ -35,7 +35,7 @@
  * generating the input or initial values of the widget properties.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CFormInputElement.php 2411 2010-09-01 20:21:57Z qiang.xue $
+ * @version $Id: CFormInputElement.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.form
  * @since 1.1
  */
@@ -108,7 +108,7 @@ class CFormInputElement extends CFormElement
 	}
 
 	/**
-	 * @param boolean whether this input is required.
+	 * @param boolean $value whether this input is required.
 	 */
 	public function setRequired($value)
 	{
@@ -128,7 +128,7 @@ class CFormInputElement extends CFormElement
 	}
 
 	/**
-	 * @param string the label for this input
+	 * @param string $value the label for this input
 	 */
 	public function setLabel($value)
 	{

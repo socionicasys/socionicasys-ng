@@ -12,7 +12,7 @@
  * COciCommandBuilder provides basic methods to create query commands for tables.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id: COciCommandBuilder.php 1867 2010-03-09 18:22:16Z qiang.xue $
+ * @version $Id: COciCommandBuilder.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.db.schema.oci
  * @since 1.0.5
  */
@@ -25,7 +25,7 @@ class COciCommandBuilder extends CDbCommandBuilder
 
 	/**
 	 * Returns the last insertion ID for the specified table.
-	 * @param mixed the table schema ({@link CDbTableSchema}) or the table name (string).
+	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @return mixed last insertion id. Null is returned if no sequence name.
 	 */
 	public function getLastInsertID($table)
@@ -36,9 +36,9 @@ class COciCommandBuilder extends CDbCommandBuilder
 	/**
 	 * Alters the SQL to apply LIMIT and OFFSET.
 	 * Default implementation is applicable for PostgreSQL, MySQL and SQLite.
-	 * @param string SQL query string without LIMIT and OFFSET.
-	 * @param integer maximum number of rows, -1 to ignore limit.
-	 * @param integer row offset, -1 to ignore offset.
+	 * @param string $sql SQL query string without LIMIT and OFFSET.
+	 * @param integer $limit maximum number of rows, -1 to ignore limit.
+	 * @param integer $offset row offset, -1 to ignore offset.
 	 * @return string SQL with LIMIT and OFFSET
 	 */
 	public function applyLimit($sql,$limit,$offset)
@@ -75,8 +75,8 @@ EOD;
 
 	/**
 	 * Creates an INSERT command.
-	 * @param mixed the table schema ({@link CDbTableSchema}) or the table name (string).
-	 * @param array data to be inserted (column name=>column value). If a key is not a valid column name, the corresponding value will be ignored.
+	 * @param mixed $table the table schema ({@link CDbTableSchema}) or the table name (string).
+	 * @param array $data data to be inserted (column name=>column value). If a key is not a valid column name, the corresponding value will be ignored.
 	 * @return CDbCommand insert command
 	 */
 	public function createInsertCommand($table,$data)

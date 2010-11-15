@@ -30,7 +30,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbTransaction.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CDbTransaction.php 2499 2010-09-23 14:14:20Z mdomba $
  * @package system.db
  * @since 1.0
  */
@@ -41,7 +41,7 @@ class CDbTransaction extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param CDbConnection the connection associated with this transaction
+	 * @param CDbConnection $connection the connection associated with this transaction
 	 * @see CDbConnection::beginTransaction
 	 */
 	public function __construct(CDbConnection $connection)
@@ -99,7 +99,7 @@ class CDbTransaction extends CComponent
 	}
 
 	/**
-	 * @param boolean whether this transaction is active
+	 * @param boolean $value whether this transaction is active
 	 */
 	protected function setActive($value)
 	{

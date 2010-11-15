@@ -14,7 +14,7 @@
  * CBaseListView implements the common features needed by a view wiget for rendering multiple models.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CBaseListView.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CBaseListView.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package zii.widgets
  * @since 1.1
  */
@@ -146,7 +146,7 @@ abstract class CBaseListView extends CWidget
 	 * Renders a section.
 	 * This method is invoked by {@link renderContent} for every placeholder found in {@link template}.
 	 * It should return the rendering result that would replace the placeholder.
-	 * @param array the matches, where $matches[0] represents the whole placeholder,
+	 * @param array $matches the matches, where $matches[0] represents the whole placeholder,
 	 * while $matches[1] contains the name of the matched placeholder.
 	 * @return string the rendering result of the section
 	 */

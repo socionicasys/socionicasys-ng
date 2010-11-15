@@ -13,6 +13,12 @@ class NewsController extends Controller
 			array(
 				'SpaceFixer',
 			),
+			array(
+				'COutputCache + item, list',
+				'duration' => 3600,
+				'varyByRoute' => true,
+				'varyByParam' => array('id', 'News_page', 'ajax'),
+			),
 		);
 	}
 	
@@ -20,27 +26,38 @@ class NewsController extends Controller
 	{
 		$model = $this->loadModel($id);
 		
+		$this->layout = '//layouts/article';
+		$this->render('item', array(
+			'model' => $model,
+			'shortTitle' => TextHelper::truncate($model->title, 70, '…', true),
+		));
+	}
+	
+	public function renderItemLinks($id)
+	{
 		$links = array();
 		$webUser = Yii::app()->user;
 		if (!$webUser->isGuest && $webUser->checkAccess('News.Edit'))
 		{
 			$links['edit'] = $this->createUrl('edit', array(
-				'id' => $model->id,
+				'id' => $id,
 			));
 		}
 		if (!$webUser->isGuest && $webUser->checkAccess('News.Delete'))
 		{
 			$links['delete'] = $this->createUrl('delete', array(
-				'id' => $model->id,
+				'id' => $id,
 			));
 		}
 		
-		$this->layout = '//layouts/article';
-		$this->render('item', array(
-			'model' => $model,
-			'links' => $links,
-		    'shortTitle' => TextHelper::truncate($model->title, 70, '…', true),
-		));
+		if (empty($links))
+		{
+			return '';
+		}
+		else
+		{
+			return $this->renderPartial('item-links', array('links' => $links), true);
+		}
 	}
 	
 	public function actionList()
@@ -51,36 +68,8 @@ class NewsController extends Controller
 			),
 		));
 
-		$webUser = Yii::app()->user;
-		$links = array();
-		if (!$webUser->isGuest && $webUser->checkAccess('News.Create'))
-		{
-			$links['create'] = $this->createUrl('create');
-		}
-		
-		$data = $dataProvider->getData();
-		$links['article'] = array();
-		foreach ($data as $item)
-		{
-			$itemLinks = array();
-			if (!$webUser->isGuest && $webUser->checkAccess('News.Edit'))
-			{
-				$itemLinks['edit'] = $this->createUrl('edit', array(
-					'id' => $item->id,
-				));
-			}
-			if (!$webUser->isGuest && $webUser->checkAccess('News.Delete'))
-			{
-				$itemLinks['delete'] = $this->createUrl('delete', array(
-					'id' => $item->id,
-				));
-			}
-			$links['article'][] = $itemLinks;
-		}
-		
 		$viewParameters = array(
 			'dataProvider' => $dataProvider,
-			'links' => $links,
 		);
 		
 		if (Yii::app()->request->isAjaxRequest)
@@ -90,6 +79,25 @@ class NewsController extends Controller
 		else
 		{
 			$this->render('list', $viewParameters);
+		}
+	}
+	
+	public function renderListLinks()
+	{
+		$webUser = Yii::app()->user;
+		$links = array();
+		if (!$webUser->isGuest && $webUser->checkAccess('News.Create'))
+		{
+			$links['create'] = $this->createUrl('create');
+		}
+
+		if (empty($links))
+		{
+			return '';
+		}
+		else
+		{
+			return $this->renderPartial('list-links', array('links' => $links), true);
 		}
 	}
 	
@@ -122,8 +130,6 @@ class NewsController extends Controller
 			$model->attributes = $_POST['News'];
 			if ($model->save())
 			{
-				Yii::app()->cache->delete('model-news-' . $id);
-				Yii::app()->cache->delete('model-news-latest-10');
 				$this->redirect(array('item', 'id' => $model->id));
 			}
 		}
@@ -144,8 +150,6 @@ class NewsController extends Controller
 			if (isset($_POST['delete']))
 			{
 				$model->delete();
-				Yii::app()->cache->delete('model-news-' . $id);
-				Yii::app()->cache->delete('model-news-latest-10');
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('list'));
 			}
 			else

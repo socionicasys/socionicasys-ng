@@ -15,7 +15,7 @@
  * added to the list is of certain class type.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CTypedList.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CTypedList.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.collections
  * @since 1.0
  */
@@ -25,7 +25,7 @@ class CTypedList extends CList
 
 	/**
 	 * Constructor.
-	 * @param string class type
+	 * @param string $type class type
 	 */
 	public function __construct($type)
 	{
@@ -36,8 +36,8 @@ class CTypedList extends CList
 	 * Inserts an item at the specified position.
 	 * This method overrides the parent implementation by
 	 * checking the item to be inserted is of certain type.
-	 * @param integer the specified position.
-	 * @param mixed new item
+	 * @param integer $index the specified position.
+	 * @param mixed $item new item
 	 * @throws CException If the index specified exceeds the bound,
 	 * the list is read-only or the element is not of the expected type.
 	 */

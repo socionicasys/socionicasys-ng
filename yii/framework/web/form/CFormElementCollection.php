@@ -25,7 +25,7 @@
  * to {@link CFormElement} objects.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CFormElementCollection.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CFormElementCollection.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.form
  * @since 1.1
  */
@@ -36,8 +36,8 @@ class CFormElementCollection extends CMap
 
 	/**
 	 * Constructor.
-	 * @param CForm the form object that owns this collection
-	 * @param boolean whether this collection is used to store buttons.
+	 * @param CForm $form the form object that owns this collection
+	 * @param boolean $forButtons whether this collection is used to store buttons.
 	 */
 	public function __construct($form,$forButtons=false)
 	{
@@ -51,8 +51,8 @@ class CFormElementCollection extends CMap
 	 * This method overrides the parent implementation to ensure
 	 * only configuration arrays, strings, or {@link CFormElement} objects
 	 * can be stored in this collection.
-	 * @param mixed key
-	 * @param mixed value
+	 * @param mixed $key key
+	 * @param mixed $value value
 	 * @throws CException if the value is invalid.
 	 */
 	public function add($key,$value)
@@ -102,7 +102,7 @@ class CFormElementCollection extends CMap
 
 	/**
 	 * Removes the specified element by key.
-	 * @param string the name of the element to be removed from the collection
+	 * @param string $key the name of the element to be removed from the collection
 	 */
 	public function remove($key)
 	{

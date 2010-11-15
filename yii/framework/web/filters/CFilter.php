@@ -19,7 +19,7 @@
  * before the action, and {@link postFilter()} for filtering logic after the action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CFilter.php 2377 2010-08-30 16:11:20Z qiang.xue $
+ * @version $Id: CFilter.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.filters
  * @since 1.0
  */
@@ -32,7 +32,7 @@ class CFilter extends CComponent implements IFilter
 	 * child classes. If a child class needs to override this method,
 	 * make sure it calls <code>$filterChain->run()</code>
 	 * if the action should be executed.
-	 * @param CFilterChain the filter chain that the filter is on.
+	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 */
 	public function filter($filterChain)
 	{
@@ -56,7 +56,7 @@ class CFilter extends CComponent implements IFilter
 
 	/**
 	 * Performs the pre-action filtering.
-	 * @param CFilterChain the filter chain that the filter is on.
+	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 * @return boolean whether the filtering process should continue and the action
 	 * should be executed.
 	 */
@@ -67,7 +67,7 @@ class CFilter extends CComponent implements IFilter
 
 	/**
 	 * Performs the post-action filtering.
-	 * @param CFilterChain the filter chain that the filter is on.
+	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 */
 	protected function postFilter($filterChain)
 	{

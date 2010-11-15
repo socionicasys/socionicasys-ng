@@ -21,7 +21,7 @@
  * is a better choice.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCacheHttpSession.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CCacheHttpSession.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web
  * @since 1.0
  */
@@ -67,7 +67,7 @@ class CCacheHttpSession extends CHttpSession
 	/**
 	 * Session read handler.
 	 * Do not call this method directly.
-	 * @param string session ID
+	 * @param string $id session ID
 	 * @return string the session data
 	 */
 	public function readSession($id)
@@ -79,8 +79,8 @@ class CCacheHttpSession extends CHttpSession
 	/**
 	 * Session write handler.
 	 * Do not call this method directly.
-	 * @param string session ID
-	 * @param string session data
+	 * @param string $id session ID
+	 * @param string $data session data
 	 * @return boolean whether session write is successful
 	 */
 	public function writeSession($id,$data)
@@ -91,7 +91,7 @@ class CCacheHttpSession extends CHttpSession
 	/**
 	 * Session destroy handler.
 	 * Do not call this method directly.
-	 * @param string session ID
+	 * @param string $id session ID
 	 * @return boolean whether session is destroyed successfully
 	 */
 	public function destroySession($id)
@@ -101,7 +101,7 @@ class CCacheHttpSession extends CHttpSession
 
 	/**
 	 * Generates a unique key used for storing session data in cache.
-	 * @param string session variable name
+	 * @param string $id session variable name
 	 * @return string a safe cache key associated with the session variable name
 	 */
 	protected function calculateKey($id)

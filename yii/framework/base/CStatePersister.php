@@ -36,7 +36,7 @@
  * page state persistent method based on cache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CStatePersister.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CStatePersister.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.base
  * @since 1.0
  */
@@ -100,7 +100,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 
 	/**
 	 * Saves application state in persistent storage.
-	 * @param mixed state data (must be serializable).
+	 * @param mixed $state state data (must be serializable).
 	 */
 	public function save($state)
 	{

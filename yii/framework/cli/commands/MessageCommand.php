@@ -14,7 +14,7 @@
  * under the specified directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: MessageCommand.php 1878 2010-03-10 21:19:30Z qiang.xue $
+ * @version $Id: MessageCommand.php 2521 2010-09-30 21:12:56Z alexander.makarow $
  * @package system.cli.commands
  * @since 1.0
  */
@@ -31,10 +31,15 @@ DESCRIPTION
   source files and compiles them into PHP arrays as message source.
 
 PARAMETERS
- * config-file: required, the path of the configuration file. The file
-   must be a valid PHP script which returns an array of name-value pairs.
-   Each name-value pair represents a configuration option. The following
-   options must be specified:
+ * config-file: required, the path of the configuration file. You can find
+   an example in framework/messages/config.php.
+
+   The file can be placed anywhere and must be a valid PHP script which
+   returns an array of name-value pairs. Each name-value pair represents
+   a configuration option.
+
+   The following options must be specified:
+
    - sourcePath: string, root directory of all source files.
    - messagePath: string, root directory containing message translations.
    - languages: array, list of language codes that the extracted messages

@@ -19,16 +19,16 @@
  * and {@link CController::endWidget} calls. For example,
  *
  * <pre>
- * &lt;?php $this->beginWidget('zii.widgets.CPortlet'); ?&gt;
+ * <?php $this->beginWidget('zii.widgets.CPortlet'); ?>
  *     ...insert content here...
- * &lt;?php $this->endWidget(); ?&gt;
+ * <?php $this->endWidget(); ?>
  * </pre>
  *
  * A portlet also has an optional {@link title}. One may also override {@link renderDecoration}
  * to further customize the decorative display of a portlet (e.g. adding min/max buttons).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CPortlet.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CPortlet.php 2480 2010-09-18 19:37:52Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */

@@ -23,7 +23,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CQueue.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CQueue.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.collections
  * @since 1.0
  */
@@ -43,7 +43,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Constructor.
 	 * Initializes the queue with an array or an iterable object.
-	 * @param array the intial data. Default is null, meaning no initialization.
+	 * @param array $data the intial data. Default is null, meaning no initialization.
 	 * @throws CException If data is not null and neither an array nor an iterator.
 	 */
 	public function __construct($data=null)
@@ -63,7 +63,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Copies iterable data into the queue.
 	 * Note, existing data in the list will be cleared first.
-	 * @param mixed the data to be copied from, must be an array or object implementing Traversable
+	 * @param mixed $data the data to be copied from, must be an array or object implementing Traversable
 	 * @throws CException If data is neither an array nor a Traversable.
 	 */
 	public function copyFrom($data)
@@ -91,7 +91,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	}
 
 	/**
-	 * @param mixed the item
+	 * @param mixed $item the item
 	 * @return boolean whether the queue contains the item
 	 */
 	public function contains($item)
@@ -130,7 +130,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 
 	/**
 	 * Adds an object to the end of the queue.
-	 * @param mixed the item to be appended into the queue
+	 * @param mixed $item the item to be appended into the queue
 	 */
 	public function enqueue($item)
 	{

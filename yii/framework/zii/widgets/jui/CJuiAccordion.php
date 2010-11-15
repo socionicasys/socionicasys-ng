@@ -40,7 +40,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @author Qiang XUe <qiang.xue@gmail.com>
- * @version $Id: CJuiAccordion.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CJuiAccordion.php 2545 2010-10-14 13:51:43Z sebathi $
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -75,7 +75,10 @@ class CJuiAccordion extends CJuiWidget
 	public function run()
 	{
 		$id=$this->getId();
-		$this->htmlOptions['id']=$id;
+		if (isset($this->htmlOptions['id']))
+			$id = $this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$id;
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		foreach($this->panels as $title=>$content)

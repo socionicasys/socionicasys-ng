@@ -18,7 +18,7 @@
  * and thus use it as the {@link id ID} of the identity.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CUserIdentity.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id: CUserIdentity.php 2497 2010-09-23 13:28:52Z mdomba $
  * @package system.web.auth
  * @since 1.0
  */
@@ -35,8 +35,8 @@ class CUserIdentity extends CBaseUserIdentity
 
 	/**
 	 * Constructor.
-	 * @param string username
-	 * @param string password
+	 * @param string $username username
+	 * @param string $password password
 	 */
 	public function __construct($username,$password)
 	{

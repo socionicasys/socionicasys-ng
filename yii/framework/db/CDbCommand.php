@@ -29,7 +29,7 @@
  * You may also call {@link prepare} to explicitly prepare an SQL statement.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbCommand.php 2417 2010-09-02 16:01:38Z qiang.xue $
+ * @version $Id: CDbCommand.php 2625 2010-11-07 01:07:08Z qiang.xue $
  * @package system.db
  * @since 1.0
  */
@@ -42,8 +42,8 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param CDbConnection the database connection
-	 * @param string the SQL statement to be executed
+	 * @param CDbConnection $connection the database connection
+	 * @param string $text the SQL statement to be executed
 	 */
 	public function __construct(CDbConnection $connection,$text)
 	{
@@ -71,7 +71,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Specifies the SQL statement to be executed.
 	 * Any previous execution will be terminated or cancel.
-	 * @param string the SQL statement to be executed
+	 * @param string $value the SQL statement to be executed
 	 */
 	public function setText($value)
 	{
@@ -135,13 +135,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Binds a parameter to the SQL statement to be executed.
-	 * @param mixed Parameter identifier. For a prepared statement
+	 * @param mixed $name Parameter identifier. For a prepared statement
 	 * using named placeholders, this will be a parameter name of
 	 * the form :name. For a prepared statement using question mark
 	 * placeholders, this will be the 1-indexed position of the parameter.
-	 * @param mixed Name of the PHP variable to bind to the SQL statement parameter
-	 * @param int SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
-	 * @param int length of the data type
+	 * @param mixed $value Name of the PHP variable to bind to the SQL statement parameter
+	 * @param int $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
+	 * @param int $length length of the data type
 	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindParam.php
 	 */
@@ -161,12 +161,12 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Binds a value to a parameter.
-	 * @param mixed Parameter identifier. For a prepared statement
+	 * @param mixed $name Parameter identifier. For a prepared statement
 	 * using named placeholders, this will be a parameter name of
 	 * the form :name. For a prepared statement using question mark
 	 * placeholders, this will be the 1-indexed position of the parameter.
-	 * @param mixed The value to bind to the parameter
-	 * @param int SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
+	 * @param mixed $value The value to bind to the parameter
+	 * @param int $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
 	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindValue.php
 	 */
@@ -183,10 +183,32 @@ class CDbCommand extends CComponent
 	}
 
 	/**
+	 * Binds a list of values to the corresponding parameters.
+	 * This is similar to {@link bindValue} except that it binds multiple values.
+	 * Note that the SQL data type of each value is determined by its PHP type.
+	 * @param array $values the values to be bound. This must be given in terms of an associative
+	 * array with array keys being the parameter names, and array values the corresponding parameter values.
+	 * For example, <code>array(':name'=>'John', ':age'=>25)</code>.
+	 * @return CDbCommand the current command being executed
+	 * @since 1.1.5
+	 */
+	public function bindValues($values)
+	{
+		$this->prepare();
+		foreach($values as $name=>$value)
+		{
+			$this->_statement->bindValue($name,$value,$this->_connection->getPdoType(gettype($value)));
+			if($this->_connection->enableParamLogging)
+				$this->_params[$name]=var_export($value,true);
+		}
+		return $this;
+	}
+
+	/**
 	 * Executes the SQL statement.
 	 * This method is meant only for executing non-query SQL statement.
 	 * No result set will be returned.
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -202,7 +224,7 @@ class CDbCommand extends CComponent
 			$p=array();
 			foreach($pars as $name=>$value)
 				$p[$name]=$name.'='.$value;
-			$par='. Bind with parameter ' .implode(', ',$p);
+			$par='. Bound with ' .implode(', ',$p);
 		}
 		else
 			$par='';
@@ -239,7 +261,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Executes the SQL statement and returns query result.
 	 * This method is for executing an SQL query that returns result set.
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -255,9 +277,9 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Executes the SQL statement and returns all rows.
-	 * @param boolean whether each row should be returned as an associated array with
+	 * @param boolean $fetchAssociative whether each row should be returned as an associated array with
 	 * column names as the keys or the array keys are column indexes (0-based).
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -275,15 +297,15 @@ class CDbCommand extends CComponent
 	/**
 	 * Executes the SQL statement and returns the first row of the result.
 	 * This is a convenient method of {@link query} when only the first row of data is needed.
-	 * @param boolean whether the row should be returned as an associated array with
+	 * @param boolean $fetchAssociative whether the row should be returned as an associated array with
 	 * column names as the keys or the array keys are column indexes (0-based).
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
 	 * This parameter has been available since version 1.0.10.
-	 * @return array the first row of the query result, false if no result.
+	 * @return mixed the first row (in terms of an array) of the query result, false if no result.
 	 * @throws CException execution failed
 	 */
 	public function queryRow($fetchAssociative=true,$params=array())
@@ -295,7 +317,7 @@ class CDbCommand extends CComponent
 	 * Executes the SQL statement and returns the value of the first column in the first row of data.
 	 * This is a convenient method of {@link query} when only a single scalar
 	 * value is needed (e.g. obtaining the count of the records).
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -317,7 +339,7 @@ class CDbCommand extends CComponent
 	 * Executes the SQL statement and returns the first column of the result.
 	 * This is a convenient method of {@link query} when only the first column of data is needed.
 	 * Note, the column returned will contain the first element in each row of result.
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -332,9 +354,9 @@ class CDbCommand extends CComponent
 	}
 
 	/**
-	 * @param string method of PDOStatement to be called
-	 * @param mixed the first parameter to be passed to the method
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param string $method method of PDOStatement to be called
+	 * @param mixed $mode the first parameter to be passed to the method
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -349,7 +371,7 @@ class CDbCommand extends CComponent
 			$p=array();
 			foreach($pars as $name=>$value)
 				$p[$name]=$name.'='.$value;
-			$par='. Bind with parameter ' .implode(', ',$p);
+			$par='. Bound with '.implode(', ',$p);
 		}
 		else
 			$par='';
@@ -357,7 +379,7 @@ class CDbCommand extends CComponent
 		try
 		{
 			if($this->_connection->enableProfiling)
-				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			$this->prepare();
 			if($params===array())
@@ -374,14 +396,14 @@ class CDbCommand extends CComponent
 			}
 
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 
 			return $result;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',

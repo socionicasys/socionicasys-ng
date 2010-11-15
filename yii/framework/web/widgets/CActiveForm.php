@@ -41,26 +41,26 @@
  *
  * The following is a piece of sample view code:
  * <pre>
- * &lt;?php $form = $this->beginWidget('CActiveForm', array(
+ * <?php $form = $this->beginWidget('CActiveForm', array(
  *     'id'=>'user-form',
  *     'enableAjaxValidation'=>true,
  *     'focus'=>array($model,firstName),
- * )); ?&gt;
+ * )); ?>
  *
- * &lt;?php echo $form-&gt;errorSummary($model); ?&gt;
+ * <?php echo $form->errorSummary($model); ?>
  *
- * &lt;div class="row"&gt;
- *     &lt;?php echo $form-&gt;labelEx($model,'firstName'); ?&gt;
- *     &lt;?php echo $form-&gt;textField($model,'firstName'); ?&gt;
- *     &lt;?php echo $form-&gt;error($model,'firstName'); ?&gt;
- * &lt;/div&gt;
- * &lt;div class="row"&gt;
- *     &lt;?php echo $form-&gt;labelEx($model,'lastName'); ?&gt;
- *     &lt;?php echo $form-&gt;textField($model,'lastName'); ?&gt;
- *     &lt;?php echo $form-&gt;error($model,'lastName'); ?&gt;
- * &lt;/div&gt;
+ * <div class="row">
+ *     <?php echo $form->labelEx($model,'firstName'); ?>
+ *     <?php echo $form->textField($model,'firstName'); ?>
+ *     <?php echo $form->error($model,'firstName'); ?>
+ * </div>
+ * <div class="row">
+ *     <?php echo $form->labelEx($model,'lastName'); ?>
+ *     <?php echo $form->textField($model,'lastName'); ?>
+ *     <?php echo $form->error($model,'lastName'); ?>
+ * </div>
  *
- * &lt;?php $this->endWidget(); ?&gt;
+ * <?php $this->endWidget(); ?>
  * </pre>
  *
  * To respond to the AJAX validation requests, we need the following class code:
@@ -114,7 +114,7 @@
  * you should design your own lightweight AJAX validation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveForm.php 2394 2010-08-31 11:41:23Z qiang.xue $
+ * @version $Id: CActiveForm.php 2597 2010-11-01 21:17:02Z qiang.xue $
  * @package system.web.widgets
  * @since 1.1.1
  */
@@ -242,7 +242,7 @@ class CActiveForm extends CWidget
 	public $enableAjaxValidation=false;
 
 	/**
-	 * @var mixed form element to get initial input focus on page load
+	 * @var mixed form element to get initial input focus on page load.
 	 *
 	 * Defaults to null meaning no input field has a focus.
 	 * If set as array, first element should be model and second element should be the attribute.
@@ -284,9 +284,18 @@ class CActiveForm extends CWidget
 	 */
 	public function run()
 	{
+		if(is_array($this->focus))
+			$this->focus="#".CHtml::activeId($this->focus[0],$this->focus[1]);
+
 		echo CHtml::endForm();
 		if(!$this->enableAjaxValidation || empty($this->_attributes))
+		{
+			Yii::app()->clientScript->registerScript('CActiveForm#focus',"
+				if(!window.location.hash)
+					$('".$this->focus."').focus();
+			");
 			return;
+		}
 
 		$options=$this->clientOptions;
 		if(isset($this->clientOptions['validationUrl']) && is_array($this->clientOptions['validationUrl']))
@@ -297,12 +306,8 @@ class CActiveForm extends CWidget
 		if($this->_summary!==null)
 			$options['summaryID']=$this->_summary;
 
-		if($this->focus!==null) {
-			if(is_array($this->focus))
-				$options['focus']="#".CHtml::activeId($this->focus[0],$this->focus[1]);
-			else
+		if($this->focus!==null)
 				$options['focus']=$this->focus;
-		}
 
 		$options=CJavaScript::encode($options);
 		Yii::app()->clientScript->registerCoreScript('yiiactiveform');
@@ -314,9 +319,9 @@ class CActiveForm extends CWidget
 	 * Displays the first validation error for a model attribute.
 	 * This is similar to {@link CHtml::error} except that it registers the model attribute
 	 * so that if its value is changed by users, an AJAX validation may be triggered.
-	 * @param CModel the data model
-	 * @param string the attribute name
-	 * @param array additional HTML attributes to be rendered in the container div tag.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute name
+	 * @param array $htmlOptions additional HTML attributes to be rendered in the container div tag.
 	 * Besides all those options available in {@link CHtml::error}, the following options are recognized in addition:
 	 * <ul>
 	 * <li>validationDelay</li>
@@ -333,7 +338,7 @@ class CActiveForm extends CWidget
 	 * These options override the corresponding options as declared in {@link options} for this
 	 * particular model attribute. For more details about these options, please refer to {@link clientOptions}.
 	 * Note that these options are only used when {@link enableAjaxValidation} is set true.
-	 * @param boolean whether to enable AJAX validation for the specified attribute.
+	 * @param boolean $enableAjaxValidation whether to enable AJAX validation for the specified attribute.
 	 * Note that in order to enable AJAX validation, both {@link enableAjaxValidation} and this parameter
 	 * must be true.
 	 * @return string the validation result (error display or success message).
@@ -349,7 +354,12 @@ class CActiveForm extends CWidget
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=$inputID.'_em_';
 
-		$option=array('inputID'=>$inputID, 'errorID'=>$htmlOptions['id']);
+		$option=array(
+			'inputID'=>$inputID,
+			'errorID'=>$htmlOptions['id'],
+			'model'=>get_class($model),
+			'name'=>$attribute,
+		);
 
 		$optionNames=array(
 			'validationDelay',
@@ -394,11 +404,11 @@ class CActiveForm extends CWidget
 	 * Displays a summary of validation errors for one or several models.
 	 * This method is very similar to {@link CHtml::errorSummary} except that it also works
 	 * when AJAX validation is performed.
-	 * @param mixed the models whose input errors are to be displayed. This can be either
+	 * @param mixed $models the models whose input errors are to be displayed. This can be either
 	 * a single model or an array of models.
-	 * @param string a piece of HTML code that appears in front of the errors
-	 * @param string a piece of HTML code that appears at the end of the errors
-	 * @param array additional HTML attributes to be rendered in the container div tag.
+	 * @param string $header a piece of HTML code that appears in front of the errors
+	 * @param string $footer a piece of HTML code that appears at the end of the errors
+	 * @param array $htmlOptions additional HTML attributes to be rendered in the container div tag.
 	 * @return string the error summary. Empty if no errors are found.
 	 * @see CHtml::errorSummary
 	 */
@@ -429,6 +439,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeLabel}.
 	 * Please check {@link CHtml::activeLabel} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated label tag
 	 */
 	public function label($model,$attribute,$htmlOptions=array())
 	{
@@ -440,6 +454,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeLabelEx}.
 	 * Please check {@link CHtml::activeLabelEx} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated label tag
 	 */
 	public function labelEx($model,$attribute,$htmlOptions=array())
 	{
@@ -451,6 +469,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeTextField}.
 	 * Please check {@link CHtml::activeTextField} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
 	 */
 	public function textField($model,$attribute,$htmlOptions=array())
 	{
@@ -462,6 +484,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeHiddenField}.
 	 * Please check {@link CHtml::activeHiddenField} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
 	 */
 	public function hiddenField($model,$attribute,$htmlOptions=array())
 	{
@@ -473,6 +499,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activePasswordField}.
 	 * Please check {@link CHtml::activePasswordField} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated input field
 	 */
 	public function passwordField($model,$attribute,$htmlOptions=array())
 	{
@@ -484,6 +514,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeTextArea}.
 	 * Please check {@link CHtml::activeTextArea} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated text area
 	 */
 	public function textArea($model,$attribute,$htmlOptions=array())
 	{
@@ -495,6 +529,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeFileField}.
 	 * Please check {@link CHtml::activeFileField} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes
+	 * @return string the generated input field
 	 */
 	public function fileField($model,$attribute,$htmlOptions=array())
 	{
@@ -506,6 +544,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeRadioButton}.
 	 * Please check {@link CHtml::activeRadioButton} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated radio button
 	 */
 	public function radioButton($model,$attribute,$htmlOptions=array())
 	{
@@ -517,6 +559,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeCheckBox}.
 	 * Please check {@link CHtml::activeCheckBox} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated check box
 	 */
 	public function checkBox($model,$attribute,$htmlOptions=array())
 	{
@@ -528,6 +574,11 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeDropDownList}.
 	 * Please check {@link CHtml::activeDropDownList} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $data data for generating the list options (value=>display)
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated drop down list
 	 */
 	public function dropDownList($model,$attribute,$data,$htmlOptions=array())
 	{
@@ -539,6 +590,11 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeListBox}.
 	 * Please check {@link CHtml::activeListBox} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $data data for generating the list options (value=>display)
+	 * @param array $htmlOptions additional HTML attributes.
+	 * @return string the generated list box
 	 */
 	public function listBox($model,$attribute,$data,$htmlOptions=array())
 	{
@@ -550,6 +606,11 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeCheckBoxList}.
 	 * Please check {@link CHtml::activeCheckBoxList} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $data value-label pairs used to generate the check box list.
+	 * @param array $htmlOptions addtional HTML options.
+	 * @return string the generated check box list
 	 */
 	public function checkBoxList($model,$attribute,$data,$htmlOptions=array())
 	{
@@ -561,6 +622,11 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeRadioButtonList}.
 	 * Please check {@link CHtml::activeRadioButtonList} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $data value-label pairs used to generate the radio button list.
+	 * @param array $htmlOptions addtional HTML options.
+	 * @return string the generated radio button list
 	 */
 	public function radioButtonList($model,$attribute,$data,$htmlOptions=array())
 	{
@@ -570,12 +636,12 @@ class CActiveForm extends CWidget
 	/**
 	 * Validates one or several models and returns the results in JSON format.
 	 * This is a helper method that simplies the way of writing AJAX validation code.
-	 * @param mixed a single model instance or an array of models.
-	 * @param array list of attributes that should be validated. Defaults to null,
+	 * @param mixed $models a single model instance or an array of models.
+	 * @param array $attributes list of attributes that should be validated. Defaults to null,
 	 * meaning any attribute listed in the applicable validation rules of the models should be
 	 * validated. If this parameter is given as a list of attributes, only
 	 * the listed attributes will be validated.
-	 * @param boolean whether to load the data from $_POST array in this method.
+	 * @param boolean $loadInput whether to load the data from $_POST array in this method.
 	 * If this is true, the model will be populated from <code>$_POST[ModelClass]</code>.
 	 * @return string the JSON representation of the validation error messages.
 	 */

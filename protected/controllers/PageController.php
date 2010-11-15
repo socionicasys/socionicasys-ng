@@ -38,7 +38,28 @@ class PageController extends Controller
 			array(
 				'SpaceFixer',
 			),
+			array(
+				'COutputCache + view',
+				'duration' => 86400,
+				'varyByRoute' => true,
+				'varyByParam' => array('path'),
+			),
 		);
+	}
+
+	public function renderSidebarLinks()
+	{
+		$webUser = Yii::app()->user;
+		if (!$webUser->isGuest && $webUser->checkAccess('Page.Manage'))
+		{
+			return $this->renderPartial('page-manage', array(
+				'link' => $this->createUrl('manage'),
+			), true);
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	public function actionManage()
@@ -50,72 +71,42 @@ class PageController extends Controller
 
 	public function actionView($path = '/')
 	{
-		$page = $this->loadModel($path);
-		$path = trim($path, '/');
+		$model = $this->loadModel($path);
 		
-		$webUser = Yii::app()->user;
-		$links = array();
-		$pageControls = false;
-		if (!$webUser->isGuest && $webUser->checkAccess('Page.Manage'))
+		if ($model->title === null)
 		{
-			$links['manage'] = $this->createUrl('manage');
+			$this->pageTitle = $model->menu_title . ' | ' . Yii::app()->name;
 		}
-		if (!$webUser->isGuest && $webUser->checkAccess('Page.Create'))
+		else if (!empty($model->title))
 		{
-			$links['create'] = $this->createUrl('create', array(
-				'id' => $page->id,
-			));
-			$pageControls = true;
-		}
-		if (!$webUser->isGuest && $webUser->checkAccess('Page.Edit'))
-		{
-			$links['edit'] = $this->createUrl('edit', array(
-				'path' => $path,
-			));
-			$pageControls = true;
-		}
-		if (!$webUser->isGuest && $webUser->checkAccess('Page.Delete'))
-		{
-			$links['delete'] = $this->createUrl('delete', array(
-				'path' => $path,
-			));
-			$pageControls = true;
-		}
-
-		if ($page->title === null)
-		{
-			$this->pageTitle = $page->menu_title . ' | ' . Yii::app()->name;
-		}
-		else if (!empty($page->title))
-		{
-			$this->pageTitle = $page->title . ' | ' . Yii::app()->name;
+			$this->pageTitle = $model->title . ' | ' . Yii::app()->name;
 		}
 		else
 		{
 			$this->pageTitle = Yii::app()->name;
 		}
 		
-		if ($page->meta_description !== null)
+		if ($model->meta_description !== null)
 		{
-			$this->pageDescription = $page->meta_description;
+			$this->pageDescription = $model->meta_description;
 		}
-		if ($page->meta_keywords !== null)
+		if ($model->meta_keywords !== null)
 		{
-			$this->pageKeywords = $page->meta_keywords;
+			$this->pageKeywords = $model->meta_keywords;
 		}
 
 		$prevLink = null;
 		$nextLink = null;
-		if (!$page->standalone)
+		if (!$model->standalone)
 		{
-			if ($page->type != Nav::TYPE_SECTION)
+			if ($model->type != Nav::TYPE_SECTION)
 			{
-				$section = $page->ancestors()->find(array(
+				$section = $model->ancestors()->find(array(
 					'condition' => 'type = ' . Nav::TYPE_SECTION,
 					'order' => 'level DESC',
 				));
 				$prevPage = Nav::model()->find(array(
-					'condition' => 'lft < ' . $page->lft,
+					'condition' => 'lft < ' . $model->lft,
 					'order' => 'lft DESC',
 				));
 				if ($prevPage !== null && !($prevPage->isDescendantOf($section) || $prevPage->equals($section)))
@@ -125,11 +116,11 @@ class PageController extends Controller
 			}
 			else
 			{
-				$section = $page;
+				$section = $model;
 				$prevPage = null;
 			}
 			$nextPage = Nav::model()->find(array(
-				'condition' => 'lft > ' . $page->lft,
+				'condition' => 'lft > ' . $model->lft,
 				'order' => 'lft ASC',
 			));
 			if ($nextPage !== null && !($nextPage->isDescendantOf($section) || $nextPage->equals($section)))
@@ -150,7 +141,7 @@ class PageController extends Controller
 		Yii::app()->clientScript->registerScriptFile(
 			Yii::app()->baseUrl . '/scripts/hyphenate.js'
 		);
-		if ($page->wide_layout)
+		if ($model->wide_layout)
 		{
 			$this->layout = '//layouts/article-wide';
 		}
@@ -159,13 +150,48 @@ class PageController extends Controller
 			$this->layout = '//layouts/article';
 		}
 		$this->render('view', array(
-			'text' => $page->text,
-			'links' => $links,
-			'pageControls' => $pageControls,
-			'standalone' => $page->standalone,
+			'model' => $model,
+			'standalone' => $model->standalone,
 			'prevLink' => $prevLink,
 			'nextLink' => $nextLink,
 		));
+	}
+
+	public function renderPageLinks($id, $path)
+	{
+		$path = trim($path, '/');
+		$links = array();
+		$webUser = Yii::app()->user;
+
+		if (!$webUser->isGuest && $webUser->checkAccess('Page.Create'))
+		{
+			$links['create'] = $this->createUrl('create', array(
+				'id' => $id,
+			));
+		}
+		if (!$webUser->isGuest && $webUser->checkAccess('Page.Edit'))
+		{
+			$links['edit'] = $this->createUrl('edit', array(
+				'path' => $path,
+			));
+		}
+		if (!$webUser->isGuest && $webUser->checkAccess('Page.Delete'))
+		{
+			$links['delete'] = $this->createUrl('delete', array(
+				'path' => $path,
+			));
+		}
+
+		if (!empty($links))
+		{
+			return $this->renderPartial('page-links', array(
+				'links' => $links,
+			), true);
+		}
+		else
+		{
+			return '';
+		}
 	}
 	
 	public function actionCreate($id = null)
