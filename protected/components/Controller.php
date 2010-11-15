@@ -216,15 +216,7 @@ class Controller extends RightsBaseController
 		}
 	}
 
-	public function render($view, $data = null, $return = false)
-	{
-		if ($this->beforeRender())
-		{
-			return parent::render($view, $data, $return);
-		}
-	}
-
-	protected function beforeRender()
+	protected function beforeRender($view)
 	{
 		if ($this->pageDescription !== null)
 		{
