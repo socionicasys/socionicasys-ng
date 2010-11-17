@@ -131,10 +131,12 @@ class PageController extends Controller
 			if ($prevPage !== null)
 			{
 				$prevLink = $prevPage->getUrl();
+				Yii::app()->clientScript->registerLinkTag('prev', null, $prevLink);
 			}
 			if ($nextPage !== null)
 			{
-				$nextLink = ($nextPage === null) ? null : $nextPage->getUrl();
+				$nextLink = $nextPage->getUrl();
+				Yii::app()->clientScript->registerLinkTag('next', null, $nextLink);
 			}
 		}
 		
