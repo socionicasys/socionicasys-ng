@@ -140,6 +140,7 @@ class Nav extends CActiveRecord
 				$this->url = '/' . trim($parent->url, '/') . '/' .
 					TextHelper::rus2translit($this->menu_title);
 			}
+			$this->url = str_replace('//', '/', $this->url);
 			return true;
 		}
 		else
