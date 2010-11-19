@@ -347,6 +347,10 @@ body:before {
 	margin: 0;
 }
 
+#content img.aside {
+	width: auto;
+}
+
 #content.content-editor .aside {
 	float: none;
 	width: auto;
@@ -801,6 +805,7 @@ form.wide .errorMessage {
 	#major-navigation,
 	#breadcrumbs,
 	#page-controls,
+	#nav-controls,
 	#yiiWebDebugToolbar,
 	#secondary-navigation,
 	blockquote.aside {
@@ -822,10 +827,14 @@ form.wide .errorMessage {
 		margin-left: 0 !important;
 	}
 
-	.aside {
-		margin: 0 !important;
-		float: none !important;
-		width: auto !important;
+	#content .aside {
+		margin: 0;
+		float: none;
+		width: auto;
+	}
+
+	#content img.aside {
+		float: right;
 	}
 
 	#content a:link,
