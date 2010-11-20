@@ -514,6 +514,27 @@ h1 a {
 	color: #6ebb21;
 }
 
+/** Обзорные страницы (Теория, Библиотека) **/
+#content h1.huge {
+	font-size: 3em;
+	color: #6ebb21;
+}
+
+#content h2.huge {
+	font-size: 2em;
+}
+
+#content h2.huge a {
+	padding: 0.3em;
+	color: #313131;
+	border: 1px solid #6ebb21;
+	background-color: #f8f8f8;
+	text-decoration: none;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
 /** Ссылки управления страницей **/
 #page-controls {
 	border-bottom: 1px solid #ddd;
