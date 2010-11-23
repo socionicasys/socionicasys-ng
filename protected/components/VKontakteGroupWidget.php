@@ -4,7 +4,7 @@
  * Виджет для сообществ ВКонтакте
  * http://vkontakte.ru/developers.php?o=-1&p=Groups
  */
-class VkontakteGroupWidget extends CWidget
+class VKontakteGroupWidget extends CWidget
 {
 	/**
 	 * @var int идентификатор группы ВКонтакте, для которой отображается виджет
