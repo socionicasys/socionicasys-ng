@@ -1,0 +1,1 @@
+<iframe src="http://vkontakte.ru/video_ext.php?oid=<?php echo $oid; ?>&amp;id=<?php echo $id; ?>&amp;hash=<?php echo $hash; ?>" width="607" height="360" frameborder="0"></iframe>

@@ -69,6 +69,12 @@ return array(
 				'biblioteka/<type:(statji)>/<title:(\w|-)+>/delete' => 'library/delete',
 				'biblioteka/<type:(statji)>/<title:(\w|-)+>' => 'library/view',
 				'biblioteka/<type:(statji)>' => 'library/list',
+				// Видео
+				'biblioteka/video/create' => 'video/create',
+				'biblioteka/video/<id:\d+>/edit' => 'video/edit',
+				'biblioteka/video/<id:\d+>/delete' => 'video/delete',
+				'biblioteka/video/<id:\d+>' => 'video/view',
+				'biblioteka/video' => 'video/list',
 				// Цитаты
 				'quote/<id:\d+>' => 'quote/view',
 				'quote/<id:\d+>/<action:(update|delete)>' => 'quote/<action>',
