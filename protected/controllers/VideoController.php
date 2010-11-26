@@ -96,6 +96,9 @@ class VideoController extends Controller
 	public function actionList()
 	{
 		$dataProvider = new CActiveDataProvider('Video', array(
+			'criteria' => array(
+				'order' => 'post_time DESC',
+			),
 			'pagination' => array(
 				'pageSize' => 10,
 			),

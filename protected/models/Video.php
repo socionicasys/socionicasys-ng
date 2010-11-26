@@ -105,4 +105,38 @@ class Video extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+	/**
+	 * Перед сохранением новой записи автоматически добавляет к ней дату
+	 * создания.
+	 */
+	protected function beforeSave()
+	{
+		if (parent::beforeSave())
+		{
+			if ($this->isNewRecord)
+			{
+				$this->post_time = time();
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public function getUrl($absolute = false)
+	{
+		if ($absolute)
+		{
+			$create = 'createAbsoluteUrl';
+		}
+		else
+		{
+			$create = 'createUrl';
+		}
+		return Yii::app()->$create('video/view', array(
+			'id' => $this->id,
+		));
+	}
 }
