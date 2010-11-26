@@ -30,6 +30,15 @@ class Video extends CActiveRecord
 		return '{{video}}';
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'purge' => array(
+				'class' => 'PurgeModelCache',
+			),
+		);
+	}
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
