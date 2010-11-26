@@ -66,11 +66,11 @@ class Video extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'url' => 'Url',
-			'link' => 'Link',
-			'post_time' => 'Post Time',
-			'comment' => 'Comment',
+			'title' => 'Заголовок',
+			'url' => 'Адрес для сайта',
+			'link' => 'Ссылка на видео',
+			'post_time' => 'Дата добавления',
+			'comment' => 'Комментарий',
 		);
 	}
 
