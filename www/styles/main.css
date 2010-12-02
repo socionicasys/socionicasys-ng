@@ -142,15 +142,20 @@ body:before {
 }
 
 /*** Боковое меню ***/
-#secondary-navigation {
+#secondary-navigation,
+#random-quote {
 	float: left;
+	clear: left;
 	width: 15em;
-	margin-top: 0.8125em;
 	padding: 0.5em 0.5em 0.5em 1.5em;
 	background-color: #f8f8f8;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+}
+
+#secondary-navigation {
+	margin-top: 0.8125em;
 }
 
 #secondary-navigation nav {
@@ -192,6 +197,30 @@ body:before {
 	margin-top: 0.714em;
 	padding-top: 0.714em;
 	border-top: 1px solid #ddd;
+}
+
+/*** Блок случайный цитат ***/
+#random-quote {
+	margin-top: 1.6875em;
+}
+
+.random-quote {
+	font-size: 0.75em;
+	line-height: 1.75;
+}
+
+.random-quote blockquote {
+	font-style: italic;
+	color: #6ebb21;
+	text-align: justify;
+}
+
+.random-quote-author {
+	float: right;
+}
+
+.random-quote-note {
+	float: left;
 }
 
 /*** Содержимое ***/

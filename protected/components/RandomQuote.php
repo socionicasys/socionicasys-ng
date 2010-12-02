@@ -30,7 +30,7 @@ class RandomQuote extends CWidget
 
 		if (strpos($quote->text, '<p>') === false)
 		{
-			$quote->text = '<p>' . $quote->text . '</p>';
+			$quote->text = '<p>«' . $quote->text . '»</p>';
 		}
 
 		$this->render('random-quote', array(

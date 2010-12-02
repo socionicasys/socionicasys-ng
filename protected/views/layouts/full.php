@@ -26,4 +26,7 @@
 	</nav>
 	<?php $this->renderDynamic('renderSidebarLinks'); ?>
 </aside>
+<aside id="random-quote">
+	<?php $this->renderDynamic('renderRandomQuote'); ?>
+</aside>
 <?php $this->endContent();
