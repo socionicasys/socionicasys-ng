@@ -156,7 +156,6 @@ class MenuManager extends CApplicationComponent
 		elseif ($currentItem->equals($root))
 		{
 			unset($menu['url']);
-			$menu['active'] = true;
 			$menu['itemOptions'] = array('class' => 'selected');
 			$breadcrumbs = array($root->menu_title);
 		}
