@@ -156,13 +156,14 @@ class MenuManager extends CApplicationComponent
 		elseif ($currentItem->equals($root))
 		{
 			unset($menu['url']);
+			$menu['itemOptions'] = array('class' => 'selected');
 			$breadcrumbs = array($root->menu_title);
 		}
 		else
 		{
 			$breadcrumbs = array();
 		}
-				
+		
 		while ($position < count($items))
 		{
 			$item = $items[$position];
@@ -189,6 +190,7 @@ class MenuManager extends CApplicationComponent
 		if (!empty($childMenu) && ($currentItem->isDescendantOf($root) || $currentItem->equals($root)))
 		{
 			$menu['items'] = $childMenu;
+			$menu['active'] = true;
 		}
 		return array($menu, $breadcrumbs);
 	}

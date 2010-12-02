@@ -228,4 +228,9 @@ class Controller extends RightsBaseController
 		}
 		return true;
 	}
+
+	public function renderRandomQuote()
+	{
+		return $this->widget('RandomQuote', array(), true);
+	}
 }
