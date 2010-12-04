@@ -28,9 +28,10 @@ class RandomQuote extends CWidget
 			'offset' => $offset,
 		));
 
-		if (strpos($quote->text, '<p>') === false)
+		$text = $quote->text;
+		if (strpos($text, '<p>') === false)
 		{
-			$quote->text = '<p>«' . $quote->text . '»</p>';
+			$quote->text = '<p>«' . rtrim($text, ' .') . '»</p>';
 		}
 
 		$this->render('random-quote', array(
