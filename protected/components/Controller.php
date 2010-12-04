@@ -231,6 +231,9 @@ class Controller extends RightsBaseController
 
 	public function renderRandomQuote()
 	{
+		Yii::app()->clientScript->registerScript('random-quote',
+			"$('#random-quote').hide().delay(1000).fadeIn(1000);"
+		);
 		return $this->widget('RandomQuote', array(), true);
 	}
 }
