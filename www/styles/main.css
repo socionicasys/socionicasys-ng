@@ -211,12 +211,18 @@ body:before {
 
 .random-quote h1 {
 	font-size: 1em;
+	font-weight: normal;
 	text-align: center;
+	border-bottom: 1px dotted #aaa;
 }
 
 .random-quote blockquote {
 	font-style: italic;
+	font-size: 1.083333em;
 	text-align: justify;
+	line-height: 1.615385;
+	position: relative;
+	top: -0.076923em;
 }
 
 .random-quote-author {
