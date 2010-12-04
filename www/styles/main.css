@@ -209,9 +209,13 @@ body:before {
 	line-height: 1.75;
 }
 
+.random-quote h1 {
+	font-size: 1em;
+	text-align: center;
+}
+
 .random-quote blockquote {
 	font-style: italic;
-	color: #6ebb21;
 	text-align: justify;
 }
 
