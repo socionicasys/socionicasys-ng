@@ -1,4 +1,6 @@
 .idea
+.buildpath
+.project
 .settings
 www/assets
 www/images/.tmb
