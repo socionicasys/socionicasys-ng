@@ -28,8 +28,9 @@ $cs->registerLinkTag(
 	<div id="wrap">
 		<header id="main-header">
 			<?php $this->renderDynamic('renderHeaderLinks'); ?>
-			<a href="<?php echo Yii::app()->homeUrl; ?>">
-				<img src="/images/Logo.png?2" alt="Школа системной соционики" />
+			<a id="logo-link" href="<?php echo Yii::app()->homeUrl; ?>">
+				<h1>Школа системной соционики</h1>
+				<h2>Практика&nbsp;&mdash; критерий истины</h2>
 			</a>
 		</header>
 		<nav id="major-navigation">
