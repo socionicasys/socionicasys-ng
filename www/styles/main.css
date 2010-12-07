@@ -32,12 +32,21 @@ body:before {
 
 /*** Шапка ***/
 #main-header {
+	padding-top: 0.5em;
 }
 
 #main-header a {
-	padding-top: 0.5em;
-	padding-left: 1em;
 	display: block;
+}
+
+#logo-link {
+	background: url('/images/Logo.png?3') no-repeat;
+	height: 5em;
+}
+
+#logo-link h1,
+#logo-link h2 {
+	text-indent: -1000em;
 }
 
 #main-header a:focus {
@@ -61,7 +70,8 @@ body:before {
 #major-navigation ul {
 	float: left;
 	width: 100%;
-	padding: 0.5em 0;
+	padding: 0.5em 0 0.5em 8.5em;
+	background: url('/images/Logo.png?3') no-repeat 0 -5.75em;
 	border-bottom: 3px solid #6ebb21;
 }
 

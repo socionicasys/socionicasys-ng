@@ -50,7 +50,7 @@ class Quote extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'author' => 'Автор',
-			'note' => 'Комментарий (аспект, блок и т. п.)',
+			'note' => 'Комментарий',
 			'text' => 'Текст',
 		);
 	}

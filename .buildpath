@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<buildpath>
-	<buildpathentry excluding="extensions/yii-dbmigrations/templates/migration.php" kind="src" path="protected"/>
-	<buildpathentry kind="src" path="www"/>
-	<buildpathentry excluding="yiilite.php" kind="src" path="yii/framework"/>
-	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
-</buildpath>
