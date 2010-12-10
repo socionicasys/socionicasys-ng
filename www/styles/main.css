@@ -160,11 +160,15 @@ body:before {
 	float: left;
 	clear: left;
 	width: 15em;
-	padding: 0.5em 0.5em 0.5em 1.5em;
-	background-color: #f8f8f8;
+	padding: 0.3em 0.3em 0.3em 1.3em;
+	margin-left: 3px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
+	border: 1px solid #6ebb21;
+	-webkit-box-shadow: 0px 0px 5px #6ebb21;
+	-moz-box-shadow: 0px 0px 5px #6ebb21;
+	box-shadow: 0px 0px 5px #6ebb21;
 }
 
 #secondary-navigation {
@@ -214,7 +218,10 @@ body:before {
 
 /*** Блок случайный цитат ***/
 #random-quote {
+	width: 15.6em;
 	margin-top: 1.6875em;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
 }
 
 .random-quote {
