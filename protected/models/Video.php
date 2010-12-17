@@ -10,6 +10,8 @@
  * @property string $link
  * @property integer $post_time
  * @property string $comment
+ * @property string $category
+ * @property string $date
  */
 class Video extends CActiveRecord
 {
@@ -49,11 +51,11 @@ class Video extends CActiveRecord
 		return array(
 			array('title, link', 'required'),
 			array('post_time', 'numerical', 'integerOnly'=>true),
-			array('title, url, link', 'length', 'max'=>255),
+			array('title, url, link, category, date', 'length', 'max'=>255),
 			array('comment', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, title, url, link, post_time, comment', 'safe', 'on'=>'search'),
+			array('id, title, url, link, post_time, comment, category, date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -80,6 +82,8 @@ class Video extends CActiveRecord
 			'link' => 'Ссылка на видео',
 			'post_time' => 'Дата добавления',
 			'comment' => 'Комментарий',
+			'category' => 'Тема',
+			'date' => 'Год',
 		);
 	}
 

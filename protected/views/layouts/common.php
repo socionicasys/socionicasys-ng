@@ -30,7 +30,7 @@ $cs->registerLinkTag(
 			<?php $this->renderDynamic('renderHeaderLinks'); ?>
 			<a id="logo-link" href="<?php echo Yii::app()->homeUrl; ?>">
 				<h1>Школа системной соционики</h1>
-				<h2>Практика&nbsp;&mdash; критерий истины</h2>
+				<h2>«Практика&nbsp;&mdash; критерий истины»</h2>
 			</a>
 		</header>
 		<nav id="major-navigation">
