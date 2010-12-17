@@ -40,13 +40,20 @@ body:before {
 }
 
 #logo-link {
-	background: url('/images/Logo.png?3') no-repeat;
+	background: url('/images/Logo.png?4') no-repeat;
 	height: 5em;
+	text-decoration: none;
 }
 
-#logo-link h1,
-#logo-link h2 {
+#logo-link h1 {
 	text-indent: -1000em;
+}
+
+#logo-link h2 {
+	float: right;
+	color: #888;
+	font-weight: normal;
+	margin-top: 1.5em;
 }
 
 #main-header a:focus {
@@ -55,7 +62,6 @@ body:before {
 
 .header-link {
 	float: right;
-	padding-right: 1em;
 	color: #6ebb21;
 	text-decoration: none;
 }
@@ -70,8 +76,8 @@ body:before {
 #major-navigation ul {
 	float: left;
 	width: 100%;
-	padding: 0.5em 0 0.5em 8.5em;
-	background: url('/images/Logo.png?3') no-repeat 0 -5.75em;
+	padding: 0.6em 0 0.5em 8.5em;
+	background: url('/images/Logo.png?4') no-repeat 0 -5.75em;
 	border-bottom: 3px solid #6ebb21;
 }
 
@@ -156,20 +162,13 @@ body:before {
 #random-quote {
 	float: left;
 	clear: left;
-	width: 15em;
-	padding: 0.3em 0.3em 0.3em 1.3em;
-	margin-left: 3px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	border: 1px solid #6ebb21;
-	-webkit-box-shadow: 0px 0px 5px #6ebb21;
-	-moz-box-shadow: 0px 0px 5px #6ebb21;
-	box-shadow: 0px 0px 5px #6ebb21;
 }
 
 #secondary-navigation {
-	margin-top: 0.8125em;
+	margin-top: 0.9375em;
+	width: 15.8em;
+	padding: 0.3em 0.3em 0.3em 0.75em;
+	border-right: 2px solid #6ebb21;
 }
 
 #secondary-navigation nav {
@@ -216,9 +215,16 @@ body:before {
 /*** Блок случайный цитат ***/
 #random-quote {
 	width: 15.6em;
-	margin-top: 1.6875em;
-	padding-left: 0.5em;
-	padding-right: 0.5em;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #6ebb21;
+	-webkit-box-shadow: 0px 0px 5px #6ebb21;
+	-moz-box-shadow: 0px 0px 5px #6ebb21;
+	box-shadow: 0px 0px 5px #6ebb21;
+	margin-left: 3px;
+	margin-top: 2em;
+	padding: 0.3em 0.5em;
 }
 
 .random-quote {
