@@ -17,6 +17,18 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model, 'category'); ?>
+		<?php echo $form->textField($model, 'category', array('size' => 60, 'maxlength' => 256)); ?>
+		<?php echo $form->error($model, 'category'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model, 'date'); ?>
+		<?php echo $form->textField($model, 'date', array('size' => 60, 'maxlength' => 256)); ?>
+		<?php echo $form->error($model, 'date'); ?>
+	</div>
+
+	<div class="row">
 		<?php
 		$this->widget('ECKEditorSetup', array(
 			'model' => $model,

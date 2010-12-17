@@ -3,9 +3,18 @@ $this->pageTitle='Видеозаписи | ' . Yii::app()->name;
 
 $this->renderDynamic('renderListLinks');
 
-$listView = $this->widget('zii.widgets.CListView', array(
+$listView = $this->widget('zii.widgets.grid.CGridView', array(
 	'dataProvider' => $dataProvider,
-	'itemView' => '_list-item',
+	'enablePagination' => false,
 	'emptyText' => 'Видеозаписей нет.',
-	'template' => "{items}\n{pager}",
+	'template' => '{items}',
+	'columns' => array(
+		'title',
+		'category',
+		'date',
+		array(
+			'class' => 'CButtonColumn',
+			'template' => '{view}',
+		),
+	),
 ));
