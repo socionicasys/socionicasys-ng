@@ -41,7 +41,7 @@ class LibraryController extends Controller
 		$this->layout = '//layouts/article-wide';
 		$this->render("$type-item", array(
 			'model' => $model,
-		    'shortTitle' => TextHelper::truncate($model->title, 70, '…', true),
+			'shortTitle' => TextHelper::truncate($model->title, 70, '…', true),
 		));
 	}
 	

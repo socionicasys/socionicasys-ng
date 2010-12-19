@@ -150,10 +150,10 @@ class Controller extends RightsBaseController
 		{
 			return 'class = "' . $this->layoutClass . '"';
 		}
-	    else
-	    {
-		    return '';
-	    }
+		else
+		{
+			return '';
+		}
 	}
 
 	public function getContentAttr()
@@ -162,10 +162,10 @@ class Controller extends RightsBaseController
 		{
 			return 'class = "' . $this->contentClass . '"';
 		}
-	    else
-	    {
-		    return '';
-	    }
+		else
+		{
+			return '';
+		}
 	}
 
 	public function getYears()
@@ -176,10 +176,10 @@ class Controller extends RightsBaseController
 		{
 			return $year;
 		}
-	    else
-	    {
-		    return $startYear . '&ndash;' . $year;
-	    }
+		else
+		{
+			return $startYear . '&ndash;' . $year;
+		}
 	}
 
 	public function renderHeaderLinks()
@@ -189,12 +189,12 @@ class Controller extends RightsBaseController
 			$label = 'Войти';
 			$url = array('site/login');
 		}
-	    else
-	    {
+		else
+		{
 			$label = 'Выйти';
 			$url = array('site/logout');
-	    }
-	    return CHtml::link($label, $url, array('class' => 'header-link'));
+		}
+		return CHtml::link($label, $url, array('class' => 'header-link'));
 	}
 
 	public function renderSidebarLinks()
