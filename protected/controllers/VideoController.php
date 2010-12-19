@@ -96,12 +96,10 @@ class VideoController extends Controller
 	public function actionList()
 	{
 		$dataProvider = new CActiveDataProvider('Video', array(
-			'criteria' => array(
-				'order' => 'post_time DESC',
+			'sort' => array(
+				'defaultOrder' => 'category ASC, date ASC, title ASC',
 			),
-			'pagination' => array(
-				'pageSize' => 10,
-			),
+			'pagination' => false,
 		));
 
 		$viewParameters = array(
@@ -164,7 +162,7 @@ class VideoController extends Controller
 			$model->attributes = $_POST['Video'];
 			if ($model->save())
 			{
-				$this->redirect(array('item', 'id' => $model->id));
+				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 

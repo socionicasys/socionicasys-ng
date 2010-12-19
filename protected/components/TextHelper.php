@@ -23,29 +23,29 @@ class TextHelper
 		}
 
 		$shortLength = $length - mb_strlen($indicator);
-	    if (!$wholeWord)
-	    {
-		    return mb_substr($text, 0, $shortLength) . $indicator;
-	    }
+		if (!$wholeWord)
+		{
+			return mb_substr($text, 0, $shortLength) . $indicator;
+		}
 
-	    $i = $shortLength;
-	    while ($i >= 0 && !ctype_space(mb_substr($text, $i, 1)))
-	    {
-		    $i--;
-	    }
-	    while ($i >= 0 && ctype_space(mb_substr($text, $i, 1)))
-	    {
-		    $i--;
-	    }
+		$i = $shortLength;
+		while ($i >= 0 && !ctype_space(mb_substr($text, $i, 1)))
+		{
+			$i--;
+		}
+		while ($i >= 0 && ctype_space(mb_substr($text, $i, 1)))
+		{
+			$i--;
+		}
 
-	    if ($i <= 0)
-	    {
-		    return mb_substr($text, 0, $shortLength) . $indicator;
-	    }
-	    else
-	    {
-		    return mb_substr($text, 0, $i + 1) . $indicator;
-	    }
+		if ($i <= 0)
+		{
+			return mb_substr($text, 0, $shortLength) . $indicator;
+		}
+		else
+		{
+			return mb_substr($text, 0, $i + 1) . $indicator;
+		}
 	}
 
 	/**
