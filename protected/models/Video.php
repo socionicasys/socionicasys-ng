@@ -82,7 +82,7 @@ class Video extends CActiveRecord
 			'link' => 'Ссылка на видео',
 			'post_time' => 'Дата добавления',
 			'comment' => 'Комментарий',
-			'category' => 'Тема',
+			'category' => 'Категория',
 			'date' => 'Год',
 		);
 	}
