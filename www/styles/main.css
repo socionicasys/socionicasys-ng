@@ -355,7 +355,7 @@ body:before {
 #content ul li {
 	margin-left: -1em;
 	padding-left: 1em;
-	background: url('/images/dash.png') 0 0.65em no-repeat;
+	background: url('/images/dash.png') 0 0.75em no-repeat;
 }
 
 #content ol.literature {
