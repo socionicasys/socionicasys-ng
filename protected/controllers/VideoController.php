@@ -164,7 +164,7 @@ class VideoController extends Controller
 			$model->attributes = $_POST['Video'];
 			if ($model->save())
 			{
-				$this->redirect(array('item', 'id' => $model->id));
+				$this->redirect(array('view', 'id' => $model->id));
 			}
 		}
 
