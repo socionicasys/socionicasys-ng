@@ -215,7 +215,7 @@ body:before {
 
 /*** Блок случайный цитат ***/
 #random-quote {
-	width: 15.6em;
+	width: 15em;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
