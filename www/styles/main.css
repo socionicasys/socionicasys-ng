@@ -588,8 +588,9 @@ h1 a {
 	margin: 0;
 }
 
-#nav-controls li {
+#nav-controls ul li {
 	list-style: none;
+	background: none;
 }
 
 #prev-link {
@@ -642,15 +643,16 @@ h1 a {
 	margin: 0;
 }
 
-#page-controls li {
+#page-controls ul li {
 	list-style: none;
+	background: none;
 	float: left;
 	padding-left: 1em;
 	margin-left: 1em;
 	border-left: 1px solid #ddd;
 }
 
-#page-controls li:first-child {
+#page-controls ul li:first-child {
 	border: none;
 	padding: 0;
 	margin: 0;
