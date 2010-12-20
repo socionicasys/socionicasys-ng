@@ -922,6 +922,7 @@ form.wide .errorMessage {
 	#nav-controls,
 	#yiiWebDebugToolbar,
 	#secondary-navigation,
+	#random-quote,
 	blockquote.aside {
 		display: none;
 	}
