@@ -554,15 +554,16 @@ h1 a {
 	margin: 0;
 }
 
-#content .news-operations li {
+#content .news-operations ul li {
 	list-style: none;
+	background: none;
 	float: left;
 	padding-left: 1em;
 	margin-left: 1em;
 	border-left: 1px solid #ccc;
 }
 
-#content .news-operations li:first-child {
+#content .news-operations ul li:first-child {
 	border: none;
 	padding: 0;
 	margin: 0;
@@ -663,6 +664,13 @@ h1 a {
 	color: #6ebb21;
 }
 
+/** Переключатель страниц **/
+#content ul.yiiPager,
+#content ul.yiiPager li {
+	margin: 0;
+	padding: 0;
+	background: none;
+}
 
 /** Таблицы и диаграммы **/
 /* Все таблицы */
