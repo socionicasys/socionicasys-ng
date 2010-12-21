@@ -63,10 +63,10 @@ class Protocol extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'tim' => 'Tim',
-			'date' => 'Date',
-			'url' => 'Url',
+			'name' => 'Имя',
+			'tim' => 'ТИМ',
+			'date' => 'Дата',
+			'url' => 'Ссылка',
 		);
 	}
 
