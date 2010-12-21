@@ -1,5 +1,8 @@
 <h1>Протоколы идентификации ТИМа</h1>
 
+<p>Протоколы, созданные после июля 2010 года, были сгенерированны в программе
+<a href="/praktika/programma-informacionnyj-analiz">Информационный анализ</a>.
+
 <?php if ($canCreate) : ?>
 <p><a href="<?php echo $this->createUrl('create'); ?>">Добавить протокол</a></p>
 <?php endif; ?>
@@ -17,6 +20,7 @@ if ($canDelete)
 	$buttonTemplate .= ' {delete}';
 }
 $this->widget('zii.widgets.grid.CGridView', array(
+	'id' => 'protocol-table',
 	'dataProvider' => $dataProvider,
 	'enablePagination' => false,
 	'template' => '{items}',
