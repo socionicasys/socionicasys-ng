@@ -20,6 +20,7 @@ if ($canDelete)
 	$buttonTemplate .= ' {delete}';
 }
 $this->widget('zii.widgets.grid.CGridView', array(
+	'id' => 'protocol-table',
 	'dataProvider' => $dataProvider,
 	'enablePagination' => false,
 	'template' => '{items}',
