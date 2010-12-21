@@ -75,6 +75,11 @@ return array(
 				'biblioteka/video/<id:\d+>/delete' => 'video/delete',
 				'biblioteka/video/<id:\d+>' => 'video/view',
 				'biblioteka/video' => 'video/list',
+				// Протоколы типирования
+				'biblioteka/protocol/create' => 'protocol/create',
+				'biblioteka/protocol/<id:\d+>/edit' => 'protocol/edit',
+				'biblioteka/protocol/<id:\d+>/delete' => 'protocol/delete',
+				'biblioteka/protocol' => 'protocol/index',
 				// Цитаты
 				'quote/<id:\d+>' => 'quote/view',
 				'quote/<id:\d+>/<action:(update|delete)>' => 'quote/<action>',
