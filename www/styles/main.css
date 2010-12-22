@@ -908,6 +908,12 @@ form.wide .errorMessage {
 	height: 18em;
 }
 
+/* Таблица протоколов */
+#protocol-table {
+	width: 40em;
+	margin: 0 auto;
+}
+
 /** Редактор CKEditor **/
 .cke_skin_kama .cke_button_source .cke_label {
 	display: none !important;
