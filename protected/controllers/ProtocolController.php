@@ -3,6 +3,7 @@
 class ProtocolController extends Controller
 {
 	public $layout = '//layouts/section-wide';
+	public $layoutClass = 'wide';
 
 	/**
 	 * @return array action filters
