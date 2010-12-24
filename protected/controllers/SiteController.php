@@ -136,6 +136,51 @@ class SiteController extends Controller
 			'articles' => Library::model()->findAll(),
 		));
 	}
+
+	public function actionContact()
+	{
+		$model = new ContactForm;
+		$params = Yii::app()->params;
+		if (isset($_POST['ContactForm']))
+		{
+			$model->attributes = $_POST['ContactForm'];
+			if ($model->validate())
+			{
+				spl_autoload_unregister(array('YiiBase','autoload'));
+				Yii::import('application.vendors.swiftmailer.swift_required', true);
+				spl_autoload_register(array('YiiBase','autoload'));
+
+				$message = Swift_Message::newInstance()
+						->setSubject('Форма контакта')
+						->setFrom(array($model->email => $model->name))
+						->setSender(array($params['adminEmail']))
+						->setTo(array($params['adminEmail']))
+						->setBody($model->body);
+
+				$transport = Swift_SmtpTransport::newInstance(
+					$params['smtp.server'],
+					$params['smtp.port'],
+					$params['smtp.encryption'])
+						->setUsername($params['smtp.username'])
+						->setPassword($params['smtp.password']);
+
+				$mailer = Swift_Mailer::newInstance($transport);
+				$result = $mailer->send($message);
+				Yii::log('Message from ' . $model->name . ' <' . $model->email . '> sent. Result: ' . $result . "\n" .
+					$model->body, 'info');
+
+				Yii::app()->user->setFlash('contact', 'Ваше сообщение отправлено!');
+
+				$this->refresh();
+			}
+		}
+		$this->layout = '//layouts/section';
+		$this->layoutClass = 'narrow';
+		$this->render('contact', array(
+			'model' => $model,
+			'adminEmail' => $params['adminEmail'],
+		));
+	}
 }
 
 require_once(Yii::getPathOfAlias('ext.yiiext.widgets.elfinder') . '/elFinder.class.php');
