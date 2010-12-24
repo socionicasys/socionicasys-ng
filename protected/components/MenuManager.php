@@ -192,6 +192,10 @@ class MenuManager extends CApplicationComponent
 			$menu['items'] = $childMenu;
 			$menu['active'] = true;
 		}
+		if ($root->hidden)
+		{
+			$menu = null;
+		}
 		return array($menu, $breadcrumbs);
 	}
 }
