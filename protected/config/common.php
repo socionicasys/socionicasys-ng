@@ -55,6 +55,8 @@ return array(
 				'fileManager' => 'site/fileManager',
 				// sitemap.xml
 				'sitemap.xml' => 'site/sitemap',
+				// Форма контактов
+				'kontakty' => 'site/contact',
 				// Новости
 				'novosti/<News_page:\d+>' => 'news/list',
 				'novosti' => 'news/list',
@@ -146,11 +148,10 @@ return array(
 		),
 	),
 
-	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
-	'params'=>array(
+	'params' => array(
 		'enableFileManager' => true,
 		'meta.description' => 'Соционика, модель психики, информационный метаболизм, с точки зрения системного подхода',
 		'meta.keywords' => 'соционика',
+		'adminEmail' => 'admin@socionicasys.ru',
 	),
 );
