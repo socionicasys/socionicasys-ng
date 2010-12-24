@@ -806,6 +806,15 @@ td.skipped {
 	padding-left: inherit;
 }
 
+/** Пейджер **/
+#content .yiiPager .hidden a {
+	border: solid 1px #dedede;
+	font-weight: bold;
+	color: #888888;
+	padding: 1px 6px;
+	text-decoration: none;
+}
+
 /** Формы **/
 form input,
 form textarea,
