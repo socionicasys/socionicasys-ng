@@ -166,7 +166,8 @@ class SiteController extends Controller
 
 				$mailer = Swift_Mailer::newInstance($transport);
 				$result = $mailer->send($message);
-				Yii::log($result);
+				Yii::log('Message from ' . $model->name . ' <' . $model->email . '> sent. Result: ' . $result . "\n" .
+					$model->body, 'info');
 
 				$this->refresh();
 			}
