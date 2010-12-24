@@ -10,7 +10,7 @@ class ContactForm extends CFormModel
 	{
 		return array(
 			array('name, email, body', 'required'),
-			array('email', 'email'),
+			array('email', 'email', 'checkMX' => true),
 		);
 	}
 
