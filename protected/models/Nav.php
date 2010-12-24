@@ -18,6 +18,7 @@
  * @property string $meta_description
  * @property string $meta_keywords
  * @property boolean $standalone
+ * @property boolean $hidden
  *
  * The followings are the available model relations:
  */

@@ -8,6 +8,7 @@ $listView = $this->widget('zii.widgets.CListView', array(
 	'itemView' => '_list-item',
 	'emptyText' => 'Новостей нет.',
 	'template' => "{items}\n{pager}",
+	'pager' => 'ExtLinkPager',
 	'afterAjaxUpdate' => "function(id, data) {
 		$(document).scrollTop(0);
 		id = $(data).find('.yiiPager .selected a').text();

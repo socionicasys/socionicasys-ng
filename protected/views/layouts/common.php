@@ -16,6 +16,7 @@ $cs->registerLinkTag(
 	<meta charset="UTF-8" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	<link rel="shortcut icon" href="<?php echo $base; ?>/favicon.ico" type="image/x-icon" />
+	<link rel="apple-touch-icon" href="<?php echo $base; ?>/apple-touch-icon.png" />
 	<!--[if lt IE 9]>
 	<script src="<?php echo $cs->appendTimestamp($base . '/scripts/html5shiv.js'); ?>"></script>
 	<link rel="stylesheet" type="text/css" href="<?php echo $cs->appendTimestamp($base . '/styles/ie.css'); ?>">
