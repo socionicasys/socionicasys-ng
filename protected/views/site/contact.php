@@ -1,17 +1,15 @@
 <h1>Контакты Школы системной соционики</h1>
 
-<?php if(Yii::app()->user->hasFlash('contact')): ?>
-
-<div class="flash-success">
-	<?php echo Yii::app()->user->getFlash('contact'); ?>
-</div>
-
-<?php else: ?>
-
 <p>
 	Если у вас есть вопросы или предложения, вы можете поделиться ими по адресу
 	<a href="mailto:<?php echo $adminEmail; ?>"><?php echo $adminEmail; ?></a>, или заполнив форму:
 </p>
+
+<?php if (Yii::app()->user->hasFlash('contact')) : ?>
+<p class="flash-success">
+	<?php echo Yii::app()->user->getFlash('contact'); ?>
+</p>
+<?php endif; ?>
 
 <div class="form">
 
@@ -41,8 +39,6 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
-
-<?php endif; ?>
 
 <p>
 	Кроме данного сайта, контакт со Школой системной соционики можно установить так же на семинарах в Киевском городском

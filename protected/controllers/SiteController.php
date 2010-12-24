@@ -169,6 +169,8 @@ class SiteController extends Controller
 				Yii::log('Message from ' . $model->name . ' <' . $model->email . '> sent. Result: ' . $result . "\n" .
 					$model->body, 'info');
 
+				Yii::app()->user->setFlash('contact', 'Ваше сообщение отправлено!');
+
 				$this->refresh();
 			}
 		}

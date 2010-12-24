@@ -815,6 +815,11 @@ td.skipped {
 	text-decoration: none;
 }
 
+/** Флеш-сообщения **/
+.flash-success {
+	color: #6ebb21;
+}
+
 /** Формы **/
 form input,
 form textarea,
