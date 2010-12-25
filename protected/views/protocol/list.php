@@ -25,7 +25,12 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'enablePagination' => false,
 	'template' => '{items}',
 	'columns' => array(
-		'name',
+		array(
+			'name' => 'name',
+			'type' => 'raw',
+			'value' => 'CHtml::encode($data->name) . (empty($data->comment) ? "" :
+				CHtml::link("*", "", array("title" => $data->comment)))',
+		),
 		'tim',
 		'date',
 		array(

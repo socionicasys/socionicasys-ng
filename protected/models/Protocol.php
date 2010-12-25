@@ -9,6 +9,7 @@
  * @property string $tim
  * @property string $date
  * @property string $url
+ * @property string $comment
  */
 class Protocol extends CActiveRecord
 {
@@ -38,7 +39,7 @@ class Protocol extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
-			array('name, tim, date, url', 'length', 'max'=>255),
+			array('name, tim, date, url, comment', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, tim, date, url', 'safe', 'on'=>'search'),
@@ -67,6 +68,7 @@ class Protocol extends CActiveRecord
 			'tim' => 'ТИМ',
 			'date' => 'Дата',
 			'url' => 'Ссылка',
+			'comment' => 'Комментарий',
 		);
 	}
 
