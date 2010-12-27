@@ -87,7 +87,7 @@ body:before {
 }
 
 #major-navigation a {
-	padding: 0.4em 2.5em 0.5em;
+	padding: 0.4em 2em 0.5em;
 	margin-left: 0.5em;
 	color: #313131;
 	border-top: 1px solid #6ebb21;
@@ -145,13 +145,16 @@ body:before {
 	margin-left: -18em;
 }
 
-.narrow #content,
+.narrow #content {
+	margin-left: 20.571429em;
+}
+
 .narrow #breadcrumbs {
 	margin-left: 18em;
 }
 
 #content {
-	margin-top: 1.3125em;
+	margin-top: 1.5em;
 }
 
 #breadcrumbs + #content {
@@ -259,9 +262,9 @@ body:before {
 
 /*** Содержимое ***/
 #content {
-	font-size: 1em;
-	font-family: 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
-	line-height: 1.3125;
+	font-size: 0.875em;
+	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
+	line-height: 1.5;
 }
 
 #content.content-editor {
@@ -269,7 +272,7 @@ body:before {
 }
 
 #content p {
-	margin: 1.3125em 0;
+	margin: 1.5em 0;
 	text-align: justify;
 }
 
@@ -277,31 +280,33 @@ body:before {
 #content h2,
 #content h3,
 #content h4 {
-	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
 }
 
 #content h1 {
-	font-size: 1.25em;
+	font-size: 1.428571429em;
 	line-height: 1.05;
 	margin-top: 1.05em;
 	margin-bottom: 1.05em;
 	position: relative;
-	top: -0.1em;
+	top: -0.15em;
 }
 
 #content h2 {
-	font-size: 1.125em;
+	font-size: 1.285714286em;
 	line-height: 1.166666667;
 	margin-top: 1.166666667em;
 	margin-bottom: 0;
 	position: relative;
-	top: -0.055555556em;
+	top: -0.111111111em;
 }
 
 #content h3 {
-	font-size: 1em;
+	font-size: 1.142857143em;
+	line-height: 1.3125em;
 	margin-top: 1.3125em;
 	margin-bottom: 0;
+	position: relative;
+	top: -0.0625em;
 }
 
 #content h4 {
@@ -322,13 +327,13 @@ body:before {
 }
 
 #content .article-author {
-	font-size: 1.25em;
+	font-size: 1.428571429em;
 	font-weight: normal;
 	line-height: 1.05;
 	margin-top: 1.05em;
 	margin-bottom: 0;
 	position: relative;
-	top: -0.1em;
+	top: -0.15em;
 }
 
 #content .article-title {
@@ -339,7 +344,7 @@ body:before {
 #content ol,
 #content ul {
 	text-align: justify;
-	margin: 1.3125em 0;
+	margin: 1.5em 0;
 	padding-left: 1.5em;
 }
 
@@ -350,7 +355,7 @@ body:before {
 #content ul li {
 	margin-left: -1em;
 	padding-left: 1em;
-	background: url('/images/dash.png') 0 0.65em no-repeat;
+	background: url('/images/dash.png') 0 0.75em no-repeat;
 }
 
 #content ol.literature {
@@ -382,7 +387,7 @@ body:before {
 
 #content small,
 #content .note {
-	font-size: 0.875em;
+	font-size: 0.857142857em;
 }
 
 #content .copyright {
@@ -405,8 +410,8 @@ body:before {
 }
 
 #content .article-abstract {
-	font-size: 0.875em;
-	line-height: 1.5;
+	font-size: 0.928571429em;
+	line-height: 1.615384615;
 	margin: 0 4em;
 }
 
@@ -427,11 +432,11 @@ body:before {
 #content .aside {
 	float: left;
 	border: none;
-	margin: 0 0 1.5em -19.42em;
+	margin: 0 0 1.5em -20.923077em;
 	padding: 0;
-	width: 17.5em;
-	font-size: 0.875em;
-	line-height: 1.5;
+	width: 19em;
+	font-size: 0.928571em;
+	line-height: 1.61538;
 }
 
 #content .aside p {
@@ -460,13 +465,13 @@ a {
 
 a.footnote {
 	text-decoration: none;
-	font-size: 0.875em;
+	font-size: 0.857142857em;
 	position: relative;
 	top: -0.3em;
 }
 
 code, pre {
-	font-size: 0.875em;
+	font-size: 1em;
 	font-family: 'Consolas', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
 	line-height: 1.5;
 }
@@ -481,7 +486,7 @@ pre code {
 }
 
 sub, sup {
-	font-size: 0.875em;
+	font-size: 0.857142857em;
 	position: relative;
 }
 
@@ -534,7 +539,7 @@ h1 a {
 }
 
 #content header {
-	margin: 1.3125em 0;
+	margin: 1.5em 0;
 }
 
 #content header p,
@@ -545,8 +550,8 @@ h1 a {
 
 #content .news-operations {
 	border-bottom: 1px solid #ccc;
-	padding-bottom: 1.25em;
-	margin: 1.3125em 0;
+	padding-bottom: 1.428571428em;
+	margin: 1.5em 0;
 }
 
 #content .news-operations ul {
@@ -632,8 +637,8 @@ h1 a {
 /** Ссылки управления страницей **/
 #page-controls {
 	border-bottom: 1px solid #ddd;
-	padding-bottom: 1.25em;
-	margin-bottom: 1.325em;
+	padding-bottom: 1.428571428em;
+	margin-bottom: 1.5em;
 }
 
 #page-controls.article-controls {
@@ -679,13 +684,13 @@ table {
 	border: 2px solid #fff;
 	border-collapse: collapse;
 	border-spacing: 0;
-	margin-top: 0.5625em;
-	margin-bottom: 0.5625em;
+	margin-top: 0.642857143em;
+	margin-bottom: 0.642857143em;
 }
 
 th, td {
 	border: 1px solid #aaa;
-	padding: 0.625em;
+	padding: 0.714285714em;
 }
 
 #content td>:first-child {
@@ -888,7 +893,7 @@ form.wide label {
 	margin-right: 1em;
 	position: relative;
 	text-align: right;
-	width: 10em;
+	width: 12em;
 }
 
 form.wide .row {
@@ -897,7 +902,7 @@ form.wide .row {
 
 form.wide .buttons {
 	clear: left;
-	padding-left: 10em;
+	padding-left: 13em;
 }
 
 form.wide .errorMessage {
