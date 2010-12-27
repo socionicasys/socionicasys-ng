@@ -1,0 +1,1006 @@
+html {
+	height: 100%;
+}
+
+body {
+	color: #313131;
+	background-color: #fff;
+	font-size: 100%;
+	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
+	line-height: 1.3125;
+	min-width: 51em;
+	max-width: 56em;
+	margin: 0 auto;
+}
+
+body#body {
+	height: 100%;
+}
+
+/* Opera fix */
+body:before {
+	content: "";
+	height: 100%;
+	float: left;
+	width: 0;
+	margin-top: -32767px;
+}
+
+#wrap {
+	min-height: 100%;
+}
+
+/*** Шапка ***/
+#main-header {
+	padding-top: 0.5em;
+	padding-left: 0.4375em;
+}
+
+#main-header a {
+	display: block;
+}
+
+#logo-link {
+	background: url('/images/Logo.png?4') no-repeat;
+	height: 5em;
+	text-decoration: none;
+}
+
+#logo-link h1 {
+	text-indent: -1000em;
+}
+
+#logo-link h2 {
+	float: right;
+	color: #888;
+	font-weight: normal;
+	margin-top: 1.5em;
+}
+
+#main-header a:focus {
+	outline: none;
+}
+
+.header-link {
+	float: right;
+	color: #6ebb21;
+	text-decoration: none;
+}
+
+/*** Главное меню ***/
+#major-navigation {
+	font-size: 0.875em;
+	margin-bottom: 0.75em;
+	overflow: hidden;
+}
+
+#major-navigation ul {
+	float: left;
+	width: 100%;
+	padding: 0.6em 0 0.5em 8.5em;
+	background: url('/images/Logo.png?4') no-repeat 0.5em -5.75em;
+	border-bottom: 3px solid #6ebb21;
+}
+
+#major-navigation li {
+	float: left;
+}
+
+#major-navigation a {
+	padding: 0.4em 2.5em 0.5em;
+	margin-left: 0.5em;
+	color: #313131;
+	border-top: 1px solid #6ebb21;
+	border-left: 1px solid #6ebb21;
+	border-right: 1px solid #6ebb21;
+	background-color: #f8f8f8;
+	text-decoration: none;
+	position: relative;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+#major-navigation a:hover,
+#major-navigation a:focus {
+	color: #cc3333;
+	outline: 0;
+}
+
+#major-navigation li.active a {
+	background-color: #fff;
+	border-top: 3px solid #6ebb21;
+	border-bottom: 6px solid #fff;
+	font-weight: bold;
+}
+
+/*** «Хлебные крошки» ***/
+#breadcrumbs {
+	border-bottom: 1px solid #ddd;
+	margin-bottom: -1px;
+}
+
+#breadcrumbs .breadcrumbs {
+	font-size: 0.75em;
+	line-height: 1.75;
+}
+
+#breadcrumbs a {
+	text-decoration: none;
+	color: #6ebb21;
+}
+
+/*** Основной раздел ***/
+#content-area {
+	overflow: hidden;
+	padding-bottom: 5em;
+}
+
+.narrow #content-wrap {
+	width: 100%;
+	float: right;
+	margin-left: -18em;
+}
+
+.narrow #content,
+.narrow #breadcrumbs {
+	margin-left: 18em;
+}
+
+#content {
+	margin-top: 1.3125em;
+}
+
+#breadcrumbs + #content {
+	margin-top: 0;
+}
+
+/*** Боковое меню ***/
+#secondary-navigation,
+#random-quote {
+	float: left;
+	clear: left;
+}
+
+#secondary-navigation {
+	margin-top: 0.9375em;
+	width: 15.8em;
+	padding: 0.3em 0.3em 0.3em 0.75em;
+	border-right: 2px solid #6ebb21;
+}
+
+#secondary-navigation nav {
+	font-size: 0.875em;
+	line-height: 1.5;
+}
+
+#secondary-navigation ul ul ul {
+	padding-left: 1em;
+}
+
+#secondary-navigation li {
+	margin-left: -12px;
+	padding-left: 12px;
+	background: url("/images/menu-bullet.png") no-repeat 3px 7px;
+}
+
+#secondary-navigation li.active {
+	background: url("/images/menu-bullet-active.png") no-repeat 1px 9px;
+}
+
+#secondary-navigation li.selected {
+	background: url("/images/menu-bullet-selected.png") no-repeat 3px 7px;
+}
+
+#secondary-navigation li.active.selected {
+	background: url("/images/menu-bullet-active-selected.png") no-repeat 1px 9px;
+}
+
+#secondary-navigation a {
+	text-decoration: none;
+	color: #6ebb21;
+}
+
+#manage-pages {
+	font-size: 0.875em;
+	line-height: 1.5;
+	width: 12em;
+	margin-top: 0.714em;
+	padding-top: 0.714em;
+	border-top: 1px solid #ddd;
+}
+
+/*** Блок случайный цитат ***/
+#random-quote {
+	width: 15em;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #6ebb21;
+	-webkit-box-shadow: 0px 0px 5px #6ebb21;
+	-moz-box-shadow: 0px 0px 5px #6ebb21;
+	box-shadow: 0px 0px 5px #6ebb21;
+	margin-left: 3px;
+	margin-top: 2em;
+	padding: 0.3em 0.5em;
+}
+
+.random-quote {
+	font-size: 0.75em;
+	line-height: 1.75;
+}
+
+.random-quote h1 {
+	font-size: 1em;
+	font-weight: normal;
+	text-align: center;
+	border-bottom: 1px dotted #aaa;
+}
+
+.random-quote blockquote {
+	font-style: italic;
+	font-size: 1.083333em;
+	text-align: justify;
+	line-height: 1.615385;
+	position: relative;
+	top: -0.076923em;
+}
+
+.random-quote-author {
+	float: right;
+}
+
+.random-quote-note {
+	float: left;
+}
+
+/*** Содержимое ***/
+#content {
+	font-size: 1em;
+	font-family: 'Linux Libertine', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman', serif;
+	line-height: 1.3125;
+}
+
+#content.content-editor {
+	padding: 0.5em;
+}
+
+#content p {
+	margin: 1.3125em 0;
+	text-align: justify;
+}
+
+#content h1,
+#content h2,
+#content h3,
+#content h4 {
+	font-family: 'Trebuchet MS', 'Trebuchet', 'Arial', sans-serif;
+}
+
+#content h1 {
+	font-size: 1.25em;
+	line-height: 1.05;
+	margin-top: 1.05em;
+	margin-bottom: 1.05em;
+	position: relative;
+	top: -0.1em;
+}
+
+#content h2 {
+	font-size: 1.125em;
+	line-height: 1.166666667;
+	margin-top: 1.166666667em;
+	margin-bottom: 0;
+	position: relative;
+	top: -0.055555556em;
+}
+
+#content h3 {
+	font-size: 1em;
+	margin-top: 1.3125em;
+	margin-bottom: 0;
+}
+
+#content h4 {
+	font-size: 1em;
+	float: left;
+	margin-right: 1em;
+}
+
+#content h2 + p,
+#content h3 + p,
+#content h2 + table + p,
+#content h3 + table + p {
+	margin-top: 0;
+}
+
+#content header.article-header {
+	margin: 0;
+}
+
+#content .article-author {
+	font-size: 1.25em;
+	font-weight: normal;
+	line-height: 1.05;
+	margin-top: 1.05em;
+	margin-bottom: 0;
+	position: relative;
+	top: -0.1em;
+}
+
+#content .article-title {
+	margin-top: 1.05em;
+	margin-bottom: 1.05em;
+}
+
+#content ol,
+#content ul {
+	text-align: justify;
+	margin: 1.3125em 0;
+	padding-left: 1.5em;
+}
+
+#content ul {
+	list-style-type: none;
+}
+
+#content ul li {
+	margin-left: -1em;
+	padding-left: 1em;
+	background: url('/images/dash.png') 0 0.65em no-repeat;
+}
+
+#content ol.literature {
+	text-align: left;
+} 
+
+#content dt {
+	font-weight: bold;
+}
+
+#content dd {
+	margin-left: 3em;
+}
+
+#content dd p:first-child {
+	margin-top: 0;
+}
+
+#content blockquote {
+	border-left: 1px solid #ccc;
+	padding: 0 2em;
+}
+
+#content blockquote.epigraph {
+	border: none;
+	margin-left: 50%;
+	padding: 0;
+}
+
+#content small,
+#content .note {
+	font-size: 0.875em;
+}
+
+#content .copyright {
+	text-align: right;
+}
+
+#content .major-title {
+	margin-top: 0;
+}
+
+#content .phone,
+#content .name,
+#content .nowrap {
+	white-space: nowrap;
+}
+
+#content .quote-author {
+	font-style: italic;
+	text-align: right;
+}
+
+#content .article-abstract {
+	font-size: 0.875em;
+	line-height: 1.5;
+	margin: 0 4em;
+}
+
+#content .definition {
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+.term {
+	color: #b22222;
+	font-weight: bold;
+}
+
+.colored {
+	color: #6ebb21;
+}
+
+#content .aside {
+	float: left;
+	border: none;
+	margin: 0 0 1.5em -19.42em;
+	padding: 0;
+	width: 17.5em;
+	font-size: 0.875em;
+	line-height: 1.5;
+}
+
+#content .aside p {
+	margin: 0;
+}
+
+#content img.aside {
+	width: auto;
+}
+
+#content.content-editor .aside {
+	float: none;
+	width: auto;
+	margin: inherit;
+	padding: inherit;
+	background-color: #6ebb21;
+}
+
+.underlined {
+	text-decoration: underline;
+}
+
+a {
+	color: #6ebb21;
+}
+
+a.footnote {
+	text-decoration: none;
+	font-size: 0.875em;
+	position: relative;
+	top: -0.3em;
+}
+
+code, pre {
+	font-size: 0.875em;
+	font-family: 'Consolas', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace;
+	line-height: 1.5;
+}
+
+pre {
+	margin-top: 0.71429em;
+	margin-bottom: 0.78571em;
+}
+
+pre code {
+	font-size: 1em;
+}
+
+sub, sup {
+	font-size: 0.875em;
+	position: relative;
+}
+
+sub {
+	top: 0.3em;
+}
+
+sup {
+	top: -0.3em;
+}
+
+/** Сылки в подзаголовках и оглавление **/
+a.headerlink {
+	color: #c60f0f;
+	margin-left: 0.2em;
+	padding: 0 0.5em;
+	text-decoration: none;
+	visibility: hidden;
+}
+
+h1:hover a.headerlink,
+h2:hover a.headerlink,
+h3:hover a.headerlink,
+h4:hover a.headerlink {
+	visibility: visible;
+}
+
+h1 a.headerlink:hover,
+h2 a.headerlink:hover,
+h3 a.headerlink:hover,
+h4 a.headerlink:hover {
+	color: #fff;
+	background-color: #ccc;
+}
+
+h1 a {
+	text-decoration: none;
+}
+
+/** Новости **/
+#content .news-item {
+	border-top: 1px solid #ccc;
+	margin-top: 1.25em;
+}
+
+#content .news-item:first-child {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+#content header {
+	margin: 1.3125em 0;
+}
+
+#content header p,
+#content header h1,
+#content header h2 {
+	margin: 0;
+}
+
+#content .news-operations {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 1.25em;
+	margin: 1.3125em 0;
+}
+
+#content .news-operations ul {
+	padding: 0;
+	margin: 0;
+}
+
+#content .news-operations ul li {
+	list-style: none;
+	background: none;
+	float: left;
+	padding-left: 1em;
+	margin-left: 1em;
+	border-left: 1px solid #ccc;
+}
+
+#content .news-operations ul li:first-child {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+#content .news-operations a {
+	text-decoration: none;
+	color: #6ebb21;
+}
+
+#content .news-operations.child {
+	border: none;
+}
+
+#nav-controls {
+	border-top: 1px solid #ddd;
+	padding-top: 1.25em;
+	margin-top: 1.325em;
+}
+
+#nav-controls ul {
+	padding: 0;
+	margin: 0;
+}
+
+#nav-controls ul li {
+	list-style: none;
+	background: none;
+}
+
+#prev-link {
+	float: left;
+}
+
+#next-link {
+	float: right;
+}
+
+#nav-controls a {
+	text-decoration: none;
+	color: #6ebb21;
+}
+
+/** Обзорные страницы (Теория, Библиотека) **/
+#content h1.huge {
+	font-size: 3em;
+	margin-bottom: -0.3em;
+	color: #6ebb21;
+}
+
+#content h2.huge {
+	font-size: 2em;
+}
+
+#content h2.huge a {
+	padding: 0.3em;
+	color: #313131;
+	border: 1px solid #6ebb21;
+	background-color: #f8f8f8;
+	text-decoration: none;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+/** Ссылки управления страницей **/
+#page-controls {
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 1.25em;
+	margin-bottom: 1.325em;
+}
+
+#page-controls.article-controls {
+	margin-bottom: 0;
+}
+
+#page-controls ul {
+	padding: 0;
+	margin: 0;
+}
+
+#page-controls ul li {
+	list-style: none;
+	background: none;
+	float: left;
+	padding-left: 1em;
+	margin-left: 1em;
+	border-left: 1px solid #ddd;
+}
+
+#page-controls ul li:first-child {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+#page-controls a {
+	text-decoration: none;
+	color: #6ebb21;
+}
+
+/** Переключатель страниц **/
+#content ul.yiiPager,
+#content ul.yiiPager li {
+	margin: 0;
+	padding: 0;
+	background: none;
+}
+
+/** Таблицы и диаграммы **/
+/* Все таблицы */
+table {
+	border: 2px solid #fff;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin-top: 0.5625em;
+	margin-bottom: 0.5625em;
+}
+
+th, td {
+	border: 1px solid #aaa;
+	padding: 0.625em;
+}
+
+#content td>:first-child {
+	margin-top: 0;
+}
+
+#content td>:last-child {
+	margin-bottom: 0;
+}
+
+#content td blockquote {
+	border: none;
+}
+
+td.correct {
+	background-color: #8aeb2a;
+}
+
+td.skipped {
+	background-color: #e0e0e0;
+}
+
+/* Таблица аспектов */
+#aspects {
+	margin: 0 auto;
+}
+
+#aspects caption {
+	font-weight: bold;
+}
+
+#aspects tbody td:first-child {
+	text-align: right;
+}
+
+#aspects th,
+#aspects td {
+	border: none;
+}
+
+#aspects tbody td {
+	padding: 0 0.75em;
+}
+
+#aspects tbody tr:hover {
+	background-color: #eee;
+}
+
+.model-diagram {
+	margin: 0 auto;
+	border: none;
+}
+
+.model-diagram td,
+.model-diagram th {
+}
+
+.model-diagram td {
+	border: 1px solid #313131;
+	padding: 0.5em 2em;
+	font-weight: bold;
+}
+
+.model-diagram th {
+	border: none;
+	padding: 0.5em 1em;
+	font-weight: normal;
+	vertical-align: middle;
+}
+
+.model-diagram .superid {
+	border-top: 2px solid #313131;
+}
+
+.model-diagram.compact td {
+	border: none;
+	padding: 0.5em;
+	text-align: right;
+}
+
+.model-diagram.directed .ego,
+.model-diagram.directed .id {
+	background: url('/images/diagrams/arrow_right.png') no-repeat center;
+}
+
+.model-diagram.directed .superego,
+.model-diagram.directed .superid {
+	background: url('/images/diagrams/arrow_left.png') no-repeat center;
+}
+
+#content .model-diagram.compact .inline-icon {
+	position: relative;
+	top: 1px;
+}
+
+.floating {
+	float: right;
+	margin-left: 1em;
+}
+
+/** Виджет ВКонтакте **/
+#vkontakte-share-button table,
+#vkontakte-share-button td,
+#vkontakte-share-button th {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+/** Дерево страниц **/
+#content .tree {
+	margin-top: 0.5em;
+}
+
+#content .tree ol,
+#content .tree ul {
+	margin: inherit;
+	padding-left: inherit;
+}
+
+/** Пейджер **/
+#content .yiiPager .hidden a {
+	border: solid 1px #dedede;
+	font-weight: bold;
+	color: #888888;
+	padding: 1px 6px;
+	text-decoration: none;
+}
+
+/** Флеш-сообщения **/
+.flash-success {
+	color: #6ebb21;
+}
+
+/** Формы **/
+form input,
+form textarea,
+form select {
+	margin: 0.2em 0 0.5em 0;
+}
+
+form fieldset {
+	border: 1px solid #ddd;
+	padding: 1em;
+	margin: 0 0 1em 0;
+}
+
+form label {
+	font-weight: bold;
+	display: block;
+}
+
+form .row {
+	margin: 0.3em 0;
+}
+
+form span.required {
+	color: #f00;
+}
+
+form div.error label,
+form label.error,
+form span.error {
+	color: #c00;
+}
+
+form div.error input,
+form div.error textarea,
+form div.error select,
+form input.error,
+form textarea.error,
+form select.error {
+	background-color: #fee;
+	border-color: #c00;
+}
+
+form .errorSummary {
+	border: 2px solid #c00;
+	padding: 0.5em 0.5em 1em 0.5em;
+	margin: 0 0 1.5em 0;
+	background-color: #fee;
+}
+
+form .errorMessage {
+	color: #f00;
+}
+
+form .errorSummary p {
+	margin: 0;
+	padding: 0.3em;
+}
+
+form .errorSummary ul {
+	margin: 0;
+	padding: 0 0 0 1.5em;
+}
+
+form.wide label {
+	float: left;
+	margin-right: 1em;
+	position: relative;
+	text-align: right;
+	width: 10em;
+}
+
+form.wide .row {
+	clear: left;
+}
+
+form.wide .buttons {
+	clear: left;
+	padding-left: 10em;
+}
+
+form.wide .errorMessage {
+	margin: 0 0 0 10em;
+}
+
+#news-form input,
+#news-form textarea {
+	width: 100%;
+}
+
+#news-form .buttons input {
+	width: auto;
+}
+
+#news-form textarea {
+	height: 18em;
+}
+
+/* Таблица протоколов */
+#protocol-table {
+	width: 40em;
+	margin: 0 auto;
+}
+
+/** Редактор CKEditor **/
+.cke_skin_kama .cke_button_source .cke_label {
+	display: none !important;
+}
+
+/*** «Подвал» ***/
+#main-footer {
+	clear: both;
+	position: relative;
+	margin: -3.875em 0 0;
+	height: 3.75em;
+	border-top: 2px solid #6ebb21;
+	text-align: center;
+}
+
+#main-footer p {
+	font-size: 0.875em;
+	padding: 1.5em 0;
+}
+
+@media print {
+	#main-header,
+	#major-navigation,
+	#breadcrumbs,
+	#page-controls,
+	#nav-controls,
+	#yiiWebDebugToolbar,
+	#secondary-navigation,
+	#random-quote,
+	blockquote.aside {
+		display: none;
+	}
+
+	html,
+	body {
+		height: auto;
+	}
+
+	#content-area {
+		overflow: visible;
+		padding: 0;
+	}
+
+	#content-wrap,
+	#content-wrap > * {
+		margin-left: 0 !important;
+	}
+
+	#content .aside {
+		margin: 0;
+		float: none;
+		width: auto;
+	}
+
+	#content img.aside {
+		float: right;
+	}
+
+	#content a:link,
+	#content a:visited {
+		color: #520;
+		text-decoration: none;
+	}
+
+	#content a:link:after,
+	#content a:visited:after {
+		content: " 〈" attr(href) "〉";
+		color: #313131;
+	}
+
+	#content a[href^="/"]:after {
+		content: " 〈http://socionicasys.ru" attr(href) "〉";
+	}
+
+	#main-footer {
+		position: static;
+		margin: 0;
+		height: auto;
+		border-top: 2px solid #aaa;
+	}
+}
