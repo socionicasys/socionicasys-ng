@@ -57,6 +57,8 @@ return array(
 				'sitemap.xml' => 'site/sitemap',
 				// Форма контактов
 				'kontakty' => 'site/contact',
+				// Капча
+				'captcha' => 'site/captcha',
 				// Новости
 				'novosti/<News_page:\d+>' => 'news/list',
 				'novosti' => 'news/list',

@@ -33,6 +33,17 @@
 		<?php echo $form->textArea($model, 'body', array('rows' => 6, 'cols' => 50)); ?>
 	</div>
 
+	<?php if(CCaptcha::checkRequirements()): ?>
+	<div class="row">
+		<?php echo $form->labelEx($model, 'verificationCode'); ?>
+		<div>
+		<?php $this->widget('CCaptcha'); ?>
+		<?php echo $form->textField($model, 'verificationCode'); ?>
+		</div>
+		<div class="hint">Пожалуйста, введите буквы с картинки для подтверждения своей человечности.</div>
+	</div>
+	<?php endif; ?>
+
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Отправить'); ?>
 	</div>

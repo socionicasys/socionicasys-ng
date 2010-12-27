@@ -18,7 +18,11 @@ class SiteController extends Controller
 	
 	public function actions()
 	{
-		$actions = array();
+		$actions = array(
+			'captcha' => array(
+				'class' => 'CCaptchaAction',
+			),
+		);
 		if (isset(Yii::app()->params['enableFileManager'])
 			&& Yii::app()->params['enableFileManager'])
 		{
