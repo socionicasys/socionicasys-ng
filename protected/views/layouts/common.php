@@ -1,19 +1,14 @@
 <?php
 $cs = Yii::app()->clientScript;
 $base = Yii::app()->request->baseUrl;
-$cs->registerCssFile("$base/styles/html5reset.css");
-$cs->registerCssFile("$base/styles/main.css");
-$cs->registerLinkTag(
-	'alternate',
-	'application/atom+xml',
-	$this->createUrl('news/feed')
-);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 	<meta charset="UTF-8" />
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+	<link rel="alternate" type="application/atom+xml" href="<?php echo $this->createUrl('news/feed'); ?>" />
+	<link rel="stylesheet" type="text/css" title="Trebuchet" href="<?php echo $cs->appendTimestamp($base . '/styles/main.css'); ?>" media="all" />
 	<link rel="stylesheet alternate" type="text/css" title="Libertine" href="<?php echo $cs->appendTimestamp($base . '/styles/libertine.css'); ?>" media="all" />
 	<link rel="shortcut icon" href="<?php echo $base; ?>/favicon.ico" type="image/x-icon" />
 	<link rel="apple-touch-icon" href="<?php echo $base; ?>/apple-touch-icon.png" />
