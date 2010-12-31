@@ -46,6 +46,7 @@ return array(
 			'rules'=>array(
 				// Перенаправление старых адресов
 				'modules.php' => 'legacyRedirect/nuke',
+				'backend.php' => 'legacyRedirect/backend',
 				'userimages/<path:.*>' => array('legacyRedirect/files', 'keepSlashes' => true),
 				// Вход-выход с сайта
 				'login' => 'site/login',
