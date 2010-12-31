@@ -23,7 +23,6 @@ $base = Yii::app()->request->baseUrl;
 <body id="body">
 	<div id="wrap">
 		<header id="main-header">
-			<?php $this->renderDynamic('renderHeaderLinks'); ?>
 			<a id="logo-link" href="<?php echo Yii::app()->homeUrl; ?>">
 				<h1>Школа системной соционики</h1>
 				<h2>«Практика&nbsp;&mdash; критерий истины»</h2>
