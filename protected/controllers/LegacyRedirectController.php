@@ -94,6 +94,11 @@ class LegacyRedirectController extends Controller
 		}
 	}
 
+	public function actionBackend()
+	{
+		$this->redirect($this->createUrl('news/feed'));
+	}
+
 	/**
 	 * Перенаправление ссылок старого файлового архива (/userimages/…)
 	 * на страницы сайта и файлы из нового архива. 
