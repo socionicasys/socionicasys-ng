@@ -12,7 +12,7 @@ return array(
 	'defaultController' => 'static',
 
 	// preloading 'log' component
-	'preload'=>array('perfLogger', 'log'),
+	'preload'=>array('log'),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -151,7 +151,7 @@ return array(
 	),
 
 	'params' => array(
-		'enableFileManager' => true,
+		'enableFileManager' => false,
 		'meta.description' => 'Соционика, модель психики, информационный метаболизм, с точки зрения системного подхода',
 		'meta.keywords' => 'соционика',
 		'adminEmail' => 'admin@socionicasys.ru',
