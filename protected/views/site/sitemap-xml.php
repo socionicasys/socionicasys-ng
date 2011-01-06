@@ -1,4 +1,5 @@
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>' ?>
+
 <urlset
 	xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -7,6 +8,7 @@
 <?php foreach ($news as $model): ?>
 	<url>
 		<loc><?php echo CHtml::encode($model->getUrl(true)); ?></loc>
+		<lastmod><?php echo date('c', $model->post_time); ?></lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.3</priority>
 	</url>
@@ -25,6 +27,15 @@
 		<loc><?php echo CHtml::encode($model->getUrl(true)); ?></loc>
 		<changefreq>monthly</changefreq>
 		<priority>0.6</priority>
+	</url>
+<?php endforeach; ?>
+
+<?php foreach ($videos as $model): ?>
+	<url>
+		<loc><?php echo CHtml::encode($model->getUrl(true)); ?></loc>
+		<lastmod><?php echo date('c', $model->post_time); ?></lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.5</priority>
 	</url>
 <?php endforeach; ?>
 </urlset>
