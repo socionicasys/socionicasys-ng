@@ -8,6 +8,7 @@
 <?php foreach ($news as $model): ?>
 	<url>
 		<loc><?php echo CHtml::encode($model->getUrl(true)); ?></loc>
+		<lastmod><?php echo date('c', $model->post_time); ?></lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.3</priority>
 	</url>
@@ -32,6 +33,7 @@
 <?php foreach ($videos as $model): ?>
 	<url>
 		<loc><?php echo CHtml::encode($model->getUrl(true)); ?></loc>
+		<lastmod><?php echo date('c', $model->post_time); ?></lastmod>
 		<changefreq>monthly</changefreq>
 		<priority>0.5</priority>
 	</url>
