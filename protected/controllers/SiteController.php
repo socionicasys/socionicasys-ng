@@ -138,6 +138,7 @@ class SiteController extends Controller
 			'news' => News::model()->findAll(),
 			'pages' => Nav::model()->findAll('level>1'),
 			'articles' => Library::model()->findAll(),
+			'videos' => Video::model()->findAll(),
 		));
 	}
 
