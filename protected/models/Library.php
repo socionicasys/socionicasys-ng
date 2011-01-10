@@ -110,6 +110,8 @@ class Library extends CActiveRecord
 			'published' => 'Журнал',
 			'published_number' => 'Номер',
 			'text' => 'Текст',
+			'meta_description' => 'Краткое описание',
+			'meta_keywords' => 'Ключеые слова',
 		);
 	}
 

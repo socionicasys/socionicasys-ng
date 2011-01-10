@@ -101,6 +101,8 @@ class Nav extends CActiveRecord
 			'title' => 'Заголовок в браузере',
 			'menu_title' => 'Заголовок в меню',
 			'text' => 'Текст',
+			'meta_description' => 'Краткое описание',
+			'meta_keywords' => 'Ключеые слова',
 		);
 	}
 

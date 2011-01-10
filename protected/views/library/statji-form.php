@@ -38,6 +38,18 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model, 'meta_description'); ?>
+		<?php echo $form->textArea($model, 'meta_description', array('rows' => 4, 'cols' => 60, 'maxlength' => 256)); ?>
+		<?php echo $form->error($model, 'meta_description'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model, 'meta_keywords'); ?>
+		<?php echo $form->textArea($model, 'meta_keywords', array('rows' => 4, 'cols' => 60, 'maxlength' => 256)); ?>
+		<?php echo $form->error($model, 'meta_keywords'); ?>
+	</div>
+
+	<div class="row">
 		<?php
 		$this->widget('ECKEditorSetup', array(
 			'model' => $model,
