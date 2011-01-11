@@ -46,7 +46,7 @@ class News extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('title, text', 'required'),
-			array('title', 'length', 'max'=>256),
+			array('title', 'length', 'max' => 256, 'encoding' => 'UTF-8'),
 			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

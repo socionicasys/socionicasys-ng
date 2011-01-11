@@ -51,7 +51,7 @@ class Video extends CActiveRecord
 		return array(
 			array('title, link', 'required'),
 			array('post_time', 'numerical', 'integerOnly'=>true),
-			array('title, url, link, category, date', 'length', 'max'=>255),
+			array('title, url, link, category, date', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
 			array('comment', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

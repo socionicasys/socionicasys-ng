@@ -36,7 +36,7 @@ class Quote extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('author, note', 'length', 'max' => 255),
+			array('author, note', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
 			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			array('id, author, note, text', 'safe', 'on' => 'search'),
 		);

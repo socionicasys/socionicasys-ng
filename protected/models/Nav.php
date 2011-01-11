@@ -67,7 +67,7 @@ class Nav extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('url, title, menu_title, meta_description, meta_keywords', 'length', 'max'=>255),
+			array('url, title, menu_title, meta_description, meta_keywords', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
 			array('menu_title', 'required'),
 			array('url', 'match',
 				'pattern' => '/^(\/[-a-z0-9_%+.]+)*\/?$/',
