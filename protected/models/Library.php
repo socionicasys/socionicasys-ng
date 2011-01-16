@@ -77,7 +77,7 @@ class Library extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type, url, title, author, published, published_number', 'length', 'max'=>255),
+			array('type, url, title, author, published, published_number, meta_description, meta_keywords', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
 			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -110,6 +110,8 @@ class Library extends CActiveRecord
 			'published' => 'Журнал',
 			'published_number' => 'Номер',
 			'text' => 'Текст',
+			'meta_description' => 'Краткое описание',
+			'meta_keywords' => 'Ключеые слова',
 		);
 	}
 

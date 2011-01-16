@@ -39,7 +39,7 @@ class Protocol extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
-			array('name, tim, date, url, comment', 'length', 'max'=>255),
+			array('name, tim, date, url, comment', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, tim, date, url', 'safe', 'on'=>'search'),
