@@ -4,9 +4,9 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: flexWidget.php 1766 2010-02-01 00:27:29Z qiang.xue $
+ * @version $Id: flexWidget.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.web.widgets.views
  * @since 1.0
  */

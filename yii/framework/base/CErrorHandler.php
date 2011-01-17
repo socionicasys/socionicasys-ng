@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -48,16 +48,23 @@ Yii::import('CHtml',true);
  * {@link CApplication::getErrorHandler()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CErrorHandler.php 2526 2010-10-04 12:48:19Z mdomba $
+ * @version $Id: CErrorHandler.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.base
  * @since 1.0
  */
 class CErrorHandler extends CApplicationComponent
 {
 	/**
-	 * @var integer maximum number source code lines to be displayed. Defaults to 25.
+	 * @var integer maximum number of source code lines to be displayed. Defaults to 25.
 	 */
 	public $maxSourceLines=25;
+
+	/**
+	 * @var integer maximum number of trace source code lines to be displayed. Defaults to 10.
+	 * @since 1.1.6
+	 */
+	public $maxTraceSourceLines = 10;
+
 	/**
 	 * @var string the application administrator information (could be a name or email link). It is displayed in error pages to end users. Defaults to 'the webmaster'.
 	 */
@@ -137,6 +144,23 @@ class CErrorHandler extends CApplicationComponent
 				$fileName=$trace['file'];
 				$errorLine=$trace['line'];
 			}
+
+			$trace = $exception->getTrace();
+
+			foreach($trace as $i=>$t)
+			{
+				if(!isset($t['file']))
+					$trace[$i]['file']='unknown';
+
+				if(!isset($t['line']))
+					$trace[$i]['line']=0;
+
+				if(!isset($t['function']))
+					$trace[$i]['function']='unknown';
+
+				unset($trace[$i]['object']);
+			}
+
 			$this->_error=$data=array(
 				'code'=>($exception instanceof CHttpException)?$exception->statusCode:500,
 				'type'=>get_class($exception),
@@ -145,13 +169,15 @@ class CErrorHandler extends CApplicationComponent
 				'file'=>$fileName,
 				'line'=>$errorLine,
 				'trace'=>$exception->getTraceAsString(),
-				'source'=>$this->getSourceLines($fileName,$errorLine),
+				'traces'=>$trace,
 			);
 
 			if(!headers_sent())
 				header("HTTP/1.0 {$data['code']} ".get_class($exception));
 			if($exception instanceof CHttpException || !YII_DEBUG)
 				$this->render('error',$data);
+			else if($this->isAjaxRequest())
+				$app->displayException($exception);
 			else
 				$this->render('exception',$data);
 		}
@@ -173,15 +199,20 @@ class CErrorHandler extends CApplicationComponent
 		foreach($trace as $i=>$t)
 		{
 			if(!isset($t['file']))
-				$t['file']='unknown';
+				$trace[$i]['file']='unknown';
+
 			if(!isset($t['line']))
-				$t['line']=0;
+				$trace[$i]['line']=0;
+
 			if(!isset($t['function']))
-				$t['function']='unknown';
-			$traceString.="#$i {$t['file']}({$t['line']}): ";
+				$trace[$i]['function']='unknown';
+
+			$traceString.="#$i {$trace[$i]['file']}({$trace[$i]['line']}): ";
 			if(isset($t['object']) && is_object($t['object']))
 				$traceString.=get_class($t['object']).'->';
-			$traceString.="{$t['function']}()\n";
+			$traceString.="{$trace[$i]['function']}()\n";
+
+			unset($trace[$i]['object']);
 		}
 
 		$app=Yii::app();
@@ -194,11 +225,13 @@ class CErrorHandler extends CApplicationComponent
 				'file'=>$event->file,
 				'line'=>$event->line,
 				'trace'=>$traceString,
-				'source'=>$this->getSourceLines($event->file,$event->line),
+				'traces'=>$trace,
 			);
 			if(!headers_sent())
 				header("HTTP/1.0 500 PHP Error");
-			if(YII_DEBUG)
+			if($this->isAjaxRequest())
+				$app->displayError($event->code,$event->message,$event->file,$event->line);
+			else if(YII_DEBUG)
 				$this->render('exception',$data);
 			else
 				$this->render('error',$data);
@@ -208,6 +241,16 @@ class CErrorHandler extends CApplicationComponent
 	}
 
 	/**
+	 * whether the current request is an AJAX (XMLHttpRequest) request.
+	 * @return boolean whether the current request is an AJAX request.
+	 */
+	protected function isAjaxRequest()
+	{
+		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest';
+	}
+
+	/**
+	 * Returns the exact trace where the problem occurs.
 	 * @param Exception $exception the uncaught exception
 	 * @return array the exact trace where the problem occurs
 	 */
@@ -287,12 +330,14 @@ class CErrorHandler extends CApplicationComponent
 				$viewFile=$app->findLocalizedFile($viewPath.DIRECTORY_SEPARATOR.'error.php',$srcLanguage);
 		}
 		else
-			$viewFile=$app->findLocalizedFile($viewPath.DIRECTORY_SEPARATOR."exception.php",$srcLanguage);
+			$viewFile=$viewPath.DIRECTORY_SEPARATOR."exception.php";
 		return $viewFile;
 	}
 
 	/**
-	 * @return string server version information. If the application is in production mode, nothing is returned.
+	 * Returns server version information.
+	 * If the application is in production mode, empty string is returned.
+	 * @return string server version information. Empty if in production mode.
 	 */
 	protected function getVersionInfo()
 	{
@@ -308,32 +353,90 @@ class CErrorHandler extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the source lines around the error line.
-	 * At most {@link maxSourceLines} lines will be returned.
-	 * @param string $file source file path
-	 * @param integer $line the error line number
-	 * @return array source lines around the error line, indxed by line numbers
+	 * Converts arguments array to its string representation
+	 *
+	 * @param array $args arguments array to be converted
+	 * @return string string representation of the arguments array
 	 */
-	protected function getSourceLines($file,$line)
+	protected function argumentsToString($args)
 	{
-		// determine the max number of lines to display
-		$maxLines=$this->maxSourceLines;
-		if($maxLines<1)
-			$maxLines=1;
-		else if($maxLines>100)
-			$maxLines=100;
+		$count=0;
+		foreach($args as $key => $value)
+		{
+			$count++;
+			if($count>5)
+			{
+				$args[$key]='...';
+				break;
+			}
 
-		$line--;	// adjust line number to 0-based from 1-based
-		if($line<0 || ($lines=@file($file))===false || ($lineCount=count($lines))<=$line)
-			return array();
+			if(is_object($value))
+				$args[$key] = get_class($value);
+			else if(is_bool($value))
+				$args[$key] = $value ? 'true' : 'false';
+			else if(is_string($value))
+			{
+				if(strlen($value)>64)
+					$args[$key] = '"'.substr($value,0,64).'..."';
+				else
+					$args[$key] = '"'.$value.'"';
+			}
+			else if(is_array($value))
+				$args[$key] = 'array('.$this->argumentsToString($value).')';
+			else if($value===null)
+				$args[$key] = 'null';
+			else if(is_resource($value))
+				$args[$key] = 'resource';
+		}
+
+		$out = implode(", ", $args);
+
+		return $out;
+	}
+
+	/**
+	 * Returns a value indicating whether the call stack is from application code.
+	 * @param array $trace the trace data
+	 * @return boolean whether the call stack is from application code.
+	 */
+	protected function isCoreCode($trace)
+	{
+		if(isset($trace['file']))
+		{
+			$systemPath=realpath(dirname(__FILE__).'/..');
+			return $trace['file']==='unknown' || strpos(realpath($trace['file']),$systemPath.DIRECTORY_SEPARATOR)===0;
+		}
+		return false;
+	}
+
+	/**
+	 * Renders the source code around the error line.
+	 * @param string $file source file path
+	 * @param integer $errorLine the error line number
+	 * @param integer $maxLines maximum number of lines to display
+	 * @return string the rendering result
+	 */
+	protected function renderSourceCode($file,$errorLine,$maxLines)
+	{
+		$errorLine--;	// adjust line number to 0-based from 1-based
+		if($errorLine<0 || ($lines=@file($file))===false || ($lineCount=count($lines))<=$errorLine)
+			return '';
 
 		$halfLines=(int)($maxLines/2);
-		$beginLine=$line-$halfLines>0?$line-$halfLines:0;
-		$endLine=$line+$halfLines<$lineCount?$line+$halfLines:$lineCount-1;
+		$beginLine=$errorLine-$halfLines>0 ? $errorLine-$halfLines:0;
+		$endLine=$errorLine+$halfLines<$lineCount?$errorLine+$halfLines:$lineCount-1;
+		$lineNumberWidth=strlen($endLine+1);
 
-		$sourceLines=array();
+		$output='';
 		for($i=$beginLine;$i<=$endLine;++$i)
-			$sourceLines[$i+1]=$lines[$i];
-		return $sourceLines;
+		{
+			$isErrorLine = $i===$errorLine;
+			$code=sprintf("<span class=\"ln".($isErrorLine?' error-ln':'')."\">%0{$lineNumberWidth}d</span> %s",$i+1,CHtml::encode(str_replace("\t",'    ',$lines[$i])));
+			if(!$isErrorLine)
+				$output.=$code;
+			else
+				$output.='<span class="error">'.$code.'</span>';
+		}
+		return '<div class="code"><pre>'.$output.'</pre></div>';
 	}
 }

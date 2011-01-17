@@ -4,7 +4,7 @@
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,7 +12,7 @@
  * COciSchema is the class for retrieving metadata information from an Oracle database.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id: COciSchema.php 2590 2010-10-31 14:42:39Z qiang.xue $
+ * @version $Id: COciSchema.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.db.schema.oci
  * @since 1.0.5
  */
@@ -21,21 +21,44 @@ class COciSchema extends CDbSchema
 	private $_defaultSchema = '';
 
 	/**
+	 * @var array the abstract column types mapped to physical column types.
+	 * @since 1.1.6
+	 */
+    public $columnTypes=array(
+        'pk' => 'NUMBER(10) NOT NULL PRIMARY KEY',
+        'string' => 'VARCHAR2(255)',
+        'text' => 'CLOB',
+        'integer' => 'NUMBER(10)',
+        'float' => 'NUMBER',
+        'decimal' => 'NUMBER',
+        'datetime' => 'TIMESTAMP',
+        'timestamp' => 'TIMESTAMP',
+        'time' => 'TIMESTAMP',
+        'date' => 'DATE',
+        'binary' => 'BLOB',
+        'boolean' => 'NUMBER(1)',
+    );
+
+	/**
 	 * Quotes a table name for use in a query.
+	 * A simple table name does not schema prefix.
 	 * @param string $name table name
 	 * @return string the properly quoted table name
+	 * @since 1.1.6
 	 */
-	public function quoteTableName($name)
+	public function quoteSimpleTableName($name)
 	{
 		return '"'.$name.'"';
 	}
 
 	/**
 	 * Quotes a column name for use in a query.
+	 * A simple column name does not contain prefix.
 	 * @param string $name column name
 	 * @return string the properly quoted column name
+	 * @since 1.1.6
 	 */
-	public function quoteColumnName($name)
+	public function quoteSimpleColumnName($name)
 	{
 		return '"'.$name.'"';
 	}
@@ -85,11 +108,11 @@ class COciSchema extends CDbSchema
     }
 
 	/**
-	 * Creates a table instance representing the metadata for the named table.
+	 * Loads the metadata for the specified table.
 	 * @param string $name table name
 	 * @return CDbTableSchema driver dependent table metadata.
 	 */
-	protected function createTable($name)
+	protected function loadTable($name)
 	{
 		$table=new COciTableSchema;
 		$this->resolveTableNames($table,$name);
@@ -135,7 +158,8 @@ class COciSchema extends CDbSchema
 	 */
 	protected function findColumns($table)
 	{
-		list($schemaName,$tableName) = $this->getSchemaTableName($table->name);
+		$schemaName=$table->schemaName;
+		$tableName=$table->name;
 
 		$sql=<<<EOD
 SELECT a.column_name, a.data_type ||
@@ -240,7 +264,6 @@ EOD;
 		}
 	}
 
-
 	/**
 	 * Returns all table names in the database.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
@@ -276,5 +299,48 @@ EOD;
 				$names[]=$row['TABLE_SCHEMA'].'.'.$row['TABLE_NAME'];
 		}
 		return $names;
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a DB table.
+	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new table name. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB table.
+	 * @since 1.1.6
+	 */
+	public function renameTable($table, $newName)
+	{
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' RENAME TO ' . $this->quoteTableName($newName);
+	}
+
+	/**
+	 * Builds a SQL statement for changing the definition of a column.
+	 * @param string $table the table whose column is to be changed. The table name will be properly quoted by the method.
+	 * @param string $column the name of the column to be changed. The name will be properly quoted by the method.
+	 * @param string $type the new column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
+	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
+	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @return string the SQL statement for changing the definition of a column.
+	 * @since 1.1.6
+	 */
+	public function alterColumn($table, $column, $type)
+	{
+		$type=$this->getColumnType($type);
+		$sql='ALTER TABLE ' . $this->quoteTableName($table) . ' MODIFY '
+			. $this->quoteColumnName($column) . ' '
+			. $this->getColumnType($type);
+		return $sql;
+	}
+
+	/**
+	 * Builds a SQL statement for dropping an index.
+	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
+	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping an index.
+	 * @since 1.1.6
+	 */
+	public function dropIndex($name, $table)
+	{
+		return 'DROP INDEX '.$this->quoteTableName($name);
 	}
 }

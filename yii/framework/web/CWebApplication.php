@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -37,14 +37,14 @@
  * which is in the file 'protected/controllers/ArticleController.php'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CWebApplication.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CWebApplication.php 2833 2011-01-10 14:54:27Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
 class CWebApplication extends CApplication
 {
 	/**
-	 * @return string the ID of the default controller. Defaults to 'site'.
+	 * @return string the route of the default controller, action or module. Defaults to 'site'.
 	 */
 	public $defaultController='site';
 	/**
@@ -268,7 +268,11 @@ class CWebApplication extends CApplication
 	 */
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
-		return $this->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
+		$url=$this->createUrl($route,$params,$ampersand);
+		if(strpos($url,'http')===0)
+			return $url;
+		else
+			return $this->getRequest()->getHostInfo($schema).$url;
 	}
 
 	/**

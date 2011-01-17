@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,7 +12,7 @@
  * CDbCriteria represents a query criteria, such as conditions, ordering by, limit/offset.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbCriteria.php 2596 2010-11-01 21:05:22Z qiang.xue $
+ * @version $Id: CDbCriteria.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.db.schema
  * @since 1.0
  */

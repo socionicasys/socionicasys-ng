@@ -7,9 +7,9 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: yiic.php 1870 2010-03-09 22:23:19Z qiang.xue $
+ * @version $Id: yiic.php 2799 2011-01-01 19:31:13Z qiang.xue $
  */
 
 // fix for fcgi

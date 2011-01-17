@@ -4,7 +4,7 @@
  *
  * @author Sebastian Thierer <sebas@artfos.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -20,7 +20,8 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * <pre>
  * $this->widget('zii.widgets.jui.CJuiButton', array(
  * 		'name'=>'submit',
- *     'options'=>array(
+ * 		'caption'=>'Save',
+ * 		'options'=>array(
  *         'onclick'=>'js:function(){alert("Yes");}',
  *     ),
  * ));
@@ -31,8 +32,9 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * $this->widget('zii.widgets.jui.CJuiButton',
  *		array(
  *			'name'=>'button',
+ * 			'caption'=>'Save',
  *			'value'=>'asd',
- *			'onclick'=>'js:function(){alert("clicked"); this.blur(); return false;}',
+ *			'onclick'=>'js:function(){alert("Save button clicked"); this.blur(); return false;}',
  * 		)
  * );
  * </pre>
@@ -43,7 +45,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id: CJuiButton.php 2545 2010-10-14 13:51:43Z sebathi $
+ * @version $Id: CJuiButton.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package zii.widgets.jui
  * @since 1.1.3
  */
@@ -51,7 +53,7 @@ class CJuiButton extends CJuiInputWidget
 {
 	/**
 	 * @var string The button type (possible types: submit, button, link, radio, checkbox, buttonset).
-	 * For radio and checkbox you could add
+	 * "submit" is used as default.
 	 */
 	public $buttonType = 'submit';
 
@@ -65,7 +67,7 @@ class CJuiButton extends CJuiInputWidget
 	public $url = null;
 
 	/**
-	 * @var mixed The value of the current item. Used only for "submit", "button", "radio" and "checkbox"
+	 * @var mixed The value of the current item. Used only for "radio" and "checkbox"
 	 */
 	public $value;
 

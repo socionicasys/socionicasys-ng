@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -37,7 +37,7 @@
  * For more details, please check the documentation about {@link attributes}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CSort.php 2558 2010-10-16 12:29:48Z mdomba $
+ * @version $Id: CSort.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.web
  * @since 1.0.1
  */
@@ -330,10 +330,11 @@ class CSort extends CComponent
 				$attributes=explode($this->separators[0],$_GET[$this->sortVar]);
 				foreach($attributes as $attribute)
 				{
-					if(($pos=strpos($attribute,$this->separators[1]))!==false)
+					if(($pos=strrpos($attribute,$this->separators[1]))!==false)
 					{
 						$descending=substr($attribute,$pos+1)===$this->descTag;
-						$attribute=substr($attribute,0,$pos);
+						if($descending)
+							$attribute=substr($attribute,0,$pos);
 					}
 					else
 						$descending=false;

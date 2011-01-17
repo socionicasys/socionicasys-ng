@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -18,7 +18,7 @@
  * See {@link CCache} manual for common cache operations that are supported by CFileCache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CFileCache.php 2641 2010-11-12 01:53:28Z qiang.xue $
+ * @version $Id: CFileCache.php 2853 2011-01-14 09:53:06Z keyboard.idol@gmail.com $
  * @package system.caching
  * @since 1.0.6
  */
@@ -91,7 +91,8 @@ class CFileCache extends CCache
 	 */
 	protected function flushValues()
 	{
-		return $this->gc(false);
+		$this->gc(false);
+		return true;
 	}
 
 	/**

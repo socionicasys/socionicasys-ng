@@ -7,7 +7,7 @@
  * Copyright © 1991-2007 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Copyright © 2008-2010 Yii Software LLC (http://www.yiiframework.com/license/)
+ * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
   'version' => '4123',
@@ -17,7 +17,7 @@ return array (
     'group' => ',',
     'list' => ';',
     'percentSign' => '%',
-    'nativeZeroDigit' => '०',
+    'nativeZeroDigit' => '0',
     'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '-',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -320,4 +318,9 @@ return array (
   'amName' => 'am',
   'pmName' => 'pm',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

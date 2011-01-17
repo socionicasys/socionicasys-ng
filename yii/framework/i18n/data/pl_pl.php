@@ -7,7 +7,7 @@
  * Copyright © 1991-2007 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Copyright © 2008-2010 Yii Software LLC (http://www.yiiframework.com/license/)
+ * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
   'version' => '4123',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -308,8 +306,8 @@ return array (
     ),
     'wide' => 
     array (
-      0 => 'p.n.e.',
-      1 => 'n.e.',
+      0 => 'przed naszą erą',
+      1 => 'naszej ery',
     ),
     'narrow' => 
     array (
@@ -321,8 +319,8 @@ return array (
   array (
     'full' => 'EEEE, d MMMM y',
     'long' => 'd MMMM y',
-    'medium' => 'dd-MM-yyyy',
-    'short' => 'dd-MM-yy',
+    'medium' => 'd MMM y',
+    'short' => 'dd.MM.yyyy',
   ),
   'timeFormats' => 
   array (
@@ -331,8 +329,15 @@ return array (
     'medium' => 'HH:mm:ss',
     'short' => 'HH:mm',
   ),
-  'dateTimeFormat' => '{1} {0}',
+  'dateTimeFormat' => '{1}, {0}',
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => '(fmod(n,10)>=2&&fmod(n,10)<=4&&fmod(fmod(n,10),1)==0)&&(fmod(n,100)<12||fmod(n,100)>14)',
+    2 => 'n!=1&&(fmod(n,10)>=0&&fmod(n,10)<=1&&fmod(fmod(n,10),1)==0)||(fmod(n,10)>=5&&fmod(n,10)<=9&&fmod(fmod(n,10),1)==0)||(fmod(n,100)>=12&&fmod(n,100)<=14&&fmod(fmod(n,100),1)==0)',
+    3 => 'true',
+  ),
 );

@@ -5,7 +5,7 @@
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -54,7 +54,7 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CNumberFormatter.php 2572 2010-10-26 00:26:40Z qiang.xue $
+ * @version $Id: CNumberFormatter.php 2798 2011-01-01 19:29:03Z qiang.xue $
  * @package system.i18n
  * @since 1.0
  */

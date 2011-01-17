@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -23,7 +23,7 @@ else
  * CTestCase is the base class for all test case classes.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CTestCase.php 2529 2010-10-05 13:57:06Z alexander.makarow $
+ * @version $Id: CTestCase.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.test
  * @since 1.1
  */

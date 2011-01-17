@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -40,7 +40,7 @@
  * Then, in each view script, one only needs to assign the "breadcrumbs" property as needed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CBreadcrumbs.php 2326 2010-08-20 17:02:07Z qiang.xue $
+ * @version $Id: CBreadcrumbs.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */

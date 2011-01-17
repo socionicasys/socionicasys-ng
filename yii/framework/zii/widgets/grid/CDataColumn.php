@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -21,7 +21,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * value will be used by {@link CSort} to render a clickable link in the header cell to trigger the sorting.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDataColumn.php 2546 2010-10-14 14:01:33Z mdomba $
+ * @version $Id: CDataColumn.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package zii.widgets.grid
  * @since 1.1
  */

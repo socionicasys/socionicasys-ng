@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -21,7 +21,7 @@
  * requests, call {@link run}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CWebService.php 2598 2010-11-01 22:57:10Z qiang.xue $
+ * @version $Id: CWebService.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.web.services
  * @since 1.0
  */
@@ -245,7 +245,7 @@ class CWebService extends CComponent
  * CSoapObjectWrapper is a wrapper class internally used when SoapServer::setObject() is not defined.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CWebService.php 2598 2010-11-01 22:57:10Z qiang.xue $
+ * @version $Id: CWebService.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.web.services
  * @since 1.0.5
  */

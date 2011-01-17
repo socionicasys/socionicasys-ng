@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -35,7 +35,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CConsoleCommand.php 2580 2010-10-28 18:08:46Z qiang.xue $
+ * @version $Id: CConsoleCommand.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.console
  * @since 1.0
  */
@@ -62,6 +62,16 @@ abstract class CConsoleCommand extends CComponent
 	}
 
 	/**
+	 * Initializes the command object.
+	 * This method is invoked after a command object is created and initialized with configurations.
+	 * You may override this method to further customize the command before it executes.
+	 * @since 1.1.6
+	 */
+	public function init()
+	{
+	}
+
+	/**
 	 * Executes the command.
 	 * The default implementation will parse the input parameters and
 	 * dispatch the command request to an appropriate action with the corresponding
@@ -70,13 +80,14 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	public function run($args)
 	{
-		list($action, $options)=$this->resolveRequest($args);
+		list($action, $options, $args)=$this->resolveRequest($args);
 		$methodName='action'.$action;
 		if(!preg_match('/^\w+$/',$action) || !method_exists($this,$methodName))
 			$this->usageError("Unknown action: ".$action);
 
 		$method=new ReflectionMethod($this,$methodName);
 		$params=array();
+		// named and unnamed options
 		foreach($method->getParameters() as $i=>$param)
 		{
 			$name=$param->getName();
@@ -89,12 +100,33 @@ abstract class CConsoleCommand extends CComponent
 				else
 					$this->usageError("Option --$name requires a scalar. Array is given.");
 			}
+			else if($name==='args')
+				$params[]=$args;
 			else if($param->isDefaultValueAvailable())
 				$params[]=$param->getDefaultValue();
 			else
 				$this->usageError("Missing required option --$name.");
 			unset($options[$name]);
 		}
+
+		// try global options
+		if(!empty($options))
+		{
+			$class=new ReflectionClass(get_class($this));
+			foreach($options as $name=>$value)
+			{
+				if($class->hasProperty($name))
+				{
+					$property=$class->getProperty($name);
+					if($property->isPublic() && !$property->isStatic())
+					{
+						$this->$name=$value;
+						unset($options[$name]);
+					}
+				}
+			}
+		}
+
 		if(!empty($options))
 			$this->usageError("Unknown options: ".implode(', ',array_keys($options)));
 
@@ -130,7 +162,7 @@ abstract class CConsoleCommand extends CComponent
 	/**
 	 * Parses the command line arguments and determines which action to perform.
 	 * @param array $args command line arguments
-	 * @return array the action and the corresponding option values
+	 * @return array the action name, named options (name=>value), and unnamed options
 	 * @since 1.1.5
 	 */
 	protected function resolveRequest($args)
@@ -152,15 +184,15 @@ abstract class CConsoleCommand extends CComponent
 				else
 					$options[$name]=$value;
 			}
-			else
+			else if(isset($action))
 				$params[]=$arg;
+			else
+				$action=$arg;
 		}
-		if(empty($params))
+		if(!isset($action))
 			$action=$this->defaultAction;
-		else
-			$action=$params[0];
 
-		return array($action,$options);
+		return array($action,$options,$params);
 	}
 
 	/**

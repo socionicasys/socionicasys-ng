@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -26,11 +26,11 @@
  * for more details.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbDataReader.php 2644 2010-11-12 13:15:29Z qiang.xue $
+ * @version $Id: CDbDataReader.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.db
  * @since 1.0
  */
-class CDbDataReader extends CComponent implements Iterator
+class CDbDataReader extends CComponent implements Iterator, Countable
 {
 	private $_statement;
 	private $_closed=false;
@@ -55,7 +55,7 @@ class CDbDataReader extends CComponent implements Iterator
 	 * in the result set. If using the column name, be aware that the name
 	 * should match the case of the column, as returned by the driver.
 	 * @param mixed $value Name of the PHP variable to which the column will be bound.
-	 * @param int $dataType Data type of the parameter
+	 * @param integer $dataType Data type of the parameter
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindColumn.php
 	 */
 	public function bindColumn($column, &$value, $dataType=null)
@@ -88,7 +88,7 @@ class CDbDataReader extends CComponent implements Iterator
 
 	/**
 	 * Returns a single column from the next row of a result set.
-	 * @param int $columnIndex zero-based column index
+	 * @param integer $columnIndex zero-based column index
 	 * @return mixed|false the column of the current row, false if no more row available
 	 */
 	public function readColumn($columnIndex)
@@ -141,6 +141,7 @@ class CDbDataReader extends CComponent implements Iterator
 	}
 
 	/**
+	 * whether the reader is closed or not.
 	 * @return boolean whether the reader is closed or not.
 	 */
 	public function getIsClosed()
@@ -149,9 +150,10 @@ class CDbDataReader extends CComponent implements Iterator
 	}
 
 	/**
-	 * @return int number of rows contained in the result.
+	 * Returns the number of rows in the result set.
 	 * Note, most DBMS may not give a meaningful count.
 	 * In this case, use "SELECT COUNT(*) FROM tableName" to obtain the number of rows.
+	 * @return integer number of rows contained in the result.
 	 */
 	public function getRowCount()
 	{
@@ -159,8 +161,21 @@ class CDbDataReader extends CComponent implements Iterator
 	}
 
 	/**
-	 * @return int the number of columns in the result set.
+	 * Returns the number of rows in the result set.
+	 * This method is required by the Countable interface.
+	 * Note, most DBMS may not give a meaningful count.
+	 * In this case, use "SELECT COUNT(*) FROM tableName" to obtain the number of rows.
+	 * @return integer number of rows contained in the result.
+	 */
+	public function count()
+	{
+		return $this->getRowCount();
+	}
+
+	/**
+	 * Returns the number of columns in the result set.
 	 * Note, even there's no row in the reader, this still gives correct column number.
+	 * @return integer the number of columns in the result set.
 	 */
 	public function getColumnCount()
 	{

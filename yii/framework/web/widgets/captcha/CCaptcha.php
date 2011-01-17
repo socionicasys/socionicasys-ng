@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -28,7 +28,7 @@
  * a verification code matching the code displayed in the CAPTCHA image.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCaptcha.php 2514 2010-09-29 19:31:42Z mdomba $
+ * @version $Id: CCaptcha.php 2826 2011-01-07 04:24:54Z alexander.makarow $
  * @package system.web.widgets.captcha
  * @since 1.0
  */
@@ -95,10 +95,8 @@ class CCaptcha extends CWidget
 	 */
 	protected function renderImage()
 	{
-		if(isset($this->imageOptions['id']))
-			$id=$this->imageOptions['id'];
-		else
-			$id=$this->imageOptions['id']=$this->getId();
+		if(!isset($this->imageOptions['id']))
+			$this->imageOptions['id']=$this->getId();
 
 		$url=$this->getController()->createUrl($this->captchaAction,array('v'=>uniqid()));
 		$alt=isset($this->imageOptions['alt'])?$this->imageOptions['alt']:'';
@@ -136,8 +134,8 @@ class CCaptcha extends CWidget
 		}
 	}
 
-	/*
-	 * Checks if GD with FreeType support is loadded
+	/**
+	 * Checks if GD with FreeType support is loadded.
 	 * @return boolean true if GD with FreeType support is loaded, otherwise false
 	 * @since 1.1.5
 	 */

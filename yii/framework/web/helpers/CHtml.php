@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -13,7 +13,7 @@
  * CHtml is a static class that provides a collection of helper methods for creating HTML views.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHtml.php 2618 2010-11-04 04:33:25Z qiang.xue $
+ * @version $Id: CHtml.php 2873 2011-01-16 14:32:00Z qiang.xue $
  * @package system.web.helpers
  * @since 1.0
  */
@@ -398,7 +398,10 @@ class CHtml
 	public static function button($label='button',$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=self::ID_PREFIX.self::$count++;
+		{
+			if(!array_key_exists('name',$htmlOptions))
+				$htmlOptions['name']=self::ID_PREFIX.self::$count++;
+		}
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
 		if(!isset($htmlOptions['value']))
@@ -1861,14 +1864,22 @@ EOD;
 	 * javascript would not cause the default behavior of the event. This option has been available since version 1.0.2.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
+	 * <li>live: boolean, whether the event handler should be bound in "live" (a jquery event concept). Defaults to true. This option has been available since version 1.1.6.</li>
 	 * </ul>
-	 * @param boolean $live whether the event should be "live" (a jquery event concept). Defaults to true.
 	 * This parameter has been available since version 1.1.1.
 	 */
-	protected static function clientChange($event,&$htmlOptions,$live=true)
+	protected static function clientChange($event,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['submit']) && !isset($htmlOptions['confirm']) && !isset($htmlOptions['ajax']))
 			return;
+
+		if(isset($htmlOptions['live']))
+		{
+			$live=$htmlOptions['live'];
+			unset($htmlOptions['live']);
+		}
+		else
+			$live=true;
 
 		if(isset($htmlOptions['return']) && $htmlOptions['return'])
 			$return='return true';
@@ -1991,6 +2002,13 @@ EOD;
 	{
 		if(($pos=strpos($attribute,'['))!==false)
 		{
+			if($pos===0)  // [a]name[b][c], should ignore [a]
+			{
+				if(preg_match('/\](\w+)/',$attribute,$matches))
+					$attribute=$matches[1];
+				if(($pos=strpos($attribute,'['))===false)
+					return $model->$attribute;
+			}
 			$name=substr($attribute,0,$pos);
 			$value=$model->$name;
 			foreach(explode('][',rtrim(substr($attribute,$pos+1),']')) as $id)

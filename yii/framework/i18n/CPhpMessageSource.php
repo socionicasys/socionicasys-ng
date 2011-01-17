@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -37,7 +37,7 @@
  * the category name should be set as 'Xyz.categoryName'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CPhpMessageSource.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CPhpMessageSource.php 2798 2011-01-01 19:29:03Z qiang.xue $
  * @package system.i18n
  * @since 1.0
  */

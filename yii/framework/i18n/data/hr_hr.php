@@ -7,7 +7,7 @@
  * Copyright © 1991-2007 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Copyright © 2008-2010 Yii Software LLC (http://www.yiiframework.com/license/)
+ * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
   'version' => '4123',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -211,23 +209,23 @@ return array (
       8 => 'kolovoza',
       9 => 'rujna',
       10 => 'listopada',
-      11 => 'studenoga',
+      11 => 'studenog',
       12 => 'prosinca',
     ),
     'abbreviated' => 
     array (
-      1 => '01.',
-      2 => '02.',
-      3 => '03.',
-      4 => '04.',
-      5 => '05.',
-      6 => '06.',
-      7 => '07.',
-      8 => '08.',
-      9 => '09.',
-      10 => '10.',
-      11 => '11.',
-      12 => '12.',
+      1 => 'sij',
+      2 => 'velj',
+      3 => 'ožu',
+      4 => 'tra',
+      5 => 'svi',
+      6 => 'lip',
+      7 => 'srp',
+      8 => 'kol',
+      9 => 'ruj',
+      10 => 'lis',
+      11 => 'stu',
+      12 => 'pro',
     ),
   ),
   'monthNamesSA' => 
@@ -303,8 +301,8 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'pr.n.e.',
-      1 => 'AD',
+      0 => 'p. n. e.',
+      1 => 'A. D.',
     ),
     'wide' => 
     array (
@@ -321,8 +319,8 @@ return array (
   array (
     'full' => 'EEEE, d. MMMM y.',
     'long' => 'd. MMMM y.',
-    'medium' => 'd.M.yyyy.',
-    'short' => 'dd.MM.yyyy.',
+    'medium' => 'd. M. yyyy.',
+    'short' => 'dd. MM. yyyy.',
   ),
   'timeFormats' => 
   array (
@@ -335,4 +333,11 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'fmod(n,10)==1&&fmod(n,100)!=11',
+    1 => '(fmod(n,10)>=2&&fmod(n,10)<=4&&fmod(fmod(n,10),1)==0)&&(fmod(n,100)<12||fmod(n,100)>14)',
+    2 => 'fmod(n,10)==0||(fmod(n,10)>=5&&fmod(n,10)<=9&&fmod(fmod(n,10),1)==0)||(fmod(n,100)>=11&&fmod(n,100)<=14&&fmod(fmod(n,100),1)==0)',
+    3 => 'true',
+  ),
 );

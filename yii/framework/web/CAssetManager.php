@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -24,7 +24,7 @@
  * the {@link setBasePath basePath}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CAssetManager.php 2599 2010-11-01 23:19:19Z qiang.xue $
+ * @version $Id: CAssetManager.php 2846 2011-01-13 08:33:10Z keyboard.idol@gmail.com $
  * @package system.web
  * @since 1.0
  */
@@ -53,6 +53,12 @@ class CAssetManager extends CApplicationComponent
 	 * @since 1.1.5
 	 */
 	public $linkAssets=false;
+	/**
+	 * @var array list of directories and files which should be excluded from the publishing process.
+	 * Defaults to exclude '.svn' files only. This option has no effect if {@link linkAssets} is enabled.	 
+	 * @since 1.1.6
+	 **/
+	public $excludeFiles=array('.svn');
 	/**
 	 * @var string base web accessible path for storing private files
 	 */
@@ -159,7 +165,14 @@ class CAssetManager extends CApplicationComponent
 				if($this->linkAssets)
 				{
 					if(!is_file($dstFile))
+					{
+						if(!is_dir($dstDir))
+						{
+							mkdir($dstDir);
+							@chmod($dstDir,0777);
+						}
 						symlink($src,$dstFile);
+					}
 				}
 				else if(@filemtime($dstFile)<@filemtime($src) || $forceCopy)
 				{
@@ -184,7 +197,7 @@ class CAssetManager extends CApplicationComponent
 						symlink($src,$dstDir);
 				}
 				else if(!is_dir($dstDir) || $forceCopy)
-					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>array('.svn'),'level'=>$level));
+					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>$this->excludeFiles,'level'=>$level));
 
 				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
 			}
