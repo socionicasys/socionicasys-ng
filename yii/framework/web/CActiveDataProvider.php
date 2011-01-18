@@ -23,7 +23,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveDataProvider.php 2608 2010-11-02 20:43:23Z qiang.xue $
+ * @version $Id: CActiveDataProvider.php 2733 2010-12-09 12:38:10Z mdomba $
  * @package system.web
  * @since 1.1
  */
@@ -35,7 +35,7 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	public $modelClass;
 	/**
-	 * @var CActiveRecord the AR finder instance (e.g. <code>Post::model()</code>).
+	 * @var CActiveRecord the AR finder instance (eg <code>Post::model()</code>).
 	 * This property can be set by passing the finder instance as the first parameter
 	 * to the constructor.
 	 * @since 1.1.3

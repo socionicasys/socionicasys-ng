@@ -7,7 +7,7 @@
  * Copyright © 1991-2007 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Copyright © 2008-2010 Yii Software LLC (http://www.yiiframework.com/license/)
+ * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
   'version' => '4123',
@@ -21,10 +21,10 @@ return array (
     'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '-',
-    'exponential' => 'ق',
+    'exponential' => 'E',
     'perMille' => '‰',
     'infinity' => '∞',
-    'nan' => 'یہ عدد نہیں',
+    'nan' => 'NaN',
   ),
   'decimalFormat' => '#,##,##0.###',
   'scientificFormat' => '#E0',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -270,6 +268,9 @@ return array (
       5 => '6',
       6 => '7',
     ),
+  ),
+  'weekDayNamesSA' => 
+  array (
     'narrow' => 
     array (
       0 => 'ا',
@@ -279,19 +280,6 @@ return array (
       4 => 'ج',
       5 => 'ج',
       6 => 'ہ',
-    ),
-  ),
-  'weekDayNamesSA' => 
-  array (
-    'narrow' => 
-    array (
-      0 => '1',
-      1 => '2',
-      2 => '3',
-      3 => '4',
-      4 => '5',
-      5 => '6',
-      6 => '7',
     ),
   ),
   'eraNames' => 
@@ -330,4 +318,9 @@ return array (
   'amName' => 'قبل دوپہر',
   'pmName' => 'بعد دوپہر',
   'orientation' => 'rtl',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

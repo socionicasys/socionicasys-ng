@@ -5,7 +5,7 @@
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -13,7 +13,7 @@
  * CDateFormatter provides date/time localization functionalities.
  *
  * CDateFormatter allows you to format dates and times in a locale-sensitive manner.
- * Patterns are interpretted in the locale that the CDateFormatter instance
+ * Patterns are interpreted in the locale that the CDateFormatter instance
  * is associated with. For example, month names and weekday names may vary
  * under different locales, which yields different formatting results.
  * The patterns that CDateFormatter recognizes are as defined in
@@ -30,7 +30,7 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDateFormatter.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CDateFormatter.php 2798 2011-01-01 19:29:03Z qiang.xue $
  * @package system.i18n
  * @since 1.0
  */
@@ -271,7 +271,7 @@ class CDateFormatter extends CComponent
 	 * Get the day in the year, e.g. [1-366]
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
-	 * @return int hours in AM/PM format.
+	 * @return integer hours in AM/PM format.
 	 */
 	protected function formatDayInYear($pattern,$date)
 	{
@@ -286,7 +286,7 @@ class CDateFormatter extends CComponent
 	 * Get day of week in the month, e.g. 2nd Wed in July.
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
-	 * @return int day in month
+	 * @return integer day in month
 	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
 	 */
 	protected function formatDayInMonth($pattern,$date)
@@ -399,7 +399,7 @@ class CDateFormatter extends CComponent
 	 * 'k' for non-padding, and 'kk' with 2 characters padding.
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
-	 * @return int hours [1-24]
+	 * @return integer hours [1-24]
 	 */
 	protected function formatHourInDay($pattern,$date)
 	{
@@ -417,7 +417,7 @@ class CDateFormatter extends CComponent
 	 * "K" for non-padding, "KK" will always return 2 characters.
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
-	 * @return int hours in AM/PM format.
+	 * @return integer hours in AM/PM format.
 	 */
 	protected function formatHourInPeriod($pattern,$date)
 	{
@@ -470,7 +470,7 @@ class CDateFormatter extends CComponent
 	 * Get the week in the year.
 	 * @param string $pattern a pattern.
 	 * @param array $date result of {@link CTimestamp::getdate}.
-	 * @return int week in year
+	 * @return integer week in year
 	 */
 	protected function formatWeekInYear($pattern,$date)
 	{
@@ -484,7 +484,7 @@ class CDateFormatter extends CComponent
 	 * Get week in the month.
 	 * @param array $pattern result of {@link CTimestamp::getdate}.
 	 * @param string $date a pattern.
-	 * @return int week in month
+	 * @return integer week in month
 	 */
 	protected function formatWeekInMonth($pattern,$date)
 	{

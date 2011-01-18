@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -15,7 +15,7 @@
  * added to the list is of certain class type.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CTypedMap.php 2614 2010-11-03 15:44:48Z qiang.xue $
+ * @version $Id: CTypedMap.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.collections
  * @since 1.0
  */
@@ -25,7 +25,7 @@ class CTypedMap extends CMap
 
 	/**
 	 * Constructor.
-	 * @param string class type
+	 * @param string $type class type
 	 */
 	public function __construct($type)
 	{
@@ -36,8 +36,8 @@ class CTypedMap extends CMap
 	 * Adds an item into the map.
 	 * This method overrides the parent implementation by
 	 * checking the item to be inserted is of certain type.
-	 * @param mixed key
-	 * @param mixed value
+	 * @param integer $index the specified position.
+	 * @param mixed $item new item
 	 * @throws CException If the index specified exceeds the bound,
 	 * the map is read-only or the element is not of the expected type.
 	 */

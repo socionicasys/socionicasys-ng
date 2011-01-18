@@ -14,7 +14,6 @@
  * $count=Yii::app()->db->createCommand('SELECT COUNT(*) FROM tbl_user')->queryScalar();
  * $sql='SELECT * FROM tbl_user';
  * $dataProvider=new CSqlDataProvider($sql, array(
- *     'id'=>'user',
  *     'totalItemCount'=>$count,
  *     'sort'=>array(
  *         'attributes'=>array(
@@ -33,7 +32,7 @@
  * you must configure {@link sort} property so that the provider knows which columns can be sorted.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CSqlDataProvider.php 2611 2010-11-03 14:16:12Z qiang.xue $
+ * @version $Id: CSqlDataProvider.php 2820 2011-01-06 17:15:56Z mdomba $
  * @package system.web
  * @since 1.1.4
  */

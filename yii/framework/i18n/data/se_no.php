@@ -7,24 +7,24 @@
  * Copyright © 1991-2007 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Copyright © 2008-2010 Yii Software LLC (http://www.yiiframework.com/license/)
+ * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
-    'decimal' => ',',
-    'group' => ' ',
+    'decimal' => '.',
+    'group' => ',',
     'list' => ';',
     'percentSign' => '%',
     'nativeZeroDigit' => '0',
     'patternDigit' => '#',
     'plusSign' => '+',
-    'minusSign' => '−',
-    'exponential' => '×10^',
+    'minusSign' => '-',
+    'exponential' => 'E',
     'perMille' => '‰',
     'infinity' => '∞',
-    'nan' => '¤¤¤',
+    'nan' => 'NaN',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -275,12 +273,12 @@ return array (
   array (
     'narrow' => 
     array (
-      0 => 's',
-      1 => 'v',
-      2 => 'm',
-      3 => 'g',
-      4 => 'd',
-      5 => 'b',
+      0 => 'S',
+      1 => 'V',
+      2 => 'M',
+      3 => 'G',
+      4 => 'D',
+      5 => 'B',
       6 => 'L',
     ),
   ),
@@ -307,7 +305,7 @@ return array (
     'full' => 'EEEE, y MMMM dd',
     'long' => 'y MMMM d',
     'medium' => 'y MMM d',
-    'short' => 'yy/MM/dd',
+    'short' => 'yyyy-MM-dd',
   ),
   'timeFormats' => 
   array (
@@ -317,7 +315,13 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
+  'amName' => 'iđitbeaivet',
+  'pmName' => 'eahketbeaivet',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'n==2',
+    2 => 'true',
+  ),
 );

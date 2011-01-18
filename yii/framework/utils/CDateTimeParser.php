@@ -6,7 +6,7 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Tomasz Suchanek <tomasz[dot]suchanek[at]gmail[dot]com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -45,7 +45,7 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDateTimeParser.php 2606 2010-11-02 18:37:10Z qiang.xue $
+ * @version $Id: CDateTimeParser.php 2827 2011-01-07 04:51:27Z alexander.makarow $
  * @package system.utils
  * @since 1.0
  */
@@ -203,7 +203,10 @@ class CDateTimeParser
 		$month=(int)$month;
 		$day=(int)$day;
 
-		if(!isset($hour) && !isset($minute) && !isset($second))
+		if(
+			!isset($hour) && !isset($minute) && !isset($second)
+			&& !isset($defaults['hour']) && !isset($defaults['minute']) && !isset($defaults['second'])
+		)
 			$hour=$minute=$second=0;
 		else
 		{

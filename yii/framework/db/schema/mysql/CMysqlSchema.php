@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,28 +12,51 @@
  * CMysqlSchema is the class for retrieving metadata information from a MySQL database (version 4.1.x and 5.x).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMysqlSchema.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CMysqlSchema.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.db.schema.mysql
  * @since 1.0
  */
 class CMysqlSchema extends CDbSchema
 {
 	/**
+	 * @var array the abstract column types mapped to physical column types.
+	 * @since 1.1.6
+	 */
+    public $columnTypes=array(
+        'pk' => 'int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY',
+        'string' => 'varchar(255)',
+        'text' => 'text',
+        'integer' => 'int(11)',
+        'float' => 'float',
+        'decimal' => 'decimal',
+        'datetime' => 'datetime',
+        'timestamp' => 'timestamp',
+        'time' => 'time',
+        'date' => 'date',
+        'binary' => 'blob',
+        'boolean' => 'tinyint(1)',
+    );
+
+	/**
 	 * Quotes a table name for use in a query.
+	 * A simple table name does not schema prefix.
 	 * @param string $name table name
 	 * @return string the properly quoted table name
+	 * @since 1.1.6
 	 */
-	public function quoteTableName($name)
+	public function quoteSimpleTableName($name)
 	{
 		return '`'.$name.'`';
 	}
 
 	/**
 	 * Quotes a column name for use in a query.
+	 * A simple column name does not contain prefix.
 	 * @param string $name column name
 	 * @return string the properly quoted column name
+	 * @since 1.1.6
 	 */
-	public function quoteColumnName($name)
+	public function quoteSimpleColumnName($name)
 	{
 		return '`'.$name.'`';
 	}
@@ -84,11 +107,11 @@ class CMysqlSchema extends CDbSchema
 	}
 
 	/**
-	 * Creates a table instance representing the metadata for the named table.
+	 * Loads the metadata for the specified table.
 	 * @param string $name table name
 	 * @return CMysqlTableSchema driver dependent table metadata. Null if the table does not exist.
 	 */
-	protected function createTable($name)
+	protected function loadTable($name)
 	{
 		$table=new CMysqlTableSchema;
 		$this->resolveTableNames($table,$name);
@@ -228,5 +251,57 @@ class CMysqlSchema extends CDbSchema
 		foreach($names as &$name)
 			$name=$schema.'.'.$name;
 		return $names;
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a column.
+	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
+	 * @param string $name the old name of the column. The name will be properly quoted by the method.
+	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB column.
+	 * @since 1.1.6
+	 */
+	public function renameColumn($table, $name, $newName)
+	{
+		$db=$this->getDbConnection();
+		$row=$db->createCommand('SHOW CREATE TABLE '.$db->quoteTableName($table))->queryRow();
+		if($row===false)
+			throw new CDbException(Yii::t('yii','Unable to find "{column}" in table "{table}".',array('{column}'=>$name,'{table}'=>$table)));
+		if(isset($row['Create Table']))
+			$sql=$row['Create Table'];
+		else
+		{
+			$row=array_values($rows);
+			$sql=$row[1];
+		}
+		if(preg_match_all('/^\s*`(.*?)`\s+(.*?),?$/m',$sql,$matches))
+		{
+			foreach($matches[1] as $i=>$c)
+			{
+				if($c===$name)
+				{
+					return "ALTER TABLE ".$db->quoteTableName($table)
+						. " CHANGE ".$db->quoteColumnName($name)
+						. ' '.$db->quoteColumnName($newName).' '.$matches[2][$i];
+				}
+			}
+		}
+
+		// try to give back a SQL anyway
+		return "ALTER TABLE ".$db->quoteTableName($table)
+			. " CHANGE ".$db->quoteColumnName($name).' '.$newName;
+	}
+
+	/**
+	 * Builds a SQL statement for dropping a foreign key constraint.
+	 * @param string $name the name of the foreign key constraint to be dropped. The name will be properly quoted by the method.
+	 * @param string $table the table whose foreign is to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping a foreign key constraint.
+	 * @since 1.1.6
+	 */
+	public function dropForeignKey($name, $table)
+	{
+		return 'ALTER TABLE '.$this->quoteTableName($table)
+			.' DROP FOREIGN KEY '.$this->quoteColumnName($name);
 	}
 }

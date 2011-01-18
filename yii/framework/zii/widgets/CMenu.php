@@ -5,7 +5,7 @@
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -36,7 +36,7 @@
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMenu.php 2506 2010-09-27 16:16:55Z alexander.makarow $
+ * @version $Id: CMenu.php 2838 2011-01-10 22:37:26Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */
@@ -58,10 +58,13 @@ class CMenu extends CWidget
 	 * If this option is not set, the menu item will be set active automatically when the current request
 	 * is triggered by {@link url}. Note that the GET parameters not specified in the 'url' option will be ignored.</li>
 	 * <li>template: string, optional, the template used to render this menu item.
-	 * In this template, the token "{menu}" will be replaced with the corresponding menu link or text.
+	 * When this option is set, it will override the global setting {@link itemTemplate}.
 	 * Please see {@link itemTemplate} for more details. This option has been available since version 1.1.1.</li>
 	 * <li>linkOptions: array, optional, additional HTML attributes to be rendered for the link or span tag of the menu item.</li>
 	 * <li>itemOptions: array, optional, additional HTML attributes to be rendered for the container tag of the menu item.</li>
+	 * <li>submenuOptions: array, optional, additional HTML attributes to be rendered for the container of the submenu if this menu item has one.
+	 * When this option is set, the {@link submenuHtmlOptions} property will be ignored for this particular submenu.
+	 * This option has been available since version 1.1.6.</li>
 	 * </ul>
 	 */
 	public $items=array();
@@ -190,15 +193,10 @@ class CMenu extends CWidget
 				else
 					$options['class'].=' '.implode(' ',$class);
 			}
+
 			echo CHtml::openTag('li', $options);
 
-			if(isset($item['url']))
-			{
-				$label=$this->linkLabelWrapper===null ? $item['label'] : '<'.$this->linkLabelWrapper.'>'.$item['label'].'</'.$this->linkLabelWrapper.'>';
-				$menu=CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
-			}
-			else
-				$menu=CHtml::tag('span',isset($item['linkOptions']) ? $item['linkOptions'] : array(), $item['label']);
+			$menu=$this->renderMenuItem($item);
 			if(isset($this->itemTemplate) || isset($item['template']))
 			{
 				$template=isset($item['template']) ? $item['template'] : $this->itemTemplate;
@@ -206,14 +204,33 @@ class CMenu extends CWidget
 			}
 			else
 				echo $menu;
+
 			if(isset($item['items']) && count($item['items']))
 			{
-				echo "\n".CHtml::openTag('ul',$this->submenuHtmlOptions)."\n";
+				echo "\n".CHtml::openTag('ul',isset($item['submenuOptions']) ? $item['submenuOptions'] : $this->submenuHtmlOptions)."\n";
 				$this->renderMenuRecursive($item['items']);
 				echo CHtml::closeTag('ul')."\n";
 			}
+
 			echo CHtml::closeTag('li')."\n";
 		}
+	}
+
+	/**
+	 * Renders the content of a menu item.
+	 * Note that the container and the sub-menus are not rendered here.
+	 * @param array $item the menu item to be rendered. Please see {@link items} on what data might be in the item.
+	 * @since 1.1.6
+	 */
+	protected function renderMenuItem($item)
+	{
+		if(isset($item['url']))
+		{
+			$label=$this->linkLabelWrapper===null ? $item['label'] : '<'.$this->linkLabelWrapper.'>'.$item['label'].'</'.$this->linkLabelWrapper.'>';
+			return CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
+		}
+		else
+			return CHtml::tag('span',isset($item['linkOptions']) ? $item['linkOptions'] : array(), $item['label']);
 	}
 
 	/**

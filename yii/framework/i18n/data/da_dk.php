@@ -7,7 +7,7 @@
  * Copyright © 1991-2007 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Copyright © 2008-2010 Yii Software LLC (http://www.yiiframework.com/license/)
+ * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
   'version' => '4123',
@@ -15,16 +15,16 @@ return array (
   array (
     'decimal' => ',',
     'group' => '.',
-    'list' => ';',
+    'list' => ',',
     'percentSign' => '%',
     'nativeZeroDigit' => '0',
     'patternDigit' => '#',
     'plusSign' => '+',
-    'minusSign' => '−',
-    'exponential' => '×10^',
+    'minusSign' => '-',
+    'exponential' => 'E',
     'perMille' => '‰',
     'infinity' => '∞',
-    'nan' => '¤¤¤',
+    'nan' => 'NaN',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -308,8 +306,8 @@ return array (
     ),
     'wide' => 
     array (
-      0 => 'før vor tidsregning',
-      1 => 'efter vor tidsregning',
+      0 => 'før Kristus',
+      1 => 'efter Kristus',
     ),
     'narrow' => 
     array (
@@ -327,7 +325,7 @@ return array (
   'timeFormats' => 
   array (
     'full' => 'HH.mm.ss zzzz',
-    'long' => 'HH:mm:ss z',
+    'long' => 'HH.mm.ss z',
     'medium' => 'HH.mm.ss',
     'short' => 'HH.mm',
   ),
@@ -335,4 +333,9 @@ return array (
   'amName' => 'f.m.',
   'pmName' => 'e.m.',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

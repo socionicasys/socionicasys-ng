@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -40,7 +40,7 @@
  * Therefore, one may call <code>Yii::app()->format->boolean(1)</code>.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CFormatter.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CFormatter.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.utils
  * @since 1.1.0
  */

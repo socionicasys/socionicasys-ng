@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -13,16 +13,19 @@ Yii::import('zii.widgets.grid.CGridColumn');
 /**
  * CCheckBoxColumn represents a grid view column of checkboxes.
  *
- * CCheckBoxColumn supports single selection and multiple selection. The mode is determined according
- * to {@link CGridView::selectableRows}. When in multiple selection mode, the header cell will display
+ * CCheckBoxColumn supports no selection (read-only), single selection and multiple selection.
+ * The mode is determined according to {@link selectableRows}. When in multiple selection mode, the header cell will display
  * an additional checkbox, clicking on which will check or uncheck all of the checkboxes in the data cells.
+ *
+ * Additionally selecting a checkbox can select a grid view row (depending on {@link CGridView::selectableRows} value) if
+ * {@link selectableRows} is null (default).
  *
  * By default, the checkboxes rendered in data cells will have the values that are the same as
  * the key values of the data model. One may change this by setting either {@link name} or
  * {@link value}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCheckBoxColumn.php 2615 2010-11-03 15:57:01Z qiang.xue $
+ * @version $Id: CCheckBoxColumn.php 2852 2011-01-14 09:46:46Z mdomba $
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -65,6 +68,21 @@ class CCheckBoxColumn extends CGridColumn
 	 * @var array the HTML options for the checkboxes.
 	 */
 	public $checkBoxHtmlOptions=array();
+	/**
+	 * @var integer the number of rows that can be checked.
+	 * Possible values:
+	 * <ul>
+	 * <li>0 - the state of the checkbox cannot be changed (read-only mode)</li>
+	 * <li>1 - only one row can be checked. Checking a checkbox has nothing to do with selecting the row</li>
+	 * <li>2 or more - multiple checkboxes can be checked. Checking a checkbox has nothing to do with selecting the row</li>
+	 * <li>null - {@link CGridView::selectableRows} is used to control how many checkboxes can be checked.
+	 * Cheking a checkbox will also select the row.</li>
+	 * </ul>
+	 * You may also call the JavaScript function <code>$.fn.yiiGridView.getChecked(containerID,columnID)</code>
+	 * to retrieve the key values of the checked rows.
+	 * @since 1.1.6
+	 */
+	public $selectableRows=null;
 
 	/**
 	 * Initializes the column.
@@ -82,19 +100,44 @@ class CCheckBoxColumn extends CGridColumn
 			$this->checkBoxHtmlOptions['name']=$name;
 		}
 		$name=strtr($name,array('['=>"\\[",']'=>"\\]"));
-		if($this->grid->selectableRows==1)
-			$one="\n\tjQuery(\"input:not(#\"+$(this).attr('id')+\")[name='$name']\").attr('checked',false);";
+
+		if($this->selectableRows===null)
+		{
+			if(isset($this->checkBoxHtmlOptions['class']))
+				$this->checkBoxHtmlOptions['class'].=' select-on-check';
+			else
+				$this->checkBoxHtmlOptions['class']='select-on-check';
+			return;
+		}
+
+		$cball=$cbcode='';
+		if($this->selectableRows==0)
+		{
+			//.. read only
+			$cbcode="return false;";
+		}
+		elseif($this->selectableRows==1)
+		{
+			//.. only one can be checked, uncheck all other
+			$cbcode="$(\"input:not(#\"+$(this).attr('id')+\")[name='$name']\").attr('checked',false);";
+		}
 		else
-			$one='';
-		$js=<<<EOD
-jQuery('#{$this->id}_all').live('click',function() {
+		{
+			//.. process check/uncheck all
+			$cball=<<<CBALL
+$('#{$this->id}_all').live('click',function() {
 	var checked=this.checked;
-	jQuery("input[name='$name']").each(function() {
-		this.checked=checked;
-	});
+	$("input[name='$name']").each(function() {this.checked=checked;});
 });
-jQuery("input[name='$name']").live('click', function() {
-	jQuery('#{$this->id}_all').attr('checked', jQuery("input[name='$name']").length==jQuery("input[name='$name']:checked").length);{$one}
+
+CBALL;
+			$cbcode="$('#{$this->id}_all').attr('checked', $(\"input[name='$name']\").length==$(\"input[name='$name']:checked\").length);";
+		}
+
+		$js=$cball;
+		$js.=<<<EOD
+$("input[name='$name']").live('click', function() {
+	$cbcode
 });
 EOD;
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$this->id,$js);
@@ -102,11 +145,14 @@ EOD;
 
 	/**
 	 * Renders the header cell content.
-	 * This method will render a checkbox in the header when {@link CGridView::selectableRows} is greater than 1.
+	 * This method will render a checkbox in the header when {@link selectableRows} is greater than 1
+	 * or in case {@link selectableRows} is null when {@link CGridView::selectableRows} is greater than 1.
 	 */
 	protected function renderHeaderCellContent()
 	{
-		if($this->grid->selectableRows>1)
+		if($this->selectableRows===null && $this->grid->selectableRows>1)
+			echo CHtml::checkBox($this->id.'_all',false,array('class'=>'select-on-check-all'));
+		else if($this->selectableRows>1)
 			echo CHtml::checkBox($this->id.'_all',false);
 		else
 			parent::renderHeaderCellContent();

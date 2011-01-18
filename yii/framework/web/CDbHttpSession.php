@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -36,7 +36,7 @@
  * You may also create a DB index for the 'expire' column in the session table to further improve the performance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbHttpSession.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CDbHttpSession.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.web
  * @since 1.0
  */

@@ -5,7 +5,7 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -14,7 +14,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
- * @version $Id: CMssqlSchema.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CMssqlSchema.php 2816 2011-01-04 15:14:18Z qiang.xue $
  * @package system.db.schema.mssql
  * @since 1.0.4
  */
@@ -22,28 +22,45 @@ class CMssqlSchema extends CDbSchema
 {
 	const DEFAULT_SCHEMA='dbo';
 
+	/**
+	 * @var array the abstract column types mapped to physical column types.
+	 * @since 1.1.6
+	 */
+    public $columnTypes=array(
+        'pk' => 'int IDENTITY PRIMARY KEY',
+        'string' => 'varchar(255)',
+        'text' => 'text',
+        'integer' => 'int',
+        'float' => 'float',
+        'decimal' => 'decimal',
+        'datetime' => 'datetime',
+        'timestamp' => 'timestamp',
+        'time' => 'time',
+        'date' => 'date',
+        'binary' => 'binary',
+        'boolean' => 'bit',
+    );
 
 	/**
 	 * Quotes a table name for use in a query.
+	 * A simple table name does not schema prefix.
 	 * @param string $name table name
 	 * @return string the properly quoted table name
+	 * @since 1.1.6
 	 */
-	public function quoteTableName($name)
+	public function quoteSimpleTableName($name)
 	{
-		if (strpos($name,'.')===false)
-			return '['.$name.']';
-		$names=explode('.',$name);
-		foreach ($names as &$n)
-			$n = '['.$n.']';
-		return implode('.',$names);
+		return '['.$name.']';
 	}
 
 	/**
 	 * Quotes a column name for use in a query.
+	 * A simple column name does not contain prefix.
 	 * @param string $name column name
 	 * @return string the properly quoted column name
+	 * @since 1.1.6
 	 */
-	public function quoteColumnName($name)
+	public function quoteSimpleColumnName($name)
 	{
 		return '['.$name.']';
 	}
@@ -64,11 +81,53 @@ class CMssqlSchema extends CDbSchema
 	}
 
 	/**
-	 * Creates a table instance representing the metadata for the named table.
+	 * Resets the sequence value of a table's primary key.
+	 * The sequence will be reset such that the primary key of the next new row inserted
+	 * will have the specified value or 1.
+	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
+	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
+	 * the next new row's primary key will have a value 1.
+	 * @since 1.1.6
+	 */
+	public function resetSequence($table,$value=null)
+	{
+		if($table->sequenceName!==null)
+		{
+			$db=$this->getDbConnection();
+			if($value===null)
+				$value=$db->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
+			$value=(int)$value;
+			$name=strtr($table->rawName,array('['=>'',']'=>''));
+			$db->createCommand("DBCC CHECKIDENT ('$name', RESEED, $value)")->execute();
+		}
+	}
+
+	private $_normalTables=array();  // non-view tables
+	/**
+	 * Enables or disables integrity check.
+	 * @param boolean $check whether to turn on or off the integrity check.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @since 1.1.6
+	 */
+	public function checkIntegrity($check=true,$schema='')
+	{
+		$enable=$check ? 'CHECK' : 'NOCHECK';
+		if(!isset($this->_normalTables[$schema]))
+			$this->_normalTables[$schema]=$this->findTableNames($schema,false);
+		$db=$this->getDbConnection();
+		foreach($this->_normalTables[$schema] as $tableName)
+		{
+			$tableName=$this->quoteTableName($tableName);
+			$db->createCommand("ALTER TABLE $tableName $enable CONSTRAINT ALL")->execute();
+		}
+	}
+
+	/**
+	 * Loads the metadata for the specified table.
 	 * @param string $name table name
 	 * @return CMssqlTableSchema driver dependent table metadata. Null if the table does not exist.
 	 */
-	protected function createTable($name)
+	protected function loadTable($name)
 	{
 		$table=new CMssqlTableSchema;
 		$this->resolveTableNames($table,$name);
@@ -274,16 +333,21 @@ EOD;
 	 * Returns all table names in the database.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
+	 * @param boolean $includeViews whether to include views in the result. Defaults to true.
 	 * @return array all table names in the database.
 	 * @since 1.0.4
 	 */
-	protected function findTableNames($schema='')
+	protected function findTableNames($schema='',$includeViews=true)
 	{
 		if($schema==='')
 			$schema=self::DEFAULT_SCHEMA;
+		if($includeViews)
+			$condition="TABLE_TYPE in ('BASE TABLE','VIEW')";
+		else
+			$condition="TABLE_TYPE='BASE TABLE'";
 		$sql=<<<EOD
 SELECT TABLE_NAME, TABLE_SCHEMA FROM [INFORMATION_SCHEMA].[TABLES]
-WHERE TABLE_SCHEMA=:schema
+WHERE TABLE_SCHEMA=:schema AND $condition
 EOD;
 		$command=$this->getDbConnection()->createCommand($sql);
 		$command->bindParam(":schema", $schema);
@@ -308,5 +372,49 @@ EOD;
 	protected function createCommandBuilder()
 	{
 		return new CMssqlCommandBuilder($this);
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a DB table.
+	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new table name. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB table.
+	 * @since 1.1.6
+	 */
+	public function renameTable($table, $newName)
+	{
+		return "sp_rename '$table', '$newName'";
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a column.
+	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
+	 * @param string $name the old name of the column. The name will be properly quoted by the method.
+	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB column.
+	 * @since 1.1.6
+	 */
+	public function renameColumn($table, $name, $newName)
+	{
+		return "sp_rename '$table.$name', '$table.$newName'";
+	}
+
+	/**
+	 * Builds a SQL statement for changing the definition of a column.
+	 * @param string $table the table whose column is to be changed. The table name will be properly quoted by the method.
+	 * @param string $column the name of the column to be changed. The name will be properly quoted by the method.
+	 * @param string $type the new column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
+	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
+	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @return string the SQL statement for changing the definition of a column.
+	 * @since 1.1.6
+	 */
+	public function alterColumn($table, $column, $type)
+	{
+		$type=$this->getColumnType($type);
+		$sql='ALTER TABLE ' . $this->quoteTableName($table) . ' ALTER COLUMN '
+			. $this->quoteColumnName($column) . ' '
+			. $this->getColumnType($type);
+		return $sql;
 	}
 }
