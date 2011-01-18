@@ -1,6 +1,6 @@
 <?php
 
-class m20101103212505_Metatags extends CDbMigration
+class m101103_212505_Metatags extends CDbMigration
 {
 	public function up()
 	{

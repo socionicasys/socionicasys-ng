@@ -1,6 +1,6 @@
 <?php
 
-class m20101106121513_Quotes extends CDbMigration
+class m101106_121513_Quotes extends CDbMigration
 {
 	public function up()
 	{

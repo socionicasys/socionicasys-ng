@@ -1,6 +1,6 @@
 <?php
 
-class m20101114011126_RedirectUserimages extends CDbMigration
+class m101114_011126_RedirectUserimages extends CDbMigration
 {
 	public function up()
 	{

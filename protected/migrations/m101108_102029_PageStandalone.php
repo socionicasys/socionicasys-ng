@@ -1,6 +1,6 @@
 <?php
 
-class m20101108102029_PageStandalone extends CDbMigration
+class m101108_102029_PageStandalone extends CDbMigration
 {
 	public function up()
 	{

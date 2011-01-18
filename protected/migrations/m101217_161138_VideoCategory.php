@@ -1,6 +1,6 @@
 <?php
 
-class m20101217161138_VideoCategory extends CDbMigration
+class m101217_161138_VideoCategory extends CDbMigration
 {
 	public function up()
 	{

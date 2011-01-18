@@ -1,6 +1,6 @@
 <?php
 
-class m20101008002210_PageTypes extends CDbMigration
+class m101008_002210_PageTypes extends CDbMigration
 {
 	public function up()
 	{

@@ -1,6 +1,6 @@
 <?php
 
-class m20100930190527_RenameIndexes extends CDbMigration
+class m100930_190527_RenameIndexes extends CDbMigration
 {
 	public function up()
 	{

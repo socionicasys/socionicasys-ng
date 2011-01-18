@@ -1,6 +1,6 @@
 <?php
 
-class m20100923114746_NavReindex extends CDbMigration
+class m100923_114746_NavReindex extends CDbMigration
 {
 	public function up()
 	{

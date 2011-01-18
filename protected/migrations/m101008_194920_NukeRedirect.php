@@ -1,6 +1,6 @@
 <?php
 
-class m20101008194920_NukeRedirect extends CDbMigration
+class m101008_194920_NukeRedirect extends CDbMigration
 {
 	public function up()
 	{

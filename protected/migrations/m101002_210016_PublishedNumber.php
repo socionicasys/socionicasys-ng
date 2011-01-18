@@ -1,6 +1,6 @@
 <?php
 
-class m20101002210016_PublishedNumber extends CDbMigration
+class m101002_210016_PublishedNumber extends CDbMigration
 {
 	public function up()
 	{

@@ -1,6 +1,6 @@
 <?php
 
-class m20101225095536_ProtocolComment extends CDbMigration
+class m101225_095536_ProtocolComment extends CDbMigration
 {
 	public function up()
 	{

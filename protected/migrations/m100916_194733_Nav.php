@@ -1,6 +1,6 @@
 <?php
 
-class m20100916194733_Nav extends CDbMigration
+class m100916_194733_Nav extends CDbMigration
 {
 	public function up()
 	{

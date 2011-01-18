@@ -1,6 +1,6 @@
 <?php
 
-class m20101124132350_Video extends CDbMigration
+class m101124_132350_Video extends CDbMigration
 {
 	public function up()
 	{

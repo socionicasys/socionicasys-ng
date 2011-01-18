@@ -1,6 +1,6 @@
 <?php
 
-class m20100806151304_News extends CDbMigration
+class m100806_151304_News extends CDbMigration
 {
 	public function up()
 	{
