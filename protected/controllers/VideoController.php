@@ -18,7 +18,7 @@ class VideoController extends Controller
 				'COutputCache + item, list',
 				'duration' => 86400,
 				'varyByRoute' => true,
-				'varyByParam' => array('id'),
+				'varyByParam' => array('id', 'Video_sort', 'ajax'),
 			),
 		);
 	}
