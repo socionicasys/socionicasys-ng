@@ -16,7 +16,8 @@ return CMap::mergeArray($localConfig, array(
 	'name' => 'socionicasys-ng',
 	'commandMap' => array(
 		'migrate' => array(
-			'class' => 'ext.yii-dbmigrations.CDbMigrationCommand',
+			'class' => 'system.cli.commands.MigrateCommand',
+			'migrationTable' => '{{migration}}',
 		),
 	),
 	'preload' => array('log'),
