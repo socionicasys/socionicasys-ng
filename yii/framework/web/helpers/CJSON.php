@@ -55,7 +55,7 @@
  * @author	 Michal Migurski <mike-json@teczno.com>
  * @author	 Matt Knapp <mdknapp[at]gmail[dot]com>
  * @author	 Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
- * @version $Id: CJSON.php 2569 2010-10-25 18:50:08Z qiang.xue $
+ * @version $Id: CJSON.php 2676 2010-11-24 03:58:17Z keyboard.idol@gmail.com $
  * @package	system.web.helpers
  * @since 1.0
  */
@@ -110,7 +110,7 @@ class CJSON
 
 			case 'double':
 			case 'float':
-				return rtrim(sprintf('%.16F',$var),'0');  // locale-independent representation
+				return str_replace(',','.',(float)$var); // locale-independent representation
 
 			case 'string':
 				if(function_exists('json_encode'))

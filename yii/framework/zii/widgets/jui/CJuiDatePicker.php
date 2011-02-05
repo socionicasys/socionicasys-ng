@@ -4,7 +4,7 @@
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -36,15 +36,16 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id: CJuiDatePicker.php 2595 2010-11-01 17:40:06Z sebathi $
+ * @version $Id: CJuiDatePicker.php 2873 2011-01-16 14:32:00Z qiang.xue $
  * @package zii.widgets.jui
  * @since 1.1
  */
 class CJuiDatePicker extends CJuiInputWidget
 {
 	/**
-	 * @var string the locale ID (e.g. 'fr', 'de') for the language to be used by the date picker.
+	 * @var string the locale ID (eg 'fr', 'de') for the language to be used by the date picker.
 	 * If this property is not set, I18N will not be involved. That is, the date picker will show in English.
+	 * You can force English language by setting the language attribute as '' (empty string)
 	 */
 	public $language;
 
@@ -58,19 +59,19 @@ class CJuiDatePicker extends CJuiInputWidget
 	 * It has to be set at the first call of CJuiDatePicker widget in the request.
 	 */
 	public $defaultOptions;
-	
+
 	/**
 	 * @var boolean If true, shows the widget as an inline calendar and the input as a hidden field. Use the onSelect event to update the hidden field
 	 */
 	public $flat = false;
-	
+
 	/**
 	 * Run this widget.
 	 * This method registers necessary javascript and renders the needed HTML code.
 	 */
 	public function run()
 	{
-		
+
 		list($name,$id)=$this->resolveNameID();
 
 		if(isset($this->htmlOptions['id']))
@@ -79,6 +80,8 @@ class CJuiDatePicker extends CJuiInputWidget
 			$this->htmlOptions['id']=$id;
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
+		else
+			$this->htmlOptions['name']=$name;
 
 		if ($this->flat===false)
 		{
@@ -100,14 +103,14 @@ class CJuiDatePicker extends CJuiInputWidget
 				echo CHtml::hiddenField($name,$this->value,$this->htmlOptions);
 				$this->options['defaultDate'] = $this->value;
 			}
-			
+
 			if (!isset($this->options['onSelect']))
 				$this->options['onSelect']="js:function( selectedDate ) { jQuery('#{$id}').val(selectedDate);}";
-			
-			$this->htmlOptions['id'] = $id =  $this->htmlOptions['id'].'_container';
-			$this->htmlOptions['name']= $name = $this->htmlOptions['name'].'_container';
 
-			echo CHtml::tag('div', $this->htmlOptions);
+			$this->htmlOptions['id'] = $this->htmlOptions['id'].'_container';
+			$this->htmlOptions['name'] = $this->htmlOptions['name'].'_container';
+
+			echo CHtml::tag('div', $this->htmlOptions, '');
 		}
 
 		$options=CJavaScript::encode($this->options);
@@ -120,7 +123,7 @@ class CJuiDatePicker extends CJuiInputWidget
 		}
 
 		$cs = Yii::app()->getClientScript();
-		
+
 		if (isset($this->defaultOptions))
 		{
 			$this->registerScriptFile($this->i18nScriptFile);

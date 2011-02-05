@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -14,7 +14,7 @@
  * under the specified directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: MessageCommand.php 2521 2010-09-30 21:12:56Z alexander.makarow $
+ * @version $Id: MessageCommand.php 2865 2011-01-15 01:44:41Z alexander.makarow $
  * @package system.cli.commands
  * @since 1.0
  */
@@ -185,6 +185,9 @@ EOD;
  * If the value is empty, the message is considered as not translated.
  * Messages that no longer need translation will have their translations
  * enclosed between a pair of '@@' marks.
+ *
+ * Message string can be used with plural forms format. Check i18n section
+ * of the guide for details.
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *

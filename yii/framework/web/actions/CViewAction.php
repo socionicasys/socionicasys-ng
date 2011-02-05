@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -23,7 +23,7 @@
  * the first letter must be a word letter.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CViewAction.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CViewAction.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.web.actions
  * @since 1.0
  */

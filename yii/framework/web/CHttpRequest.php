@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -22,7 +22,7 @@
  * accessed via {@link CWebApplication::getRequest()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHttpRequest.php 2607 2010-11-02 20:35:59Z qiang.xue $
+ * @version $Id: CHttpRequest.php 2839 2011-01-11 08:04:05Z mdomba $
  * @package system.web
  * @since 1.0
  */
@@ -39,7 +39,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Note, this feature requires that the user client accepts cookie.
 	 * You also need to use {@link CHtml::form} or {@link CHtml::statefulForm} to generate
 	 * the needed HTML forms in your pages.
-	 * @see http://freedom-to-tinker.com/sites/default/files/csrf.pdf
+	 * @see http://seclab.stanford.edu/websec/csrf/csrf.pdf
 	 */
 	public $enableCsrfValidation=false;
 	/**
@@ -159,13 +159,14 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return string part of the request URL after the host info.
+	 * Returns part of the request URL after the host info.
 	 * It consists of the following parts:
 	 * <ul>
 	 * <li>{@link getScriptUrl scriptUrl}</li>
 	 * <li>{@link getPathInfo pathInfo}</li>
 	 * <li>{@link getQueryString queryString}</li>
 	 * </ul>
+	 * @return string part of the request URL after the host info.
 	 */
 	public function getUrl()
 	{
@@ -322,20 +323,23 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if($this->_pathInfo===null)
 		{
-			$requestUri=urldecode($this->getRequestUri());
+			$pathInfo=$this->getRequestUri();
+
+			if(($pos=strpos($pathInfo,'?'))!==false)
+			   $pathInfo=substr($pathInfo,0,$pos);
+
+			$pathInfo=urldecode($pathInfo);
+
 			$scriptUrl=$this->getScriptUrl();
 			$baseUrl=$this->getBaseUrl();
-			if(strpos($requestUri,$scriptUrl)===0)
-				$pathInfo=substr($requestUri,strlen($scriptUrl));
-			else if($baseUrl==='' || strpos($requestUri,$baseUrl)===0)
-				$pathInfo=substr($requestUri,strlen($baseUrl));
+			if(strpos($pathInfo,$scriptUrl)===0)
+				$pathInfo=substr($pathInfo,strlen($scriptUrl));
+			else if($baseUrl==='' || strpos($pathInfo,$baseUrl)===0)
+				$pathInfo=substr($pathInfo,strlen($baseUrl));
 			else if(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
 				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
-
-			if(($pos=strpos($pathInfo,'?'))!==false)
-				$pathInfo=substr($pathInfo,0,$pos);
 
 			$this->_pathInfo=trim($pathInfo,'/');
 		}
@@ -382,6 +386,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns part of the request URL that is after the question mark.
 	 * @return string part of the request URL that is after the question mark
 	 */
 	public function getQueryString()
@@ -390,14 +395,16 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Return if the request is sent via secure channel (https).
 	 * @return boolean if the request is sent via secure channel (https)
 	 */
 	public function getIsSecureConnection()
 	{
-	    return isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'],'on');
+		return isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'],'on');
 	}
 
 	/**
+	 * Returns the request type, such as GET, POST, HEAD, PUT, DELETE.
 	 * @return string request type, such as GET, POST, HEAD, PUT, DELETE.
 	 */
 	public function getRequestType()
@@ -406,7 +413,8 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return boolean whether this is POST request.
+	 * Returns whether this is an POST request.
+	 * @return boolean whether this is an POST request.
 	 */
 	public function getIsPostRequest()
 	{
@@ -414,6 +422,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns whether this is an AJAX (XMLHttpRequest) request.
 	 * @return boolean whether this is an AJAX (XMLHttpRequest) request.
 	 */
 	public function getIsAjaxRequest()
@@ -422,6 +431,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the server name.
 	 * @return string server name
 	 */
 	public function getServerName()
@@ -430,6 +440,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the server port number.
 	 * @return integer server port number
 	 */
 	public function getServerPort()
@@ -438,6 +449,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the URL referrer, null if not present
 	 * @return string URL referrer, null if not present
 	 */
 	public function getUrlReferrer()
@@ -446,6 +458,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the user agent, null if not present.
 	 * @return string user agent, null if not present
 	 */
 	public function getUserAgent()
@@ -454,6 +467,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the user IP address.
 	 * @return string user IP address
 	 */
 	public function getUserHostAddress()
@@ -462,6 +476,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the user host name, null if it cannot be determined.
 	 * @return string user host name, null if cannot be determined
 	 */
 	public function getUserHost()
@@ -470,6 +485,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns entry script file path.
 	 * @return string entry script file path (processed w/ realpath())
 	 */
 	public function getScriptFile()
@@ -493,6 +509,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns user browser accept types, null if not present.
 	 * @return string user browser accept types, null if not present
 	 */
 	public function getAcceptTypes()
@@ -595,9 +612,10 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return string the user preferred language.
+	 * Returns the user preferred language.
 	 * The returned language ID will be canonicalized using {@link CLocale::getCanonicalID}.
 	 * This method returns false if the user does not have language preference.
+	 * @return string the user preferred language.
 	 */
 	public function getPreferredLanguage()
 	{
@@ -650,6 +668,84 @@ class CHttpRequest extends CApplicationComponent
 		}
 		else
 			echo $content;
+	}
+
+	/**
+	 * Sends existing file to a browser as a download using x-sendfile.
+	 *
+	 * X-Sendfile is a feature allowing a web application to redirect the request for a file to the webserver
+	 * that in turn processes the request, this way eliminating the need to perform tasks like reading the file
+	 * and sending it to the user. When dealing with a lot of files (or very big files) this can lead to a great
+	 * increase in performance as the web application is allowed to terminate earlier while the webserver is
+	 * handling the request.
+	 *
+	 * The request is sent to the server through a special non-standard HTTP-header.
+	 * When the web server encounters the presence of such header it will discard all output and send the file
+	 * specified by that header using web server internals including all optimizations like caching-headers.
+	 *
+	 * As this header directive is non-standard different directives exists for different web servers applications:
+	 * <ul>
+	 * <li>Apache: {@link http://tn123.org/mod_xsendfile X-Sendfile}</li>
+	 * <li>Lighttpd v1.4: {@link http://redmine.lighttpd.net/wiki/lighttpd/X-LIGHTTPD-send-file X-LIGHTTPD-send-file}</li>
+	 * <li>Lighttpd v1.5: X-Sendfile {@link http://redmine.lighttpd.net/wiki/lighttpd/X-LIGHTTPD-send-file X-Sendfile}</li>
+	 * <li>Nginx: {@link http://wiki.nginx.org/XSendfile X-Accel-Redirect}</li>
+	 * <li>Cherokee: {@link http://www.cherokee-project.com/doc/other_goodies.html#x-sendfile X-Sendfile and X-Accel-Redirect}</li>
+	 * </ul>
+	 * So for this method to work the X-SENDFILE option/module should be enabled by the web server and
+	 * a proper xHeader should be sent.
+	 *
+	 * <b>Note:</b>
+	 * This option allows to download files that are not under web folders, and even files that are otherwise protected (deny from all) like .htaccess
+	 *
+	 * <b>Side effects</b>:
+	 * If this option is disabled by the web server, when this method is called a download configuration dialog
+	 * will open but the downloaded file will have 0 bytes.
+	 *
+	 * <b>Example</b>:
+	 * <pre>
+	 * <?php
+	 *   Yii::app()->request->xSendFile('/home/user/Pictures/picture1.jpg',array(
+	 *	  'saveName'=>'image1.jpg',
+	 *	  'mimeType'=>'image/jpeg',
+	 *	  'terminate'=>false,
+	 *   ));
+	 * ?>
+	 * </pre>
+	 * @param string $filePath file name with full path
+	 * @param array $options additional options:
+	 * <ul>
+	 * <li>saveName: file name shown to the user, if not set real file name will be used</li>
+	 * <li>mimeType: mime type of the file, if not set it will be guessed automatically based on the file name.</li>
+	 * <li>xHeader: appropriate x-sendfile header, defaults to "X-Sendfile"</li>
+	 * <li>terminate: whether to terminate the current application after calling this method, defaults to true</li>
+	 * </ul>
+	 * @return boolean false if file not found, true otherwise.
+	 */
+	public function xSendFile($filePath, $options=array())
+	{
+		if(!is_file($filePath))
+			return false;
+
+		if(!isset($options['saveName']))
+			$options['saveName']=basename($filePath);
+
+		if(!isset($options['mimeType']))
+		{
+			if(($options['mimeType']=CFileHelper::getMimeTypeByExtension($filePath))===null)
+				$options['mimeType']='text/plain';
+		}
+
+		if(!isset($options['xHeader']))
+			$options['xHeader']='X-Sendfile';
+
+		header('Content-type: '.$options['mimeType']);
+		header('Content-Disposition: attachment; filename="'.$options['saveName'].'"');
+		header(trim($options['xHeader']).': '.$filePath);
+
+		if(!isset($options['terminate']) || $options['terminate'])
+			Yii::app()->end();
+
+		return true;
 	}
 
 	/**
@@ -737,7 +833,7 @@ class CHttpRequest extends CApplicationComponent
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHttpRequest.php 2607 2010-11-02 20:35:59Z qiang.xue $
+ * @version $Id: CHttpRequest.php 2839 2011-01-11 08:04:05Z mdomba $
  * @package system.web
  * @since 1.0
  */

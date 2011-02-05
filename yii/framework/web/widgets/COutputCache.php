@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -39,12 +39,12 @@
  * For more details about cache dependency, see {@link CCacheDependency}.
  *
  * Sometimes, it is necessary to turn off output caching only for certain request types.
- * For exapmle, we only want to cache a form when it is initially requested;
+ * For example, we only want to cache a form when it is initially requested;
  * any subsequent display of the form should not be cached because it contains user input.
  * We can set {@link requestTypes} to be <code>array('GET')</code> to accomplish this task.
  *
  * The content fetched from cache may be variated with respect to
- * some parameters. COutputCache supports two kinds of variations:
+ * some parameters. COutputCache supports four kinds of variations:
  * <ul>
  * <li>{@link varyByRoute}: this specifies whether the cached content
  *   should be varied with the requested route (controller and action)</li>
@@ -58,7 +58,7 @@
  * For more advanced variation, override {@link getBaseCacheKey()} method.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: COutputCache.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: COutputCache.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.web.widgets
  * @since 1.0
  */

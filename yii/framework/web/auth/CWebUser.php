@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -45,7 +45,7 @@
  * you should store them directly in session on the server side if needed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CWebUser.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CWebUser.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.web.auth
  * @since 1.0
  */
@@ -288,12 +288,14 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * Returns the URL that the user should be redirected to after successful login.
 	 * This property is usually used by the login action. If the login is successful,
 	 * the action should read this property and use it to redirect the user browser.
-	 * @return string the URL that the user should be redirected to after login. Defaults to the application entry URL.
+	 * @param string $defaultUrl the default return URL in case it was not set previously. If this is null,
+	 * the application entry URL will be considered as the default return URL.
+	 * @return string the URL that the user should be redirected to after login.
 	 * @see loginRequired
 	 */
-	public function getReturnUrl()
+	public function getReturnUrl($defaultUrl=null)
 	{
-		return $this->getState('__returnUrl',Yii::app()->getRequest()->getScriptUrl());
+		return $this->getState('__returnUrl', $defaultUrl===null ? Yii::app()->getRequest()->getScriptUrl() : CHtml::normalizeUrl($defaultUrl));
 	}
 
 	/**

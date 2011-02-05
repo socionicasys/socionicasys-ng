@@ -4,7 +4,7 @@
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -39,15 +39,15 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI dialog plugin. Please refer to
- * the {@link http://jqueryui.com/demos/dilog/ JUI Dialog} documentation
+ * the {@link http://jqueryui.com/demos/dialog/ JUI Dialog} documentation
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id: CJuiDialog.php 2545 2010-10-14 13:51:43Z sebathi $
+ * @version $Id: CJuiDialog.php 2805 2011-01-03 16:33:46Z qiang.xue $
  * @package zii.widgets.jui
  * @since 1.1
  */
-class CJuiDialog extends CJuiWidget 
+class CJuiDialog extends CJuiWidget
 {
 	/**
 	 * @var string the name of the container element that contains all panels. Defaults to 'div'.
@@ -61,13 +61,13 @@ class CJuiDialog extends CJuiWidget
 	public function init()
 	{
 		parent::init();
-		
+
 		$id=$this->getId();
 		if (isset($this->htmlOptions['id']))
 			$id = $this->htmlOptions['id'];
 		else
 			$this->htmlOptions['id']=$id;
-		
+
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').dialog($options);");
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";

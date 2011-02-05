@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -20,7 +20,7 @@
  * Usage is described at {@link CBaseController} and {@link CBaseController::widget}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CWidget.php 2619 2010-11-04 15:30:43Z qiang.xue $
+ * @version $Id: CWidget.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.web.widgets
  * @since 1.0
  */
@@ -122,6 +122,7 @@ class CWidget extends CBaseController
 	}
 
 	/**
+	 * Returns the controller that this widget belongs to.
 	 * @return CController the controller that this widget belongs to.
 	 */
 	public function getController()

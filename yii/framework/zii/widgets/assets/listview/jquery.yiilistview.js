@@ -86,9 +86,9 @@
 			success: function(data,status) {
 				$.each(settings.ajaxUpdate, function(i,v) {
 					var id='#'+v,
-						$d=$(data)
+						$d=$(data),
 						$filtered=$d.filter(id);
-					$(id).html( $filtered.size() ? $filtered : $d.find(id));
+					$(id).replaceWith( $filtered.size() ? $filtered : $d.find(id));
 				});
 				if(settings.afterAjaxUpdate != undefined)
 					settings.afterAjaxUpdate(id, data);
