@@ -4,30 +4,33 @@ class m100916_194733_Nav extends CDbMigration
 {
 	public function up()
 	{
-		$pageTable = $this->newTable('{{nav}}');
-		$pageTable->primary_key('id');
-		$pageTable->integer('root', 'DEFAULT NULL');
-		$pageTable->integer('lft', 'NOT NULL');
-		$pageTable->integer('rgt', 'NOT NULL');
-		$pageTable->integer('level', 'NOT NULL');
-		$pageTable->integer('type');
-		$pageTable->string('url');
-		$pageTable->string('title');
-		$pageTable->string('menu_title');
-		$pageTable->text('text');
-		
-		$pageTable->index('root', array('root'));
-		$pageTable->unique('lft', array('lft'));
-		$pageTable->unique('rgt', array('rgt'));
-		$pageTable->index('level', array('level'));
-		$pageTable->unique('url', array('url'));
-		
-		$this->addTable($pageTable);
-		$this->execute('INSERT INTO {{nav}} (lft, rgt, level, url) VALUES (1, 2, 1, NULL)');
+		$this->createTable('{{nav}}', array(
+			'id' => 'pk',
+			'root' => 'integer DEFAULT NULL',
+			'lft' => 'integer NOT NULL',
+			'rgt' => 'integer NOT NULL',
+			'level' => 'integer NOT NULL',
+			'type' => 'integer',
+			'url' => 'string',
+			'title' => 'string',
+			'menu_title' => 'string',
+			'text' => 'text',
+		));
+		$this->createIndex('root', '{{nav}}', 'root');
+		$this->createIndex('lft', '{{nav}}', 'lft', true);
+		$this->createIndex('rgt', '{{nav}}', 'rgt', true);
+		$this->createIndex('level', '{{nav}}', 'level');
+		$this->createIndex('url', '{{nav}}', 'url', true);
+		$this->insert('{{nav}}', array(
+			'lft' => 1,
+			'rgt' => 2,
+			'level' => 1,
+			'url' => 'NULL',
+		));
 	}
 	
 	public function down()
 	{
-		$this->removeTable('{{nav}}');
+		$this->dropTable('{{nav}}');
 	}
 }

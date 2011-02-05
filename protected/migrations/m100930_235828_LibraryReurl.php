@@ -4,13 +4,13 @@ class m100930_235828_LibraryReurl extends CDbMigration
 {
 	public function up()
 	{
-		$this->removeIndex('{{library}}', 'library.url');
-		$this->addIndex('{{library}}', 'library.url', array('type', 'url'), true);
+		$this->dropIndex('library.url', '{{library}}');
+		$this->createIndex('library.url', '{{library}}', 'type, url', true);
 	}
 	
 	public function down()
 	{
-		$this->removeIndex('{{library}}', 'library.url');
-		$this->addIndex('{{library}}', 'library.url', array('url'), true);
+		$this->dropIndex('library.url', '{{library}}');
+		$this->createIndex('library.url', '{{library}}', 'url', true);
 	}
 }

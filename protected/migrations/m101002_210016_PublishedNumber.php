@@ -9,6 +9,6 @@ class m101002_210016_PublishedNumber extends CDbMigration
 	
 	public function down()
 	{
-		$this->removeColumn('{{library}}', 'published_number');
+		$this->dropColumn('{{library}}', 'published_number');
 	}
 }

@@ -4,16 +4,16 @@ class m100818_212542_User extends CDbMigration
 {
 	public function up()
 	{
-		$userTable = $this->newTable('{{user}}');
-		$userTable->primary_key('id');
-		$userTable->string('username', 128, 'NOT NULL');
-		$userTable->string('password', 128);
-		$userTable->string('salt', 128);
-		$this->addTable($userTable);
+		$this->createTable('{{user}}', array(
+			'id' => 'pk',
+			'username' => 'string NOT NULL',
+			'password' => 'string NOT NULL',
+			'salt' => 'string NOT NULL',
+		));
 	}
 
 	public function down()
 	{
-		$this->removeTable('{{user}}');
+		$this->dropTable('{{user}}');
 	}
 }

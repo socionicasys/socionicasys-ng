@@ -12,9 +12,9 @@ class m101103_212505_Metatags extends CDbMigration
 
 	public function down()
 	{
-		$this->removeColumn('{{nav}}', 'meta_description');
-		$this->removeColumn('{{nav}}', 'meta_keywords');
-		$this->removeColumn('{{library}}', 'meta_description');
-		$this->removeColumn('{{library}}', 'meta_keywords');
+		$this->dropColumn('{{nav}}', 'meta_description');
+		$this->dropColumn('{{nav}}', 'meta_keywords');
+		$this->dropColumn('{{library}}', 'meta_description');
+		$this->dropColumn('{{library}}', 'meta_keywords');
 	}
 }

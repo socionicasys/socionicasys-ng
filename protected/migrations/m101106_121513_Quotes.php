@@ -4,16 +4,16 @@ class m101106_121513_Quotes extends CDbMigration
 {
 	public function up()
 	{
-		$quoteTable = $this->newTable('{{quote}}');
-		$quoteTable->primary_key('id');
-		$quoteTable->string('author');
-		$quoteTable->string('note');
-		$quoteTable->text('text');
-		$this->addTable($quoteTable);
+		$this->createTable('{{quote}}', array(
+			'id' => 'pk',
+			'author' => 'string',
+			'note' => 'string',
+			'text' => 'text',
+		));
 	}
 	
 	public function down()
 	{
-		$this->removeTable('{{quote}}');
+		$this->dropTable('{{quote}}');
 	}
 }

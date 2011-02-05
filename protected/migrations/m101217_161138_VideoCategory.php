@@ -10,7 +10,7 @@ class m101217_161138_VideoCategory extends CDbMigration
 
 	public function down()
 	{
-		$this->removeColumn('{{video}}', 'category');
-		$this->removeColumn('{{video}}', 'date');
+		$this->dropColumn('{{video}}', 'category');
+		$this->dropColumn('{{video}}', 'date');
 	}
 }

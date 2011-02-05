@@ -4,18 +4,18 @@ class m101008_194920_NukeRedirect extends CDbMigration
 {
 	public function up()
 	{
-		$redirectTable = $this->newTable('{{redirect}}');
-		$redirectTable->primary_key('id');
-		$redirectTable->string('group', 2);
-		$redirectTable->string('page', 2);
-		$redirectTable->string('model_class', 64);
-		$redirectTable->integer('model_id');
-		$redirectTable->unique('redirect.page', array('group', 'page'));
-		$this->addTable($redirectTable);
+		$this->createTable('{{redirect}}', array(
+			'id' => 'pk',
+			'group' => 'varchar(2)',
+			'page' => 'varchar(2)',
+			'model_class' => 'varchar(64)',
+			'model_id' => 'integer',
+		));
+		$this->createIndex('redirect.page', '{{redirect}}', 'group, page', true);
 	}
 	
 	public function down()
 	{
-		$this->removeTable('{{redirect}}');
+		$this->dropTable('{{redirect}}');
 	}
 }

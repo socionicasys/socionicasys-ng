@@ -9,6 +9,6 @@ class m101225_095536_ProtocolComment extends CDbMigration
 	
 	public function down()
 	{
-		$this->removeColumn('{{protocol}}', 'comment');
+		$this->dropColumn('{{protocol}}', 'comment');
 	}
 }

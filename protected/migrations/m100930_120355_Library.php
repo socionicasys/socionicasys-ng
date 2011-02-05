@@ -4,23 +4,21 @@ class m100930_120355_Library extends CDbMigration
 {
 	public function up()
 	{
-		$libraryTable = $this->newTable('{{library}}');
-		$libraryTable->primary_key('id');
-		$libraryTable->string('type');
-		$libraryTable->string('url');
-		$libraryTable->string('title');
-		$libraryTable->string('author');
-		$libraryTable->string('published');
-		$libraryTable->text('text');
-		
-		$libraryTable->index('library.type', array('type'));
-		$libraryTable->unique('library.url', array('url'));
-		
-		$this->addTable($libraryTable);
+		$this->createTable('{{library}}', array(
+			'id' => 'pk',
+			'type' => 'string',
+			'url' => 'string',
+			'title' => 'string',
+			'author' => 'string',
+			'published' => 'string',
+			'text' => 'text',
+		));
+		$this->createIndex('library.type', '{{library}}', 'type');
+		$this->createIndex('library.url', '{{library}}', 'url', true);
 	}
 	
 	public function down()
 	{
-		$this->removeTable('{{library}}');
+		$this->dropTable('{{library}}');
 	}
 }

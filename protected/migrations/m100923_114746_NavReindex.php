@@ -4,17 +4,17 @@ class m100923_114746_NavReindex extends CDbMigration
 {
 	public function up()
 	{
-		$this->removeIndex('{{nav}}', 'lft');
-		$this->removeIndex('{{nav}}', 'rgt');
-		$this->addIndex('{{nav}}', 'lft', array('lft'), false);
-		$this->addIndex('{{nav}}', 'rgt', array('rgt'), false);
+		$this->dropIndex('lft', '{{nav}}');
+		$this->dropIndex('rgt', '{{nav}}');
+		$this->createIndex('lft', '{{nav}}', 'lft');
+		$this->createIndex('rgt', '{{nav}}', 'rgt');
 	}
 	
 	public function down()
 	{
-		$this->removeIndex('{{nav}}', 'lft');
-		$this->removeIndex('{{nav}}', 'rgt');
-		$this->addIndex('{{nav}}', 'lft', array('lft'), true);
-		$this->addIndex('{{nav}}', 'rgt', array('rgt'), true);
+		$this->dropIndex('lft', '{{nav}}');
+		$this->dropIndex('rgt', '{{nav}}');
+		$this->createIndex('lft', '{{nav}}', 'lft', true);
+		$this->createIndex('rgt', '{{nav}}', 'rgt', true);
 	}
 }
