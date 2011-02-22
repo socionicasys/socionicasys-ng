@@ -115,7 +115,7 @@ class TextHelper
 		);
 		$text = str_replace(array_keys($exchange), array_values($exchange), $text);
 		// Остальные символы - уже никуда не денешься
-		$text = rawurlencode($text);
+		$text = strtolower(rawurlencode($text));
 		return $text;
 	}
 }
