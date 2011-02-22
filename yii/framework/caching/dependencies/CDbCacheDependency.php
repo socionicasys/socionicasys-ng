@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -17,7 +17,7 @@
  * component. It is this DB connection that is used to perform the query.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbCacheDependency.php 2645 2010-11-12 14:51:13Z qiang.xue $
+ * @version $Id: CDbCacheDependency.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.caching.dependencies
  * @since 1.0
  */

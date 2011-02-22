@@ -7,10 +7,10 @@
  * Copyright © 1991-2007 Unicode, Inc. All rights reserved.
  * Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
  *
- * Copyright © 2008-2010 Yii Software LLC (http://www.yiiframework.com/license/)
+ * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '4582',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -69,14 +68,13 @@ return array (
     'CUP' => 'CU$',
     'CVE' => 'CV$',
     'CYP' => 'CY£',
-    'CZK' => 'Кч',
+    'CZK' => 'Kč',
     'DEM' => 'DM',
     'DJF' => 'Fdj',
     'DKK' => 'Dkr',
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -146,7 +144,7 @@ return array (
     'PGK' => 'PGK',
     'PHP' => '₱',
     'PKR' => 'PKRs',
-    'PLN' => 'зл',
+    'PLN' => 'zl',
     'PTE' => 'Esc',
     'PYG' => '₲',
     'QAR' => 'QR',
@@ -174,7 +172,7 @@ return array (
     'TND' => 'DT',
     'TOP' => 'T$',
     'TRL' => 'TRL',
-    'TRY' => 'Тл',
+    'TRY' => 'TL',
     'TTD' => 'TT$',
     'TWD' => 'NT$',
     'TZS' => 'TSh',
@@ -298,8 +296,8 @@ return array (
     ),
     'narrow' => 
     array (
-      0 => 'п.н.е.',
-      1 => 'н.е.',
+      0 => 'p.n.e.',
+      1 => 'n.e.',
     ),
   ),
   'dateFormats' => 
@@ -320,4 +318,11 @@ return array (
   'amName' => 'pre podne',
   'pmName' => 'popodne',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'fmod(n,10)==1&&fmod(n,100)!=11',
+    1 => '(fmod(n,10)>=2&&fmod(n,10)<=4&&fmod(fmod(n,10),1)==0)&&(fmod(n,100)<12||fmod(n,100)>14)',
+    2 => 'fmod(n,10)==0||(fmod(n,10)>=5&&fmod(n,10)<=9&&fmod(fmod(n,10),1)==0)||(fmod(n,100)>=11&&fmod(n,100)<=14&&fmod(fmod(n,100),1)==0)',
+    3 => 'true',
+  ),
 );

@@ -77,8 +77,12 @@ class Library extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('type, url, title, author, published, published_number, meta_description, meta_keywords', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
+			array('type, title, author, published, published_number, meta_description, meta_keywords', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
 			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
+			array('url', 'match',
+				'pattern' => '/^(\/[-a-z0-9_%+.]+)*\/?$/',
+				'message' => 'Адрес может содержать только символы a-z, 0-9, -, _, %, +, .',
+			),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, type, url, title, author, published, published_number, text', 'safe', 'on'=>'search'),

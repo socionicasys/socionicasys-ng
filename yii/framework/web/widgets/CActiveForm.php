@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -44,7 +44,7 @@
  * <?php $form = $this->beginWidget('CActiveForm', array(
  *     'id'=>'user-form',
  *     'enableAjaxValidation'=>true,
- *     'focus'=>array($model,firstName),
+ *     'focus'=>array($model,'firstName'),
  * )); ?>
  *
  * <?php echo $form->errorSummary($model); ?>
@@ -114,7 +114,7 @@
  * you should design your own lightweight AJAX validation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveForm.php 2597 2010-11-01 21:17:02Z qiang.xue $
+ * @version $Id: CActiveForm.php 2809 2011-01-03 19:12:46Z qiang.xue $
  * @package system.web.widgets
  * @since 1.1.1
  */
@@ -271,7 +271,8 @@ class CActiveForm extends CWidget
 	 */
 	public function init()
 	{
-		$this->htmlOptions['id']=$this->id;
+		if(!isset($this->htmlOptions['id']))
+			$this->htmlOptions['id']=$this->id;
 		if($this->stateful)
 			echo CHtml::statefulForm($this->action, $this->method, $this->htmlOptions);
 		else
@@ -288,12 +289,15 @@ class CActiveForm extends CWidget
 			$this->focus="#".CHtml::activeId($this->focus[0],$this->focus[1]);
 
 		echo CHtml::endForm();
-		if(!$this->enableAjaxValidation || empty($this->_attributes))
+		if((!$this->enableAjaxValidation || empty($this->_attributes)))
 		{
-			Yii::app()->clientScript->registerScript('CActiveForm#focus',"
-				if(!window.location.hash)
-					$('".$this->focus."').focus();
-			");
+			if($this->focus!==null)
+			{
+				Yii::app()->clientScript->registerScript('CActiveForm#focus',"
+					if(!window.location.hash)
+						$('".$this->focus."').focus();
+				");
+			}
 			return;
 		}
 

@@ -4,7 +4,7 @@
  *
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,7 +12,7 @@
  * This is an extension of default PDO class for mssql driver only
  * It provides some missing functionalities of pdo driver
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
- * @version $Id: CMssqlPdoAdapter.php 2397 2010-08-31 17:59:52Z qiang.xue $
+ * @version $Id: CMssqlPdoAdapter.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.db.schema.mssql
  * @since 1.0.4
  */
@@ -23,7 +23,7 @@ class CMssqlPdoAdapter extends PDO
 	 * MSSQL doesn't support sequence, so, argument is ignored
 	 *
 	 * @param string sequence name. Defaults to null
-	 * @return int last inserted id
+	 * @return integer last inserted id
 	 */
 	public function lastInsertId ($sequence=NULL)
 	{

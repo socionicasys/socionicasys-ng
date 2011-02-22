@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -37,7 +37,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDetailView.php 2547 2010-10-14 15:47:07Z keyboard.idol@gmail.com $
+ * @version $Id: CDetailView.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */
@@ -73,8 +73,8 @@ class CDetailView extends CWidget
 	 * <li>label: the label associated with the attribute. If this is not specified, the following "name" element
 	 * will be used to generate an appropriate label.</li>
 	 * <li>name: the name of the attribute. This can be either a property or a sub-property of the model.
-	 * If the above "value" element is specified, this will be ignored.</li>
-	 * <li>value: the value to be displayed. If this is not specified, the following "name" element will be used
+	 * If the below "value" element is specified, this will be ignored.</li>
+	 * <li>value: the value to be displayed. If this is not specified, the above "name" element will be used
 	 * to retrieve the corresponding attribute value for display. Note that this value will be formatted according
 	 * to the "type" option as described below.</li>
 	 * <li>type: the type of the attribute that determines how the attribute value would be formatted.

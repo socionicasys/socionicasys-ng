@@ -4,7 +4,7 @@
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -12,7 +12,7 @@
  * COciColumnSchema class describes the column meta data of a Oracle table.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id: COciColumnSchema.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: COciColumnSchema.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.db.schema.oci
  * @since 1.0.5
  */

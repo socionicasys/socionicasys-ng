@@ -17,7 +17,7 @@ class LibraryController extends Controller
 				'COutputCache + view, list',
 				'duration' => 86400,
 				'varyByRoute' => true,
-				'varyByParam' => array('type', 'title'),
+				'varyByParam' => array('type', 'title', 'Article_sort', 'ajax'),
 			),
 		);
 	}

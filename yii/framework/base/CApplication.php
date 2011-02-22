@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -46,9 +46,29 @@
  * the application will switch to its error handling logic and jump to step 6 afterwards.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CApplication.php 2623 2010-11-06 03:20:01Z qiang.xue $
+ * @version $Id: CApplication.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.base
  * @since 1.0
+ *
+ * @property string $basePath Returns the root path of the application.
+ * @property CCache $cache Returns the cache component.
+ * @property CPhpMessageSource $coreMessages Returns the core message translations.
+ * @property CDateFormatter $dateFormatter Returns the locale-dependent date formatter.
+ * @property CDbConnection $db Returns the database connection component.
+ * @property CErrorHandler $errorHandler Returns the error handler component.
+ * @property string $extensionPath Returns the root directory that holds all third-party extensions.
+ * @property string $id Returns the unique identifier for the application.
+ * @property string $language Returns the language that the user is using and the application should be targeted to.
+ * @property CLocale $locale Returns the locale instance.
+ * @property string $localeDataPath Returns the directory that contains the locale data.
+ * @property CMessageSource $messages Returns the application message translations component.
+ * @property CNumberFormatter $numberFormatter The locale-dependent number formatter.
+ * @property CHttpRequest $request Returns the request component.
+ * @property string $runtimePath Returns the directory that stores runtime files.
+ * @property CSecurityManager $securityManager Returns the security manager component.
+ * @property CStatePersister $statePersister Returns the state persister component.
+ * @property string $timeZone Returns the time zone used by this application.
+ * @property CUrlManager $urlManager Returns the URL manager component.
  */
 abstract class CApplication extends CModule
 {
@@ -766,7 +786,25 @@ abstract class CApplication extends CModule
 			echo "<h1>PHP Error [$code]</h1>\n";
 			echo "<p>$message ($file:$line)</p>\n";
 			echo '<pre>';
-			debug_print_backtrace();
+
+			$trace=debug_backtrace();
+			// skip the first 3 stacks as they do not tell the error position
+			if(count($trace)>3)
+				$trace=array_slice($trace,3);
+			foreach($trace as $i=>$t)
+			{
+				if(!isset($t['file']))
+					$t['file']='unknown';
+				if(!isset($t['line']))
+					$t['line']=0;
+				if(!isset($t['function']))
+					$t['function']='unknown';
+				echo "#$i {$t['file']}({$t['line']}): ";
+				if(isset($t['object']) && is_object($t['object']))
+					echo get_class($t['object']).'->';
+				echo "{$t['function']}()\n";
+			}
+
 			echo '</pre>';
 		}
 		else

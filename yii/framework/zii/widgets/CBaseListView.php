@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -14,7 +14,7 @@
  * CBaseListView implements the common features needed by a view wiget for rendering multiple models.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CBaseListView.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CBaseListView.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */
@@ -184,7 +184,7 @@ abstract class CBaseListView extends CWidget
 			'title'=>Yii::app()->getRequest()->getUrl(),
 		));
 		foreach($this->dataProvider->getKeys() as $key)
-			echo "<span>$key</span>";
+			echo "<span>".CHtml::encode($key)."</span>";
 		echo "</div>\n";
 	}
 
@@ -202,11 +202,18 @@ abstract class CBaseListView extends CWidget
 			if(($summaryText=$this->summaryText)===null)
 				$summaryText=Yii::t('zii','Displaying {start}-{end} of {count} result(s).');
 			$pagination=$this->dataProvider->getPagination();
+			$total=$this->dataProvider->getTotalItemCount();
 			$start=$pagination->currentPage*$pagination->pageSize+1;
+			$end=$start+$count-1;
+			if($end>$total)
+			{
+				$end=$total;
+				$start=$end-$count+1;
+			}
 			echo strtr($summaryText,array(
 				'{start}'=>$start,
-				'{end}'=>$start+$count-1,
-				'{count}'=>$this->dataProvider->getTotalItemCount(),
+				'{end}'=>$end,
+				'{count}'=>$total,
 				'{page}'=>$pagination->currentPage+1,
 				'{pages}'=>$pagination->pageCount,
 			));

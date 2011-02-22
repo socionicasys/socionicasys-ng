@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -58,7 +58,7 @@
  * For object-based filters, the '+' and '-' operators are following the class name.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CController.php 2622 2010-11-06 02:47:35Z qiang.xue $
+ * @version $Id: CController.php 2833 2011-01-10 14:54:27Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -921,7 +921,11 @@ class CController extends CBaseController
 	 */
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
-		return Yii::app()->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
+		$url=$this->createUrl($route,$params,$ampersand);
+		if(strpos($url,'http')===0)
+			return $url;
+		else
+			return Yii::app()->getRequest()->getHostInfo($schema).$url;
 	}
 
 	/**

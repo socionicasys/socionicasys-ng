@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -34,7 +34,7 @@
  * {@link CApplication::getSecurityManager()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CSecurityManager.php 2607 2010-11-02 20:35:59Z qiang.xue $
+ * @version $Id: CSecurityManager.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.base
  * @since 1.0
  */
@@ -281,7 +281,11 @@ class CSecurityManager extends CApplicationComponent
 			$pack='H32';
 			$func='md5';
 		}
-		$key=str_pad($func($key), 64, chr(0));
-		return $func((str_repeat(chr(0x5C), 64) ^ substr($key, 0, 64)) . pack($pack, $func((str_repeat(chr(0x36), 64) ^ substr($key, 0, 64)) . $data)));
+		if(strlen($key) > 64)
+			$key=pack($pack, $func($key));
+		if(strlen($key) < 64)
+			$key=str_pad($key, 64, chr(0));
+	    $key=substr($key,0,64);
+		return $func((str_repeat(chr(0x5C), 64) ^ $key) . pack($pack, $func((str_repeat(chr(0x36), 64) ^ $key) . $data)));
 	}
 }

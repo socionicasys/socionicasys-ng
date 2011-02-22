@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -14,7 +14,7 @@
  * The data includes the number formatting information and date formatting information.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CLocale.php 2497 2010-09-23 13:28:52Z mdomba $
+ * @version $Id: CLocale.php 2844 2011-01-13 01:29:55Z alexander.makarow $
  * @package system.i18n
  * @since 1.0
  */
@@ -294,5 +294,13 @@ class CLocale extends CComponent
 	public function getOrientation()
 	{
 		return isset($this->_data['orientation']) ? $this->_data['orientation'] : 'ltr';
+	}
+
+	/**
+	 * @return array plural forms expressions
+	 */
+	public function getPluralRules()
+	{
+		return isset($this->_data['pluralRules']) ? $this->_data['pluralRules'] : array();
 	}
 }

@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -28,7 +28,7 @@
  * to further customize the decorative display of a portlet (e.g. adding min/max buttons).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CPortlet.php 2480 2010-09-18 19:37:52Z qiang.xue $
+ * @version $Id: CPortlet.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */

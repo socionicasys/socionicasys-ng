@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -27,7 +27,7 @@
  * the validator name being "sticky".
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCodeModel.php 2594 2010-11-01 15:37:35Z qiang.xue $
+ * @version $Id: CCodeModel.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.gii
  * @since 1.1.2
  */
@@ -383,13 +383,13 @@ abstract class CCodeModel extends CFormModel
 	public function validateReservedWord($attribute,$params)
 	{
 		static $keywords=array(
-			'__CLASS__',
-			'__DIR__',
-			'__FILE__',
-			'__FUNCTION__',
-			'__LINE__',
-			'__METHOD__',
-			'__NAMESPACE__',
+			'__class__',
+			'__dir__',
+			'__file__',
+			'__function__',
+			'__line__',
+			'__method__',
+			'__namespace__',
 			'abstract',
 			'and',
 			'array',
@@ -439,6 +439,7 @@ abstract class CCodeModel extends CFormModel
 			'new',
 			'old_function',
 			'or',
+			'parent',
 			'php_user_filter',
 			'print',
 			'private',
@@ -459,7 +460,7 @@ abstract class CCodeModel extends CFormModel
 			'xor',
 		);
 		$value=$this->$attribute;
-		if(in_array($value,$keywords))
+		if(in_array(strtolower($value),$keywords))
 			$this->addError($attribute, $this->getAttributeLabel($attribute).' cannot take a reserved PHP keyword.');
 	}
 }

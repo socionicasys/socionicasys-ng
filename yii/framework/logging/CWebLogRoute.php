@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -15,7 +15,7 @@
  * or in FireBug console window (if {@link showInFireBug} is set true).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CWebLogRoute.php 2504 2010-09-26 15:44:27Z keyboard.idol@gmail.com $
+ * @version $Id: CWebLogRoute.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.logging
  * @since 1.0
  */

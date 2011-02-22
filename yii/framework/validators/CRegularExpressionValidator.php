@@ -4,7 +4,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
@@ -13,7 +13,7 @@
  * You may invert the validation logic with help of the {@link not} property (available since 1.1.5).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CRegularExpressionValidator.php 2524 2010-10-04 02:19:21Z keyboard.idol@gmail.com $
+ * @version $Id: CRegularExpressionValidator.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.validators
  * @since 1.0
  */

@@ -4,16 +4,16 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: ModelCommand.php 2201 2010-06-16 19:11:00Z alexander.makarow $
+ * @version $Id: ModelCommand.php 2799 2011-01-01 19:31:13Z qiang.xue $
  */
 
 /**
  * ModelCommand generates a model class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: ModelCommand.php 2201 2010-06-16 19:11:00Z alexander.makarow $
+ * @version $Id: ModelCommand.php 2799 2011-01-01 19:31:13Z qiang.xue $
  * @package system.cli.commands.shell
  * @since 1.0
  */
