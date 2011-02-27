@@ -34,6 +34,14 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		'tim',
 		'date',
 		array(
+			'name' => 'ia',
+			'value' => '$data->ia ? "Да" : "Нет"',
+			'header' => 'ИА',
+			'headerHtmlOptions' => array(
+				'title' => 'Сохранен ли протокол в формате ИА (программа «Информационный анализ»)'
+			),
+		),
+		array(
 			'class' => 'CButtonColumn',
 			'template' => $buttonTemplate,
 			'viewButtonUrl' => '$data->url',

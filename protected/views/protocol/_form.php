@@ -32,6 +32,12 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->labelEx($model, 'ia'); ?>
+		<?php echo $form->checkBox($model, 'ia'); ?>
+		<?php echo $form->error($model, 'ia'); ?>
+	</div>
+
+	<div class="row">
 		<?php echo $form->labelEx($model, 'comment'); ?>
 		<?php echo $form->textField($model, 'comment', array('size' => 100, 'maxlength' => 255)); ?>
 		<?php echo $form->error($model, 'comment'); ?>
