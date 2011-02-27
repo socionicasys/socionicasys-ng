@@ -10,6 +10,7 @@
  * @property string $date
  * @property string $url
  * @property string $comment
+ * @property boolean $ia
  */
 class Protocol extends CActiveRecord
 {
@@ -40,6 +41,7 @@ class Protocol extends CActiveRecord
 		return array(
 			array('name', 'required'),
 			array('name, tim, date, url, comment', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
+			array('ia', 'boolean'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, tim, date, url', 'safe', 'on'=>'search'),
@@ -69,6 +71,7 @@ class Protocol extends CActiveRecord
 			'date' => 'Дата',
 			'url' => 'Ссылка',
 			'comment' => 'Комментарий',
+			'ia' => 'В формате ИА'
 		);
 	}
 
