@@ -32,9 +32,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model, 'ia'); ?>
-		<?php echo $form->checkBox($model, 'ia'); ?>
-		<?php echo $form->error($model, 'ia'); ?>
+		<?php echo $form->labelEx($model, 'legacy_url'); ?>
+		<?php echo $form->textField($model, 'legacy_url', array('size' => 100, 'maxlength' => 255)); ?>
+		<?php echo $form->error($model, 'legacy_url'); ?>
 	</div>
 
 	<div class="row">

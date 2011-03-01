@@ -9,6 +9,7 @@
  * @property string $tim
  * @property string $date
  * @property string $url
+ * @property string $legacy_url
  * @property string $comment
  * @property boolean $ia
  */
@@ -40,7 +41,7 @@ class Protocol extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
-			array('name, tim, date, url, comment', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
+			array('name, tim, date, url, legacy_url, comment', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
 			array('ia', 'boolean'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -69,7 +70,8 @@ class Protocol extends CActiveRecord
 			'name' => 'Имя (псевдоним)',
 			'tim' => 'ТИМ',
 			'date' => 'Дата',
-			'url' => 'Ссылка',
+			'url' => 'Ссылка в формате ИА',
+			'legacy_url' => 'Ссылка в формате MS Word',
 			'comment' => 'Комментарий',
 			'ia' => 'В формате ИА'
 		);
