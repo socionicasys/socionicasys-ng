@@ -42,7 +42,7 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMarkdownParser.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CMarkdownParser.php 2886 2011-01-17 13:34:11Z qiang.xue $
  * @package system.utils
  * @since 1.0
  */
@@ -129,7 +129,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 			return "<div class=\"{$this->highlightCssClass}\">".$output."</div>";
 		}
 		else
-			return "<pre>".$codeblock."</pre>";
+			return "<pre>".CHtml::encode($codeblock)."</pre>";
 	}
 
 	/**

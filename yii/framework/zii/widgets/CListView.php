@@ -50,7 +50,7 @@ Yii::import('zii.widgets.CBaseListView');
  * By doing so, a list of hyperlinks that can sort the data will be displayed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CListView.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CListView.php 3083 2011-03-14 18:09:55Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */
@@ -70,6 +70,11 @@ class CListView extends CBaseListView
 	 * </ul>
 	 */
 	public $itemView;
+	/**
+	 * @var string the HTML code to be displayed between any two consecutive items.
+	 * @since 1.1.7
+	 */
+	public $separator;
 	/**
 	 * @var array additional data to be passed to {@link itemView} when rendering each data item.
 	 * This array will be extracted into local PHP variables that can be accessed in the {@link itemView}.
@@ -113,6 +118,12 @@ class CListView extends CBaseListView
 	 * containers' content in AJAX fashion, these container IDs may be listed here (separated with comma).
 	 */
 	public $ajaxUpdate;
+	/**
+	 * @var string the jQuery selector of the HTML elements that may trigger AJAX updates when they are clicked.
+	 * If not set, the pagination links and the sorting links will trigger AJAX updates.
+	 * @since 1.1.7
+	 */
+	public $updateSelector;
 	/**
 	 * @var string the name of the GET variable that indicates the request is an AJAX request triggered
 	 * by this widget. Defaults to 'ajax'. This is effective only when {@link ajaxUpdate} is not false.
@@ -187,6 +198,8 @@ class CListView extends CBaseListView
 			'loadingClass'=>$this->loadingCssClass,
 			'sorterClass'=>$this->sorterCssClass,
 		);
+		if($this->updateSelector!==null)
+			$options['updateSelector']=$this->updateSelector;
 		if($this->beforeAjaxUpdate!==null)
 			$options['beforeAjaxUpdate']=(strpos($this->beforeAjaxUpdate,'js:')!==0 ? 'js:' : '').$this->beforeAjaxUpdate;
 		if($this->afterAjaxUpdate!==null)
@@ -207,10 +220,11 @@ class CListView extends CBaseListView
 	{
 		echo CHtml::openTag($this->itemsTagName,array('class'=>$this->itemsCssClass))."\n";
 		$data=$this->dataProvider->getData();
-		if(count($data)>0)
+		if(($n=count($data))>0)
 		{
 			$owner=$this->getOwner();
 			$render=$owner instanceof CController ? 'renderPartial' : 'render';
+			$j=0;
 			foreach($data as $i=>$item)
 			{
 				$data=$this->viewData;
@@ -218,6 +232,8 @@ class CListView extends CBaseListView
 				$data['data']=$item;
 				$data['widget']=$this;
 				$owner->$render($this->itemView,$data);
+				if($j++ < $n-1)
+					echo $this->separator;
 			}
 		}
 		else

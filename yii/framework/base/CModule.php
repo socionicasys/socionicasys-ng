@@ -14,7 +14,7 @@
  * CModule mainly manages application components and sub-modules.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CModule.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CModule.php 3001 2011-02-24 16:42:44Z alexander.makarow $
  * @package system.base
  * @since 1.0.4
  */

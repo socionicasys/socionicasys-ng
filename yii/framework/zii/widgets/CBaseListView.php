@@ -14,7 +14,7 @@
  * CBaseListView implements the common features needed by a view wiget for rendering multiple models.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CBaseListView.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CBaseListView.php 3101 2011-03-22 17:35:19Z qiang.xue $
  * @package zii.widgets
  * @since 1.1
  */
@@ -123,8 +123,8 @@ abstract class CBaseListView extends CWidget
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 
-		$this->renderKeys();
 		$this->renderContent();
+		$this->renderKeys();
 
 		echo CHtml::closeTag($this->tagName);
 	}
@@ -222,7 +222,13 @@ abstract class CBaseListView extends CWidget
 		{
 			if(($summaryText=$this->summaryText)===null)
 				$summaryText=Yii::t('zii','Total {count} result(s).');
-			echo strtr($summaryText,array('{count}'=>$count));
+			echo strtr($summaryText,array(
+				'{count}'=>$count,
+				'{start}'=>1,
+				'{end}'=>$count,
+				'{page}'=>1,
+				'{pages}'=>1,
+			));
 		}
 		echo '</div>';
 	}

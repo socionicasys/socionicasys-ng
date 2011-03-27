@@ -58,7 +58,7 @@
  * For object-based filters, the '+' and '-' operators are following the class name.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CController.php 2833 2011-01-10 14:54:27Z qiang.xue $
+ * @version $Id: CController.php 3058 2011-03-13 04:20:12Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -297,10 +297,35 @@ class CController extends CBaseController
 		$this->_action=$action;
 		if($this->beforeAction($action))
 		{
-			$action->run();
-			$this->afterAction($action);
+			if($action->runWithParams($this->getActionParams())===false)
+				$this->invalidActionParams($action);
+			else
+				$this->afterAction($action);
 		}
 		$this->_action=$priorAction;
+	}
+
+	/**
+	 * Returns the request parameters that will be used for action parameter binding.
+	 * By default, this method will return $_GET. You may override this method if you
+	 * want to use other request parameters (e.g. $_GET+$_POST).
+	 * @return array the request parameters to be used for action parameter binding
+	 * @since 1.1.7
+	 */
+	public function getActionParams()
+	{
+		return $_GET;
+	}
+
+	/**
+	 * This method is invoked when the request parameters do not satisfy the requirement of the specified action.
+	 * The default implementation will throw a 400 HTTP exception.
+	 * @pararm CAction $action the action being executed
+	 * @since 1.1.7
+	 */
+	public function invalidActionParams($action)
+	{
+		throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
 	}
 
 	/**
@@ -319,7 +344,10 @@ class CController extends CBaseController
 
 		// if using page caching, we should delay dynamic output replacement
 		if($this->_dynamicOutput!==null && $this->isCachingStackEmpty())
+		{
 			$output=$this->processDynamicOutput($output);
+			$this->_dynamicOutput=null;
+		}
 
 		if($this->_pageStates===null)
 			$this->_pageStates=$this->loadPageStates();
@@ -358,7 +386,7 @@ class CController extends CBaseController
 		if(isset($this->_dynamicOutput[$matches[1]]))
 		{
 			$content=$this->_dynamicOutput[$matches[1]];
-			unset($this->_dynamicOutput[$matches[1]]);
+			$this->_dynamicOutput[$matches[1]]=null;
 		}
 		return $content;
 	}
@@ -378,7 +406,12 @@ class CController extends CBaseController
 		if(method_exists($this,'action'.$actionID) && strcasecmp($actionID,'s')) // we have actions method
 			return new CInlineAction($this,$actionID);
 		else
-			return $this->createActionFromMap($this->actions(),$actionID,$actionID);
+		{
+			$action=$this->createActionFromMap($this->actions(),$actionID,$actionID);
+			if($action!==null && !method_exists($action,'run'))
+				throw new CException(Yii::t('yii', 'Action class {class} must implement the "run" method.', array('{class}'=>get_class($action))));
+			return $action;
+		}
 	}
 
 	/**
@@ -1017,6 +1050,7 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * Returns whether the caching stack is empty.
 	 * @return boolean whether the caching stack is empty. If not empty, it means currently there are
 	 * some output cache in effect. Note, the return result of this method may change when it is
 	 * called in different output regions, depending on the partition of output caches.

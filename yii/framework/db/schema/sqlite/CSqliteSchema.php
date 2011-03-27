@@ -12,7 +12,7 @@
  * CSqliteSchema is the class for retrieving metadata information from a SQLite (2/3) database.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CSqliteSchema.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CSqliteSchema.php 3099 2011-03-19 01:26:47Z qiang.xue $
  * @package system.db.schema.sqlite
  * @since 1.0
  */
@@ -54,7 +54,14 @@ class CSqliteSchema extends CDbSchema
 				$value=$this->getDbConnection()->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
 			else
 				$value=(int)$value-1;
-			$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
+			try
+			{
+				// it's possible sqlite_sequence does not exist
+				$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
+			}
+			catch(Exception $e)
+			{
+			}
 		}
 	}
 
@@ -138,7 +145,10 @@ class CSqliteSchema extends CDbSchema
 			}
 		}
 		if(is_string($table->primaryKey) && !strncasecmp($table->columns[$table->primaryKey]->dbType,'int',3))
+		{
 			$table->sequenceName='';
+			$table->columns[$table->primaryKey]->autoIncrement=true;
+		}
 
 		return true;
 	}

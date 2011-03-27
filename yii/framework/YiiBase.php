@@ -6,7 +6,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: YiiBase.php 2876 2011-01-16 15:01:19Z qiang.xue $
+ * @version $Id: YiiBase.php 3134 2011-03-27 01:39:25Z qiang.xue $
  * @package system
  * @since 1.0
  */
@@ -49,7 +49,7 @@ defined('YII_ZII_PATH') or define('YII_ZII_PATH',YII_PATH.DIRECTORY_SEPARATOR.'z
  * you can customize methods of YiiBase.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: YiiBase.php 2876 2011-01-16 15:01:19Z qiang.xue $
+ * @version $Id: YiiBase.php 3134 2011-03-27 01:39:25Z qiang.xue $
  * @package system
  * @since 1.0
  */
@@ -74,7 +74,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.6';
+		return '1.1.7';
 	}
 
 	/**
@@ -119,6 +119,7 @@ class YiiBase
 	}
 
 	/**
+	 * Returns the application singleton, null if the singleton has not been created yet.
 	 * @return CApplication the application singleton, null if the singleton has not been created yet.
 	 */
 	public static function app()
@@ -499,6 +500,7 @@ class YiiBase
 	}
 
 	/**
+	 * Returns a string that can be displayed on your Web page showing Powered-by-Yii information
 	 * @return string a string that can be displayed on your Web page showing Powered-by-Yii information
 	 */
 	public static function powered()
@@ -699,6 +701,7 @@ class YiiBase
 		'CBooleanValidator' => '/validators/CBooleanValidator.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
 		'CCompareValidator' => '/validators/CCompareValidator.php',
+		'CDateValidator' => '/validators/CDateValidator.php',
 		'CDefaultValueValidator' => '/validators/CDefaultValueValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
 		'CExistValidator' => '/validators/CExistValidator.php',

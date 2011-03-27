@@ -30,7 +30,7 @@
  * will be returned.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CChoiceFormat.php 2856 2011-01-14 15:56:10Z alexander.makarow $
+ * @version $Id: CChoiceFormat.php 2899 2011-01-20 21:10:03Z alexander.makarow $
  * @package system.i18n
  * @since 1.0.2
  */
@@ -52,10 +52,9 @@ class CChoiceFormat
 		{
 			$expression=$matches[1][$i];
 			$message=$matches[2][$i];
-			$intval=(int)$expression;
-			if($expression==="$intval")
+			if($expression===(string)(int)$expression)
 			{
-				if($intval==$number)
+				if($expression==$number)
 					return $message;
 			}
 			else if(self::evaluate(str_replace('n','$n',$expression),$number))

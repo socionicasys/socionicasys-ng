@@ -17,7 +17,7 @@
  * component. It is this DB connection that is used to perform the query.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbCacheDependency.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbCacheDependency.php 2949 2011-02-11 03:48:01Z qiang.xue $
  * @package system.caching.dependencies
  * @since 1.0
  */
@@ -68,13 +68,24 @@ class CDbCacheDependency extends CCacheDependency
 	{
 		if($this->sql!==null)
 		{
-			$command=$this->getDbConnection()->createCommand($this->sql);
+			$db=$this->getDbConnection();
+			$command=$db->createCommand($this->sql);
 			if(is_array($this->params))
 			{
 				foreach($this->params as $name=>$value)
 					$command->bindValue($name,$value);
 			}
-			return $command->queryRow();
+			if($db->queryCachingDuration>0)
+			{
+				// temporarily disable and re-enable query caching
+				$duration=$db->queryCachingDuration;
+				$db->queryCachingDuration=0;
+				$result=$command->queryRow();
+				$db->queryCachingDuration=$duration;
+			}
+			else
+				$result=$command->queryRow();
+			return $result;
 		}
 		else
 			throw new CException(Yii::t('yii','CDbCacheDependency.sql cannot be empty.'));

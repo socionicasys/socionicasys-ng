@@ -36,7 +36,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>
- * @version $Id: CJuiDatePicker.php 2873 2011-01-16 14:32:00Z qiang.xue $
+ * @version $Id: CJuiDatePicker.php 3077 2011-03-14 13:23:12Z qiang.xue $
  * @package zii.widgets.jui
  * @since 1.1
  */
@@ -107,7 +107,7 @@ class CJuiDatePicker extends CJuiInputWidget
 			if (!isset($this->options['onSelect']))
 				$this->options['onSelect']="js:function( selectedDate ) { jQuery('#{$id}').val(selectedDate);}";
 
-			$this->htmlOptions['id'] = $this->htmlOptions['id'].'_container';
+			$id = $this->htmlOptions['id'] = $this->htmlOptions['id'].'_container';
 			$this->htmlOptions['name'] = $this->htmlOptions['name'].'_container';
 
 			echo CHtml::tag('div', $this->htmlOptions, '');

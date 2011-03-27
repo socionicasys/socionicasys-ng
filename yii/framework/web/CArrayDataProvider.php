@@ -1,5 +1,14 @@
 <?php
 /**
+ * CArrayDataProvider class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+/**
  * CArrayDataProvider implements a data provider based on a raw data array.
  *
  * The {@link rawData} property contains all data that may be sorted and/or paginated.
@@ -32,7 +41,7 @@
  * so that the provider knows which columns can be sorted.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CArrayDataProvider.php 2583 2010-10-29 20:17:12Z qiang.xue $
+ * @version $Id: CArrayDataProvider.php 3089 2011-03-16 00:59:51Z qiang.xue $
  * @package system.web
  * @since 1.1.4
  */
@@ -45,12 +54,13 @@ class CArrayDataProvider extends CDataProvider
 	/**
 	 * @var array the data that is not paginated or sorted. When pagination is enabled,
 	 * this property usually contains more elements than {@link data}.
+	 * The array elements must use zero-based integer keys.
 	 */
 	public $rawData=array();
 
 	/**
 	 * Constructor.
-	 * @param array $rawData the data that is not paginated or sorted.
+	 * @param array $rawData the data that is not paginated or sorted. The array elements must use zero-based integer keys.
 	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
 	 */
 	public function __construct($rawData,$config=array())

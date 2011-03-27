@@ -6,7 +6,7 @@
  * {@link fetchKeys} and {@link calculateTotalItemCount}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDataProvider.php 2550 2010-10-15 08:57:38Z mdomba $
+ * @version $Id: CDataProvider.php 3001 2011-02-24 16:42:44Z alexander.makarow $
  * @package system.web
  * @since 1.1
  */

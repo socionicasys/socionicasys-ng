@@ -62,8 +62,8 @@
  * <pre>
  * array(
  *      '<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>'=>'<_c>/<_a>',
- *      '<_c:(post|comment)>/<id:\d+>'=>'<_a>/view',
- *      '<_c:(post|comment)>s/*'=>'<_a>/list',
+ *      '<_c:(post|comment)>/<id:\d+>'=>'<_c>/view',
+ *      '<_c:(post|comment)>s/*'=>'<_c>/list',
  * )
  * </pre>
  * In the above, we use two named parameters '<_c>' and '<_a>' in the route part. The '<_c>'
@@ -92,7 +92,7 @@
  * {@link CWebApplication::getUrlManager()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CUrlManager.php 2834 2011-01-10 15:09:59Z qiang.xue $
+ * @version $Id: CUrlManager.php 3100 2011-03-19 18:09:56Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -215,8 +215,8 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * Creates a URL rule instance.
 	 * The default implementation returns a CUrlRule object.
-	 * @param string $route the pattern part of the rule
-	 * @param mixed $pattern the route part of the rule. This could be a string or an array
+	 * @param mixed $route the route part of the rule. This could be a string or an array
+	 * @param string $pattern the pattern part of the rule
 	 * @return CUrlRule the URL rule instance
 	 * @since 1.1.0
 	 */
@@ -349,16 +349,19 @@ class CUrlManager extends CApplicationComponent
 			$key=$segs[$i];
 			if($key==='') continue;
 			$value=$segs[$i+1];
-			if(($pos=strpos($key,'['))!==false && ($pos2=strpos($key,']',$pos+1))!==false)
+			if(($pos=strpos($key,'['))!==false && ($m=preg_match_all('/\[(.*?)\]/',$key,$matches))>0)
 			{
 				$name=substr($key,0,$pos);
-				if($pos2===$pos+1)
-					$_REQUEST[$name][]=$_GET[$name][]=$value;
-				else
+				for($j=$m-1;$j>=0;--$j)
 				{
-					$key=substr($key,$pos+1,$pos2-$pos-1);
-					$_REQUEST[$name][$key]=$_GET[$name][$key]=$value;
+					if($matches[1][$j]==='')
+						$value=array($value);
+					else
+						$value=array($matches[1][$j]=>$value);
 				}
+				if(isset($_GET[$name]) && is_array($_GET[$name]))
+					$value=array_merge_recursive($_GET[$name],$value);
+				$_REQUEST[$name]=$_GET[$name]=$value;
 			}
 			else
 				$_REQUEST[$key]=$_GET[$key]=$value;
@@ -470,7 +473,7 @@ class CUrlManager extends CApplicationComponent
  * may have a set of named parameters.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CUrlManager.php 2834 2011-01-10 15:09:59Z qiang.xue $
+ * @version $Id: CUrlManager.php 3100 2011-03-19 18:09:56Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -506,6 +509,20 @@ class CUrlRule extends CComponent
 	 * @since 1.1.0
 	 */
 	public $matchValue;
+	/**
+	 * @var string the HTTP verb (e.g. GET, POST, DELETE) that this rule should match.
+	 * If this rule can match multiple verbs, please separate them with commas.
+	 * If this property is not set, the rule can match any verb.
+	 * Note that this property is only used when parsing a request. It is ignored for URL creation.
+	 * @since 1.1.7
+	 */
+	public $verb;
+	/**
+	 * @var boolean whether this rule is only used for request parsing.
+	 * Defaults to false, meaning the rule is used for both URL parsing and creation.
+	 * @since 1.1.7
+	 */
+	public $parsingOnly=false;
 	/**
 	 * @var string the controller/action pair
 	 */
@@ -551,18 +568,16 @@ class CUrlRule extends CComponent
 	{
 		if(is_array($route))
 		{
-			if(isset($route['urlSuffix']))
-				$this->urlSuffix=$route['urlSuffix'];
-			if(isset($route['caseSensitive']))
-				$this->caseSensitive=$route['caseSensitive'];
-			if(isset($route['defaultParams']))
-				$this->defaultParams=$route['defaultParams'];
-			if(isset($route['matchValue']))
-				$this->matchValue=$route['matchValue'];
-			$route=$this->route=$route[0];
+			foreach(array('urlSuffix', 'caseSensitive', 'defaultParams', 'matchValue', 'verb', 'parsingOnly') as $name)
+			{
+				if(isset($route[$name]))
+					$this->$name=$route[$name];
+			}
+			if(isset($route['pattern']))
+				$pattern=$route['pattern'];
+			$route=$route[0];
 		}
-		else
-			$this->route=$route;
+		$this->route=trim($route,'/');
 
 		$tr2['/']=$tr['/']='\\/';
 
@@ -573,6 +588,9 @@ class CUrlRule extends CComponent
 		}
 
 		$this->hasHostInfo=!strncasecmp($pattern,'http://',7) || !strncasecmp($pattern,'https://',8);
+
+		if($this->verb!==null)
+			$this->verb=preg_split('/[\s,]+/',strtoupper($this->verb),-1,PREG_SPLIT_NO_EMPTY);
 
 		if(preg_match_all('/<(\w+):?(.*?)?>/',$pattern,$matches))
 		{
@@ -616,6 +634,9 @@ class CUrlRule extends CComponent
 	 */
 	public function createUrl($manager,$route,$params,$ampersand)
 	{
+		if($this->parsingOnly)
+			return false;
+
 		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
 			$case='';
 		else
@@ -670,7 +691,7 @@ class CUrlRule extends CComponent
 		if($this->hasHostInfo)
 		{
 			$hostInfo=Yii::app()->getRequest()->getHostInfo();
-			if(strpos($url,$hostInfo)===0)
+			if(stripos($url,$hostInfo)===0)
 				$url=substr($url,strlen($hostInfo));
 		}
 
@@ -699,6 +720,9 @@ class CUrlRule extends CComponent
 	 */
 	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
 	{
+		if($this->verb!==null && !in_array($request->getRequestType(), $this->verb, true))
+			return false;
+
 		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
 			$case='';
 		else
@@ -716,7 +740,7 @@ class CUrlRule extends CComponent
 		}
 
 		if($this->hasHostInfo)
-			$pathInfo=$request->getHostInfo().rtrim('/'.$pathInfo,'/');
+			$pathInfo=strtolower($request->getHostInfo()).rtrim('/'.$pathInfo,'/');
 
 		$pathInfo.='/';
 

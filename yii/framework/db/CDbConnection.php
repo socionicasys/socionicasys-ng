@@ -79,7 +79,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbConnection.php 2855 2011-01-14 13:42:14Z qiang.xue $
+ * @version $Id: CDbConnection.php 3123 2011-03-25 12:20:47Z qiang.xue $
  * @package system.db
  * @since 1.0
  */
@@ -117,6 +117,43 @@ class CDbConnection extends CApplicationComponent
 	 * @since 1.0.10
 	 */
 	public $schemaCacheID='cache';
+	/**
+	 * @var integer number of seconds that query results can remain valid in cache.
+	 * Use 0 or negative value to indicate not caching query results (the default behavior).
+	 *
+	 * In order to enable query caching, this property must be a positive
+	 * integer and {@link queryCacheID} must point to a valid cache component ID.
+	 *
+	 * The method {@link cache()} is provided as a convenient way of setting this property
+	 * and {@link queryCachingDependency} on the fly.
+	 *
+	 * @see cache
+	 * @see queryCachingDependency
+	 * @see queryCacheID
+	 * @since 1.1.7
+	 */
+	public $queryCachingDuration=0;
+	/**
+	 * @var CCacheDependency the dependency that will be used when saving query results into cache.
+	 * @see queryCachingDuration
+	 * @since 1.1.7
+	 */
+	public $queryCachingDependency;
+	/**
+	 * @var integer the number of SQL statements that need to be cached next.
+	 * If this is 0, then even if query caching is enabled, no query will be cached.
+	 * Note that each time after executing a SQL statement (whether executed on DB server or fetched from
+	 * query cache), this property will be reduced by 1 until 0.
+	 * @since 1.1.7
+	 */
+	public $queryCachingCount=0;
+	/**
+	 * @var string the ID of the cache application component that is used for query caching.
+	 * Defaults to 'cache' which refers to the primary cache application component.
+	 * Set this property to false if you want to disable query caching.
+	 * @since 1.1.7
+	 */
+	public $queryCacheID='cache';
 	/**
 	 * @var boolean whether the database connection should be automatically established
 	 * the component is being initialized. Defaults to true. Note, this property is only
@@ -178,7 +215,7 @@ class CDbConnection extends CApplicationComponent
 		'mssql'=>'CMssqlSchema',    // Mssql driver on windows hosts
 		'dblib'=>'CMssqlSchema',    // dblib drivers on linux (and maybe others os) hosts
 		'sqlsrv'=>'CMssqlSchema',   // Mssql
-		'oci'=>'CMssqlSchema',      // Oracle driver
+		'oci'=>'COciSchema',        // Oracle driver
 	);
 
 	private $_attributes=array();
@@ -261,6 +298,30 @@ class CDbConnection extends CApplicationComponent
 			else
 				$this->close();
 		}
+	}
+
+	/**
+	 * Sets the parameters about query caching.
+	 * This method can be used to enable or disable query caching.
+	 * By setting the $duration parameter to be 0, the query caching will be disabled.
+	 * Otherwise, query results of the new SQL statements executed next will be saved in cache
+	 * and remain valid for the specified duration.
+	 * If the same query is executed again, the result may be fetched from cache directly
+	 * without actually executing the SQL statement.
+	 * @param integer $duration the number of seconds that query results may remain valid in cache.
+	 * If this is 0, the caching will be disabled.
+	 * @param CCacheDependency $dependency the dependency that will be used when saving the query results into cache.
+	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
+	 * meaning that the next SQL query will be cached.
+	 * @return CDbConnection the connection instance itself.
+	 * @since 1.1.7
+	 */
+	public function cache($duration, $dependency=null, $queryCount=1)
+	{
+		$this->queryCachingDuration=$duration;
+		$this->queryCachingDependency=$dependency;
+		$this->queryCachingCount=$queryCount;
+		return $this;
 	}
 
 	/**
@@ -368,14 +429,11 @@ class CDbConnection extends CApplicationComponent
 	 * for more details about how to pass an array as the query. If this parameter is not given,
 	 * you will have to call query builder methods of {@link CDbCommand} to build the DB query.
 	 * @return CDbCommand the DB command
-	 * @throws CException if the connection is not active
 	 */
 	public function createCommand($query=null)
 	{
-		if($this->getActive())
-			return new CDbCommand($this,$query);
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		return new CDbCommand($this,$query);
 	}
 
 	/**
@@ -395,23 +453,17 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Starts a transaction.
 	 * @return CDbTransaction the transaction initiated
-	 * @throws CException if the connection is not active
 	 */
 	public function beginTransaction()
 	{
-		if($this->getActive())
-		{
-			$this->_pdo->beginTransaction();
-			return $this->_transaction=new CDbTransaction($this);
-		}
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		$this->_pdo->beginTransaction();
+		return $this->_transaction=new CDbTransaction($this);
 	}
 
 	/**
 	 * Returns the database schema for the current connection
 	 * @return CDbSchema the database schema for the current connection
-	 * @throws CException if the connection is not active yet
 	 */
 	public function getSchema()
 	{
@@ -419,9 +471,7 @@ class CDbConnection extends CApplicationComponent
 			return $this->_schema;
 		else
 		{
-			if(!$this->getActive())
-				throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
-			$driver=strtolower($this->getDriverName());
+			$driver=$this->getDriverName();
 			if(isset($this->driverMap[$driver]))
 				return $this->_schema=Yii::createComponent($this->driverMap[$driver], $this);
 			else
@@ -448,10 +498,8 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function getLastInsertID($sequenceName='')
 	{
-		if($this->getActive())
-			return $this->_pdo->lastInsertId($sequenceName);
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		return $this->_pdo->lastInsertId($sequenceName);
 	}
 
 	/**
@@ -465,15 +513,11 @@ class CDbConnection extends CApplicationComponent
 		if(is_int($str) || is_float($str))
 			return $str;
 
-		if($this->getActive())
-		{
-			if(($value=$this->_pdo->quote($str))!==false)
-				return $value;
-			else  // the driver doesn't support quote (e.g. oci)
-				return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
-		}
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		if(($value=$this->_pdo->quote($str))!==false)
+			return $value;
+		else  // the driver doesn't support quote (e.g. oci)
+			return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
 	}
 
 	/**
@@ -601,7 +645,9 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function getDriverName()
 	{
-		return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+		if(($pos=strpos($this->connectionString, ':'))!==false)
+			return strtolower(substr($this->connectionString, 0, $pos));
+		// return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
 	}
 
 	/**
@@ -667,10 +713,8 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function getAttribute($name)
 	{
-		if($this->getActive())
-			return $this->_pdo->getAttribute($name);
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		return $this->_pdo->getAttribute($name);
 	}
 
 	/**
@@ -684,6 +728,29 @@ class CDbConnection extends CApplicationComponent
 		if($this->_pdo instanceof PDO)
 			$this->_pdo->setAttribute($name,$value);
 		else
+			$this->_attributes[$name]=$value;
+	}
+
+	/**
+	 * Returns the attributes that are previously explicitly set for the DB connection.
+	 * @return array attributes (name=>value) that are previously explicitly set for the DB connection.
+	 * @see setAttributes
+	 * @since 1.1.7
+	 */
+	public function getAttributes()
+	{
+		return $this->_attributes;
+	}
+
+	/**
+	 * Sets a set of attributes on the database connection.
+	 * @param array $values attributes (name=>value) to be set.
+	 * @see setAttribute
+	 * @since 1.1.7
+	 */
+	public function setAttributes($values)
+	{
+		foreach($values as $name=>$value)
 			$this->_attributes[$name]=$value;
 	}
 

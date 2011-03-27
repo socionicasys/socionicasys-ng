@@ -48,7 +48,7 @@ Yii::import('CHtml',true);
  * {@link CApplication::getErrorHandler()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CErrorHandler.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CErrorHandler.php 3008 2011-02-26 19:54:10Z alexander.makarow $
  * @package system.base
  * @since 1.0
  */
@@ -364,10 +364,13 @@ class CErrorHandler extends CApplicationComponent
 		foreach($args as $key => $value)
 		{
 			$count++;
-			if($count>5)
+			if($count>=5)
 			{
-				$args[$key]='...';
-				break;
+				if($count>5)
+					unset($args[$key]);
+				else
+					$args[$key]='...';
+				continue;
 			}
 
 			if(is_object($value))
@@ -387,8 +390,10 @@ class CErrorHandler extends CApplicationComponent
 				$args[$key] = 'null';
 			else if(is_resource($value))
 				$args[$key] = 'resource';
-		}
 
+			if(is_string($key))
+				$args[$key] = '"'.$key.'" => '.$args[$key];
+		}
 		$out = implode(", ", $args);
 
 		return $out;

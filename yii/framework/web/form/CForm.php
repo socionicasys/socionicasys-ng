@@ -61,7 +61,7 @@
  * and {@link CFormButtonElement}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CForm.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CForm.php 3076 2011-03-14 13:16:43Z qiang.xue $
  * @package system.web.form
  * @since 1.1
  */

@@ -30,7 +30,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbTransaction.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbTransaction.php 3069 2011-03-14 00:28:38Z qiang.xue $
  * @package system.db
  * @since 1.0
  */
@@ -47,7 +47,7 @@ class CDbTransaction extends CComponent
 	public function __construct(CDbConnection $connection)
 	{
 		$this->_connection=$connection;
-		$this->setActive(true);
+		$this->_active=true;
 	}
 
 	/**

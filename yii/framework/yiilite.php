@@ -17,7 +17,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: yiilite.php 2876 2011-01-16 15:01:19Z qiang.xue $
+ * @version $Id: yiilite.php 3134 2011-03-27 01:39:25Z qiang.xue $
  * @since 1.0
  */
 
@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.6';
+		return '1.1.7';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -425,6 +425,7 @@ class YiiBase
 		'CBooleanValidator' => '/validators/CBooleanValidator.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
 		'CCompareValidator' => '/validators/CCompareValidator.php',
+		'CDateValidator' => '/validators/CDateValidator.php',
 		'CDefaultValueValidator' => '/validators/CDefaultValueValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
 		'CExistValidator' => '/validators/CExistValidator.php',
@@ -814,9 +815,11 @@ class CEvent extends CComponent
 {
 	public $sender;
 	public $handled=false;
-	public function __construct($sender=null)
+	public $params;
+	public function __construct($sender=null,$params=null)
 	{
 		$this->sender=$sender;
+		$this->params=$params;
 	}
 }
 class CEnumerable
@@ -2085,9 +2088,9 @@ class CLogger extends CComponent
 			$this->_timings[]=array($last[0],$last[2],$delta);
 		}
 	}
-	public function flush()
+	public function flush($dumpLogs=false)
 	{
-		$this->onFlush(new CEvent($this));
+		$this->onFlush(new CEvent($this, array('dumpLogs'=>$dumpLogs)));
 		$this->_logs=array();
 		$this->_logCount=0;
 	}
@@ -2121,11 +2124,12 @@ class CHttpRequest extends CApplicationComponent
 	private $_scriptFile;
 	private $_scriptUrl;
 	private $_hostInfo;
-	private $_url;
 	private $_baseUrl;
 	private $_cookies;
 	private $_preferredLanguage;
 	private $_csrfToken;
+	private $_deleteParams;
+	private $_putParams;
 	public function init()
 	{
 		parent::init();
@@ -2164,24 +2168,30 @@ class CHttpRequest extends CApplicationComponent
 	{
 		return isset($_POST[$name]) ? $_POST[$name] : $defaultValue;
 	}
+	public function getDelete($name,$defaultValue=null)
+	{
+		if($this->_deleteParams===null)
+			$this->_deleteParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
+		return isset($this->_deleteParams[$name]) ? $this->_deleteParams[$name] : $defaultValue;
+	}
+	public function getPut($name,$defaultValue=null)
+	{
+		if($this->_putParams===null)
+			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
+		return isset($this->_putParams[$name]) ? $this->_putParams[$name] : $defaultValue;
+	}
+	protected function getRestParams()
+	{
+		$result=array();
+		if(function_exists('mb_parse_str'))
+			mb_parse_str(file_get_contents('php://input'), $result);
+		else
+			parse_str(file_get_contents('php://input'), $result);
+		return $result;
+	}
 	public function getUrl()
 	{
-		if($this->_url!==null)
-			return $this->_url;
-		else
-		{
-			if(isset($_SERVER['REQUEST_URI']))
-				$this->_url=$_SERVER['REQUEST_URI'];
-			else
-			{
-				$this->_url=$this->getScriptUrl();
-				if(($pathInfo=$this->getPathInfo())!=='')
-					$this->_url.='/'.$pathInfo;
-				if(($queryString=$this->getQueryString())!=='')
-					$this->_url.='?'.$queryString;
-			}
-			return $this->_url;
-		}
+		return $this->getRequestUri();
 	}
 	public function getHostInfo($schema='')
 	{
@@ -2320,6 +2330,14 @@ class CHttpRequest extends CApplicationComponent
 	public function getIsPostRequest()
 	{
 		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'POST');
+	}
+	public function getIsDeleteRequest()
+	{
+		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'DELETE');
+	}
+	public function getIsPutRequest()
+	{
+		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT');
 	}
 	public function getIsAjaxRequest()
 	{
@@ -2725,16 +2743,19 @@ class CUrlManager extends CApplicationComponent
 			$key=$segs[$i];
 			if($key==='') continue;
 			$value=$segs[$i+1];
-			if(($pos=strpos($key,'['))!==false && ($pos2=strpos($key,']',$pos+1))!==false)
+			if(($pos=strpos($key,'['))!==false && ($m=preg_match_all('/\[(.*?)\]/',$key,$matches))>0)
 			{
 				$name=substr($key,0,$pos);
-				if($pos2===$pos+1)
-					$_REQUEST[$name][]=$_GET[$name][]=$value;
-				else
+				for($j=$m-1;$j>=0;--$j)
 				{
-					$key=substr($key,$pos+1,$pos2-$pos-1);
-					$_REQUEST[$name][$key]=$_GET[$name][$key]=$value;
+					if($matches[1][$j]==='')
+						$value=array($value);
+					else
+						$value=array($matches[1][$j]=>$value);
 				}
+				if(isset($_GET[$name]) && is_array($_GET[$name]))
+					$value=array_merge_recursive($_GET[$name],$value);
+				$_REQUEST[$name]=$_GET[$name]=$value;
 			}
 			else
 				$_REQUEST[$key]=$_GET[$key]=$value;
@@ -2796,6 +2817,8 @@ class CUrlRule extends CComponent
 	public $caseSensitive;
 	public $defaultParams=array();
 	public $matchValue;
+	public $verb;
+	public $parsingOnly=false;
 	public $route;
 	public $references=array();
 	public $routePattern;
@@ -2808,18 +2831,16 @@ class CUrlRule extends CComponent
 	{
 		if(is_array($route))
 		{
-			if(isset($route['urlSuffix']))
-				$this->urlSuffix=$route['urlSuffix'];
-			if(isset($route['caseSensitive']))
-				$this->caseSensitive=$route['caseSensitive'];
-			if(isset($route['defaultParams']))
-				$this->defaultParams=$route['defaultParams'];
-			if(isset($route['matchValue']))
-				$this->matchValue=$route['matchValue'];
-			$route=$this->route=$route[0];
+			foreach(array('urlSuffix', 'caseSensitive', 'defaultParams', 'matchValue', 'verb', 'parsingOnly') as $name)
+			{
+				if(isset($route[$name]))
+					$this->$name=$route[$name];
+			}
+			if(isset($route['pattern']))
+				$pattern=$route['pattern'];
+			$route=$route[0];
 		}
-		else
-			$this->route=$route;
+		$this->route=trim($route,'/');
 		$tr2['/']=$tr['/']='\\/';
 		if(strpos($route,'<')!==false && preg_match_all('/<(\w+)>/',$route,$matches2))
 		{
@@ -2827,6 +2848,8 @@ class CUrlRule extends CComponent
 				$this->references[$name]="<$name>";
 		}
 		$this->hasHostInfo=!strncasecmp($pattern,'http://',7) || !strncasecmp($pattern,'https://',8);
+		if($this->verb!==null)
+			$this->verb=preg_split('/[\s,]+/',strtoupper($this->verb),-1,PREG_SPLIT_NO_EMPTY);
 		if(preg_match_all('/<(\w+):?(.*?)?>/',$pattern,$matches))
 		{
 			$tokens=array_combine($matches[1],$matches[2]);
@@ -2858,6 +2881,8 @@ class CUrlRule extends CComponent
 	}
 	public function createUrl($manager,$route,$params,$ampersand)
 	{
+		if($this->parsingOnly)
+			return false;
 		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
 			$case='';
 		else
@@ -2904,7 +2929,7 @@ class CUrlRule extends CComponent
 		if($this->hasHostInfo)
 		{
 			$hostInfo=Yii::app()->getRequest()->getHostInfo();
-			if(strpos($url,$hostInfo)===0)
+			if(stripos($url,$hostInfo)===0)
 				$url=substr($url,strlen($hostInfo));
 		}
 		if(empty($params))
@@ -2921,6 +2946,8 @@ class CUrlRule extends CComponent
 	}
 	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
 	{
+		if($this->verb!==null && !in_array($request->getRequestType(), $this->verb, true))
+			return false;
 		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
 			$case='';
 		else
@@ -2935,7 +2962,7 @@ class CUrlRule extends CComponent
 				return false;
 		}
 		if($this->hasHostInfo)
-			$pathInfo=$request->getHostInfo().rtrim('/'.$pathInfo,'/');
+			$pathInfo=strtolower($request->getHostInfo()).rtrim('/'.$pathInfo,'/');
 		$pathInfo.='/';
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
@@ -3145,17 +3172,30 @@ class CController extends CBaseController
 		$this->_action=$action;
 		if($this->beforeAction($action))
 		{
-			$action->run();
-			$this->afterAction($action);
+			if($action->runWithParams($this->getActionParams())===false)
+				$this->invalidActionParams($action);
+			else
+				$this->afterAction($action);
 		}
 		$this->_action=$priorAction;
+	}
+	public function getActionParams()
+	{
+		return $_GET;
+	}
+	public function invalidActionParams($action)
+	{
+		throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
 	}
 	public function processOutput($output)
 	{
 		Yii::app()->getClientScript()->render($output);
 		// if using page caching, we should delay dynamic output replacement
 		if($this->_dynamicOutput!==null && $this->isCachingStackEmpty())
+		{
 			$output=$this->processDynamicOutput($output);
+			$this->_dynamicOutput=null;
+		}
 		if($this->_pageStates===null)
 			$this->_pageStates=$this->loadPageStates();
 		if(!empty($this->_pageStates))
@@ -3176,7 +3216,7 @@ class CController extends CBaseController
 		if(isset($this->_dynamicOutput[$matches[1]]))
 		{
 			$content=$this->_dynamicOutput[$matches[1]];
-			unset($this->_dynamicOutput[$matches[1]]);
+			$this->_dynamicOutput[$matches[1]]=null;
 		}
 		return $content;
 	}
@@ -3187,7 +3227,12 @@ class CController extends CBaseController
 		if(method_exists($this,'action'.$actionID) && strcasecmp($actionID,'s')) // we have actions method
 			return new CInlineAction($this,$actionID);
 		else
-			return $this->createActionFromMap($this->actions(),$actionID,$actionID);
+		{
+			$action=$this->createActionFromMap($this->actions(),$actionID,$actionID);
+			if($action!==null && !method_exists($action,'run'))
+				throw new CException(Yii::t('yii', 'Action class {class} must implement the "run" method.', array('{class}'=>get_class($action))));
+			return $action;
+		}
 	}
 	protected function createActionFromMap($actionMap,$actionID,$requestActionID,$config=array())
 	{
@@ -3569,50 +3614,69 @@ abstract class CAction extends CComponent implements IAction
 	{
 		return $this->_id;
 	}
+	public function runWithParams($params)
+	{
+		$method=new ReflectionMethod($this, 'run');
+		if($method->getNumberOfParameters()>0)
+			return $this->runWithParamsInternal($this, $method, $params);
+		else
+			return $this->run();
+	}
+	protected function runWithParamsInternal($object, $method, $params)
+	{
+		$ps=array();
+		foreach($method->getParameters() as $i=>$param)
+		{
+			$name=$param->getName();
+			if(isset($params[$name]))
+			{
+				if($param->isArray())
+					$ps[]=is_array($params[$name]) ? $params[$name] : array($params[$name]);
+				else if(!is_array($params[$name]))
+					$ps[]=$params[$name];
+				else
+					return false;
+			}
+			else if($param->isDefaultValueAvailable())
+				$ps[]=$param->getDefaultValue();
+			else
+				return false;
+		}
+		$method->invokeArgs($object,$ps);
+		return true;
+	}
 }
 class CInlineAction extends CAction
 {
 	public function run()
 	{
-		$controller=$this->getController();
+		$method='action'.$this->getId();
+		$this->getController()->$method();
+	}
+	public function runWithParams($params)
+	{
 		$methodName='action'.$this->getId();
-		$method=new ReflectionMethod($controller,$methodName);
-		if(($n=$method->getNumberOfParameters())>0)
-		{
-			$params=array();
-			foreach($method->getParameters() as $i=>$param)
-			{
-				$name=$param->getName();
-				if(isset($_GET[$name]))
-				{
-					if($param->isArray())
-						$params[]=is_array($_GET[$name]) ? $_GET[$name] : array($_GET[$name]);
-					else if(!is_array($_GET[$name]))
-						$params[]=$_GET[$name];
-					else
-						throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
-				}
-				else if($param->isDefaultValueAvailable())
-					$params[]=$param->getDefaultValue();
-				else
-					throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
-			}
-			$method->invokeArgs($controller,$params);
-		}
+		$controller=$this->getController();
+		$method=new ReflectionMethod($controller, $methodName);
+		if($method->getNumberOfParameters()>0)
+			return $this->runWithParamsInternal($controller, $method, $params);
 		else
-			$controller->$methodName();
+			return $controller->$methodName();
 	}
 }
 class CWebUser extends CApplicationComponent implements IWebUser
 {
 	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
-	const FLASH_COUNTERS='Yii.CWebUser.flash.counters';
+	const FLASH_COUNTERS='Yii.CWebUser.flashcounters';
 	const STATES_VAR='__states';
+	const AUTH_TIMEOUT_VAR='__timeout';
 	public $allowAutoLogin=false;
 	public $guestName='Guest';
 	public $loginUrl=array('/site/login');
 	public $identityCookie;
+	public $authTimeout;
 	public $autoRenewCookie=false;
+	public $autoUpdateFlash=true;
 	private $_keyPrefix;
 	private $_access=array();
 	public function __get($name)
@@ -3651,7 +3715,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$this->restoreFromCookie();
 		else if($this->autoRenewCookie && $this->allowAutoLogin)
 			$this->renewCookie();
-		$this->updateFlash();
+		if($this->autoUpdateFlash)
+			$this->updateFlash();
+		$this->updateAuthStatus();
 	}
 	public function login($identity,$duration=0)
 	{
@@ -3939,6 +4005,17 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				$counters[$key]++;
 		}
 		$this->setState(self::FLASH_COUNTERS,$counters,array());
+	}
+	protected function updateAuthStatus()
+	{
+		if($this->authTimeout!==null && !$this->getIsGuest())
+		{
+			$expires=$this->getState(self::AUTH_TIMEOUT_VAR);
+			if ($expires!==null && $expires < time())
+				$this->logout(false);
+			else
+				$this->setState(self::AUTH_TIMEOUT_VAR,time()+$this->authTimeout);
+		}
 	}
 	public function checkAccess($operation,$params=array(),$allowCaching=true)
 	{
@@ -4796,9 +4873,16 @@ EOD;
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
+		if(array_key_exists('uncheckValue',$htmlOptions))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck='';
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-		return self::hiddenField($name,'',$hiddenOptions)
-			. self::checkBoxList($name,$selection,$data,$htmlOptions);
+		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
+		return $hidden . self::checkBoxList($name,$selection,$data,$htmlOptions);
 	}
 	public static function activeRadioButtonList($model,$attribute,$data,$htmlOptions=array())
 	{
@@ -4808,9 +4892,16 @@ EOD;
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
+		if(array_key_exists('uncheckValue',$htmlOptions))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck='';
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-		return self::hiddenField($name,'',$hiddenOptions)
-			. self::radioButtonList($name,$selection,$data,$htmlOptions);
+		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
+		return $hidden . self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
 	public static function getActiveId($model,$attribute)
 	{
@@ -5055,7 +5146,7 @@ EOD;
 				$handler="return $confirm;";
 		}
 		if($live)
-			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('body').delegate('#$id','$event',function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('body').undelegate('#$id','$event').delegate('#$id','$event',function(){{$handler}});");
 		else
 			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
@@ -5277,14 +5368,24 @@ class CWidget extends CBaseController
 	public function run()
 	{
 	}
-	public function getViewPath()
+	public function getViewPath($checkTheme=false)
 	{
 		$className=get_class($this);
 		if(isset(self::$_viewPaths[$className]))
 			return self::$_viewPaths[$className];
 		else
 		{
-			$class=new ReflectionClass(get_class($this));
+			if($checkTheme && ($theme=Yii::app()->getTheme())!==null)
+			{
+				$path=$theme->getViewPath().DIRECTORY_SEPARATOR;
+				if(strpos($className,'\\')!==false) // namespaced class
+					$path.=str_replace('\\','_',ltrim($className,'\\'));
+				else
+					$path.=$className;
+				if(is_dir($path))
+					return self::$_viewPaths[$className]=$path;
+			}
+			$class=new ReflectionClass($className);
 			return self::$_viewPaths[$className]=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'views';
 		}
 	}
@@ -5298,16 +5399,12 @@ class CWidget extends CBaseController
 			$viewFile=Yii::getPathOfAlias($viewName);
 		else
 		{
-			if(($theme=Yii::app()->getTheme())!==null)
-			{
-				$className=str_replace('\\','_',ltrim(get_class($this),'\\')); // possibly namespaced class
-				$viewFile=$theme->getViewPath().DIRECTORY_SEPARATOR.$className.DIRECTORY_SEPARATOR.$viewName;
-				if(is_file($viewFile.$extension))
-					return Yii::app()->findLocalizedFile($viewFile.$extension);
-				else if($extension!=='.php' && is_file($viewFile.'.php'))
-					return Yii::app()->findLocalizedFile($viewFile.'.php');
-			}
-			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName;
+			$viewFile=$this->getViewPath(true).DIRECTORY_SEPARATOR.$viewName;
+			if(is_file($viewFile.$extension))
+				return Yii::app()->findLocalizedFile($viewFile.$extension);
+			else if($extension!=='.php' && is_file($viewFile.'.php'))
+				return Yii::app()->findLocalizedFile($viewFile.'.php');
+			$viewFile=$this->getViewPath(false).DIRECTORY_SEPARATOR.$viewName;
 		}
 		if(is_file($viewFile.$extension))
 			return Yii::app()->findLocalizedFile($viewFile.$extension);
@@ -5334,22 +5431,22 @@ class CClientScript extends CApplicationComponent
 	const POS_READY=4;
 	public $enableJavaScript=true;
 	public $scriptMap=array();
+	public $packages=array();
+	public $corePackages;
 	protected $cssFiles=array();
 	protected $scriptFiles=array();
 	protected $scripts=array();
 	protected $metaTags=array();
 	protected $linkTags=array();
 	protected $css=array();
+	protected $hasScripts=false;
+	protected $coreScripts=array();
 	public $coreScriptPosition=self::POS_HEAD;
-	private $_hasScripts=false;
-	private $_packages;
-	private $_dependencies;
 	private $_baseUrl;
-	private $_coreScripts=array();
 	public function reset()
 	{
-		$this->_hasScripts=false;
-		$this->_coreScripts=array();
+		$this->hasScripts=false;
+		$this->coreScripts=array();
 		$this->cssFiles=array();
 		$this->css=array();
 		$this->scriptFiles=array();
@@ -5360,7 +5457,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function render(&$output)
 	{
-		if(!$this->_hasScripts)
+		if(!$this->hasScripts)
 			return;
 		$this->renderCoreScripts();
 		if(!empty($this->scriptMap))
@@ -5444,20 +5541,33 @@ class CClientScript extends CApplicationComponent
 	}
 	public function renderCoreScripts()
 	{
-		if($this->_packages===null)
+		if($this->coreScripts===null)
 			return;
-		$baseUrl=$this->getCoreScriptUrl();
 		$cssFiles=array();
 		$jsFiles=array();
-		foreach($this->_coreScripts as $name)
+		$am=Yii::app()->getAssetManager();
+		foreach($this->coreScripts as $name=>$package)
 		{
-			foreach($this->_packages[$name] as $path)
+			if(isset($package['baseUrl']))
 			{
-				$url=$baseUrl.'/'.$path;
-				if(substr($path,-4)==='.css')
-					$cssFiles[$url]='';
-				else
-					$jsFiles[$url]=$url;
+				$baseUrl=$package['baseUrl'];
+				if($baseUrl==='' || $baseUrl[0]!=='/')
+					$baseUrl=Yii::app()->getRequest()->getBaseUrl.'/'.$baseUrl;
+				$baseUrl=rtrim($baseUrl,'/');
+			}
+			else if(isset($package['basePath']))
+				$baseUrl=$am->publish(Yii::getPathOfAlias($package['basePath']));
+			else
+				$baseUrl=$this->getCoreScriptUrl();
+			if(!empty($package['js']))
+			{
+				foreach($package['js'] as $js)
+					$jsFiles[$baseUrl.'/'.$js]=$baseUrl.'/'.$js;
+			}
+			if(!empty($package['css']))
+			{
+				foreach($package['css'] as $css)
+					$cssFiles[$baseUrl.'/'.$css]='';
 			}
 		}
 		// merge in place
@@ -5574,32 +5684,40 @@ class CClientScript extends CApplicationComponent
 	{
 		$this->_baseUrl=$value;
 	}
+	public function registerPackage($name)
+	{
+		return $this->registerCoreScript($name);
+	}
 	public function registerCoreScript($name)
 	{
-		if(isset($this->_coreScripts[$name]))
+		if(isset($this->coreScripts[$name]))
 			return $this;
-		if($this->_packages===null)
+		if(isset($this->packages[$name]))
+			$package=$this->packages[$name];
+		else
 		{
-			$config=require(YII_PATH.'/web/js/packages.php');
-			$this->_packages=$config[0];
-			$this->_dependencies=$config[1];
+			if($this->corePackages===null)
+				$this->corePackages=require(YII_PATH.'/web/js/packages.php');
+			if(isset($this->corePackages[$name]))
+				$package=$this->corePackages[$name];
 		}
-		if(!isset($this->_packages[$name]))
-			return $this;
-		if(isset($this->_dependencies[$name]))
+		if(isset($package))
 		{
-			foreach($this->_dependencies[$name] as $depName)
-				$this->registerCoreScript($depName);
+			if(!empty($package['depends']))
+			{
+				foreach($package['depends'] as $p)
+					$this->registerCoreScript($p);
+			}
+			$this->coreScripts[$name]=$package;
+			$this->hasScripts=true;
+			$params=func_get_args();
+			$this->recordCachingAction('clientScript','registerCoreScript',$params);
 		}
-		$this->_hasScripts=true;
-		$this->_coreScripts[$name]=$name;
-		$params=func_get_args();
-		$this->recordCachingAction('clientScript','registerCoreScript',$params);
 		return $this;
 	}
 	public function registerCssFile($url,$media='')
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		$this->cssFiles[$url]=$media;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCssFile',$params);
@@ -5607,7 +5725,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function registerCss($id,$css,$media='')
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		$this->css[$id]=array($css,$media);
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCss',$params);
@@ -5615,7 +5733,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function registerScriptFile($url,$position=self::POS_HEAD)
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScriptFile',$params);
@@ -5623,7 +5741,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function registerScript($id,$script,$position=self::POS_READY)
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		$this->scripts[$position][$id]=$script;
 		if($position===self::POS_READY || $position===self::POS_LOAD)
 			$this->registerCoreScript('jquery');
@@ -5633,7 +5751,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		if($name!==null)
 			$options['name']=$name;
 		if($httpEquiv!==null)
@@ -5646,7 +5764,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		if($relation!==null)
 			$options['rel']=$relation;
 		if($type!==null)
@@ -5951,7 +6069,7 @@ class CInlineFilter extends CFilter
 			return $filter;
 		}
 		else
-			throw new CException(Yii::t('yii','Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".',
+			throw new CException(Yii::t('yii','Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".',
 				array('{filter}'=>$filterName, '{class}'=>get_class($controller))));
 	}
 	public function filter($filterChain)
@@ -6124,9 +6242,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		return array();
 	}
-	public function validate($attributes=null)
+	public function validate($attributes=null, $clearErrors=true)
 	{
-		$this->clearErrors();
+		if($clearErrors)
+			$this->clearErrors();
 		if($this->beforeValidate())
 		{
 			foreach($this->getValidators() as $validator)
@@ -6388,6 +6507,11 @@ abstract class CActiveRecord extends CModel
 	public function init()
 	{
 	}
+	public function cache($duration, $dependency=null, $queryCount=1)
+	{
+		$this->getDbConnection()->cache($duration, $dependency, $queryCount);
+		return $this;
+	}
 	public function __sleep()
 	{
 		$this->_md=null;
@@ -6464,7 +6588,7 @@ abstract class CActiveRecord extends CModel
 			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
 				array('{class}'=>get_class($this), '{name}'=>$name)));
 		$relation=$md->relations[$name];
-		if($this->getIsNewRecord() && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
+		if($this->getIsNewRecord() && !$refresh && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
 			return $relation instanceof CHasOneRelation ? null : array();
 		if($params!==array()) // dynamic query
 		{
@@ -6601,10 +6725,7 @@ abstract class CActiveRecord extends CModel
 		{
 			self::$db=Yii::app()->getDb();
 			if(self::$db instanceof CDbConnection)
-			{
-				self::$db->setActive(true);
 				return self::$db;
-			}
 			else
 				throw new CDbException(Yii::t('yii','Active Record requires a "db" CDbConnection application component.'));
 		}
@@ -6929,13 +7050,9 @@ abstract class CActiveRecord extends CModel
 	{
 		$this->_pk=$value;
 	}
-	/*
-	 * @param CDbCriteria $criteria the query criteria
-	 * @param boolean $all whether to return all data
-	 */
-	private function query($criteria,$all=false)
+	protected function query($criteria,$all=false)
 	{
-        $this->beforeFind($criteria);
+        $this->beforeFind();
 		$this->applyScopes($criteria);
 		if(empty($criteria->with))
 		{
@@ -6952,7 +7069,43 @@ abstract class CActiveRecord extends CModel
 	}
 	public function applyScopes(&$criteria)
 	{
-		if(($c=$this->getDbCriteria(false))!==null)
+		if(!empty($criteria->scopes))
+		{
+			$scs=$this->scopes();
+			$c=$this->getDbCriteria();
+			foreach((array)$criteria->scopes as $k=>$v)
+			{
+				if(is_integer($k))
+				{
+					if(is_string($v))
+					{
+						if(isset($scs[$v]))
+						{
+							$c->mergeWith($scs[$v],true);
+							continue;
+						}
+						$scope=$v;
+						$params=array();
+					}
+					else if(is_array($v))
+					{
+						$scope=key($v);
+						$params=current($v);
+					}
+				}
+				else if(is_string($k))
+				{
+					$scope=$k;
+					$params=$v;
+				}
+				if(method_exists($this,$scope))
+					call_user_func_array(array($this,$scope),(array)$params);
+				else
+					throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
+						array('{class}'=>get_class($this), '{scope}'=>$scope)));
+			}
+		}
+		if(isset($c) || ($c=$this->getDbCriteria(false))!==null)
 		{
 			$c->mergeWith($criteria);
 			$criteria=$c;
@@ -7310,7 +7463,7 @@ class CActiveRelation extends CBaseActiveRelation
 			$this->with=$criteria['with'];
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
-		if(array_key_exists('together',$criteria))
+		if(isset($criteria['together']))
 			$this->together=$criteria['together'];
 	}
 }
@@ -7319,12 +7472,14 @@ class CBelongsToRelation extends CActiveRelation
 }
 class CHasOneRelation extends CActiveRelation
 {
+	public $through;
 }
 class CHasManyRelation extends CActiveRelation
 {
 	public $limit=-1;
 	public $offset=-1;
 	public $index;
+	public $through;
 	public function mergeWith($criteria,$fromScope=false)
 	{
 		if($criteria instanceof CDbCriteria)
@@ -7393,6 +7548,10 @@ class CDbConnection extends CApplicationComponent
 	public $schemaCachingDuration=0;
 	public $schemaCachingExclude=array();
 	public $schemaCacheID='cache';
+	public $queryCachingDuration=0;
+	public $queryCachingDependency;
+	public $queryCachingCount=0;
+	public $queryCacheID='cache';
 	public $autoConnect=true;
 	public $charset;
 	public $emulatePrepare=false;
@@ -7409,7 +7568,7 @@ class CDbConnection extends CApplicationComponent
 		'mssql'=>'CMssqlSchema',    // Mssql driver on windows hosts
 		'dblib'=>'CMssqlSchema',    // dblib drivers on linux (and maybe others os) hosts
 		'sqlsrv'=>'CMssqlSchema',   // Mssql
-		'oci'=>'CMssqlSchema',      // Oracle driver
+		'oci'=>'COciSchema',        // Oracle driver
 	);
 	private $_attributes=array();
 	private $_active=false;
@@ -7450,6 +7609,13 @@ class CDbConnection extends CApplicationComponent
 			else
 				$this->close();
 		}
+	}
+	public function cache($duration, $dependency=null, $queryCount=1)
+	{
+		$this->queryCachingDuration=$duration;
+		$this->queryCachingDependency=$dependency;
+		$this->queryCachingCount=$queryCount;
+		return $this;
 	}
 	protected function open()
 	{
@@ -7519,10 +7685,8 @@ class CDbConnection extends CApplicationComponent
 	}
 	public function createCommand($query=null)
 	{
-		if($this->getActive())
-			return new CDbCommand($this,$query);
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		return new CDbCommand($this,$query);
 	}
 	public function getCurrentTransaction()
 	{
@@ -7535,13 +7699,9 @@ class CDbConnection extends CApplicationComponent
 	}
 	public function beginTransaction()
 	{
-		if($this->getActive())
-		{
-			$this->_pdo->beginTransaction();
-			return $this->_transaction=new CDbTransaction($this);
-		}
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		$this->_pdo->beginTransaction();
+		return $this->_transaction=new CDbTransaction($this);
 	}
 	public function getSchema()
 	{
@@ -7549,9 +7709,7 @@ class CDbConnection extends CApplicationComponent
 			return $this->_schema;
 		else
 		{
-			if(!$this->getActive())
-				throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
-			$driver=strtolower($this->getDriverName());
+			$driver=$this->getDriverName();
 			if(isset($this->driverMap[$driver]))
 				return $this->_schema=Yii::createComponent($this->driverMap[$driver], $this);
 			else
@@ -7565,24 +7723,18 @@ class CDbConnection extends CApplicationComponent
 	}
 	public function getLastInsertID($sequenceName='')
 	{
-		if($this->getActive())
-			return $this->_pdo->lastInsertId($sequenceName);
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		return $this->_pdo->lastInsertId($sequenceName);
 	}
 	public function quoteValue($str)
 	{
 		if(is_int($str) || is_float($str))
 			return $str;
-		if($this->getActive())
-		{
-			if(($value=$this->_pdo->quote($str))!==false)
-				return $value;
-			else  // the driver doesn't support quote (e.g. oci)
-				return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
-		}
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		if(($value=$this->_pdo->quote($str))!==false)
+			return $value;
+		else  // the driver doesn't support quote (e.g. oci)
+			return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
 	}
 	public function quoteTableName($name)
 	{
@@ -7637,7 +7789,9 @@ class CDbConnection extends CApplicationComponent
 	}
 	public function getDriverName()
 	{
-		return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+		if(($pos=strpos($this->connectionString, ':'))!==false)
+			return strtolower(substr($this->connectionString, 0, $pos));
+		// return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
 	}
 	public function getClientVersion()
 	{
@@ -7665,16 +7819,23 @@ class CDbConnection extends CApplicationComponent
 	}
 	public function getAttribute($name)
 	{
-		if($this->getActive())
-			return $this->_pdo->getAttribute($name);
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		return $this->_pdo->getAttribute($name);
 	}
 	public function setAttribute($name,$value)
 	{
 		if($this->_pdo instanceof PDO)
 			$this->_pdo->setAttribute($name,$value);
 		else
+			$this->_attributes[$name]=$value;
+	}
+	public function getAttributes()
+	{
+		return $this->_attributes;
+	}
+	public function setAttributes($values)
+	{
+		foreach($values as $name=>$value)
 			$this->_attributes[$name]=$value;
 	}
 	public function getStats()
@@ -7700,7 +7861,6 @@ abstract class CDbSchema extends CComponent
 	abstract protected function loadTable($name);
 	public function __construct($conn)
 	{
-		$conn->setActive(true);
 		$this->_connection=$conn;
 		foreach($conn->schemaCachingExclude as $name)
 			$this->_cacheExclude[$name]=true;
@@ -7719,6 +7879,12 @@ abstract class CDbSchema extends CComponent
 				$realName=preg_replace('/\{\{(.*?)\}\}/',$this->_connection->tablePrefix.'$1',$name);
 			else
 				$realName=$name;
+			// temporarily disable query caching
+			if($this->_connection->queryCachingDuration>0)
+			{
+				$qcDuration=$this->_connection->queryCachingDuration;
+				$this->_connection->queryCachingDuration=0;
+			}
 			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
 			{
 				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
@@ -7728,10 +7894,13 @@ abstract class CDbSchema extends CComponent
 					if($table!==null)
 						$cache->set($key,$table,$duration);
 				}
-				return $this->_tables[$name]=$table;
+				$this->_tables[$name]=$table;
 			}
 			else
-				return $this->_tables[$name]=$this->loadTable($realName);
+				$this->_tables[$name]=$table=$this->loadTable($realName);
+			if(isset($qcDuration))  // re-enable query caching
+				$this->_connection->queryCachingDuration=$qcDuration;
+			return $table;
 		}
 	}
 	public function getTables($schema='')
@@ -7961,7 +8130,14 @@ class CSqliteSchema extends CDbSchema
 				$value=$this->getDbConnection()->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
 			else
 				$value=(int)$value-1;
-			$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
+			try
+			{
+				// it's possible sqlite_sequence does not exist
+				$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
+			}
+			catch(Exception $e)
+			{
+			}
 		}
 	}
 	public function checkIntegrity($check=true,$schema='')
@@ -8012,7 +8188,10 @@ class CSqliteSchema extends CDbSchema
 			}
 		}
 		if(is_string($table->primaryKey) && !strncasecmp($table->columns[$table->primaryKey]->dbType,'int',3))
+		{
 			$table->sequenceName='';
+			$table->columns[$table->primaryKey]->autoIncrement=true;
+		}
 		return true;
 	}
 	protected function findConstraints($table)
@@ -8093,6 +8272,7 @@ class CDbCommand extends CComponent
 	private $_statement;
 	private $_paramLog=array();
 	private $_query;
+	private $_fetchMode = array(PDO::FETCH_ASSOC);
 	public function __construct(CDbConnection $connection,$query=null)
 	{
 		$this->_connection=$connection;
@@ -8108,6 +8288,12 @@ class CDbCommand extends CComponent
 	{
 		$this->_statement=null;
 		return array_keys(get_object_vars($this));
+	}
+	public function setFetchMode($mode)
+	{
+		$params=func_get_args();
+		$this->_fetchMode = $params;
+		return $this;
 	}
 	public function reset()
 	{
@@ -8229,10 +8415,14 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
-			Yii::log('Error in executing SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
+            $message = $e->getMessage();
+			Yii::log(Yii::t('yii','CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.',
+				array('{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+            if(YII_DEBUG)
+            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
+				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
 	}
 	public function query($params=array())
@@ -8241,11 +8431,11 @@ class CDbCommand extends CComponent
 	}
 	public function queryAll($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetchAll',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM, $params);
+		return $this->queryInternal('fetchAll',$fetchAssociative ? $this->_fetchMode : PDO::FETCH_NUM, $params);
 	}
 	public function queryRow($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetch',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM, $params);
+		return $this->queryInternal('fetch',$fetchAssociative ? $this->_fetchMode : PDO::FETCH_NUM, $params);
 	}
 	public function queryScalar($params=array())
 	{
@@ -8271,6 +8461,19 @@ class CDbCommand extends CComponent
 		}
 		else
 			$par='';
+		if($this->_connection->queryCachingCount>0 && $method!==''
+				&& $this->_connection->queryCachingDuration>0
+				&& $this->_connection->queryCacheID!==false
+				&& ($cache=Yii::app()->getComponent($this->_connection->queryCacheID))!==null)
+		{
+			$this->_connection->queryCachingCount--;
+			$cacheKey='yii:dbquery'.$this->_connection->connectionString.':'.$this->_connection->username;
+			$cacheKey.=':'.$this->getText().':'.serialize(array_merge($this->_paramLog,$params));
+			if(($result=$cache->get($cacheKey))!==false)
+			{
+				return $result;
+			}
+		}
 		try
 		{
 			if($this->_connection->enableProfiling)
@@ -8284,21 +8487,28 @@ class CDbCommand extends CComponent
 				$result=new CDbDataReader($this);
 			else
 			{
-				$result=$this->_statement->{$method}($mode);
+				$mode=(array)$mode;
+				$result=call_user_func_array(array($this->_statement, $method), $mode);
 				$this->_statement->closeCursor();
 			}
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
+			if(isset($cache,$cacheKey))
+				$cache->set($cacheKey, $result, $this->_connection->queryCachingDuration, $this->_connection->queryCachingDependency);
 			return $result;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
-			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
+            $message = $e->getMessage();
+			Yii::log(Yii::t('yii','CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.',
+				array('{method}'=>$method, '{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+            if(YII_DEBUG)
+            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
+				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
 	}
 	public function buildQuery($query)
@@ -8341,7 +8551,7 @@ class CDbCommand extends CComponent
 					$columns[$i]=(string)$column;
 				else if(strpos($column,'(')===false)
 				{
-					if(preg_match('/^(.*?)\s+as\s+(.*)$/i',$column,$matches))
+					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$column,$matches))
 						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' AS '.$this->_connection->quoteColumnName($matches[2]);
 					else
 						$columns[$i]=$this->_connection->quoteColumnName($column);
@@ -8384,7 +8594,7 @@ class CDbCommand extends CComponent
 			{
 				if(strpos($table,'(')===false)
 				{
-					if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
+					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$table,$matches))  // with alias
 						$tables[$i]=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 					else
 						$tables[$i]=$this->_connection->quoteTableName($table);
@@ -8613,7 +8823,7 @@ class CDbCommand extends CComponent
 		$schema=$this->getConnection()->getSchema();
 		$n=$this->setText($schema->truncateTable($table))->execute();
 		if(strncasecmp($this->getConnection()->getDriverName(),'sqlite',6)===0)
-			$schema->resetSequence($table);
+			$schema->resetSequence($schema->getTable($table));
 		return $n;
 	}
 	public function addColumn($table, $column, $type)
@@ -8710,7 +8920,7 @@ class CDbCommand extends CComponent
 	{
 		if(strpos($table,'(')===false)
 		{
-			if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
+			if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$table,$matches))  // with alias
 				$table=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 			else
 				$table=$this->_connection->quoteTableName($table);
@@ -8739,6 +8949,7 @@ class CDbColumnSchema extends CComponent
 	public $scale;
 	public $isPrimaryKey;
 	public $isForeignKey;
+	public $autoIncrement=false;
 	public function init($dbType, $defaultValue)
 	{
 		$this->dbType=$dbType;
@@ -8819,12 +9030,14 @@ abstract class CValidator extends CComponent
 		'boolean'=>'CBooleanValidator',
 		'safe'=>'CSafeValidator',
 		'unsafe'=>'CUnsafeValidator',
+		'date'=>'CDateValidator',
 	);
 	public $attributes;
 	public $message;
 	public $skipOnError=false;
 	public $on;
 	public $safe=true;
+	public $enableClientValidation=true;
 	abstract protected function validateAttribute($object,$attribute);
 	public static function createValidator($name,$object,$attributes,$params=array())
 	{
@@ -8874,6 +9087,9 @@ abstract class CValidator extends CComponent
 				$this->validateAttribute($object,$attribute);
 		}
 	}
+	public function clientValidateAttribute($object,$attribute)
+	{
+	}
 	public function applyTo($scenario)
 	{
 		return empty($this->on) || isset($this->on[$scenario]);
@@ -8896,14 +9112,14 @@ class CStringValidator extends CValidator
 	public $tooShort;
 	public $tooLong;
 	public $allowEmpty=true;
-	public $encoding=false;
+	public $encoding;
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if($this->encoding!==false && function_exists('mb_strlen'))
-			$length=mb_strlen($value,$this->encoding);
+		if(function_exists('mb_strlen') && $this->encoding!==false)
+			$length=mb_strlen($value,$this->encoding ? $this->encoding : Yii::app()->charset);
 		else
 			$length=strlen($value);
 		if($this->min!==null && $length<$this->min)
@@ -8921,6 +9137,62 @@ class CStringValidator extends CValidator
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is of the wrong length (should be {length} characters).');
 			$this->addError($object,$attribute,$message,array('{length}'=>$this->is));
 		}
+	}
+	public function clientValidateAttribute($object,$attribute)
+	{
+		$label=$object->getAttributeLabel($attribute);
+		if(($message=$this->message)===null)
+			$message=Yii::t('yii','{attribute} is of the wrong length (should be {length} characters).');
+		$message=strtr($message, array(
+			'{attribute}'=>$label,
+			'{length}'=>$this->is,
+		));
+		if(($tooShort=$this->tooShort)===null)
+			$tooShort=Yii::t('yii','{attribute} is too short (minimum is {min} characters).');
+		$tooShort=strtr($tooShort, array(
+			'{attribute}'=>$label,
+			'{min}'=>$this->min,
+		));
+		if(($tooLong=$this->tooLong)===null)
+			$tooLong=Yii::t('yii','{attribute} is too long (maximum is {max} characters).');
+		$tooLong=strtr($tooLong, array(
+			'{attribute}'=>$label,
+			'{max}'=>$this->max,
+		));
+		$js='';
+		if($this->min!==null)
+		{
+			$js.="
+if(value.length<{$this->min}) {
+	messages.push(".CJSON::encode($tooShort).");
+}
+";
+		}
+		if($this->max!==null)
+		{
+			$js.="
+if(value.length>{$this->max}) {
+	messages.push(".CJSON::encode($tooLong).");
+}
+";
+		}
+		if($this->is!==null)
+		{
+			$js.="
+if(value.length!={$this->is}) {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		}
+		if($this->allowEmpty)
+		{
+			$js="
+if($.trim(value)!='') {
+	$js
+}
+";
+		}
+		return $js;
 	}
 }
 class CRequiredValidator extends CValidator
@@ -8945,6 +9217,39 @@ class CRequiredValidator extends CValidator
 			$this->addError($object,$attribute,$message);
 		}
 	}
+	public function clientValidateAttribute($object,$attribute)
+	{
+		$message=$this->message;
+		if($this->requiredValue!==null)
+		{
+			if($message===null)
+				$message=Yii::t('yii','{attribute} must be {value}.');
+			$message=strtr($message, array(
+				'{value}'=>$this->requiredValue,
+				'{attribute}'=>$object->getAttributeLabel($attribute),
+			));
+			return "
+if(value!=" . CJSON::encode($this->requiredValue) . ") {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		}
+		else
+		{
+			if($message===null)
+			{
+				$message=Yii::t('yii','{attribute} cannot be blank.');
+				$message=strtr($message, array(
+					'{attribute}'=>$object->getAttributeLabel($attribute),
+				));
+			}
+			return "
+if($.trim(value)=='') {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		}
+	}
 }
 class CNumberValidator extends CValidator
 {
@@ -8954,6 +9259,8 @@ class CNumberValidator extends CValidator
 	public $min;
 	public $tooBig;
 	public $tooSmall;
+	public $integerPattern='/^\s*[+-]?\d+\s*$/';
+	public $numberPattern='/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/';
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
@@ -8961,7 +9268,7 @@ class CNumberValidator extends CValidator
 			return;
 		if($this->integerOnly)
 		{
-			if(!preg_match('/^\s*[+-]?\d+\s*$/',"$value"))
+			if(!preg_match($this->integerPattern,"$value"))
 			{
 				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be an integer.');
 				$this->addError($object,$attribute,$message);
@@ -8969,7 +9276,7 @@ class CNumberValidator extends CValidator
 		}
 		else
 		{
-			if(!preg_match('/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/',"$value"))
+			if(!preg_match($this->numberPattern,"$value"))
 			{
 				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
 				$this->addError($object,$attribute,$message);
@@ -8985,6 +9292,58 @@ class CNumberValidator extends CValidator
 			$message=$this->tooBig!==null?$this->tooBig:Yii::t('yii','{attribute} is too big (maximum is {max}).');
 			$this->addError($object,$attribute,$message,array('{max}'=>$this->max));
 		}
+	}
+	public function clientValidateAttribute($object,$attribute)
+	{
+		$label=$object->getAttributeLabel($attribute);
+		if(($message=$this->message)===null)
+			$message=$this->integerOnly ? Yii::t('yii','{attribute} must be an integer.') : Yii::t('yii','{attribute} must be a number.');
+		$message=strtr($message, array(
+			'{attribute}'=>$label,
+		));
+		if(($tooBig=$this->tooBig)===null)
+			$tooBig=Yii::t('yii','{attribute} is too big (maximum is {max}).');
+		$tooBig=strtr($tooBig, array(
+			'{attribute}'=>$label,
+			'{max}'=>$this->max,
+		));
+		if(($tooSmall=$this->tooSmall)===null)
+			$tooSmall=Yii::t('yii','{attribute} is too small (minimum is {min}).');
+		$tooSmall=strtr($tooSmall, array(
+			'{attribute}'=>$label,
+			'{min}'=>$this->min,
+		));
+		$pattern=$this->integerOnly ? $this->integerPattern : $this->numberPattern;
+		$js="
+if(!value.match($pattern)) {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		if($this->min!==null)
+		{
+			$js.="
+if(value.length<{$this->min}) {
+	messages.push(".CJSON::encode($tooSmall).");
+}
+";
+		}
+		if($this->max!==null)
+		{
+			$js.="
+if(value>{$this->max}) {
+	messages.push(".CJSON::encode($tooBig).");
+}
+";
+		}
+		if($this->allowEmpty)
+		{
+			$js="
+if($.trim(value)!='') {
+	$js
+}
+";
+		}
+		return $js;
 	}
 }
 class CListIterator implements Iterator
@@ -9049,7 +9408,6 @@ interface IFilter
 }
 interface IAction
 {
-	public function run();
 	public function getId();
 	public function getController();
 }

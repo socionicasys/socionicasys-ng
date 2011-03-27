@@ -46,7 +46,7 @@
  * the application will switch to its error handling logic and jump to step 6 afterwards.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CApplication.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CApplication.php 3001 2011-02-24 16:42:44Z alexander.makarow $
  * @package system.base
  * @since 1.0
  *
