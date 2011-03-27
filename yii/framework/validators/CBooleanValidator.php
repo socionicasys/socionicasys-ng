@@ -12,7 +12,7 @@
  * CBooleanValidator validates that the attribute value is either {@link trueValue}  or {@link falseValue}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CBooleanValidator.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CBooleanValidator.php 3120 2011-03-25 01:50:48Z qiang.xue $
  * @package system.validators
  * @since 1.0.10
  */
@@ -52,9 +52,34 @@ class CBooleanValidator extends CValidator
 		if(!$this->strict && $value!=$this->trueValue && $value!=$this->falseValue
 			|| $this->strict && $value!==$this->trueValue && $value!==$this->falseValue)
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be either {true} or {false}.',
-				array('{true}'=>$this->trueValue, '{false}'=>$this->falseValue));
-			$this->addError($object,$attribute,$message);
+			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be either {true} or {false}.');
+			$this->addError($object,$attribute,$message,array(
+				'{true}'=>$this->trueValue,
+				'{false}'=>$this->falseValue,
+			));
 		}
+	}
+
+	/**
+	 * Returns the JavaScript needed for performing client-side validation.
+	 * @param CModel $object the data object being validated
+	 * @param string $attribute the name of the attribute to be validated.
+	 * @return string the client-side validation script.
+	 * @see CActiveForm::enableClientValidation
+	 * @since 1.1.7
+	 */
+	public function clientValidateAttribute($object,$attribute)
+	{
+		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} must be either {true} or {false}.');
+		$message=strtr($message, array(
+			'{attribute}'=>$object->getAttributeLabel($attribute),
+			'{true}'=>$this->trueValue,
+			'{false}'=>$this->falseValue,
+		));
+		return "
+if(".($this->allowEmpty ? "$.trim(value)!='' && " : '')."value!=".CJSON::encode($this->trueValue)." && value!=".CJSON::encode($this->falseValue).") {
+	messages.push(".CJSON::encode($message).");
+}
+";
 	}
 }

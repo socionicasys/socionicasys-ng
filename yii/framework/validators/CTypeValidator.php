@@ -26,8 +26,11 @@
  * will be used to determine how to parse the date string. If the given date
  * value doesn't follow the format, the attribute is considered as invalid.
  *
+ * Starting from version 1.1.7, we have a dedicated date validator {@link CDateValidator}.
+ * Please consider using this validator to validate a date-typed value.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CTypeValidator.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CTypeValidator.php 3052 2011-03-12 14:27:07Z qiang.xue $
  * @package system.validators
  * @since 1.0
  */

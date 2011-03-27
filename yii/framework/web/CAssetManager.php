@@ -24,7 +24,7 @@
  * the {@link setBasePath basePath}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CAssetManager.php 2846 2011-01-13 08:33:10Z keyboard.idol@gmail.com $
+ * @version $Id: CAssetManager.php 3001 2011-02-24 16:42:44Z alexander.makarow $
  * @package system.web
  * @since 1.0
  */

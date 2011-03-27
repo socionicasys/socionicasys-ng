@@ -9,41 +9,90 @@
  */
 
 /**
- * CActiveForm provides a set of methods that can facilitate creating a form associated with some data models.
- *
- * CActiveForm implements a set of wrapper methods that call the corresponding
- * 'active' methods in {@link CHtml}. For example, the {@link textField} method
- * is a wrapper of {@link CHtml::activeTextField}.
+ * CActiveForm provides a set of methods that can help to simplify the creation
+ * of complex and interactive HTML forms that are associated with data models.
  *
  * The 'beginWidget' and 'endWidget' call of CActiveForm widget will render
- * the open and close form tags. Anything in between are rendered as form content
- * (such as input fields, labels). We can call the wrapper methods of CActiveForm
- * to generate these form contents. For example, calling {@link CActiveForm::textField},
- * which is a wrapper of {@link CHtml::activeTextField}, would generate an input field
- * for a specified model attribute.
+ * the open and close form tags. Most other methods of CActiveForm are wrappers
+ * of the corresponding 'active' methods in {@link CHtml}. Calling them in between
+ * the 'beginWidget' and 'endWidget' calls will render text labels, input fields,
+ * etc. For example, calling {@link CActiveForm::textField}
+ * would generate an input field for a specified model attribute.
  *
- * Besides the wrapper methods, CActiveForm also implements an important feature
- * known as AJAX validation. This feature may be turned on setting {@link enableAjaxValidation}
- * to be true. When the user enters some value in an input field, the AJAX validation
- * feature would trigger an AJAX request to the server to call for validating the model
- * with the current user inputs. If there are any validation errors, the corresponding
- * error messages will show up next to the input fields immediately.
+ * What makes CActiveForm extremely useful is its support for data validation.
+ * CActiveForm supports data validation at three levels:
+ * <ul>
+ * <li>server-side validation: the validation is performed at server side after
+ * the whole page containing the form is submitted. If there is any validation error,
+ * CActiveForm will render the error in the page back to user.</li>
+ * <li>AJAX-based validation: when the user enters data into an input field,
+ * an AJAX request is triggered which requires server-side validation. The validation
+ * result is sent back in AJAX response and the input field changes its appearance
+ * accordingly.</li>
+ * <li>client-side validation (available since version 1.1.7):
+ * when the user enters data into an input field,
+ * validation is performed on the client side using JavaScript. No server contact
+ * will be made, which reduces the workload on the server.</li>
+ * </ul>
  *
- * The AJAX validation feature may greatly improve the user experience at entering
- * data into a form. Because the validation is done on the server side using the rules
- * defined in the data model, no extra javascript code needs to be written.
- * More importantly, and the validation result is consistent with the server-side validation.
- * And in case when the user turns off javascript in his browser, it automatically
- * falls back to traditional validation via whole page submission.
+ * All these validations share the same set of validation rules declared in
+ * the associated model class. CActiveForm is designed in such a way that
+ * all these validations will lead to the same user interface changes and error
+ * message content.
  *
- * To use CActiveForm with AJAX validation, one needs to write both the view code
- * and the controller action code.
+ * To ensure data validity, server-side validation is always performed.
+ * By setting {@link enableAjaxValidation} to true, one can enable AJAX-based validation;
+ * and by setting {@link enableClientValidation} to true, one can enable client-side validation.
+ * Note that in order to make the latter two validations work, the user's browser
+ * must has its JavaScript enabled. If not, only the server-side validation will
+ * be performed.
  *
- * The following is a piece of sample view code:
+ * The AJAX-based validation and client-side validation may be used together
+ * or separately. For example, in a user registration form, one may use AJAX-based
+ * validation to check if the user has picked a unique username, and use client-side
+ * validation to ensure all required fields are entered with data.
+ * Because the AJAX-based validation may bring extra workload on the server,
+ * if possible, one should mainly use client-side validation.
+ *
+ * The AJAX-based validation has a few limitations. First, it does not work
+ * with file upload fields. Second, it should not be used to perform validations that
+ * may cause server-side state changes. Third, it is not designed
+ * to work with tabular data input for the moment.
+ *
+ * Support for client-side validation varies for different validators. A validator
+ * will support client-side validation only if it implements {@link CValidator::clientValidateAttribute}
+ * and has its {@link CValidator::enableClientValidation} property set true.
+ * At this moment, the following core validators support client-side validation:
+ * <ul>
+ * <li>{@link CBooleanValidator}</li>
+ * <li>{@link CCaptchaValidator}</li>
+ * <li>{@link CCompareValidator}</li>
+ * <li>{@link CEmailValidator}</li>
+ * <li>{@link CNumberValidator}</li>
+ * <li>{@link CRangeValidator}</li>
+ * <li>{@link CRegularExpressionValidator}</li>
+ * <li>{@link CRequiredValidator}</li>
+ * <li>{@link CStringValidator}</li>
+ * <li>{@link CUrlValidator}</li>
+ * </ul>
+ *
+ * CActiveForm relies on CSS to customize the appearance of input fields
+ * which are in different validation states. In particular, each input field
+ * may be one of the four states: initial (not validated),
+ * validating, error and success. To differentiate these states, CActiveForm
+ * automatically assigns different CSS classes for the last three states
+ * to the HTML element containing the input field.
+ * By default, these CSS classes are named as 'validating', 'error' and 'success',
+ * respectively. We may customize these CSS classes by configuring the
+ * {@link clientOptions} property or specifying in the {@link error} method.
+ *
+ * The following is a piece of sample view code showing how to use CActiveForm:
+ *
  * <pre>
  * <?php $form = $this->beginWidget('CActiveForm', array(
  *     'id'=>'user-form',
  *     'enableAjaxValidation'=>true,
+ *     'enableClientValidation'=>true,
  *     'focus'=>array($model,'firstName'),
  * )); ?>
  *
@@ -87,34 +136,12 @@
  *     }
  * }
  * </pre>
- * The method <code>performAjaxValidation</code> is the main extra code we add to our
- * traditional model creation action code. In this method, we check if the request
- * is submitted via AJAX by the 'user-form'. If so, we validate the model and return
- * the validation results. We may call the same method in model update action.
  *
- * On the client side, an input field may be in one of the four states: initial (not validated),
- * validating, error and success. To differentiate these states, CActiveForm automatically
- * assigns different CSS classes for the last three states to the HTML element containing the input field.
- * By default, these CSS classes are named as 'validating', 'error' and 'success', respectively.
- * They may be changed by configuring the {@link options} property or specifying in the {@link error} method.
- *
- * Sometimes, we may want to limit the AJAX validation to certain model attributes only.
- * This can be achieved by setting the model with a scenario that is specific for AJAX validation.
- * Then only list those attributes that need AJAX validation in the scenario in {@link CModel::rules()} declaration.
- *
- * There are some limitations of CActiveForm regarding to its AJAX validation support.
- * First, it does not validate with file upload fields.
- * Second, it should not be used to perform validations that may cause server-side state change.
- * For example, it is not suitable to perform CAPTCHA validation done by {@link CCaptchAction}
- * because each validation request will increase the number of tests by one. Third, it is not designed
- * to work with tabular data input for the moment.
- *
- * Because CActiveForm relies on submitting the whole form in AJAX mode to perform the validation,
- * if the form has a lot of data to submit, the performance may not be good. In this case,
- * you should design your own lightweight AJAX validation.
+ * In the above code, if we do not enable the AJAX-based validation, we can remove
+ * the <code>performAjaxValidation</code> method and its invocation.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveForm.php 2809 2011-01-03 19:12:46Z qiang.xue $
+ * @version $Id: CActiveForm.php 3130 2011-03-26 17:44:15Z qiang.xue $
  * @package system.web.widgets
  * @since 1.1.1
  */
@@ -240,6 +267,16 @@ class CActiveForm extends CWidget
 	 * </pre>
  	 */
 	public $enableAjaxValidation=false;
+	/**
+	 * @var boolean whether to enable client-side data validation. Defaults to false.
+	 *
+	 * When this property is set true, client-side validation will be performed by validators
+	 * that support it (see {@link CValidator::enableClientValidation} and {@link CValidator::clientValidateAttribute}).
+	 *
+	 * @see error
+	 * @since 1.1.7
+	 */
+	public $enableClientValidation=false;
 
 	/**
 	 * @var mixed form element to get initial input focus on page load.
@@ -261,9 +298,18 @@ class CActiveForm extends CWidget
 	 * @since 1.1.4
 	 */
 	public $focus;
-
-	private $_attributes=array();
-	private $_summary;
+	/**
+	 * @var array the javascript options for model attributes (input ID => options)
+	 * @see error
+	 * @since 1.1.7
+	 */
+	protected $attributes=array();
+	/**
+	 * @var string the ID of the container element for error summary
+	 * @see errorSummary
+	 * @since 1.1.7
+	 */
+	protected $summaryID;
 
 	/**
 	 * Initializes the widget.
@@ -289,11 +335,13 @@ class CActiveForm extends CWidget
 			$this->focus="#".CHtml::activeId($this->focus[0],$this->focus[1]);
 
 		echo CHtml::endForm();
-		if((!$this->enableAjaxValidation || empty($this->_attributes)))
+		$cs=Yii::app()->clientScript;
+		if(!$this->enableAjaxValidation && !$this->enableClientValidation || empty($this->attributes))
 		{
 			if($this->focus!==null)
 			{
-				Yii::app()->clientScript->registerScript('CActiveForm#focus',"
+				$cs->registerCoreScript('jquery');
+				$cs->registerScript('CActiveForm#focus',"
 					if(!window.location.hash)
 						$('".$this->focus."').focus();
 				");
@@ -305,18 +353,18 @@ class CActiveForm extends CWidget
 		if(isset($this->clientOptions['validationUrl']) && is_array($this->clientOptions['validationUrl']))
 			$options['validationUrl']=CHtml::normalizeUrl($this->clientOptions['validationUrl']);
 
-		$options['attributes']=array_values($this->_attributes);
+		$options['attributes']=array_values($this->attributes);
 
-		if($this->_summary!==null)
-			$options['summaryID']=$this->_summary;
+		if($this->summaryID!==null)
+			$options['summaryID']=$this->summaryID;
 
 		if($this->focus!==null)
-				$options['focus']=$this->focus;
+			$options['focus']=$this->focus;
 
 		$options=CJavaScript::encode($options);
-		Yii::app()->clientScript->registerCoreScript('yiiactiveform');
+		$cs->registerCoreScript('yiiactiveform');
 		$id=$this->id;
-		Yii::app()->clientScript->registerScript(__CLASS__.'#'.$id,"\$('#$id').yiiactiveform($options);");
+		$cs->registerScript(__CLASS__.'#'.$id,"\$('#$id').yiiactiveform($options);");
 	}
 
 	/**
@@ -341,28 +389,49 @@ class CActiveForm extends CWidget
 	 * </ul>
 	 * These options override the corresponding options as declared in {@link options} for this
 	 * particular model attribute. For more details about these options, please refer to {@link clientOptions}.
-	 * Note that these options are only used when {@link enableAjaxValidation} is set true.
+	 * Note that these options are only used when {@link enableAjaxValidation} or {@link enableClientValidation}
+	 * is set true.
+	 *
+	 * When client-side validation is enabled, an option named "clientValidation" is also recognized.
+	 * This option should take a piece of JavaScript code to perform client-side validation. In the code,
+	 * the variables are predefined:
+	 * <ul>
+	 * <li>value: the current input value associated with this attribute.</li>
+	 * <li>messages: an array that may be appended with new error messages for the attribute.</li>
+	 * <li>attribute: a data structure keeping all client-side options for the attribute</li>
+	 * </ul>
 	 * @param boolean $enableAjaxValidation whether to enable AJAX validation for the specified attribute.
 	 * Note that in order to enable AJAX validation, both {@link enableAjaxValidation} and this parameter
 	 * must be true.
+	 * @param boolean $enableClientValidation whether to enable client-side validation for the specified attribute.
+	 * Note that in order to enable client-side validation, both {@link enableClientValidation} and this parameter
+	 * must be true. This parameter has been available since version 1.1.7.
 	 * @return string the validation result (error display or success message).
 	 * @see CHtml::error
 	 */
-	public function error($model,$attribute,$htmlOptions=array(),$enableAjaxValidation=true)
+	public function error($model,$attribute,$htmlOptions=array(),$enableAjaxValidation=true,$enableClientValidation=true)
 	{
-		if(!$this->enableAjaxValidation || !$enableAjaxValidation)
+		if(!$this->enableAjaxValidation)
+			$enableAjaxValidation=false;
+		if(!$this->enableClientValidation)
+			$enableClientValidation=false;
+
+		if(!$enableAjaxValidation && !$enableClientValidation)
 			return CHtml::error($model,$attribute,$htmlOptions);
 
-		$inputID=isset($htmlOptions['inputID']) ? $htmlOptions['inputID'] : CHtml::activeId($model,$attribute);
+		$id=CHtml::activeId($model,$attribute);
+		$inputID=isset($htmlOptions['inputID']) ? $htmlOptions['inputID'] : $id;
 		unset($htmlOptions['inputID']);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=$inputID.'_em_';
 
 		$option=array(
+			'id'=>$id,
 			'inputID'=>$inputID,
 			'errorID'=>$htmlOptions['id'],
 			'model'=>get_class($model),
 			'name'=>$attribute,
+			'enableAjaxValidation'=>$enableAjaxValidation,
 		);
 
 		$optionNames=array(
@@ -388,6 +457,21 @@ class CActiveForm extends CWidget
 		if($model instanceof CActiveRecord && !$model->isNewRecord)
 			$option['status']=1;
 
+		if($enableClientValidation)
+		{
+			$validators=isset($htmlOptions['clientValidation']) ? array($htmlOptions['clientValidation']) : array();
+			foreach($model->getValidators($attribute) as $validator)
+			{
+				if($enableClientValidation && $validator->enableClientValidation)
+				{
+					if(($js=$validator->clientValidateAttribute($model,$attribute))!='')
+						$validators[]=$js;
+				}
+			}
+			if($validators!==array())
+				$option['clientValidation']="js:function(value, messages, attribute) {\n".implode("\n",$validators)."\n}";
+		}
+
 		if(!isset($htmlOptions['class']))
 			$htmlOptions['class']=$this->errorMessageCssClass;
 		$html=CHtml::error($model,$attribute,$htmlOptions);
@@ -400,7 +484,7 @@ class CActiveForm extends CWidget
 			$html=CHtml::tag('div',$htmlOptions,'');
 		}
 
-		$this->_attributes[$inputID]=$option;
+		$this->attributes[$inputID]=$option;
 		return $html;
 	}
 
@@ -418,7 +502,7 @@ class CActiveForm extends CWidget
 	 */
 	public function errorSummary($models,$header=null,$footer=null,$htmlOptions=array())
 	{
-		if(!$this->enableAjaxValidation)
+		if(!$this->enableAjaxValidation && !$this->enableClientValidation)
 			return CHtml::errorSummary($models,$header,$footer,$htmlOptions);
 
 		if(!isset($htmlOptions['id']))
@@ -434,7 +518,7 @@ class CActiveForm extends CWidget
 			$html=CHtml::tag('div',$htmlOptions,$header."\n<ul><li>dummy</li></ul>".$footer);
 		}
 
-		$this->_summary=$htmlOptions['id'];
+		$this->summaryID=$htmlOptions['id'];
 		return $html;
 	}
 
@@ -639,7 +723,7 @@ class CActiveForm extends CWidget
 
 	/**
 	 * Validates one or several models and returns the results in JSON format.
-	 * This is a helper method that simplies the way of writing AJAX validation code.
+	 * This is a helper method that simplifies the way of writing AJAX validation code.
 	 * @param mixed $models a single model instance or an array of models.
 	 * @param array $attributes list of attributes that should be validated. Defaults to null,
 	 * meaning any attribute listed in the applicable validation rules of the models should be

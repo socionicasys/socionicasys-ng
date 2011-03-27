@@ -23,7 +23,7 @@
  * See {@link CCache} manual for common cache operations that are supported by CDbCache.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbCache.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbCache.php 3069 2011-03-14 00:28:38Z qiang.xue $
  * @package system.caching
  * @since 1.0
  */
@@ -73,7 +73,6 @@ class CDbCache extends CCache
 
 		$db=$this->getDbConnection();
 		$db->setActive(true);
-
 		if($this->autoCreateCacheTable)
 		{
 			$sql="DELETE FROM {$this->cacheTableName} WHERE expire>0 AND expire<".time();
@@ -182,7 +181,17 @@ EOD;
 	{
 		$time=time();
 		$sql="SELECT value FROM {$this->cacheTableName} WHERE id='$key' AND (expire=0 OR expire>$time)";
-		return $this->getDbConnection()->createCommand($sql)->queryScalar();
+		$db=$this->getDbConnection();
+		if($db->queryCachingDuration>0)
+		{
+			$duration=$db->queryCachingDuration;
+			$db->queryCachingDuration=0;
+			$result=$db->createCommand($sql)->queryScalar();
+			$db->queryCachingDuration=$duration;
+			return $result;
+		}
+		else
+			return $db->createCommand($sql)->queryScalar();
 	}
 
 	/**
@@ -199,7 +208,18 @@ EOD;
 		$ids=implode("','",$keys);
 		$time=time();
 		$sql="SELECT id, value FROM {$this->cacheTableName} WHERE id IN ('$ids') AND (expire=0 OR expire>$time)";
-		$rows=$this->getDbConnection()->createCommand($sql)->queryRows();
+
+		$db=$this->getDbConnection();
+		if($db->queryCachingDuration>0)
+		{
+			$duration=$db->queryCachingDuration;
+			$db->queryCachingDuration=0;
+			$rows=$db->createCommand($sql)->queryRows();
+			$db->queryCachingDuration=$duration;
+		}
+		else
+			$rows=$db->createCommand($sql)->queryRows();
+
 		$results=array();
 		foreach($keys as $key)
 			$results[$key]=false;

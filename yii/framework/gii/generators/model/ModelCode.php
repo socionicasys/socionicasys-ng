@@ -57,9 +57,6 @@ class ModelCode extends CCodeModel
 
 	public function prepare()
 	{
-		$this->files=array();
-		$templatePath=$this->templatePath;
-
 		if(($pos=strrpos($this->tableName,'.'))!==false)
 		{
 			$schema=substr($this->tableName,0,$pos);
@@ -85,6 +82,8 @@ class ModelCode extends CCodeModel
 		else
 			$tables=array($this->getTableSchema($this->tableName));
 
+		$this->files=array();
+		$templatePath=$this->templatePath;
 		$this->relations=$this->generateRelations();
 
 		foreach($tables as $table)
@@ -108,14 +107,53 @@ class ModelCode extends CCodeModel
 
 	public function validateTableName($attribute,$params)
 	{
-		if($this->tableName!='' && $this->tableName[strlen($this->tableName)-1]==='*')
+		$invalidColumns=array();
+
+		if($this->tableName[strlen($this->tableName)-1]==='*')
+		{
+			if(($pos=strrpos($this->tableName,'.'))!==false)
+				$schema=substr($this->tableName,0,$pos);
+			else
+				$schema='';
+
 			$this->modelClass='';
+			$tables=Yii::app()->db->schema->getTables($schema);
+			foreach($tables as $table)
+			{
+				if($this->tablePrefix=='' || strpos($table->name,$this->tablePrefix)===0)
+				{
+					if(($invalidColumn=$this->checkColumns($table))!==null)
+						$invalidColumns[]=$invalidColumn;
+				}
+			}
+		}
 		else
 		{
-			if($this->getTableSchema($this->tableName)===null)
+			if(($table=$this->getTableSchema($this->tableName))===null)
 				$this->addError('tableName',"Table '{$this->tableName}' does not exist.");
 			if($this->modelClass==='')
 				$this->addError('modelClass','Model Class cannot be blank.');
+
+			if(!$this->hasErrors($attribute) && ($invalidColumn=$this->checkColumns($table))!==null)
+					$invalidColumns[]=$invalidColumn;
+		}
+
+		if($invalidColumns!=array())
+			$this->addError('tableName',"Column names that does not follow PHP variable naming convention: ".implode(', ', $invalidColumns)."."	);
+	}
+
+	/*
+	 * Check that all database field names conform to PHP variable naming rules
+	 * For example mysql allows field name like "2011aa", but PHP does not allow variable liek "$model->2011aa"
+	 * @param CDbTableSchema $table the table schema object
+	 * @return string the invalid table column name. Null if no error.
+	 */
+	public function checkColumns($table)
+	{
+		foreach($table->columns as $column)
+		{
+			if(!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',$column->name))
+				return $table->name.'.'.$column->name;
 		}
 	}
 
@@ -165,7 +203,7 @@ class ModelCode extends CCodeModel
 		$safe=array();
 		foreach($table->columns as $column)
 		{
-			if($column->isPrimaryKey && $table->sequenceName!==null)
+			if($column->autoIncrement)
 				continue;
 			$r=!$column->allowNull && $column->defaultValue===null;
 			if($r)
@@ -273,6 +311,10 @@ class ModelCode extends CCodeModel
 					// Add relation for the referenced table
 					$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
 					$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName,false), $relationType==='HAS_MANY');
+					$i=1;
+					$rawName=$relationName;
+					while(isset($relations[$refClassName][$relationName]))
+						$relationName=$rawName.($i++);
 					$relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
 				}
 			}
@@ -325,19 +367,20 @@ class ModelCode extends CCodeModel
 			$relationName=$fkName;
 		$relationName[0]=strtolower($relationName);
 
-		$rawName=$relationName;
 		if($multiple)
 			$relationName=$this->pluralize($relationName);
-
-		$table=Yii::app()->db->schema->getTable($tableName);
-		$i=0;
-		while(isset($table->columns[$relationName]))
-			$relationName=$rawName.($i++);
 
 		$names=preg_split('/_+/',$relationName,-1,PREG_SPLIT_NO_EMPTY);
 		if(empty($names)) return $relationName;  // unlikely
 		for($name=$names[0], $i=1;$i<count($names);++$i)
 			$name.=ucfirst($names[$i]);
+
+		$rawName=$name;
+		$table=Yii::app()->db->schema->getTable($tableName);
+		$i=0;
+		while(isset($table->columns[$name]))
+			$name=$rawName.($i++);
+
 		return $name;
 	}
 }

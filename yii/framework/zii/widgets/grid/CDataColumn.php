@@ -21,7 +21,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * value will be used by {@link CSort} to render a clickable link in the header cell to trigger the sorting.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDataColumn.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDataColumn.php 3057 2011-03-13 01:30:36Z qiang.xue $
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -30,7 +30,7 @@ class CDataColumn extends CGridColumn
 	/**
 	 * @var string the attribute name of the data model. The corresponding attribute value will be rendered
 	 * in each data cell. If {@link value} is specified, this property will be ignored
-	 * unless the column needs to be sortable.
+	 * unless the column needs to be sortable or filtered.
 	 * @see value
 	 * @see sortable
 	 */
@@ -88,14 +88,14 @@ class CDataColumn extends CGridColumn
 	 */
 	protected function renderFilterCellContent()
 	{
-		if($this->filter!==false && $this->grid->filter!==null && $this->name!==null && strpos($this->name,'.')===false)
+		if(is_string($this->filter))
+			echo $this->filter;
+		else if($this->filter!==false && $this->grid->filter!==null && $this->name!==null && strpos($this->name,'.')===false)
 		{
 			if(is_array($this->filter))
 				echo CHtml::activeDropDownList($this->grid->filter, $this->name, $this->filter, array('id'=>false,'prompt'=>''));
 			else if($this->filter===null)
 				echo CHtml::activeTextField($this->grid->filter, $this->name, array('id'=>false));
-			else
-				echo $this->filter;
 		}
 		else
 			parent::renderFilterCellContent();

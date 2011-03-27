@@ -14,7 +14,7 @@
  * Note, this validator should only be used with string-typed attributes.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CStringValidator.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CStringValidator.php 3132 2011-03-26 19:27:04Z qiang.xue $
  * @package system.validators
  * @since 1.0
  */
@@ -47,13 +47,14 @@ class CStringValidator extends CValidator
 	public $allowEmpty=true;
 	/**
 	 * @var string the encoding of the string value to be validated (e.g. 'UTF-8').
-	 * Setting this property requires you to enable mbstring PHP extension.
-	 * The value of this property will be used as the 2nd parameter of the mb_strlen() function.
-	 * Defaults to false, which means the strlen() function will be used for calculating the length
-	 * of the string.
+	 * This property is used only when mbstring PHP extension is enabled.
+	 * The value of this property will be used as the 2nd parameter of the
+	 * mb_strlen() function. If this property is not set, the application charset
+	 * will be used.
+	 * If this property is set false, then strlen() will be used even if mbstring is enabled.
 	 * @since 1.1.1
 	 */
-	public $encoding=false;
+	public $encoding;
 
 	/**
 	 * Validates the attribute of the object.
@@ -66,8 +67,9 @@ class CStringValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if($this->encoding!==false && function_exists('mb_strlen'))
-			$length=mb_strlen($value,$this->encoding);
+
+		if(function_exists('mb_strlen') && $this->encoding!==false)
+			$length=mb_strlen($value,$this->encoding ? $this->encoding : Yii::app()->charset);
 		else
 			$length=strlen($value);
 		if($this->min!==null && $length<$this->min)
@@ -85,6 +87,77 @@ class CStringValidator extends CValidator
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is of the wrong length (should be {length} characters).');
 			$this->addError($object,$attribute,$message,array('{length}'=>$this->is));
 		}
+	}
+
+	/**
+	 * Returns the JavaScript needed for performing client-side validation.
+	 * @param CModel $object the data object being validated
+	 * @param string $attribute the name of the attribute to be validated.
+	 * @return string the client-side validation script.
+	 * @see CActiveForm::enableClientValidation
+	 * @since 1.1.7
+	 */
+	public function clientValidateAttribute($object,$attribute)
+	{
+		$label=$object->getAttributeLabel($attribute);
+
+		if(($message=$this->message)===null)
+			$message=Yii::t('yii','{attribute} is of the wrong length (should be {length} characters).');
+		$message=strtr($message, array(
+			'{attribute}'=>$label,
+			'{length}'=>$this->is,
+		));
+
+		if(($tooShort=$this->tooShort)===null)
+			$tooShort=Yii::t('yii','{attribute} is too short (minimum is {min} characters).');
+		$tooShort=strtr($tooShort, array(
+			'{attribute}'=>$label,
+			'{min}'=>$this->min,
+		));
+
+		if(($tooLong=$this->tooLong)===null)
+			$tooLong=Yii::t('yii','{attribute} is too long (maximum is {max} characters).');
+		$tooLong=strtr($tooLong, array(
+			'{attribute}'=>$label,
+			'{max}'=>$this->max,
+		));
+
+		$js='';
+		if($this->min!==null)
+		{
+			$js.="
+if(value.length<{$this->min}) {
+	messages.push(".CJSON::encode($tooShort).");
+}
+";
+		}
+		if($this->max!==null)
+		{
+			$js.="
+if(value.length>{$this->max}) {
+	messages.push(".CJSON::encode($tooLong).");
+}
+";
+		}
+		if($this->is!==null)
+		{
+			$js.="
+if(value.length!={$this->is}) {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		}
+
+		if($this->allowEmpty)
+		{
+			$js="
+if($.trim(value)!='') {
+	$js
+}
+";
+		}
+
+		return $js;
 	}
 }
 

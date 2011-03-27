@@ -32,7 +32,7 @@ Yii::import('system.test.CTestCase');
  * Note, here 'first post' refers to a key to a row in the original fixture data.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbTestCase.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbTestCase.php 3035 2011-03-08 22:01:20Z alexander.makarow $
  * @package system.test
  * @since 1.1
  */
@@ -42,7 +42,7 @@ abstract class CDbTestCase extends CTestCase
 	 * @var array a list of fixtures that should be loaded before each test method executes.
 	 * The array keys are fixture names, and the array values are either AR class names
 	 * or table names. If table names, they must begin with a colon character (e.g. 'Post'
-	 * means an AR class, while ':Post' means a table name).
+	 * means an AR class, while ':post' means a table name).
 	 * Defaults to false, meaning fixtures will not be used at all.
 	 */
 	protected $fixtures=false;

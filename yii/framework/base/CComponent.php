@@ -83,7 +83,7 @@
  * is attached to.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CComponent.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CComponent.php 3066 2011-03-13 14:22:55Z qiang.xue $
  * @package system.base
  * @since 1.0
  */
@@ -634,7 +634,7 @@ class CComponent
  * that are not invoked yet will not be invoked anymore.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CComponent.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CComponent.php 3066 2011-03-13 14:22:55Z qiang.xue $
  * @package system.base
  * @since 1.0
  */
@@ -649,14 +649,21 @@ class CEvent extends CComponent
 	 * When a handler sets this true, the rest of the uninvoked event handlers will not be invoked anymore.
 	 */
 	public $handled=false;
+	/**
+	 * @var mixed additional event parameters.
+	 * @since 1.1.7
+	 */
+	public $params;
 
 	/**
 	 * Constructor.
 	 * @param mixed $sender sender of the event
+	 * @param mixed $params additional parameters for the event
 	 */
-	public function __construct($sender=null)
+	public function __construct($sender=null,$params=null)
 	{
 		$this->sender=$sender;
+		$this->params=$params;
 	}
 }
 
@@ -679,7 +686,7 @@ class CEvent extends CComponent
  * TextAlign::Right.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CComponent.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CComponent.php 3066 2011-03-13 14:22:55Z qiang.xue $
  * @package system.base
  * @since 1.0
  */

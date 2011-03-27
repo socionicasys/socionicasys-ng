@@ -15,7 +15,7 @@
  * The method name is like 'actionXYZ' where 'XYZ' stands for the action name.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CInlineAction.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CInlineAction.php 3058 2011-03-13 04:20:12Z qiang.xue $
  * @package system.web.actions
  * @since 1.0
  */
@@ -28,32 +28,26 @@ class CInlineAction extends CAction
 	 */
 	public function run()
 	{
-		$controller=$this->getController();
-		$methodName='action'.$this->getId();
-		$method=new ReflectionMethod($controller,$methodName);
-		if(($n=$method->getNumberOfParameters())>0)
-		{
-			$params=array();
-			foreach($method->getParameters() as $i=>$param)
-			{
-				$name=$param->getName();
-				if(isset($_GET[$name]))
-				{
-					if($param->isArray())
-						$params[]=is_array($_GET[$name]) ? $_GET[$name] : array($_GET[$name]);
-					else if(!is_array($_GET[$name]))
-						$params[]=$_GET[$name];
-					else
-						throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
-				}
-				else if($param->isDefaultValueAvailable())
-					$params[]=$param->getDefaultValue();
-				else
-					throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
-			}
-			$method->invokeArgs($controller,$params);
-		}
-		else
-			$controller->$methodName();
+		$method='action'.$this->getId();
+		$this->getController()->$method();
 	}
+
+	/**
+	 * Runs the action with the supplied request parameters.
+	 * This method is internally called by {@link CController::runAction()}.
+	 * @param array the request parameters (name=>value)
+	 * @return boolean whether the request parameters are valid
+	 * @since 1.1.7
+	 */
+	public function runWithParams($params)
+	{
+		$methodName='action'.$this->getId();
+		$controller=$this->getController();
+		$method=new ReflectionMethod($controller, $methodName);
+		if($method->getNumberOfParameters()>0)
+			return $this->runWithParamsInternal($controller, $method, $params);
+		else
+			return $controller->$methodName();
+	}
+
 }

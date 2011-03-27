@@ -52,16 +52,17 @@
  * To do so, set {@link useMemcached} to be true.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMemCache.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CMemCache.php 3001 2011-02-24 16:42:44Z alexander.makarow $
  * @package system.caching
  * @since 1.0
  */
 class CMemCache extends CCache
 {
 	/**
-	 * @var boolean whether to use {@link http://pecl.php.net/package/memcached memcached}
-	 * as the underlying caching extension. Defaults to false, meaning using
-	 * {@link http://pecl.php.net/package/memcache memcache}.
+	 * @var boolean whether to use memcached or memcache as the underlying caching extension.
+	 * If true {@link http://pecl.php.net/package/memcached memcached} will be used.
+	 * If false {@link http://pecl.php.net/package/memcache memcache}. will be used.
+	 * Defaults to false.
 	 * @since 1.0.6
 	 */
 	public $useMemcached=false;
@@ -197,7 +198,7 @@ class CMemCache extends CCache
 	 */
 	protected function deleteValue($key)
 	{
-		return $this->_cache->delete($key);
+		return $this->_cache->delete($key, 0);
 	}
 
 	/**
@@ -219,7 +220,7 @@ class CMemCache extends CCache
  * for detailed explanation of each configuration property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMemCache.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CMemCache.php 3001 2011-02-24 16:42:44Z alexander.makarow $
  * @package system.caching
  * @since 1.0
  */

@@ -44,7 +44,7 @@
  * targets, even if the routes are of the same type.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CLogRouter.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CLogRouter.php 3066 2011-03-13 14:22:55Z qiang.xue $
  * @package system.logging
  * @since 1.0
  */
@@ -99,10 +99,11 @@ class CLogRouter extends CApplicationComponent
 	public function collectLogs($event)
 	{
 		$logger=Yii::getLogger();
+		$dumpLogs=isset($event->params['dumpLogs']) && $event->params['dumpLogs'];
 		foreach($this->_routes as $route)
 		{
 			if($route->enabled)
-				$route->collectLogs($logger,false);
+				$route->collectLogs($logger,$dumpLogs);
 		}
 	}
 

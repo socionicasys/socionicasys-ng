@@ -36,7 +36,7 @@
  * You may also create a DB index for the 'expire' column in the session table to further improve the performance.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbHttpSession.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbHttpSession.php 3069 2011-03-14 00:28:38Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -128,11 +128,10 @@ CREATE TABLE $tableName
 	 */
 	public function openSession($savePath,$sessionName)
 	{
-		$db=$this->getDbConnection();
-		$db->setActive(true);
-
 		if($this->autoCreateSessionTable)
 		{
+			$db=$this->getDbConnection();
+			$db->setActive(true);
 			$sql="DELETE FROM {$this->sessionTableName} WHERE expire<".time();
 			try
 			{
@@ -216,10 +215,8 @@ WHERE expire>$now AND id=:id
 	 */
 	public function gcSession($maxLifetime)
 	{
-		$db=$this->getDbConnection();
-		$db->setActive(true);
 		$sql="DELETE FROM {$this->sessionTableName} WHERE expire<".time();
-		$db->createCommand($sql)->execute();
+		$this->getDbConnection()->createCommand($sql)->execute();
 		return true;
 	}
 }
