@@ -28,7 +28,7 @@
  * applying migrations.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbMigration.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbMigration.php 3069 2011-03-14 00:28:38Z qiang.xue $
  * @package system.db
  * @since 1.1.6
  */
@@ -38,9 +38,28 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * This method contains the logic to be executed when applying this migration.
-	 * Child classes must implement this method to provide actual migration logic.
+	 * Child classes may implement this method to provide actual migration logic.
 	 */
-	abstract public function up();
+	public function up()
+	{
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			if($this->safeUp()===false)
+			{
+				$transaction->rollBack();
+				return false;
+			}
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+			echo $e->getTraceAsString()."\n";
+			$transaction->rollBack();
+			return false;
+		}
+	}
 
 	/**
 	 * This method contains the logic to be executed when removing this migration.
@@ -49,7 +68,47 @@ abstract class CDbMigration extends CComponent
 	 */
 	public function down()
 	{
-		throw new CException(Yii::t('yii', 'Unable to remove migration {class}.', array('{class}'=>get_class($this))));
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			if($this->safeDown()===false)
+			{
+				$transaction->rollBack();
+				return false;
+			}
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+			echo $e->getTraceAsString()."\n";
+			$transaction->rollBack();
+			return false;
+		}
+	}
+
+	/**
+	 * This method contains the logic to be executed when applying this migration.
+	 * This method differs from {@link up} in that the DB logic implemented here will
+	 * be enclosed within a DB transaction.
+	 * Child classes may implement this method instead of {@link up} if the DB logic
+	 * needs to be within a transaction.
+	 * @since 1.1.7
+	 */
+	public function safeUp()
+	{
+	}
+
+	/**
+	 * This method contains the logic to be executed when removing this migration.
+	 * This method differs from {@link down} in that the DB logic implemented here will
+	 * be enclosed within a DB transaction.
+	 * Child classes may implement this method instead of {@link up} if the DB logic
+	 * needs to be within a transaction.
+	 * @since 1.1.7
+	 */
+	public function safeDown()
+	{
 	}
 
 	/**
@@ -67,7 +126,6 @@ abstract class CDbMigration extends CComponent
 			$this->_db=Yii::app()->getComponent('db');
 			if(!$this->_db instanceof CDbConnection)
 				throw new CException(Yii::t('yii', 'The "db" application component must be configured to be a CDbConnection object.'));
-			$this->_db->setActive(true);
 		}
 		return $this->_db;
 	}
@@ -80,6 +138,21 @@ abstract class CDbMigration extends CComponent
 	public function setDbConnection($db)
 	{
 		$this->_db=$db;
+	}
+
+	/**
+	 * Executes a SQL statement.
+	 * This method executes the specified SQL statement using {@link dbConnection}.
+	 * @param string $sql the SQL statement to be executed
+	 * @param array $params input parameters (name=>value) for the SQL execution. See {@link CDbCommand::execute} for more details.
+	 * @since 1.1.7
+	 */
+	public function execute($sql, $params=array())
+	{
+		echo "    > execute SQL: $sql ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand($sql)->execute($params);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
 	}
 
 	/**

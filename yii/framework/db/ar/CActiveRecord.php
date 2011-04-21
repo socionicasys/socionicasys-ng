@@ -16,7 +16,7 @@
  * about this class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveRecord.php 2829 2011-01-07 05:07:34Z alexander.makarow $
+ * @version $Id: CActiveRecord.php 3102 2011-03-22 17:38:13Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  *
@@ -77,6 +77,24 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function init()
 	{
+	}
+
+	/**
+	 * Sets the parameters about query caching.
+	 * This is a shortcut method to {@link CDbConnection::cache()}.
+	 * It changes the query caching parameter of the {@link dbConnection} instance.
+	 * @param integer $duration the number of seconds that query results may remain valid in cache.
+	 * If this is 0, the caching will be disabled.
+	 * @param CCacheDependency $dependency the dependency that will be used when saving the query results into cache.
+	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
+	 * meaning that the next SQL query will be cached.
+	 * @return CActiveRecord the active record instance itself.
+	 * @since 1.1.7
+	 */
+	public function cache($duration, $dependency=null, $queryCount=1)
+	{
+		$this->getDbConnection()->cache($duration, $dependency, $queryCount);
+		return $this;
 	}
 
 	/**
@@ -222,7 +240,7 @@ abstract class CActiveRecord extends CModel
 
 		Yii::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
 		$relation=$md->relations[$name];
-		if($this->getIsNewRecord() && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
+		if($this->getIsNewRecord() && !$refresh && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
 			return $relation instanceof CHasOneRelation ? null : array();
 
 		if($params!==array()) // dynamic query
@@ -588,10 +606,7 @@ abstract class CActiveRecord extends CModel
 		{
 			self::$db=Yii::app()->getDb();
 			if(self::$db instanceof CDbConnection)
-			{
-				self::$db->setActive(true);
 				return self::$db;
-			}
 			else
 				throw new CDbException(Yii::t('yii','Active Record requires a "db" CDbConnection application component.'));
 		}
@@ -1221,13 +1236,17 @@ abstract class CActiveRecord extends CModel
 		$this->_pk=$value;
 	}
 
-	/*
+	/**
+	 * Performs the actual DB query and populates the AR objects with the query result.
+	 * This method is mainly internally used by other AR query methods.
 	 * @param CDbCriteria $criteria the query criteria
 	 * @param boolean $all whether to return all data
+	 * @return mixed the AR objects populated with the query result
+	 * @since 1.1.7
 	 */
-	private function query($criteria,$all=false)
+	protected function query($criteria,$all=false)
 	{
-        $this->beforeFind($criteria);
+        $this->beforeFind();
 		$this->applyScopes($criteria);
 		if(empty($criteria->with))
 		{
@@ -1252,7 +1271,45 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function applyScopes(&$criteria)
 	{
-		if(($c=$this->getDbCriteria(false))!==null)
+		if(!empty($criteria->scopes))
+		{
+			$scs=$this->scopes();
+			$c=$this->getDbCriteria();
+			foreach((array)$criteria->scopes as $k=>$v)
+			{
+				if(is_integer($k))
+				{
+					if(is_string($v))
+					{
+						if(isset($scs[$v]))
+						{
+							$c->mergeWith($scs[$v],true);
+							continue;
+						}
+						$scope=$v;
+						$params=array();
+					}
+					else if(is_array($v))
+					{
+						$scope=key($v);
+						$params=current($v);
+					}
+				}
+				else if(is_string($k))
+				{
+					$scope=$k;
+					$params=$v;
+				}
+
+				if(method_exists($this,$scope))
+					call_user_func_array(array($this,$scope),(array)$params);
+				else
+					throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
+						array('{class}'=>get_class($this), '{scope}'=>$scope)));
+			}
+		}
+
+		if(isset($c) || ($c=$this->getDbCriteria(false))!==null)
 		{
 			$c->mergeWith($criteria);
 			$criteria=$c;
@@ -1778,7 +1835,7 @@ abstract class CActiveRecord extends CModel
 /**
  * CBaseActiveRelation is the base class for all active relations.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveRecord.php 2829 2011-01-07 05:07:34Z alexander.makarow $
+ * @version $Id: CActiveRecord.php 3102 2011-03-22 17:38:13Z qiang.xue $
  * @package system.db.ar
  * @since 1.0.4
  */
@@ -1921,7 +1978,7 @@ class CBaseActiveRelation extends CComponent
 /**
  * CStatRelation represents a statistical relational query.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveRecord.php 2829 2011-01-07 05:07:34Z alexander.makarow $
+ * @version $Id: CActiveRecord.php 3102 2011-03-22 17:38:13Z qiang.xue $
  * @package system.db.ar
  * @since 1.0.4
  */
@@ -1959,7 +2016,7 @@ class CStatRelation extends CBaseActiveRelation
 /**
  * CActiveRelation is the base class for representing active relations that bring back related objects.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveRecord.php 2829 2011-01-07 05:07:34Z alexander.makarow $
+ * @version $Id: CActiveRecord.php 3102 2011-03-22 17:38:13Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -2037,7 +2094,7 @@ class CActiveRelation extends CBaseActiveRelation
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
 
-		if(array_key_exists('together',$criteria))
+		if(isset($criteria['together']))
 			$this->together=$criteria['together'];
 	}
 }
@@ -2046,7 +2103,7 @@ class CActiveRelation extends CBaseActiveRelation
 /**
  * CBelongsToRelation represents the parameters specifying a BELONGS_TO relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveRecord.php 2829 2011-01-07 05:07:34Z alexander.makarow $
+ * @version $Id: CActiveRecord.php 3102 2011-03-22 17:38:13Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -2058,19 +2115,25 @@ class CBelongsToRelation extends CActiveRelation
 /**
  * CHasOneRelation represents the parameters specifying a HAS_ONE relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveRecord.php 2829 2011-01-07 05:07:34Z alexander.makarow $
+ * @version $Id: CActiveRecord.php 3102 2011-03-22 17:38:13Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
 class CHasOneRelation extends CActiveRelation
 {
+	/**
+	 * @var string the name of the relation that should be used as the bridge to this relation.
+	 * Deafults to null, meaning don't use any bridge.
+	 * @since 1.1.7
+	 */
+	public $through;
 }
 
 
 /**
  * CHasManyRelation represents the parameters specifying a HAS_MANY relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveRecord.php 2829 2011-01-07 05:07:34Z alexander.makarow $
+ * @version $Id: CActiveRecord.php 3102 2011-03-22 17:38:13Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -2090,6 +2153,12 @@ class CHasManyRelation extends CActiveRelation
 	 * @since 1.0.7
 	 */
 	public $index;
+	/**
+	 * @var string the name of the relation that should be used as the bridge to this relation.
+	 * Deafults to null, meaning don't use any bridge.
+	 * @since 1.1.7
+	 */
+	public $through;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.
@@ -2117,7 +2186,7 @@ class CHasManyRelation extends CActiveRelation
 /**
  * CManyManyRelation represents the parameters specifying a MANY_MANY relation.
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveRecord.php 2829 2011-01-07 05:07:34Z alexander.makarow $
+ * @version $Id: CActiveRecord.php 3102 2011-03-22 17:38:13Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */
@@ -2130,7 +2199,7 @@ class CManyManyRelation extends CHasManyRelation
  * CActiveRecordMetaData represents the meta-data for an Active Record class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveRecord.php 2829 2011-01-07 05:07:34Z alexander.makarow $
+ * @version $Id: CActiveRecord.php 3102 2011-03-22 17:38:13Z qiang.xue $
  * @package system.db.ar
  * @since 1.0
  */

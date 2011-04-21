@@ -18,7 +18,7 @@
  * and used under the application runtime directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbLogRoute.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbLogRoute.php 3069 2011-03-14 00:28:38Z qiang.xue $
  * @package system.logging
  * @since 1.0
  */
@@ -67,11 +67,9 @@ class CDbLogRoute extends CLogRoute
 	{
 		parent::init();
 
-		$db=$this->getDbConnection();
-		$db->setActive(true);
-
 		if($this->autoCreateLogTable)
 		{
+			$db=$this->getDbConnection();
 			$sql="DELETE FROM {$this->logTableName} WHERE 0=1";
 			try
 			{

@@ -45,15 +45,16 @@
  * you should store them directly in session on the server side if needed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CWebUser.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CWebUser.php 3081 2011-03-14 17:37:37Z qiang.xue $
  * @package system.web.auth
  * @since 1.0
  */
 class CWebUser extends CApplicationComponent implements IWebUser
 {
 	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
-	const FLASH_COUNTERS='Yii.CWebUser.flash.counters';
+	const FLASH_COUNTERS='Yii.CWebUser.flashcounters';
 	const STATES_VAR='__states';
+	const AUTH_TIMEOUT_VAR='__timeout';
 
 	/**
 	 * @var boolean whether to enable cookie-based login. Defaults to false.
@@ -80,6 +81,13 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public $identityCookie;
 	/**
+	 * @var integer timeout in seconds after which user is logged out if inactive.
+	 * If this property is not set, the user will be logged out after the current session expires
+	 * (c.f. {@link CHttpSession::timeout}).
+	 * @since 1.1.7
+	 */
+	public $authTimeout;
+	/**
 	 * @var boolean whether to automatically renew the identity cookie each time a page is requested.
 	 * Defaults to false. This property is effective only when {@link allowAutoLogin} is true.
 	 * When this is false, the identity cookie will expire after the specified duration since the user
@@ -89,6 +97,14 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @since 1.1.0
 	 */
 	public $autoRenewCookie=false;
+	/**
+	 * @var boolean whether to automatically update the validity of flash messages.
+	 * Defaults to true, meaning flash messages will be valid only in the current and the next requests.
+	 * If this is set false, you will be responsible for ensuring a flash message is deleted after usage.
+	 * (This can be achieved by calling {@link getFlash} with the 3rd parameter being true).
+	 * @since 1.1.7
+	 */
+	public $autoUpdateFlash=true;
 
 	private $_keyPrefix;
 	private $_access=array();
@@ -165,7 +181,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$this->restoreFromCookie();
 		else if($this->autoRenewCookie && $this->allowAutoLogin)
 			$this->renewCookie();
-		$this->updateFlash();
+		if($this->autoUpdateFlash)
+			$this->updateFlash();
+
+		$this->updateAuthStatus();
 	}
 
 	/**
@@ -420,7 +439,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Renews the identity cookie.
-	 * This method will set the expriation time of the identity cookie to be the current time
+	 * This method will set the expiration time of the identity cookie to be the current time
 	 * plus the originally specified cookie duration.
 	 * @since 1.1.3
 	 */
@@ -713,6 +732,24 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				$counters[$key]++;
 		}
 		$this->setState(self::FLASH_COUNTERS,$counters,array());
+	}
+
+	/**
+	 * Updates the authentication status according to {@link authTimeout}.
+	 * If the user has been inactive for {@link authTimeout} seconds,
+	 * he will be automatically logged out.
+	 * @since 1.1.7
+	 */
+	protected function updateAuthStatus()
+	{
+		if($this->authTimeout!==null && !$this->getIsGuest())
+		{
+			$expires=$this->getState(self::AUTH_TIMEOUT_VAR);
+			if ($expires!==null && $expires < time())
+				$this->logout(false);
+			else
+				$this->setState(self::AUTH_TIMEOUT_VAR,time()+$this->authTimeout);
+		}
 	}
 
 	/**

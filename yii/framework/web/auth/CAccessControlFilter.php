@@ -16,7 +16,7 @@
  * he will be able to access the action.
  *
  * For maximum security consider adding
- * <pre>array('deny', 'users'=>array('*'))</pre>
+ * <pre>array('deny')</pre>
  * as a last rule in a list so all actions will be denied by default.
  *
  * To specify the access rules, set the {@link setRules rules} property, which should
@@ -49,7 +49,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CAccessControlFilter.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CAccessControlFilter.php 3001 2011-02-24 16:42:44Z alexander.makarow $
  * @package system.web.auth
  * @since 1.0
  */
@@ -163,7 +163,7 @@ class CAccessControlFilter extends CFilter
  * CAccessRule represents an access rule that is managed by {@link CAccessControlFilter}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CAccessControlFilter.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CAccessControlFilter.php 3001 2011-02-24 16:42:44Z alexander.makarow $
  * @package system.web.auth
  * @since 1.0
  */

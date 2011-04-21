@@ -14,7 +14,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
- * @version $Id: CMssqlSchema.php 2816 2011-01-04 15:14:18Z qiang.xue $
+ * @version $Id: CMssqlSchema.php 3099 2011-03-19 01:26:47Z qiang.xue $
  * @package system.db.schema.mssql
  * @since 1.0.4
  */
@@ -297,7 +297,7 @@ EOD;
 
 			$c->isForeignKey=isset($table->foreignKeys[$c->name]);
 			$table->columns[$c->name]=$c;
-			if ($column['IsIdentity']==1 && $table->sequenceName===null)
+			if ($c->autoIncrement && $table->sequenceName===null)
 				$table->sequenceName=$table->name;
 		}
 		return true;
@@ -324,6 +324,7 @@ EOD;
 			$c->size=$c->precision=null;
 		else
 			$c->size=$c->precision=($column['CHARACTER_MAXIMUM_LENGTH']!== null)?(int)$column['CHARACTER_MAXIMUM_LENGTH']:null;
+		$c->autoIncrement=$column['IsIdentity']==1;
 
 		$c->init($column['DATA_TYPE'],$column['COLUMN_DEFAULT']);
 		return $c;
@@ -396,7 +397,7 @@ EOD;
 	 */
 	public function renameColumn($table, $name, $newName)
 	{
-		return "sp_rename '$table.$name', '$table.$newName'";
+		return "sp_rename '$table.$name', '$newName', 'COLUMN'";
 	}
 
 	/**

@@ -35,7 +35,7 @@
  * generating the input or initial values of the widget properties.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CFormInputElement.php 2804 2011-01-03 13:28:17Z mdomba $
+ * @version $Id: CFormInputElement.php 3126 2011-03-26 12:21:13Z qiang.xue $
  * @package system.web.form
  * @since 1.1
  */
@@ -79,11 +79,27 @@ class CFormInputElement extends CFormElement
 	public $items=array();
 	/**
 	 * @var array the options used when rendering the error part. This property will be passed
-	 * to the {@link CActiveForm::error} method call.
+	 * to the {@link CActiveForm::error} method call as its $htmlOptions parameter.
 	 * @see CActiveForm::error
 	 * @since 1.1.1
 	 */
 	public $errorOptions=array();
+	/**
+	 * @var boolean whether to allow AJAX-based validation for this input. Note that in order to use
+	 * AJAX-based validation, {@link CForm::activeForm} must be configured with 'enableAjaxValidation'=>true.
+	 * This property allows turning on or off  AJAX-based validation for individual input fields.
+	 * Defaults to true.
+	 * @since 1.1.7
+	 */
+	public $enableAjaxValidation=true;
+	/**
+	 * @var boolean whether to allow client-side validation for this input. Note that in order to use
+	 * client-side validation, {@link CForm::activeForm} must be configured with 'enableClientValidation'=>true.
+	 * This property allows turning on or off  client-side validation for individual input fields.
+	 * Defaults to true.
+	 * @since 1.1.7
+	 */
+	public $enableClientValidation=true;
 	/**
 	 * @var string the layout used to render label, input, hint and error. They correspond to the placeholders
 	 * "{label}", "{input}", "{hint}" and "{error}".
@@ -209,7 +225,7 @@ class CFormInputElement extends CFormElement
 	public function renderError()
 	{
 		$parent=$this->getParent();
-		return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions);
+		return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
 	}
 
 	/**

@@ -17,7 +17,7 @@
  * {@link itemChildTable} and {@link assignmentTable}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbAuthManager.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbAuthManager.php 3069 2011-03-14 00:28:38Z qiang.xue $
  * @package system.web.auth
  * @since 1.0
  */
@@ -55,8 +55,6 @@ class CDbAuthManager extends CAuthManager
 	public function init()
 	{
 		parent::init();
-
-		$this->getDbConnection()->setActive(true);
 		$this->_usingSqlite=!strncmp($this->getDbConnection()->getDriverName(),'sqlite',6);
 	}
 

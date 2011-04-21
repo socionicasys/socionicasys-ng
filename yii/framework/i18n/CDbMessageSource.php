@@ -36,7 +36,7 @@
  * When {@link cachingDuration} is set as a positive number, message translations will be cached.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbMessageSource.php 2798 2011-01-01 19:29:03Z qiang.xue $
+ * @version $Id: CDbMessageSource.php 3069 2011-03-14 00:28:38Z qiang.xue $
  * @package system.i18n
  * @since 1.0
  */
@@ -102,9 +102,8 @@ class CDbMessageSource extends CMessageSource
 	{
 		if($this->_db===null)
 		{
-			if(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
-				$this->_db->setActive(true);
-			else
+			$this->_db=Yii::app()->getComponent($this->connectionID);
+			if(!$this->_db instanceof CDbConnection)
 				throw new CException(Yii::t('yii','CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.',
 					array('{id}'=>$this->connectionID)));
 		}

@@ -15,7 +15,7 @@
  * CModel defines the basic framework for data models that need to be validated.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CModel.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CModel.php 3087 2011-03-15 02:08:53Z qiang.xue $
  * @package system.base
  * @since 1.0
  */
@@ -137,13 +137,15 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * meaning any attribute listed in the applicable validation rules should be
 	 * validated. If this parameter is given as a list of attributes, only
 	 * the listed attributes will be validated.
+	 * @param boolean $clearErrors whether to call {@link clearErrors} before performing validation
 	 * @return boolean whether the validation is successful without any error.
 	 * @see beforeValidate
 	 * @see afterValidate
 	 */
-	public function validate($attributes=null)
+	public function validate($attributes=null, $clearErrors=true)
 	{
-		$this->clearErrors();
+		if($clearErrors)
+			$this->clearErrors();
 		if($this->beforeValidate())
 		{
 			foreach($this->getValidators() as $validator)

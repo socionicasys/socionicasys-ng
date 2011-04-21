@@ -12,7 +12,7 @@
  * CDbCommandBuilder provides basic methods to create query commands for tables.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbCommandBuilder.php 2851 2011-01-13 21:52:16Z alexander.makarow $
+ * @version $Id: CDbCommandBuilder.php 3001 2011-02-24 16:42:44Z alexander.makarow $
  * @package system.db.schema
  * @since 1.0
  */

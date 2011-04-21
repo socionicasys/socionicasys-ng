@@ -80,7 +80,7 @@ class Library extends CActiveRecord
 			array('type, title, author, published, published_number, meta_description, meta_keywords', 'length', 'max' => 255, 'encoding' => 'UTF-8'),
 			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			array('url', 'match',
-				'pattern' => '/^(\/[-a-z0-9_%+.]+)*\/?$/',
+				'pattern' => '/^[-a-z0-9_%+.]*$/',
 				'message' => 'Адрес может содержать только символы a-z, 0-9, -, _, %, +, .',
 			),
 			// The following rule is used by search().

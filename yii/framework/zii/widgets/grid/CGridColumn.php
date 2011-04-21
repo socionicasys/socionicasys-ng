@@ -19,7 +19,7 @@
  * and {@link renderFooterCellContent} to customize how these cells are rendered.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CGridColumn.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CGridColumn.php 3041 2011-03-11 20:29:55Z qiang.xue $
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -153,7 +153,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	protected function renderHeaderCellContent()
 	{
-		echo trim($this->header)!=='' ? $this->header : '&nbsp;';
+		echo trim($this->header)!=='' ? $this->header : $this->grid->blankDisplay;
 	}
 
 	/**
@@ -163,7 +163,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	protected function renderFooterCellContent()
 	{
-		echo trim($this->footer)!=='' ? $this->footer : '&nbsp;';
+		echo trim($this->footer)!=='' ? $this->footer : $this->grid->blankDisplay;
 	}
 
 	/**
@@ -174,7 +174,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	protected function renderDataCellContent($row,$data)
 	{
-		echo '&nbsp;';
+		echo $this->grid->blankDisplay;
 	}
 
 	/**
@@ -185,6 +185,6 @@ abstract class CGridColumn extends CComponent
 	 */
 	protected function renderFilterCellContent()
 	{
-		echo '&nbsp;';
+		echo $this->grid->blankDisplay;
 	}
 }

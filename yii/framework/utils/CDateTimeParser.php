@@ -23,14 +23,14 @@
  * MM      | Month digit 01 to 12, zero leading
  * yy      | 2 year digit, e.g., 96, 05
  * yyyy    | 4 year digit, e.g., 2005
- * h       | Hour in 0 to 23, no padding (since version 1.0.5)
- * hh      | Hour in 00 to 23, zero leading (since version 1.0.5)
- * H       | Hour in 0 to 23, no padding (since version 1.0.9)
- * HH      | Hour in 00 to 23, zero leading (since version 1.0.9)
- * m       | Minutes in 0 to 59, no padding (since version 1.0.5)
- * mm      | Minutes in 00 to 59, zero leading (since version 1.0.5)
- * s	   | Seconds in 0 to 59, no padding (since version 1.0.5)
- * ss      | Seconds in 00 to 59, zero leading (since version 1.0.5)
+ * h       | Hour in 0 to 23, no padding
+ * hh      | Hour in 00 to 23, zero leading
+ * H       | Hour in 0 to 23, no padding
+ * HH      | Hour in 00 to 23, zero leading
+ * m       | Minutes in 0 to 59, no padding
+ * mm      | Minutes in 00 to 59, zero leading
+ * s       | Seconds in 0 to 59, no padding
+ * ss      | Seconds in 00 to 59, zero leading
  * a       | AM or PM, case-insensitive (since version 1.1.5)
  * ----------------------------------------------------
  * </pre>
@@ -45,7 +45,7 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDateTimeParser.php 2827 2011-01-07 04:51:27Z alexander.makarow $
+ * @version $Id: CDateTimeParser.php 2928 2011-02-01 17:41:51Z alexander.makarow $
  * @package system.utils
  * @since 1.0
  */

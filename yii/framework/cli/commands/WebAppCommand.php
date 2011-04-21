@@ -6,14 +6,14 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: WebAppCommand.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: WebAppCommand.php 2924 2011-01-29 23:04:11Z keyboard.idol@gmail.com $
  */
 
 /**
  * WebAppCommand creates an Yii Web application at the specified location.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: WebAppCommand.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: WebAppCommand.php 2924 2011-01-29 23:04:11Z keyboard.idol@gmail.com $
  * @package system.cli.commands
  * @since 1.0
  */
@@ -61,7 +61,7 @@ EOD;
 		{
 			$sourceDir=realpath(dirname(__FILE__).'/../views/webapp');
 			if($sourceDir===false)
-				die('Unable to locate the source directory.');
+				die("\nUnable to locate the source directory.\n");
 			$list=$this->buildFileList($sourceDir,$path);
 			$list['index.php']['callback']=array($this,'generateIndex');
 			$list['index-test.php']['callback']=array($this,'generateIndex');

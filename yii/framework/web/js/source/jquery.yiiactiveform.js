@@ -5,7 +5,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: jquery.yiiactiveform.js 2779 2010-12-28 13:10:09Z qiang.xue $
+ * @version $Id: jquery.yiiactiveform.js 3129 2011-03-26 16:30:16Z qiang.xue $
  * @since 1.1.1
  */
 
@@ -38,7 +38,7 @@
 			});
 			$(this).data('settings', settings);
 
-			var submitting=false;  // whether it is waiting for ajax submission result
+			settings.submitting=false;  // whether it is waiting for ajax submission result
 			var validate = function(attribute, forceValidate) {
 				if (forceValidate)
 					attribute.status = 2;
@@ -56,7 +56,7 @@
 				}
 
 				settings.timer = setTimeout(function(){
-					if(submitting)
+					if(settings.submitting)
 						return;
 					if(attribute.beforeValidateAttribute==undefined || attribute.beforeValidateAttribute($form, attribute)) {
 						$.each(settings.attributes, function(){
@@ -68,7 +68,7 @@
 						$.fn.yiiactiveform.validate($form, function(data) {
 							var hasError=false;
 							$.each(settings.attributes, function(){
-								if (this.status > 0) {
+								if (this.status == 2 || this.status == 3) {
 									hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
 								}
 							});
@@ -83,7 +83,8 @@
 			$.each(settings.attributes, function(i, attribute) {
 				if (attribute.validateOnChange) {
 					$('#'+attribute.inputID, $form).change(function(){
-						validate(attribute,false);
+						var inputType = $('#'+attribute.inputID).attr('type');
+						validate(attribute, inputType=='checkbox' || inputType=='radio');
 					}).blur(function(){
 						if(attribute.status!=2 && attribute.status!=3)
 							validate(attribute, !attribute.status);
@@ -108,7 +109,7 @@
 					if(settings.timer!=undefined) {
 						clearTimeout(settings.timer);
 					}
-					submitting=true;
+					settings.submitting=true;
 					if(settings.beforeValidate==undefined || settings.beforeValidate($form)) {
 						$.fn.yiiactiveform.validate($form, function(data){
 							var hasError = false;
@@ -128,11 +129,11 @@
 									return false;
 								}
 							}
-							submitting=false;
+							settings.submitting=false;
 						});
 					}
 					else {
-						submitting=false;
+						settings.submitting=false;
 					}
 					return false;
 				});
@@ -212,7 +213,7 @@
 	 */
 	$.fn.yiiactiveform.updateInput = function(attribute, messages, form) {
 		attribute.status = 1;
-		var hasError = messages!=null && $.isArray(messages[attribute.inputID]) && messages[attribute.inputID].length>0;
+		var hasError = messages!=null && $.isArray(messages[attribute.id]) && messages[attribute.id].length>0;
 		var $error = $('#'+attribute.errorID, form);
 		var $container = $.fn.yiiactiveform.getInputContainer(attribute, form);
 		$container.removeClass(attribute.validatingCssClass)
@@ -220,10 +221,10 @@
 			.removeClass(attribute.successCssClass);
 
 		if(hasError) {
-			$error.html(messages[attribute.inputID][0]);
+			$error.html(messages[attribute.id][0]);
 			$container.addClass(attribute.errorCssClass);
 		}
-		else {
+		else if(attribute.enableAjaxValidation || attribute.clientValidation) {
 			$container.addClass(attribute.successCssClass);
 		}
 		if(!attribute.hideErrorMessage)
@@ -245,8 +246,8 @@
 			return;
 		var content = '';
 		$.each(settings.attributes, function(i, attribute){
-			if(messages && $.isArray(messages[attribute.inputID])) {
-				$.each(messages[attribute.inputID],function(j,message){
+			if(messages && $.isArray(messages[attribute.id])) {
+				$.each(messages[attribute.id],function(j,message){
 					content = content + '<li>' + message + '</li>';
 				});
 			}
@@ -265,6 +266,35 @@
 	$.fn.yiiactiveform.validate = function(form, successCallback, errorCallback) {
 		var $form = $(form);
 		var settings = $form.data('settings');
+
+		var messages = {};
+		var needAjaxValidation = false;
+		$.each(settings.attributes, function(){
+			var msg = [];
+			if (this.clientValidation != undefined && (settings.submitting || this.status == 2 || this.status == 3)) {
+				var value = $('#'+this.inputID, $form).val();
+				this.clientValidation(value, msg, this);
+				if (msg.length) {
+					messages[this.id] = msg;
+				}
+			}
+			if (this.enableAjaxValidation && !msg.length && (settings.submitting || this.status == 2 || this.status == 3))
+				needAjaxValidation = true;
+		});
+
+		if (!needAjaxValidation || settings.submitting && !$.isEmptyObject(messages)) {
+			if(settings.submitting) {
+				// delay callback so that the form can be submitted without problem
+				setTimeout(function(){
+					successCallback(messages);
+				},200);
+			}
+			else {
+				successCallback(messages);
+			}
+			return;
+		}
+
 		$.ajax({
 			url : settings.validationUrl,
 			type : $form.attr('method'),
@@ -272,7 +302,10 @@
 			dataType : 'json',
 			success : function(data) {
 				if (data != null && typeof data == 'object') {
-					successCallback(data);
+					successCallback($.extend({}, messages, data));
+				}
+				else {
+					successCallback(messages);
 				}
 			},
 			error : function() {
@@ -314,6 +347,7 @@
 		/**
 		 * list of attributes to be validated. Each array element is of the following structure:
 		 * {
+		 *     id : 'ModelClass_attribute', // the unique attribute ID
 		 *     model : 'ModelClass', // the model class name
 		 *     name : 'name', // attribute name
 		 *     inputID : 'input-tag-id',
@@ -329,6 +363,9 @@
 		 *     errorCssClass : 'error',
 		 *     successCssClass : 'success',
 		 *     validatingCssClass : 'validating',
+		 *     enableAjaxValidation : true,
+		 *     enableClientValidation : true,
+		 *     clientValidation : undefined, // function(value, messages, attribute) : client-side validation
 		 *     beforeValidateAttribute: undefined, // function(form, attribute) : boolean
 		 *     afterValidateAttribute: undefined,  // function(form, attribute, data, hasError)
 		 * }

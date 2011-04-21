@@ -16,7 +16,7 @@
  * authored by Pieter Claerhout.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: MigrateCommand.php 2850 2011-01-13 19:46:40Z qiang.xue $
+ * @version $Id: MigrateCommand.php 3069 2011-03-14 00:28:38Z qiang.xue $
  * @package system.cli.commands
  * @since 1.1.6
  */
@@ -61,7 +61,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$path=Yii::getPathOfAlias($this->migrationPath);
 		if($path===false || !is_dir($path))
-			die('Error: The migration directory does not exist: '.$this->migrationPath);
+			die('Error: The migration directory does not exist: '.$this->migrationPath."\n");
 		$this->migrationPath=$path;
 
 		$yiiVersion=Yii::getVersion();
@@ -96,7 +96,13 @@ class MigrateCommand extends CConsoleCommand
 		if($this->confirm('Apply the above '.($n===1 ? 'migration':'migrations')."?"))
 		{
 			foreach($migrations as $migration)
-				$this->migrateUp($migration);
+			{
+				if($this->migrateUp($migration)===false)
+				{
+					echo "\nMigration failed. All later migrations are canceled.\n";
+					return;
+				}
+			}
 			echo "\nMigrated up successfully.\n";
 		}
 	}
@@ -105,7 +111,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
 		if($step<1)
-			die("Error: The step parameter must be greater than 0.");
+			die("Error: The step parameter must be greater than 0.\n");
 
 		if(($migrations=$this->getMigrationHistory($step))===array())
 		{
@@ -123,7 +129,13 @@ class MigrateCommand extends CConsoleCommand
 		if($this->confirm('Revert the above '.($n===1 ? 'migration':'migrations')."?"))
 		{
 			foreach($migrations as $migration)
-				$this->migrateDown($migration);
+			{
+				if($this->migrateDown($migration)===false)
+				{
+					echo "\nMigration failed. All later migrations are canceled.\n";
+					return;
+				}
+			}
 			echo "\nMigrated down successfully.\n";
 		}
 	}
@@ -132,7 +144,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
 		if($step<1)
-			die("Error: The step parameter must be greater than 0.");
+			die("Error: The step parameter must be greater than 0.\n");
 
 		if(($migrations=$this->getMigrationHistory($step))===array())
 		{
@@ -150,9 +162,21 @@ class MigrateCommand extends CConsoleCommand
 		if($this->confirm('Redo the above '.($n===1 ? 'migration':'migrations')."?"))
 		{
 			foreach($migrations as $migration)
-				$this->migrateDown($migration);
+			{
+				if($this->migrateDown($migration)===false)
+				{
+					echo "\nMigration failed. All later migrations are canceled.\n";
+					return;
+				}
+			}
 			foreach(array_reverse($migrations) as $migration)
-				$this->migrateUp($migration);
+			{
+				if($this->migrateUp($migration)===false)
+				{
+					echo "\nMigration failed. All later migrations are canceled.\n";
+					return;
+				}
+			}
 			echo "\nMigration redone successfully.\n";
 		}
 	}
@@ -209,6 +233,9 @@ class MigrateCommand extends CConsoleCommand
 			$version='m'.$matches[1];
 		else
 			die("Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n");
+
+		$db=$this->getDbConnection();
+
 		// try mark up
 		$migrations=$this->getNewMigrations();
 		foreach($migrations as $i=>$migration)
@@ -217,7 +244,7 @@ class MigrateCommand extends CConsoleCommand
 			{
 				if($this->confirm("Set migration history at $originalVersion?"))
 				{
-					$command=$this->getDbConnection()->createCommand();
+					$command=$db->createCommand();
 					for($j=0;$j<=$i;++$j)
 					{
 						$command->insert($this->migrationTable, array(
@@ -243,9 +270,9 @@ class MigrateCommand extends CConsoleCommand
 				{
 					if($this->confirm("Set migration history at $originalVersion?"))
 					{
-						$command=$this->getDbConnection()->createCommand();
+						$command=$db->createCommand();
 						for($j=0;$j<$i;++$j)
-							$command->delete($this->migrationTable, 'version=:version', array(':version'=>$migrations[$j]));
+							$command->delete($this->migrationTable, $db->quoteColumnName('version').'=:version', array(':version'=>$migrations[$j]));
 						echo "The migration history is set at $originalVersion.\nNo actual migration was performed.\n";
 					}
 				}
@@ -304,7 +331,7 @@ class MigrateCommand extends CConsoleCommand
 			$this->usageError('Please provide the name of the new migration.');
 
 		if(!preg_match('/^\w+$/',$name))
-			die('Error: The name of the migration must contain letters, digits and/or underscore characters only.');
+			die("Error: The name of the migration must contain letters, digits and/or underscore characters only.\n");
 
 		$name='m'.gmdate('ymd_His').'_'.$name;
 		$content=strtr($this->getTemplate(), array('{ClassName}'=>$name));
@@ -333,13 +360,20 @@ class MigrateCommand extends CConsoleCommand
 		echo "*** applying $class\n";
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
-		$migration->up();
-		$this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
-			'version'=>$class,
-			'apply_time'=>time(),
-		));
 		$time=microtime(true)-$start;
-		echo "*** applied $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+		if($migration->up()!==false)
+		{
+			$this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
+				'version'=>$class,
+				'apply_time'=>time(),
+			));
+			echo "*** applied $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+		}
+		else
+		{
+			echo "*** failed to apply $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+			return false;
+		}
 	}
 
 	protected function migrateDown($class)
@@ -350,17 +384,27 @@ class MigrateCommand extends CConsoleCommand
 		echo "*** reverting $class\n";
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
-		$migration->down();
-		$this->getDbConnection()->createCommand()->delete($this->migrationTable, 'version=:version', array(':version'=>$class));
 		$time=microtime(true)-$start;
-		echo "*** reverted $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+		if($migration->down()!==false)
+		{
+			$db=$this->getDbConnection();
+			$db->createCommand()->delete($this->migrationTable, $db->quoteColumnName('version').'=:version', array(':version'=>$class));
+			echo "*** reverted $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+		}
+		else
+		{
+			echo "*** failed to revert $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+			return false;
+		}
 	}
 
 	protected function instantiateMigration($class)
 	{
 		$file=$this->migrationPath.DIRECTORY_SEPARATOR.$class.'.php';
 		require_once($file);
-		return new $class;
+		$migration=new $class;
+		$migration->setDbConnection($this->getDbConnection());
+		return $migration;
 	}
 
 	private $_db;
@@ -369,12 +413,9 @@ class MigrateCommand extends CConsoleCommand
 		if($this->_db!==null)
 			return $this->_db;
 		else if(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
-		{
-			$this->_db->setActive(true);
 			return $this->_db;
-		}
 		else
-			die("Error: CMigrationCommand.connectionID '{$this->connectionID}' is invalid. Please make sure it refers to the ID of a CDbConnection application component.");
+			die("Error: CMigrationCommand.connectionID '{$this->connectionID}' is invalid. Please make sure it refers to the ID of a CDbConnection application component.\n");
 	}
 
 	protected function getMigrationHistory($limit)
@@ -484,15 +525,26 @@ EOD;
 
 class {ClassName} extends CDbMigration
 {
-    public function up()
-    {
-    }
+	public function up()
+	{
+	}
 
-    /*
-    public function down()
-    {
-    }
-    */
+	public function down()
+	{
+		echo "{ClassName} does not support migration down.\\n";
+		return false;
+	}
+
+	/*
+	// Use safeUp/safeDown to do migration with transaction
+	public function safeUp()
+	{
+	}
+
+	public function safeDown()
+	{
+	}
+	*/
 }
 EOD;
 	}

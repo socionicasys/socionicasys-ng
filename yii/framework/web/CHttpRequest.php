@@ -22,7 +22,7 @@
  * accessed via {@link CWebApplication::getRequest()}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHttpRequest.php 2839 2011-01-11 08:04:05Z mdomba $
+ * @version $Id: CHttpRequest.php 3050 2011-03-12 13:22:11Z qiang.xue $
  * @package system.web
  * @since 1.0
  */
@@ -59,11 +59,12 @@ class CHttpRequest extends CApplicationComponent
 	private $_scriptFile;
 	private $_scriptUrl;
 	private $_hostInfo;
-	private $_url;
 	private $_baseUrl;
 	private $_cookies;
 	private $_preferredLanguage;
 	private $_csrfToken;
+	private $_deleteParams;
+	private $_putParams;
 
 	/**
 	 * Initializes the application component.
@@ -159,33 +160,60 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Returns part of the request URL after the host info.
-	 * It consists of the following parts:
-	 * <ul>
-	 * <li>{@link getScriptUrl scriptUrl}</li>
-	 * <li>{@link getPathInfo pathInfo}</li>
-	 * <li>{@link getQueryString queryString}</li>
-	 * </ul>
+	 * Returns the named DELETE parameter value.
+	 * If the DELETE parameter does not exist or if the current request is not a DELETE request,
+	 * the second parameter to this method will be returned.
+	 * @param string $name the DELETE parameter name
+	 * @param mixed $defaultValue the default parameter value if the DELETE parameter does not exist.
+	 * @return mixed the DELETE parameter value
+	 * @since 1.1.7
+	 */
+	public function getDelete($name,$defaultValue=null)
+	{
+		if($this->_deleteParams===null)
+			$this->_deleteParams=$this->getIsDeleteRequest() ? $this->getRestParams() : array();
+		return isset($this->_deleteParams[$name]) ? $this->_deleteParams[$name] : $defaultValue;
+	}
+
+	/**
+	 * Returns the named PUT parameter value.
+	 * If the PUT parameter does not exist or if the current request is not a PUT request,
+	 * the second parameter to this method will be returned.
+	 * @param string $name the PUT parameter name
+	 * @param mixed $defaultValue the default parameter value if the PUT parameter does not exist.
+	 * @return mixed the PUT parameter value
+	 * @since 1.1.7
+	 */
+	public function getPut($name,$defaultValue=null)
+	{
+		if($this->_putParams===null)
+			$this->_putParams=$this->getIsPutRequest() ? $this->getRestParams() : array();
+		return isset($this->_putParams[$name]) ? $this->_putParams[$name] : $defaultValue;
+	}
+
+	/**
+	 * Returns the PUT or DELETE request parameters.
+	 * @return array the request parameters
+	 * @since 1.1.7
+	 */
+	protected function getRestParams()
+	{
+		$result=array();
+		if(function_exists('mb_parse_str'))
+			mb_parse_str(file_get_contents('php://input'), $result);
+		else
+			parse_str(file_get_contents('php://input'), $result);
+		return $result;
+	}
+
+	/**
+	 * Returns the currently requested URL.
+	 * This is the same as {@link getRequestUri}.
 	 * @return string part of the request URL after the host info.
 	 */
 	public function getUrl()
 	{
-		if($this->_url!==null)
-			return $this->_url;
-		else
-		{
-			if(isset($_SERVER['REQUEST_URI']))
-				$this->_url=$_SERVER['REQUEST_URI'];
-			else
-			{
-				$this->_url=$this->getScriptUrl();
-				if(($pathInfo=$this->getPathInfo())!=='')
-					$this->_url.='/'.$pathInfo;
-				if(($queryString=$this->getQueryString())!=='')
-					$this->_url.='?'.$queryString;
-			}
-			return $this->_url;
-		}
+		return $this->getRequestUri();
 	}
 
 	/**
@@ -413,12 +441,32 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Returns whether this is an POST request.
-	 * @return boolean whether this is an POST request.
+	 * Returns whether this is a POST request.
+	 * @return boolean whether this is a POST request.
 	 */
 	public function getIsPostRequest()
 	{
 		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'POST');
+	}
+
+	/**
+	 * Returns whether this is a DELETE request.
+	 * @return boolean whether this is a DELETE request.
+	 * @since 1.1.7
+	 */
+	public function getIsDeleteRequest()
+	{
+		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'DELETE');
+	}
+
+	/**
+	 * Returns whether this is a PUT request.
+	 * @return boolean whether this is a PUT request.
+	 * @since 1.1.7
+	 */
+	public function getIsPutRequest()
+	{
+		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'PUT');
 	}
 
 	/**
@@ -833,7 +881,7 @@ class CHttpRequest extends CApplicationComponent
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CHttpRequest.php 2839 2011-01-11 08:04:05Z mdomba $
+ * @version $Id: CHttpRequest.php 3050 2011-03-12 13:22:11Z qiang.xue $
  * @package system.web
  * @since 1.0
  */

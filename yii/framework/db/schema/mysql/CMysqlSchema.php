@@ -12,7 +12,7 @@
  * CMysqlSchema is the class for retrieving metadata information from a MySQL database (version 4.1.x and 5.x).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CMysqlSchema.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CMysqlSchema.php 3099 2011-03-19 01:26:47Z qiang.xue $
  * @package system.db.schema.mysql
  * @since 1.0
  */
@@ -174,7 +174,7 @@ class CMysqlSchema extends CDbSchema
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
-				if(strpos(strtolower($column['Extra']),'auto_increment')!==false)
+				if($c->autoIncrement)
 					$table->sequenceName='';
 			}
 		}
@@ -195,6 +195,8 @@ class CMysqlSchema extends CDbSchema
 		$c->isPrimaryKey=strpos($column['Key'],'PRI')!==false;
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
+		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
+
 		return $c;
 	}
 
@@ -271,7 +273,7 @@ class CMysqlSchema extends CDbSchema
 			$sql=$row['Create Table'];
 		else
 		{
-			$row=array_values($rows);
+			$row=array_values($row);
 			$sql=$row[1];
 		}
 		if(preg_match_all('/^\s*`(.*?)`\s+(.*?),?$/m',$sql,$matches))

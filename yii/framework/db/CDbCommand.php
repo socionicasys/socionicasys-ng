@@ -39,7 +39,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbCommand.php 2819 2011-01-06 16:57:10Z qiang.xue $
+ * @version $Id: CDbCommand.php 3056 2011-03-12 21:56:01Z qiang.xue $
  * @package system.db
  * @since 1.0
  */
@@ -56,6 +56,7 @@ class CDbCommand extends CComponent
 	private $_statement;
 	private $_paramLog=array();
 	private $_query;
+	private $_fetchMode = array(PDO::FETCH_ASSOC);
 
 	/**
 	 * Constructor.
@@ -73,6 +74,10 @@ class CDbCommand extends CComponent
 	 * {@link group}, {@link having}, {@link order}, {@link limit}, {@link offset} and
 	 * {@link union}. Please refer to the setter of each of these properties for details
 	 * about valid property values. This feature has been available since version 1.1.6.
+	 *
+	 * Since 1.1.7 it is possible to use a specific mode of data fetching by setting
+ 	 * {@link setFetchMode FetchMode}. See {@link http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php}
+ 	 * for more details.
 	 */
 	public function __construct(CDbConnection $connection,$query=null)
 	{
@@ -93,6 +98,20 @@ class CDbCommand extends CComponent
 	{
 		$this->_statement=null;
 		return array_keys(get_object_vars($this));
+	}
+
+	/**
+	 * Set the default fetch mode for this statement
+	 * @param mixed $mode fetch mode
+	 * @return CDbCommand
+	 * @see http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php
+	 * @since 1.1.7
+	 */
+	public function setFetchMode($mode)
+	{
+		$params=func_get_args();
+		$this->_fetchMode = $params;
+		return $this;
 	}
 
 	/**
@@ -310,11 +329,14 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
-			Yii::log('Error in executing SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
-
+            $message = $e->getMessage();
+			Yii::log(Yii::t('yii','CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.',
+				array('{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+            if(YII_DEBUG)
+            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
+				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
 	}
 
@@ -351,7 +373,7 @@ class CDbCommand extends CComponent
 	 */
 	public function queryAll($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetchAll',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM, $params);
+		return $this->queryInternal('fetchAll',$fetchAssociative ? $this->_fetchMode : PDO::FETCH_NUM, $params);
 	}
 
 	/**
@@ -370,7 +392,7 @@ class CDbCommand extends CComponent
 	 */
 	public function queryRow($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetch',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM, $params);
+		return $this->queryInternal('fetch',$fetchAssociative ? $this->_fetchMode : PDO::FETCH_NUM, $params);
 	}
 
 	/**
@@ -415,7 +437,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * @param string $method method of PDOStatement to be called
-	 * @param mixed $mode the first parameter to be passed to the method
+	 * @param mixed $mode parameters to be passed to the method
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
@@ -437,7 +459,24 @@ class CDbCommand extends CComponent
 		}
 		else
 			$par='';
+
 		Yii::trace('Querying SQL: '.$this->getText().$par,'system.db.CDbCommand');
+
+		if($this->_connection->queryCachingCount>0 && $method!==''
+				&& $this->_connection->queryCachingDuration>0
+				&& $this->_connection->queryCacheID!==false
+				&& ($cache=Yii::app()->getComponent($this->_connection->queryCacheID))!==null)
+		{
+			$this->_connection->queryCachingCount--;
+			$cacheKey='yii:dbquery'.$this->_connection->connectionString.':'.$this->_connection->username;
+			$cacheKey.=':'.$this->getText().':'.serialize(array_merge($this->_paramLog,$params));
+			if(($result=$cache->get($cacheKey))!==false)
+			{
+				Yii::trace('Query result found in cache','system.db.CDbCommand');
+				return $result;
+			}
+		}
+
 		try
 		{
 			if($this->_connection->enableProfiling)
@@ -453,12 +492,16 @@ class CDbCommand extends CComponent
 				$result=new CDbDataReader($this);
 			else
 			{
-				$result=$this->_statement->{$method}($mode);
+				$mode=(array)$mode;
+				$result=call_user_func_array(array($this->_statement, $method), $mode);
 				$this->_statement->closeCursor();
 			}
 
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
+
+			if(isset($cache,$cacheKey))
+				$cache->set($cacheKey, $result, $this->_connection->queryCachingDuration, $this->_connection->queryCachingDependency);
 
 			return $result;
 		}
@@ -466,10 +509,14 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
-			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
+            $message = $e->getMessage();
+			Yii::log(Yii::t('yii','CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.',
+				array('{method}'=>$method, '{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+            if(YII_DEBUG)
+            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
+				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
 	}
 
@@ -543,7 +590,7 @@ class CDbCommand extends CComponent
 					$columns[$i]=(string)$column;
 				else if(strpos($column,'(')===false)
 				{
-					if(preg_match('/^(.*?)\s+as\s+(.*)$/i',$column,$matches))
+					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$column,$matches))
 						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' AS '.$this->_connection->quoteColumnName($matches[2]);
 					else
 						$columns[$i]=$this->_connection->quoteColumnName($column);
@@ -630,7 +677,7 @@ class CDbCommand extends CComponent
 			{
 				if(strpos($table,'(')===false)
 				{
-					if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
+					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$table,$matches))  // with alias
 						$tables[$i]=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 					else
 						$tables[$i]=$this->_connection->quoteTableName($table);
@@ -685,10 +732,10 @@ class CDbCommand extends CComponent
 	 * The method will properly quote the column name and escape values in the range.</li>
 	 * <li><code>not in</code>: similar as the <code>in</code> operator except that IN is replaced with NOT IN in the generated condition.</li>
 	 * <li><code>like</code>: operand 1 should be a column or DB expression, and operand 2 be a string or an array representing
-	 * the range of the values that the column or DB expression should be like.
-	 * For example, array('like', 'name', 'tester') will generate "name LIKE '%tester%'".
+	 * the values that the column or DB expression should be like.
+	 * For example, array('like', 'name', '%tester%') will generate "name LIKE '%tester%'".
 	 * When the value range is given as an array, multiple LIKE predicates will be generated and concatenated using AND.
-	 * For example, array('like', 'name', array('test', 'sample')) will generate
+	 * For example, array('like', 'name', array('%test%', '%sample%')) will generate
 	 * "name LIKE '%test%' AND name LIKE '%sample%'".
 	 * The method will properly quote the column name and escape values in the range.</li>
 	 * <li><code>not like</code>: similar as the <code>like</code> operator except that LIKE is replaced with NOT LIKE in the generated condition.</li>
@@ -1204,7 +1251,7 @@ class CDbCommand extends CComponent
 		$schema=$this->getConnection()->getSchema();
 		$n=$this->setText($schema->truncateTable($table))->execute();
 		if(strncasecmp($this->getConnection()->getDriverName(),'sqlite',6)===0)
-			$schema->resetSequence($table);
+			$schema->resetSequence($schema->getTable($table));
 		return $n;
 	}
 
@@ -1408,7 +1455,7 @@ class CDbCommand extends CComponent
 	{
 		if(strpos($table,'(')===false)
 		{
-			if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
+			if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$table,$matches))  // with alias
 				$table=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 			else
 				$table=$this->_connection->quoteTableName($table);

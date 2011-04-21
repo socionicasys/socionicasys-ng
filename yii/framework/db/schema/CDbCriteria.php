@@ -12,7 +12,7 @@
  * CDbCriteria represents a query criteria, such as conditions, ordering by, limit/offset.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbCriteria.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbCriteria.php 3063 2011-03-13 13:04:10Z qiang.xue $
  * @package system.db.schema
  * @since 1.0
  */
@@ -75,7 +75,7 @@ class CDbCriteria extends CComponent
 	 */
 	public $having='';
 	/**
-	 * @var array the relational query criteria. This is used for fetching related objects in eager loading fashion.
+	 * @var mixed the relational query criteria. This is used for fetching related objects in eager loading fashion.
 	 * This property is effective only when the criteria is passed as a parameter to the following methods of CActiveRecord:
 	 * <ul>
 	 * <li>{@link CActiveRecord::find()}</li>
@@ -117,6 +117,31 @@ class CDbCriteria extends CComponent
 	 * @since 1.1.5
 	 */
 	public $index;
+	/**
+     * @var mixed scopes to apply
+	 *
+     * This property is effective only when passing criteria to
+	 * the one of the following methods:
+     * <ul>
+     * <li>{@link CActiveRecord::find()}</li>
+     * <li>{@link CActiveRecord::findAll()}</li>
+     * <li>{@link CActiveRecord::findByPk()}</li>
+     * <li>{@link CActiveRecord::findAllByPk()}</li>
+     * <li>{@link CActiveRecord::findByAttributes()}</li>
+     * <li>{@link CActiveRecord::findAllByAttributes()}</li>
+     * <li>{@link CActiveRecord::count()}</li>
+     * </ul>
+	 *
+     * Can be set to one of the following:
+     * <ul>
+     * <li>One scope: $criteria->scopes='scopeName';</li>
+     * <li>Multiple scopes: $criteria->scopes=array('scopeName1','scopeName1');</li>
+     * <li>Scope with parameters: $criteria->scopes=array('scopeName'=>array($paramters));</li>
+     * <li>Multiple scopes with the same name: array(array('scopeName'=>array($paramters1)),array('scopeName'=>array($paramters2)));</li>
+     * </ul>
+     * @since 1.1.7
+     */
+	public $scopes;
 
 	/**
 	 * Constructor.
@@ -325,10 +350,16 @@ class CDbCriteria extends CComponent
 	 * Defaults to false, meaning exact comparison.
 	 * @param string $operator the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
+	 * @param boolean $escape whether the value should be escaped if $partialMatch is true and
+	 * the value contains characters % or _. When this parameter is true (default),
+	 * the special characters % (matches 0 or more characters)
+	 * and _ (matches a single character) will be escaped, and the value will be surrounded with a %
+	 * character on both ends. When this parameter is false, the value will be directly used for
+	 * matching without any change.
 	 * @return CDbCriteria the criteria object itself
 	 * @since 1.1.1
 	 */
-	public function compare($column, $value, $partialMatch=false, $operator='AND')
+	public function compare($column, $value, $partialMatch=false, $operator='AND', $escape=true)
 	{
 		if(is_array($value))
 		{
@@ -353,9 +384,9 @@ class CDbCriteria extends CComponent
 		if($partialMatch)
 		{
 			if($op==='')
-				return $this->addSearchCondition($column,$value,true,$operator);
+				return $this->addSearchCondition($column,$value,$escape,$operator);
 			if($op==='<>')
-				return $this->addSearchCondition($column,$value,true,$operator,'NOT LIKE');
+				return $this->addSearchCondition($column,$value,$escape,$operator,'NOT LIKE');
 		}
 		else if($op==='')
 			$op='=';
@@ -490,10 +521,52 @@ class CDbCriteria extends CComponent
 		if($criteria->index!==null)
 			$this->index=$criteria->index;
 
+		if(empty($this->scopes))
+			$this->scopes=$criteria->scopes;
+		else if(!empty($criteria->scopes))
+		{
+			$scopes1=(array)$this->scopes;
+			$scopes2=(array)$criteria->scopes;
+			foreach($scopes1 as $k=>$v)
+			{
+				if(is_integer($k))
+					$scopes[]=$v;
+				else if(isset($scopes2[$k]))
+					$scopes[]=array($k=>$v);
+				else
+					$scopes[$k]=$v;
+			}
+			foreach($scopes2 as $k=>$v)
+			{
+				if(is_integer($k))
+					$scopes[]=$v;
+				else if(isset($scopes1[$k]))
+					$scopes[]=array($k=>$v);
+				else
+					$scopes[$k]=$v;
+			}
+			$this->scopes=$scopes;
+		}
+
 		if(empty($this->with))
 			$this->with=$criteria->with;
 		else if(!empty($criteria->with))
-			$this->with=CMap::mergeArray($this->with, $criteria->with);
+		{
+			$this->with=(array)$this->with;
+			foreach((array)$criteria->with as $k=>$v)
+			{
+				if(is_integer($k))
+					$this->with[]=$v;
+				else if(isset($this->with[$k]))
+				{
+					$this->with[$k]=new self($this->with[$k]);
+					$this->with[$k]->mergeWith($v,$useAnd);
+					$this->with[$k]=$this->with[$k]->toArray();
+				}
+				else
+					$this->with[$k]=$v;
+			}
+		}
 	}
 
 	/**
@@ -503,7 +576,7 @@ class CDbCriteria extends CComponent
 	public function toArray()
 	{
 		$result=array();
-		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'with', 'alias', 'index', 'together') as $name)
+		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together') as $name)
 			$result[$name]=$this->$name;
 		return $result;
 	}

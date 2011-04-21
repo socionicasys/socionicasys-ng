@@ -73,7 +73,7 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  * Please refer to {@link columns} for more details about how to configure this property.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CGridView.php 2806 2011-01-03 16:35:16Z qiang.xue $
+ * @version $Id: CGridView.php 3083 2011-03-14 18:09:55Z qiang.xue $
  * @package zii.widgets.grid
  * @since 1.1
  */
@@ -128,6 +128,34 @@ class CGridView extends CBaseListView
 	 */
 	public $ajaxUpdate;
 	/**
+	 * @var string the jQuery selector of the HTML elements that may trigger AJAX updates when they are clicked.
+	 * If not set, the pagination links and the sorting links will trigger AJAX updates.
+	 * @since 1.1.7
+	 */
+	public $updateSelector;
+	/**
+	 * @var string a javascript function that will be invoked if an AJAX update error occurs.
+	 *
+	 * The function signature is <code>function(xhr, textStatus, errorThrown, errorMessage)</code>
+	 * <ul>
+	 * <li><code>xhr</code> is the XMLHttpRequest object.</li>
+	 * <li><code>textStatus</code> is a string describing the type of error that occurred.
+	 * Possible values (besides null) are "timeout", "error", "notmodified" and "parsererror"</li>
+	 * <li><code>errorThrown</code> is an optional exception object, if one occurred.</li>
+	 * <li><code>errorMessage</code> is the CGridView default error message derived from xhr and errorThrown.
+	 * Usefull if you just want to display this error differently. CGridView by default displays this error with an javascript.alert()</li>
+	 * </ul>
+	 * Note: This handler is not called for JSONP requests, because they do not use an XMLHttpRequest.
+	 *
+	 * Example (add in a call to CGridView):
+	 * <pre>
+	 *  ...
+	 *  'ajaxUpdateError'=>'function(xhr,ts,et,err){ $("#myerrordiv").text(err); }',
+	 *  ...
+	 * </pre>
+	 */
+	public $ajaxUpdateError;
+	/**
 	 * @var string the name of the GET variable that indicates the request is an AJAX request triggered
 	 * by this widget. Defaults to 'ajax'. This is effective only when {@link ajaxUpdate} is not false.
 	 */
@@ -175,6 +203,13 @@ class CGridView extends CBaseListView
 	 */
 	public $nullDisplay='&nbsp;';
 	/**
+	 * @var string the text to be displayed in an empty grid cell. This property will NOT be HTML-encoded when rendering. Defaults to an HTML blank.
+	 * This differs from {@link nullDisplay} in that {@link nullDisplay} is only used by {@link CDataColumn} to render
+	 * null data values.
+	 * @since 1.1.7
+	 */
+	public $blankDisplay='&nbsp;';
+	/**
 	 * @var string the CSS class name that will be assigned to the widget container element
 	 * when the widget is updating its content via AJAX. Defaults to 'grid-view-loading'.
 	 * @since 1.1.1
@@ -201,6 +236,8 @@ class CGridView extends CBaseListView
 	 * @var CModel the model instance that keeps the user-entered filter data. When this property is set,
 	 * the grid view will enable column-based filtering. Each data column by default will display a text field
 	 * at the top that users can fill in to filter the data.
+	 * Note that in order to show an input field for filtering, a column must have its {@link CDataColumn::name}
+	 * property set or have {@link CDataColumn::filter} as the HTML code for the input field.
 	 * @since 1.1.1
 	 */
 	public $filter;
@@ -289,7 +326,7 @@ class CGridView extends CBaseListView
 			throw new CException(Yii::t('zii','The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
 		$column=new CDataColumn($this);
 		$column->name=$matches[1];
-		if(isset($matches[3]))
+		if(isset($matches[3]) && $matches[3]!=='')
 			$column->type=$matches[3];
 		if(isset($matches[5]))
 			$column->header=$matches[5];
@@ -316,12 +353,16 @@ class CGridView extends CBaseListView
 			'tableClass'=>$this->itemsCssClass,
 			'selectableRows'=>$this->selectableRows,
 		);
+		if($this->updateSelector!==null)
+			$options['updateSelector']=$this->updateSelector;
 		if($this->enablePagination)
 			$options['pageVar']=$this->dataProvider->getPagination()->pageVar;
 		if($this->beforeAjaxUpdate!==null)
 			$options['beforeAjaxUpdate']=(strpos($this->beforeAjaxUpdate,'js:')!==0 ? 'js:' : '').$this->beforeAjaxUpdate;
 		if($this->afterAjaxUpdate!==null)
 			$options['afterAjaxUpdate']=(strpos($this->afterAjaxUpdate,'js:')!==0 ? 'js:' : '').$this->afterAjaxUpdate;
+		if($this->ajaxUpdateError!==null)
+			$options['ajaxUpdateError']=(strpos($this->ajaxUpdateError,'js:')!==0 ? 'js:' : '').$this->ajaxUpdateError;
 		if($this->selectionChanged!==null)
 			$options['selectionChanged']=(strpos($this->selectionChanged,'js:')!==0 ? 'js:' : '').$this->selectionChanged;
 
@@ -342,8 +383,8 @@ class CGridView extends CBaseListView
 		{
 			echo "<table class=\"{$this->itemsCssClass}\">\n";
 			$this->renderTableHeader();
-			$this->renderTableFooter();
 			$this->renderTableBody();
+			$this->renderTableFooter();
 			echo "</table>";
 		}
 		else

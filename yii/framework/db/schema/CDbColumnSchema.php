@@ -12,7 +12,7 @@
  * CDbColumnSchema class describes the column meta data of a database table.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbColumnSchema.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CDbColumnSchema.php 3099 2011-03-19 01:26:47Z qiang.xue $
  * @package system.db.schema
  * @since 1.0
  */
@@ -62,6 +62,11 @@ class CDbColumnSchema extends CComponent
 	 * @var boolean whether this column is a foreign key
 	 */
 	public $isForeignKey;
+	/**
+	 * @var boolean whether this column is auto-incremental
+	 * @since 1.1.7
+	 */
+	public $autoIncrement=false;
 
 
 	/**

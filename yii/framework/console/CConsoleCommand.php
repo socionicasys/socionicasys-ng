@@ -35,7 +35,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CConsoleCommand.php 2799 2011-01-01 19:31:13Z qiang.xue $
+ * @version $Id: CConsoleCommand.php 3015 2011-03-02 17:51:26Z qiang.xue $
  * @package system.console
  * @since 1.0
  */
@@ -274,7 +274,8 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	public function usageError($message)
 	{
-		die("Error: $message\n\n".$this->getHelp()."\n");
+		echo "Error: $message\n\n".$this->getHelp()."\n";
+		exit(1);
 	}
 
 	/**

@@ -1,11 +1,20 @@
 <?php
 /**
+ * CActiveDataProvider class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+/**
  * CActiveDataProvider implements a data provider based on ActiveRecord.
  *
  * CActiveDataProvider provides data in terms of ActiveRecord objects which are
  * of class {@link modelClass}. It uses the AR {@link CActiveRecord::findAll} method
  * to retrieve the data from database. The {@link criteria} property can be used to
- * specify various query options, such as conditions, sorting, pagination, etc.
+ * specify various query options.
  *
  * CActiveDataProvider may be used in the following way:
  * <pre>
@@ -23,7 +32,7 @@
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CActiveDataProvider.php 2733 2010-12-09 12:38:10Z mdomba $
+ * @version $Id: CActiveDataProvider.php 3106 2011-03-23 17:01:06Z qiang.xue $
  * @package system.web
  * @since 1.1
  */
@@ -37,7 +46,7 @@ class CActiveDataProvider extends CDataProvider
 	/**
 	 * @var CActiveRecord the AR finder instance (eg <code>Post::model()</code>).
 	 * This property can be set by passing the finder instance as the first parameter
-	 * to the constructor.
+	 * to the constructor. For example, <code>Post::model()->published()</code>.
 	 * @since 1.1.3
 	 */
 	public $model;
@@ -111,31 +120,22 @@ class CActiveDataProvider extends CDataProvider
 	protected function fetchData()
 	{
 		$criteria=clone $this->getCriteria();
-		$baseCriteria=$this->model->getDbCriteria(false);
 
 		if(($pagination=$this->getPagination())!==false)
 		{
-			if($baseCriteria!==null)
-				$this->model->setDbCriteria(clone $baseCriteria);
 			$pagination->setItemCount($this->getTotalItemCount());
 			$pagination->applyLimit($criteria);
 		}
 
 		if(($sort=$this->getSort())!==false)
-		{
-			if($baseCriteria!==null)
-			{
-				$c=clone $baseCriteria;
-				$c->mergeWith($criteria);
-				$this->model->setDbCriteria($c);
-			}
-			else
-				$this->model->setDbCriteria($criteria);
 			$sort->applyOrder($criteria);
-		}
 
+		$baseCriteria=$this->model->getDbCriteria(false);
+		if($baseCriteria!==null)
+			$baseCriteria=clone $baseCriteria;
+		$data=$this->model->findAll($criteria);
 		$this->model->setDbCriteria($baseCriteria);
-		return $this->model->findAll($criteria);
+		return $data;
 	}
 
 	/**
@@ -159,6 +159,11 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	protected function calculateTotalItemCount()
 	{
-		return $this->model->count($this->getCriteria());
+		$baseCriteria=$this->model->getDbCriteria(false);
+		if($baseCriteria!==null)
+			$baseCriteria=clone $baseCriteria;
+		$count=$this->model->count($this->getCriteria());
+		$this->model->setDbCriteria($baseCriteria);
+		return $count;
 	}
 }
