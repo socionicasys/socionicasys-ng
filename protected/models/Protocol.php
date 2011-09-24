@@ -70,6 +70,7 @@ class Protocol extends CActiveRecord
 			'name' => 'Имя (псевдоним)',
 			'tim' => 'ТИМ',
 			'date' => 'Дата',
+			'formattedDate' => 'Дата',
 			'url' => 'Ссылка в формате ИА',
 			'legacy_url' => 'Ссылка в формате MS Word',
 			'comment' => 'Комментарий',
@@ -97,5 +98,19 @@ class Protocol extends CActiveRecord
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Возрвращает отформатированную дату создания протокола.
+	 * @return string дата создания протокола в формате, пригодном для показа пользователю.
+	 */
+	public function getFormattedDate() {
+//		$date = DateTime::createFromFormat('Y.m', $this->date);
+//		$formatter = IntlDateFormatter::create('ru', IntlDateFormatter::FULL, IntlDateFormatter::FULL);
+//		$formatter->setPattern('MMMM yyyy');
+//		return $formatter->format($date);
+		$date = DateTime::createFromFormat('Y.m', $this->date);
+		setlocale(LC_ALL, 'ru');
+		return strftime('%b %B %Y', $date->getTimestamp());
 	}
 }

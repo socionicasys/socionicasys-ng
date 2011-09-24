@@ -29,6 +29,7 @@ $columns = array(
 	),
 	'tim',
 	'date',
+	'formattedDate',
 	array(
 		'class' => 'CButtonColumn',
 		'template' => '{view}',
