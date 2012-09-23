@@ -298,7 +298,8 @@ body:before {
 	background: url("/images/menu-bullet.png") no-repeat 3px 7px;
 }
 
-#secondary-navigation ul ul li {
+#secondary-navigation ul ul li,
+#secondary-navigation li:last-child {
     margin-bottom: 0;
     padding-bottom: 0;
     border-bottom: none;
