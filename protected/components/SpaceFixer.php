@@ -1,9 +1,9 @@
 <?php
 
-Yii::import('application.vendors.phpbrowscap.browscap.src.Browscap');
+Yii::import('application.vendors.phpbrowscap.browscap.Browscap');
 
 /**
- * (Временный) обход бага Оперы с некорректным отображением &amp;thinsp;
+ * (Временный) обход бага Оперы с некорректным отображением &thinsp;
  * @author Grey Teardrop
  */
 class SpaceFixer extends COutputProcessor
@@ -13,7 +13,7 @@ class SpaceFixer extends COutputProcessor
 		$cachedir = Yii::app()->getRuntimePath();
 		try
 		{
-			$browscap = new \phpbrowscap\Browscap($cachedir);
+			$browscap = new Browscap($cachedir);
 			$browscap->doAutoUpdate = false;
 			$browser = $browscap->getBrowser();
 			if ($browser->Browser === 'Opera')
@@ -21,7 +21,7 @@ class SpaceFixer extends COutputProcessor
 				$output = str_replace(array('&thinsp;', ' '), ' ', $output);
 			}
 		}
-		catch (\phpbrowscap\Exception $e)
+		catch (Browscap_Exception $e)
 		{
 			// Если не удалось создать объект Browscap или опознать браузер, не применяем фильтрацию
 		}
