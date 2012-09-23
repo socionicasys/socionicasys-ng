@@ -292,7 +292,16 @@ body:before {
 #secondary-navigation li {
 	margin-left: -12px;
 	padding-left: 12px;
+    margin-bottom: 0.714em;
+    padding-bottom: 0.714em;
+    border-bottom: 1px solid #6ebb21;
 	background: url("/images/menu-bullet.png") no-repeat 3px 7px;
+}
+
+#secondary-navigation ul ul li {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 #secondary-navigation li.active {
