@@ -14,7 +14,7 @@
  * under the specified directory.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: MessageCommand.php 3212 2011-05-12 23:00:19Z alexander.makarow $
+ * @version $Id$
  * @package system.cli.commands
  * @since 1.0
  */
@@ -57,7 +57,10 @@ PARAMETERS
      Defaults to 'Yii::t'. This is used as a mark to find messages to be
      translated.
    - overwrite: if message file must be overwritten with the merged messages.
-
+   - removeOld: if message no longer needs translation it will be removed,
+     instead of being enclosed between a pair of '@@' marks.
+   - sort: sort messages by key when merging, regardless of their translation
+     state (new, obsolete, translated.)
 
 EOD;
 	}
@@ -89,6 +92,12 @@ EOD;
 		if(!isset($overwrite))
 			$overwrite = false;
 
+		if(!isset($removeOld))
+			$removeOld = false;
+
+		if(!isset($sort))
+			$sort = false;
+		
 		$options=array();
 		if(isset($fileTypes))
 			$options['fileTypes']=$fileTypes;
@@ -108,7 +117,7 @@ EOD;
 			foreach($messages as $category=>$msgs)
 			{
 				$msgs=array_values(array_unique($msgs));
-				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite);
+				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld,$sort);
 			}
 		}
 	}
@@ -131,7 +140,7 @@ EOD;
 		return $messages;
 	}
 
-	protected function generateMessageFile($messages,$fileName,$overwrite)
+	protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld,$sort)
 	{
 		echo "Saving messages to $fileName...";
 		if(is_file($fileName))
@@ -161,10 +170,17 @@ EOD;
 			ksort($translated);
 			foreach($translated as $message=>$translation)
 			{
-				if(!isset($merged[$message]) && !isset($todo[$message]))
-					$todo[$message]='@@'.$translation.'@@';
+				if(!isset($merged[$message]) && !isset($todo[$message]) && !$removeOld)
+				{
+					if(substr($translation,0,2)==='@@' && substr($translation,-2)==='@@')
+						$todo[$message]=$translation;
+					else
+						$todo[$message]='@@'.$translation.'@@';
+				}
 			}
 			$merged=array_merge($todo,$merged);
+			if($sort)
+				ksort($merged);
 			if($overwrite === false)
 				$fileName.='.merged';
 			echo "translation merged.\n";

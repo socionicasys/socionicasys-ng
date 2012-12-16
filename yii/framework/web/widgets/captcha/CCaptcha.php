@@ -21,14 +21,14 @@
  * CCaptcha may also render a button next to the CAPTCHA image. Clicking on the button
  * will change the CAPTCHA image to be a new one in an AJAX way.
  *
- * Since version 1.0.8, if {@link clickableImage} is set true, clicking on the CAPTCHA image
+ * If {@link clickableImage} is set true, clicking on the CAPTCHA image
  * will refresh the CAPTCHA.
  *
  * A {@link CCaptchaValidator} may be used to validate that the user enters
  * a verification code matching the code displayed in the CAPTCHA image.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CCaptcha.php 3203 2011-05-05 14:08:06Z qiang.xue $
+ * @version $Id$
  * @package system.web.widgets.captcha
  * @since 1.0
  */
@@ -53,7 +53,6 @@ class CCaptcha extends CWidget
 	 * this property to be true because they serve for the same purpose.
 	 * To enhance accessibility, you may set {@link imageOptions} to provide hints to end-users that
 	 * the image is clickable.
-	 * @since 1.0.8
 	 */
 	public $clickableImage=false;
 	/**
@@ -81,11 +80,11 @@ class CCaptcha extends CWidget
 	 */
 	public function run()
 	{
-	    if(self::checkRequirements())
-	    {
+		if(self::checkRequirements())
+		{
 			$this->renderImage();
 			$this->registerClientScript();
-	    }
+		}
 		else
 			throw new CException(Yii::t('yii','GD and FreeType PHP extensions are required.'));
 	}
@@ -105,7 +104,6 @@ class CCaptcha extends CWidget
 
 	/**
 	 * Registers the needed client scripts.
-	 * @since 1.0.2
 	 */
 	public function registerClientScript()
 	{
@@ -116,7 +114,8 @@ class CCaptcha extends CWidget
 		$js="";
 		if($this->showRefreshButton)
 		{
-			$cs->registerScript('Yii.CCaptcha#'.$id,'dummy');
+			// reserve a place in the registered script so that any enclosing button js code appears after the captcha js
+			$cs->registerScript('Yii.CCaptcha#'.$id,'// dummy');
 			$label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
 			$options=$this->buttonOptions;
 			if(isset($options['id']))
@@ -138,14 +137,14 @@ class CCaptcha extends CWidget
 			return;
 
 		$js.="
-jQuery('$selector').live('click',function(){
-	jQuery.ajax({
+$(document).on('click', '$selector', function(){
+	$.ajax({
 		url: ".CJSON::encode($url).",
 		dataType: 'json',
 		cache: false,
 		success: function(data) {
-			jQuery('#$id').attr('src', data['url']);
-			jQuery('body').data('{$this->captchaAction}.hash', [data['hash1'], data['hash2']]);
+			$('#$id').attr('src', data['url']);
+			$('body').data('{$this->captchaAction}.hash', [data['hash1'], data['hash2']]);
 		}
 	});
 	return false;
@@ -170,4 +169,3 @@ jQuery('$selector').live('click',function(){
 		return false;
 	}
 }
-

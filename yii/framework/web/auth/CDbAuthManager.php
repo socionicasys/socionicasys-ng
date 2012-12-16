@@ -16,8 +16,10 @@
  * the three tables used to store the authorization data by setting {@link itemTable},
  * {@link itemChildTable} and {@link assignmentTable}.
  *
+ * @property array $authItems The authorization items of the specific type.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CDbAuthManager.php 3274 2011-06-15 09:28:16Z mdomba $
+ * @version $Id$
  * @package system.web.auth
  * @since 1.0
  */
@@ -65,6 +67,7 @@ class CDbAuthManager extends CAuthManager
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
+	 * Since version 1.1.11 a param with name 'userId' is added to this array, which holds the value of <code>$userId</code>.
 	 * @return boolean whether the operations can be performed by the user.
 	 */
 	public function checkAccess($itemName,$userId,$params=array())
@@ -81,6 +84,7 @@ class CDbAuthManager extends CAuthManager
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
+	 * Since version 1.1.11 a param with name 'userId' is added to this array, which holds the value of <code>$userId</code>.
 	 * @param array $assignments the assignments to the specified user
 	 * @return boolean whether the operations can be performed by the user.
 	 * @since 1.1.3
@@ -90,6 +94,8 @@ class CDbAuthManager extends CAuthManager
 		if(($item=$this->getAuthItem($itemName))===null)
 			return false;
 		Yii::trace('Checking permission "'.$item->getName().'"','system.web.auth.CDbAuthManager');
+		if(!isset($params['userId']))
+		    $params['userId'] = $userId;
 		if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
 		{
 			if(in_array($itemName,$this->defaultRoles))
@@ -118,6 +124,7 @@ class CDbAuthManager extends CAuthManager
 	 * Adds an item as a child of another item.
 	 * @param string $itemName the parent item name
 	 * @param string $childName the child item name
+	 * @return boolean whether the item is added successfully
 	 * @throws CException if either parent or child doesn't exist or if a loop has been detected.
 	 */
 	public function addItemChild($itemName,$childName)
@@ -157,6 +164,8 @@ class CDbAuthManager extends CAuthManager
 					'parent'=>$itemName,
 					'child'=>$childName,
 				));
+
+			return true;
 		}
 		else
 			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{parent}'=>$itemName)));
@@ -198,7 +207,7 @@ class CDbAuthManager extends CAuthManager
 	/**
 	 * Returns the children of the specified item.
 	 * @param mixed $names the parent item name. This can be either a string or an array.
-	 * The latter represents a list of item names (available since version 1.0.5).
+	 * The latter represents a list of item names.
 	 * @return array all child items of the parent
 	 */
 	public function getItemChildren($names)
