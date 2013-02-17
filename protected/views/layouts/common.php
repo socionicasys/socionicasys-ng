@@ -30,7 +30,6 @@ $base = Yii::app()->request->baseUrl;
                 function googleTranslateElementInit() {
                     new google.translate.TranslateElement({
                                 pageLanguage: 'ru',
-                                includedLanguages: 'en',
                                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
                                 autoDisplay: false,
                                 gaTrack: true,
