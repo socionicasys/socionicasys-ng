@@ -25,7 +25,7 @@ $base = Yii::app()->request->baseUrl;
 	<div id="wrap">
 		<header id="main-header">
             <?php $this->renderDynamic('renderHeaderLinks'); ?>
-            <div id="google_translate_element" class="header-link"></div>
+            <span id="google_translate_element" class="header-link"></span>
             <script type="text/javascript">
                 function googleTranslateElementInit() {
                     new google.translate.TranslateElement({

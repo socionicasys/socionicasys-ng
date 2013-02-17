@@ -145,6 +145,11 @@ body:before {
 	display: block;
 }
 
+#google_translate_element {
+    margin-bottom: -10px;
+    margin-right: 10px;
+}
+
 #main-header #google_translate_element a {
     display: inline;
 }
