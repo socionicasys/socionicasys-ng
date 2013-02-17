@@ -24,6 +24,7 @@ $base = Yii::app()->request->baseUrl;
 <body id="body">
 	<div id="wrap">
 		<header id="main-header">
+            <?php $this->renderDynamic('renderHeaderLinks'); ?>
             <div id="google_translate_element" class="header-link"></div>
             <script type="text/javascript">
                 function googleTranslateElementInit() {
@@ -38,7 +39,6 @@ $base = Yii::app()->request->baseUrl;
                 }
             </script>
             <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-			<?php $this->renderDynamic('renderHeaderLinks'); ?>
 			<a id="logo-link" href="<?php echo Yii::app()->homeUrl; ?>">
 				<h1>Школа системной соционики</h1>
 				<h2>«Практика&nbsp;&mdash; критерий истины»</h2>
