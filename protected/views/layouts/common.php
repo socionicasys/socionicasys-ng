@@ -19,6 +19,7 @@ $base = Yii::app()->request->baseUrl;
 	<!--[if lt IE 7]>
 	<link rel="stylesheet" type="text/css" href="<?php echo $cs->appendTimestamp($base . '/styles/ie6.css'); ?>" media="all">
 	<![endif]-->
+    <meta name="google-translate-customization" content="f538e59c4380e88a-8854f67e4c504ae2-g51c932943724b11f-f"/>
 </head>
 <body id="body">
 	<div id="wrap">
