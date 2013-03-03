@@ -1,5 +1,5 @@
 <?php
 return array (
-    'Login' => 'Login',
-    'Logout' => 'Logout',
+    'Login' => 'Вход',
+    'Logout' => 'Выход',
 );
