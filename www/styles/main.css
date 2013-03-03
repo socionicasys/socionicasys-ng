@@ -145,6 +145,15 @@ body:before {
 	display: block;
 }
 
+#google_translate_element {
+    margin-bottom: -10px;
+    margin-right: 10px;
+}
+
+#main-header #google_translate_element a {
+    display: inline;
+}
+
 #logo-link {
 	background: url('/images/Logo.png?4') no-repeat;
 	height: 5em;
