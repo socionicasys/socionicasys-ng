@@ -186,12 +186,12 @@ class Controller extends RightsBaseController
 	{
 		if (Yii::app()->user->isGuest)
 		{
-			$label = 'Войти';
+			$label = Yii::t('main', 'Login');
 			$url = array('site/login');
 		}
 		else
 		{
-			$label = 'Выйти';
+            $label = Yii::t('main', 'Logout');
 			$url = array('site/logout');
 		}
 		return CHtml::link($label, $url, array('class' => 'header-link'));
