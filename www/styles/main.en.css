@@ -1,3 +1,7 @@
 #logo-link {
     background: url('/images/Logo.en.png?1') no-repeat;
 }
+
+#major-navigation ul {
+    background: url('/images/Logo.en.png?1') no-repeat 0.5em -5.75em;
+}
