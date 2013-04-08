@@ -40,11 +40,11 @@ class LoginForm extends CFormModel
 		{
 			if ($this->_identity->errorCode === UserIdentity::ERROR_USERNAME_INVALID)
 			{
-				$this->addError('username', 'Неверное имя пользователя');
+				$this->addError('username', Yii::t('main', 'InvalidUsername'));
 			}
 			else
 			{
-				$this->addError('password', 'Неверный пароль');
+				$this->addError('password', Yii::t('main', 'InvalidPassword'));
 			}
 		}
 	}
