@@ -8,7 +8,8 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Школа системной соционики',
-	'sourceLanguage' => 'ru',
+    'language' => 'ru',
+	'sourceLanguage' => '00',
 	'defaultController' => 'static',
 
 	// preloading 'log' component
