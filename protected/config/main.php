@@ -13,4 +13,4 @@ else
 	$localConfig = array();
 }
 
-return CMap::mergeArray($localConfig, $commonConfig);
+return CMap::mergeArray($commonConfig, $localConfig);
