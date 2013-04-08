@@ -23,9 +23,9 @@ class LoginForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'username' => 'Имя пользователя',
-			'password' => 'Пароль',
-			'rememberMe' => 'Запомнить меня на этом компьютере',
+			'username' => Yii::t('main', 'Username'),
+			'password' => Yii::t('main', 'Password'),
+			'rememberMe' => Yii::t('main', 'RememberMe'),
 		);
 	}
 	
