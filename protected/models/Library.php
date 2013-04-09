@@ -81,7 +81,7 @@ class Library extends CActiveRecord
 			array('text', 'filter', 'filter' => 'HtmlPurifierSetup::filter'),
 			array('url', 'match',
 				'pattern' => '/^[-a-z0-9_%+.]*$/',
-				'message' => 'Адрес может содержать только символы a-z, 0-9, -, _, %, +, .',
+				'message' => Yii::t('main', 'InvalidUrl'),
 			),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -106,17 +106,17 @@ class Library extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'type' => 'Type',
-			'url' => 'Адрес в браузере',
-			'title' => 'Название',
-			'author' => 'Автор',
-			'published' => 'Журнал',
-			'published_number' => 'Номер',
-			'text' => 'Текст',
-			'meta_description' => 'Краткое описание',
-			'meta_keywords' => 'Ключеые слова',
-		);
+			'id' => Yii::t('main', 'ID'),
+			'type' => Yii::t('main', 'Type'),
+			'url' => Yii::t('main', 'Utl'),
+			'title' => Yii::t('main', 'Title'),
+			'author' => Yii::t('main', 'Author'),
+			'published' => Yii::t('main', 'PublishedAt'),
+			'published_number' => Yii::t('main', 'PublishedIssue'),
+			'text' => Yii::t('main', 'Text'),
+            'meta_description' => Yii::t('main', 'MetaDescription'),
+            'meta_keywords' => Yii::t('main', 'MetaKeywords'),
+        );
 	}
 
 	/**
