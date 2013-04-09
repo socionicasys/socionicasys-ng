@@ -19,10 +19,10 @@ class ContactForm extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'name' => 'Имя',
-			'email' => 'Ваш Email',
-			'body' => 'Сообщение',
-			'verificationCode' => 'Проверочный код',
+			'name' => Yii::t('main', 'Name'),
+			'email' => Yii::t('main', 'Email'),
+			'body' => Yii::t('main', 'MessageBody'),
+			'verificationCode' => Yii::t('main', 'VerificationCode'),
 		);
 	}
 }
