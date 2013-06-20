@@ -18,7 +18,7 @@ return array (
 	'PublishedIssue' => 'Номер',
 	'Text' => 'Текст',
 	'MetaDescription' => 'Краткое описание',
-	'MetaKeywords' => 'Ключеые слова',
+	'MetaKeywords' => 'Ключевые слова',
     'InvalidUrl' => 'Адрес может содержать только символы a-z, 0-9, -, _, %, +, .',
 
     'Name' => 'Имя',
