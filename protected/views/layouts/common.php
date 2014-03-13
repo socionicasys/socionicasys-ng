@@ -24,7 +24,6 @@ $base = Yii::app()->request->baseUrl;
 <body id="body">
 	<div id="wrap">
 		<header id="main-header">
-            <a href="http://unitedcountry.com.ua"><img style="border: 0; position: absolute; right: 0; top: 0;" src="http://unitedcountry.com.ua/img/3" alt="Єдина Країна! Единая Страна!"></a>
             <?php $this->renderDynamic('renderHeaderLinks'); ?>
             <span id="google_translate_element" class="header-link"></span>
             <script type="text/javascript">
